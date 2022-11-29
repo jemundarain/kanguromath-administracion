@@ -1,3 +1,7 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
 .p-slidemenu, .p-slidemenu-content {
     border-width: 0px !important;
     padding: 12px 20px 12px 5px !important;
