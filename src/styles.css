@@ -1,1 +1,22 @@
-/* You can add global styles to this file, and also import other style files */
+.p-slidemenu, .p-slidemenu-content {
+    border-width: 0px !important;
+    padding: 12px 20px 12px 5px !important;
+    height: 100vh !important;
+    min-height: 100vh !important;
+    background-color: transparent !important;
+    overflow-y: hidden;
+}
+
+.sidebar {
+    background-color: rgba(249, 146, 68, 0.075) !important;
+    background-position: center !important;
+    background-size: cover !important;
+}
+
+.p-slidemenu .p-menuitem-link:not(.p-disabled):hover {
+    background: rgba(249, 146, 68, 0.15) !important;
+}
+
+.p-slidemenu .p-menuitem-link:focus {
+    box-shadow: none !important;
+}

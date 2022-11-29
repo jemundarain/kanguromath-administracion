@@ -17,26 +17,32 @@ export class SlideMenuComponent implements OnInit {
     this.items = [
       {
         label: 'Informe',
-        icon: 'pi pi-fw pi-th-large'
+        icon: 'pi pi-fw pi-th-large',
+        routerLink: 'dashboard'
       },
       {
         label: 'Pruebas',
         icon: 'pi pi-fw pi-file',
         items: [{
           label: 'Prueba Nueva', 
-          icon: 'pi pi-fw pi-plus'
+          icon: 'pi pi-fw pi-plus',
+          routerLink: 'prueba-nueva'
         },
         {
           label: 'Editar Prueba', 
-          icon: 'pi pi-fw pi-pencil'
+          icon: 'pi pi-fw pi-pencil',
+          routerLink: 'editar-prueba'
         },
         {
           label: 'Editar problema', 
-          icon: 'pi pi-fw pi-cog'
+          icon: 'pi pi-fw pi-pencil',
+          routerLink: 'editar-problema'
         }]
       },
       {
-        label: 'Ajustes'
+        label: 'Ajustes',
+        icon: 'pi pi-fw pi-cog',
+        routerLink: 'ajustes'
       },
     ];
   }
