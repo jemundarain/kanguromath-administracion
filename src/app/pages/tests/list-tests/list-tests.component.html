@@ -1,6 +1,30 @@
-<div class="flex flex-row mb-6">
-    <h1 class="inline-block text-5xl font-bold text-slate-900 tracking-tight basis-1/2 sm:basis-1/2">Pruebas</h1>
+<!-- Encabezado -->
+<div class="grid grid-cols-1 mb-6">
+    <h1 class="inline-block text-5xl font-bold text-gray-700 tracking-tight">Pruebas</h1>
 </div>
 
-<h5 class="inline-block text-xl font-semibold text-slate-900 tracking-tight basis-1/2 sm:basis-1/2">Edición</h5>
-<p-dropdown [options]="cities" optionLabel="name"></p-dropdown>
+<!-- Edición combobox -->
+<div class="flex gap-2 mb-6">
+    <h5 class="text-xl my-auto font-semibold text-slate-600 tracking-tight">Edición:</h5>
+    <p-dropdown class="col-span-2 my-auto" [options]="cities" [(ngModel)]="selectedCity" optionLabel="name"></p-dropdown>
+</div>
+
+<!-- Table -->
+<div class="grid grid-cols-12 mb-6">
+    <p-table class="col-span-6">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Año</th>
+                <th>Editar</th>
+                <th>Eliminar</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-car>
+            <tr>
+                <!-- <td>{{test.level}}</td>
+                <td>{{test.edit}}</td>
+                <td>{{test.delete}}</td> -->
+            </tr>
+        </ng-template>
+    </p-table>
+</div>

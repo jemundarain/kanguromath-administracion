@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 interface City {
   name: string,
   code: string
@@ -8,10 +8,22 @@ interface City {
   templateUrl: './list-tests.component.html',
   styleUrls: ['./list-tests.component.scss']
 })
-export class ListTestsComponent implements OnInit {
+export class ListTestsComponent {
 
-  public cities: string[] = ['Londres', 'Upata', 'París', 'Guasipati']
-  ngOnInit(): void {
+  cities: City[];
+
+  selectedCity: City = {
+    name: "",
+    code: ""
+  };
+
+  constructor() {
+      this.cities = [
+          {name: 'New York', code: 'NY'},
+          {name: 'Rome', code: 'RM'},
+          {name: 'London', code: 'LDN'},
+          {name: 'Istanbul', code: 'IST'},
+          {name: 'Paris', code: 'PRS'}
+      ];
   }
-
 }
