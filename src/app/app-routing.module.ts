@@ -22,7 +22,7 @@ const routes: Routes = [
     component: ListTestsComponent
   },
   {
-    path: 'pruebas/nueva-prueba',
+    path: 'pruebas/prueba-nueva',
     component: NewTestComponent
   },
   {
