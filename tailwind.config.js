@@ -5,7 +5,11 @@ module.exports = {
     ],
     darkMode: 'class',
     theme: {
-      extend: {},
+      extend: {
+        backgroundImage: {
+          'pattern': "url('assets/pattern-online-gray.png')",
+        }
+      },
     },
     variants: {
       extend: {},

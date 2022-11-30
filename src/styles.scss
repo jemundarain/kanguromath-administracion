@@ -11,12 +11,6 @@
     overflow-x: hidden !important;
 }
 
-.sidebar {
-    background-color: rgba(249, 146, 68, 0.075) !important;
-    background-position: center !important;
-    background-size: cover !important;
-}
-
 .p-slidemenu .p-menuitem-link:not(.p-disabled):hover {
     background: rgba(249, 146, 68, 0.15) !important;
 }
@@ -26,22 +20,17 @@
 }
 
 .btn {
-    background-color: rgb(249, 146, 68) !important;
-    border-color: rgb(249, 146, 68) !important;
+    background-color: #f59e0b !important;
+    border-width: 0px !important;
     padding: 8px 10px !important;
     font-size: 0.9rem !important;
     margin-top: 5px !important;
 }
 
-.global-btn:enabled:hover {
-    background-color: rgb(204, 137, 82) !important;
-    border-color: rgb(204, 137, 82) !important;
+.btn:enabled:hover {
+    background-color: #d97706 !important;
 }
 
 .p-card-content {
     padding: 0 !important;
-}
-
-.bg-image {
-    background-image: url('assets/pattern-online-gray.png');
 }
