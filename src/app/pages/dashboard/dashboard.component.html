@@ -1,33 +1,29 @@
 <!-- Encabezado -->
-<div class="flex flex-row mb-6">
-    <h1 class="inline-block text-5xl font-bold text-slate-900 tracking-tight basis-1/2 sm:basis-1/2">Informe General</h1>
-    <p-button type="button" label="Exportar PDF" class="basis-1/4 sm:basis-1/4 p-button-raised" styleClass="btn float-right"></p-button>
-    <p-button type="button" [label]="rangoFecha" class="basis-1/4 sm:basis-1/4 p-button-raised" icon="pi pi-calendar" iconPos="right" styleClass="btn float-right"></p-button>
+<div class="grid grid-cols-12 mb-6">
+    <h1 class="col-span-7 md:col-span-4 inline-block text-5xl font-bold text-slate-900 tracking-tight">Informe General</h1>
+    <p-button type="button" label="Exportar PDF" class="col-span-2 md:col-span-2 md:col-start-7 p-button-raised" styleClass="btn float-right"></p-button>
+    <p-button type="button" [label]="rangoFecha" class="col-span-3 md:col-span-4 md:col-start-9 p-button-raised" icon="pi pi-calendar" iconPos="right" styleClass="btn float-right"></p-button>
 </div>
 
 <!-- Registros nuevos y Usuarios registrados -->
-<div class="flex flex-row gap-6 mb-6">
-    <p-card class="basis-3/4 sm:basis-3/4" header="Registros Nuevos">
+<div class="grid grid-cols-12 gap-6 mb-6">
+    <p-card class="col-span-9 shadow-md" header="Registros Nuevos">
         <app-line-chart></app-line-chart>
     </p-card>
-    <p-card class="basis-1/4 sm:basis-1/4" header="Usuarios Registrados">
+    <p-card class="col-span-3 shadow-md h-min" header="Usuarios Registrados">
         <p class="text-3xl font-semibold text-slate-700">{{ 50 }}</p>
     </p-card>
 </div>
 
 <!-- Distribución por rol y Distribución por año escolar -->
-<div class="flex flex-row gap-6 justify-center mb-6">
-    <p-card class="basis-1/3" header="Distribución por Rol">
+<div class="grid grid-cols-12 gap-6 justify-center mb-6">
+    <p-card class="col-span-4 justify-center shadow-md h-min" header="Ranking de usuarios por estado">
+        <app-ranking-list></app-ranking-list>
+    </p-card>
+    <p-card class="col-span-4 shadow-md h-min" header="Distribución por Rol">
         <app-pie-chart id="forRol"></app-pie-chart>
     </p-card>
-    <p-card class="basis-1/3" header="Distribución por Año Escolar">
+    <p-card class="col-span-4 shadow-md h-min" header="Distribución por Año Escolar">
         <app-pie-chart id="forLevel"></app-pie-chart>
-    </p-card>
-</div>
-
-<!-- Ranking de usuarios por estado -->
-<div class="flex flex-row justify-center mb-6">
-    <p-card class="basis-1/4 justify-center my-auto" header="Ranking de usuarios por estado">
-        <app-ranking-list></app-ranking-list>
     </p-card>
 </div>
