@@ -4,8 +4,7 @@ import { ListTestsComponent } from './list-tests/list-tests.component';
 import { NewTestComponent } from './new-test/new-test.component';
 import { EditTestComponent } from './edit-test/edit-test.component';
 import { EditProblemComponent } from './edit-problem/edit-problem.component';
-
-
+import { PrimeNgModule } from '../../prime-ng/prime-ng.module';
 
 @NgModule({
   declarations: [
@@ -15,7 +14,8 @@ import { EditProblemComponent } from './edit-problem/edit-problem.component';
     EditProblemComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    PrimeNgModule
   ]
 })
 export class TestsModule { }

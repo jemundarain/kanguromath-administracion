@@ -4,8 +4,9 @@ import { CommonModule } from '@angular/common';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { SettingsComponent } from './settings/settings.component';
 import { LoginComponent } from './login/login.component';
-import { PrimeNgModule } from '../prime-ng/prime-ng.module';
 import { ComponentsModule } from "../components/components.module";
+import { PrimeNgModule } from '../prime-ng/prime-ng.module';
+
 @NgModule({
     declarations: [
         DashboardComponent,
