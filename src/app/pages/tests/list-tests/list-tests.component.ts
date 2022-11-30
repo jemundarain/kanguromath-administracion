@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-
+interface City {
+  name: string,
+  code: string
+}
 @Component({
   selector: 'app-list-tests',
   templateUrl: './list-tests.component.html',
@@ -7,8 +10,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ListTestsComponent implements OnInit {
 
-  constructor() { }
-
+  public cities: string[] = ['Londres', 'Upata', 'París', 'Guasipati']
   ngOnInit(): void {
   }
 
