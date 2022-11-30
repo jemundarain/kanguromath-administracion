@@ -26,7 +26,12 @@
     font-size: 0.9rem !important;
 }
 
-.btn:enabled:hover {
+.p-inputnumber-button {
+    background-color: #f59e0b !important;
+    border-width: 0px !important;
+}
+
+.btn:enabled:hover, .p-inputnumber-button:enabled:hover {
     background-color: #d97706 !important;
 }
 

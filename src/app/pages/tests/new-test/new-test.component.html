@@ -1,1 +1,15 @@
-<p>new-test works!</p>
+<!-- Encabezado -->
+<div class="grid grid-cols-1 mb-6">
+    <h1 class="inline-block text-5xl font-bold text-gray-700 tracking-tight">Prueba Nueva</h1>
+</div>
+
+<!-- Edición combobox -->
+<form action="">
+    <div class="flex gap-2 mb-6">
+        <h5 class="text-xl my-auto font-semibold text-slate-600 tracking-tight">Edición:</h5>
+        <p-inputNumber [(ngModel)]="value1" [showButtons]="true" [min]="min" [max]="max">HOLS</p-inputNumber>    
+        <h5 class="text-xl my-auto font-semibold text-slate-600 tracking-tight">Año Escolar</h5>
+        <p-dropdown class="col-span-2 my-auto" [options]="cities" [(ngModel)]="selectedCity" optionLabel="name"></p-dropdown>
+    </div>
+    <!-- <p-fileUpload name="myfile[]" url="./upload.php" accept="image/*"></p-fileUpload> -->
+</form>
