@@ -8,7 +8,8 @@
     height: 100vh !important;
     min-height: 100vh !important;
     background-color: transparent !important;
-    overflow-y: hidden;
+    overflow-y: hidden !important;
+    overflow-x: hidden !important;
 }
 
 .sidebar {
@@ -23,4 +24,25 @@
 
 .p-slidemenu .p-menuitem-link:focus {
     box-shadow: none !important;
+}
+
+.btn {
+    background-color: rgb(249, 146, 68) !important;
+    border-color: rgb(249, 146, 68) !important;
+    padding: 8px 10px !important;
+    font-size: 0.9rem !important;
+    margin-top: 5px !important;
+}
+
+.global-btn:enabled:hover {
+    background-color: rgb(204, 137, 82) !important;
+    border-color: rgb(204, 137, 82) !important;
+}
+
+.p-card-content {
+    padding: 0 !important;
+}
+
+.bg-image {
+    background-image: url('assets/pattern-online-gray.png');
 }
