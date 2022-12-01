@@ -7,9 +7,29 @@
 <form action="">
     <div class="flex gap-2 mb-6">
         <h5 class="text-xl my-auto font-semibold text-slate-600 tracking-tight">Edición:</h5>
-        <p-inputNumber [(ngModel)]="value1" [showButtons]="true" [min]="min" [max]="max">HOLS</p-inputNumber>    
-        <h5 class="text-xl my-auto font-semibold text-slate-600 tracking-tight">Año Escolar</h5>
+        <p-inputNumber [(ngModel)]="value1" [showButtons]="true" [min]="min" [max]="max"></p-inputNumber>    
+        <h5 class="text-xl my-auto font-semibold text-slate-600 tracking-tight ml-5">Año Escolar:</h5>
         <p-dropdown class="col-span-2 my-auto" [options]="cities" [(ngModel)]="selectedCity" optionLabel="name"></p-dropdown>
     </div>
     <!-- <p-fileUpload name="myfile[]" url="./upload.php" accept="image/*"></p-fileUpload> -->
 </form>
+
+<!-- <div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <h5>Advanced</h5>
+            <p-fileUpload name="demo[]" url="./upload.php" (onUpload)="onUpload($event)"
+                          [multiple]="true" accept="image/*" [maxFileSize]="1000000">
+                <ng-template pTemplate="content">
+                    <ul *ngIf="uploadedFiles.length">
+                        <li *ngFor="let file of uploadedFiles">{{file.name}} - {{file.size}} bytes</li>
+                    </ul>
+                </ng-template>
+            </p-fileUpload>
+
+            <h5>Basic</h5>
+            <p-fileUpload mode="basic" name="demo[]" url="./upload.php" accept="image/*" [maxFileSize]="1000000" (onUpload)="onBasicUpload()"></p-fileUpload>
+
+        </div>
+    </div>
+</div> -->

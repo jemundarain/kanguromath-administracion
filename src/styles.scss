@@ -31,6 +31,14 @@
     border-width: 0px !important;
 }
 
+.p-element.p-inputwrapper, .p-dropdown.p-component {
+    height: 37.6px;
+}
+
+.p-element.p-dropdown-label.p-inputtext {
+    padding: 6px 12px;
+}
+
 .btn:enabled:hover, .p-inputnumber-button:enabled:hover {
     background-color: #d97706 !important;
 }

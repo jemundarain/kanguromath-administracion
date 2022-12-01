@@ -9,7 +9,6 @@ interface City {
   styleUrls: ['./new-test.component.scss']
 })
 export class NewTestComponent {
-  cities: City[];
   value1: number = 0;
   min: number = 0;
   max: number = 10;
@@ -19,13 +18,30 @@ export class NewTestComponent {
     code: ""
   };
 
-  constructor() {
-      this.cities = [
-          {name: 'New York', code: 'NY'},
-          {name: 'Rome', code: 'RM'},
-          {name: 'London', code: 'LDN'},
-          {name: 'Istanbul', code: 'IST'},
-          {name: 'Paris', code: 'PRS'}
-      ];
-  }
+  cities = [
+      {name: 'New York', code: 'NY'},
+      {name: 'Rome', code: 'RM'},
+      {name: 'London', code: 'LDN'},
+      {name: 'Istanbul', code: 'IST'},
+      {name: 'Paris', code: 'PRS'}
+  ];
+  
+  // uploadedFiles: any[] = [];
+
+  // constructor(private messageService: MessageService) {}
+
+  // onUpload(event: any) {
+  //     for (const file of event.files) {
+  //         this.uploadedFiles.push(file);
+  //     }
+
+  //     this.messageService.add({ severity: 'info', summary: 'Success', detail: 'File Uploaded' });
+  // }
+
+  // onBasicUpload() {
+  //     this.messageService.add({ severity: 'info', summary: 'Success', detail: 'File Uploaded with Basic Mode' });
+  // }
+
+
+
 }
