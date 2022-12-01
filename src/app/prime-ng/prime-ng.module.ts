@@ -6,8 +6,11 @@ import { CardModule } from 'primeng/card';
 import { DropdownModule } from 'primeng/dropdown';
 import { FileUploadModule } from 'primeng/fileupload';
 import { InputNumberModule } from 'primeng/inputnumber';
+import { InputTextModule } from 'primeng/inputtext';
 import { SlideMenuModule } from 'primeng/slidemenu';
 import { TableModule } from 'primeng/table';
+import { PasswordModule } from 'primeng/password';
+
 
 @NgModule({
   exports: [
@@ -17,8 +20,10 @@ import { TableModule } from 'primeng/table';
     DropdownModule,
     FileUploadModule,
     InputNumberModule,
+    InputTextModule,
     SlideMenuModule,
-    TableModule
+    TableModule,
+    PasswordModule
   ]
 })
 export class PrimeNgModule { }

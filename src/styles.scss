@@ -4,7 +4,7 @@
 
 .p-slidemenu, .p-slidemenu-content {
     border-width: 0px !important;
-    padding: 12px 20px 12px 5px !important;
+    padding: 12px 5px !important;
     height: 100vh !important;
     background-color: transparent !important;
     overflow-y: hidden !important;
@@ -18,12 +18,16 @@
 .p-slidemenu .p-menuitem-link:focus {
     box-shadow: none !important;
 }
+.min-h-95vh {
+    min-height: 95vh !important;
+}
 
 .btn {
     background-color: #f59e0b !important;
     border-width: 0px !important;
-    padding: 8px 10px !important;
+    padding: 7px 10px !important;
     font-size: 0.9rem !important;
+    @apply shadow-md;
 }
 
 .p-inputnumber-button {
@@ -31,8 +35,8 @@
     border-width: 0px !important;
 }
 
-.p-element.p-inputwrapper, .p-dropdown.p-component {
-    height: 37.6px;
+.p-element.p-inputwrapper, .p-dropdown.p-component, .h-little {
+    height: 42px;
 }
 
 .p-element.p-dropdown-label.p-inputtext {
