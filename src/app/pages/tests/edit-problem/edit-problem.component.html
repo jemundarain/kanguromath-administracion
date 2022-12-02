@@ -1,1 +1,159 @@
-<p>edit-problem works!</p>
+<!-- Encabezado -->
+<div class="grid grid-cols-1 mb-6">
+    <h1 class="inline-block text-5xl font-bold text-gray-700 tracking-tight">Editar Problema</h1>
+</div>
+
+<!-- Edición, Año Escolar y Número de problema -->
+<div class="flex gap-2 mb-6">
+    <h5 class="text-xl my-auto font-semibold text-slate-600 tracking-tight">Edición:</h5>
+    <p-dropdown class="col-span-2 my-auto mr-5" [options]="cities" [(ngModel)]="selectedCity" optionLabel="name"></p-dropdown>
+    <h5 class="text-xl my-auto font-semibold text-slate-600 tracking-tight">Año Escolar:</h5>
+    <p-dropdown class="col-span-2 my-auto mr-5" [options]="cities" [(ngModel)]="selectedCity" optionLabel="name"></p-dropdown>
+    <h5 class="text-xl my-auto font-semibold text-slate-600 tracking-tight">Número:</h5>
+    <p-inputNumber class="mr-5" [(ngModel)]="value1" [showButtons]="true" [min]="min" [max]="max"></p-inputNumber>    
+    <button pButton pRipple label="Editar" class="btn p-3" [routerLink]="['/']"></button>
+</div>
+
+<!-- Tipo de rutina de diagramación -->
+<h5 class="text-3xl font-bold text-slate-600 tracking-tight my-3">Problema</h5>
+<div class="grid grid-cols-12 gap-6 mb-6">
+    <p-card class="col-span-4 shadow-md h-min" header="Tipo de rutina de diagramación">
+        <div class="flex flex-col gap-3">
+            <p-radioButton name="rutina" value="sin-figura" label="Sin figura" [(ngModel)]="selectedValue"></p-radioButton>
+            <p-radioButton name="rutina" value="con-figura" label="Con figura" [(ngModel)]="selectedValue"></p-radioButton>
+            <div class="flex flex-row gap-3 ml-6">
+                <div class="flex flex-col gap-3 ml-6 mr-6">
+                    <p-radioButton name="con-figura" value="derecha" label="A la derecha" [(ngModel)]="selectedValue"></p-radioButton>
+                    <p-radioButton name="con-figura" value="intermedia" label="Intermedia" [(ngModel)]="selectedValue"></p-radioButton>
+                </div>
+                <button pButton pRipple label="Elegir Archivo" class="btn p-3 ml-6" [routerLink]="['/']"></button>
+            </div>
+        </div>
+    </p-card>
+</div>
+
+<!-- Rutina y Resultado -->
+<div class="grid grid-cols-12 gap-6 mb-6">
+    <p-card class="col-span-4 shadow-md" header="Rutina">
+        <div class="flex flex-col gap-3">
+            <textarea pInputTextarea [rows]="5" [autoResize]="true" [(ngModel)]="property"></textarea>
+        </div>
+    </p-card>
+    <p-card class="col-span-4 shadow-md h-min" header="Resultado">
+        <div class="flex flex-col gap-3">
+            <textarea pInputTextarea disabled styleClass="border-0" [rows]="5" [autoResize]="true" [(ngModel)]="property"></textarea>
+        </div>
+    </p-card>
+</div>
+
+<!-- Opciones -->
+<div class="grid grid-cols-12 gap-2 mb-6">
+    <h5 class="text-3xl my-auto font-bold text-slate-600 tracking-tight my-3">Opciones</h5>
+    <div class="col-span-12 h-min">
+        <div class="grid grid-cols-12 gap-8 mb-6">
+            <p-card class="col-span-4 h-min">
+                <div class="flex flex-row gap-3 mb-6">
+                    <div class="p-2 shadow-sm border-slate-600 border-2 w-12 h-fit rounded-full text-center">
+                        <h5 class="text-xl my-auto font-semibold text-slate-600">A</h5>
+                    </div>       
+                    <div class="flex flex-col gap-3 mr-8">
+                        <p-radioButton name="option-a" value="texto-a" label="Texto" [(ngModel)]="selectedValue"></p-radioButton>
+                        <p-radioButton name="option-a" value="figura-a" label="Figura" [(ngModel)]="selectedValue"></p-radioButton>
+                    </div>
+                    <button pButton pRipple label="Elegir Archivo" class="btn col-span-2 col-start-5 p-3" [routerLink]="['/']"></button>
+                </div>
+                <h5 class="text-xl my-auto font-semibold text-slate-600 tracking-tight mt-6 mb-2">Resultado</h5>
+                <textarea pInputTextarea disabled styleClass="border-0" [rows]="3" [cols]="10" [autoResize]="true" [(ngModel)]="property"></textarea>
+            </p-card>
+            <p-card class="col-span-4 h-min">
+                <div class="flex flex-row gap-3 mb-6">
+                    <div class="p-2 shadow-sm border-slate-600 border-2 w-12 h-fit rounded-full text-center">
+                        <h5 class="text-xl my-auto font-semibold text-slate-600">B</h5>
+                    </div>       
+                    <div class="flex flex-col gap-3 mr-8">           
+                        <p-radioButton name="option-b" value="texto-b" label="Texto" [(ngModel)]="selectedValue"></p-radioButton>
+                        <p-radioButton name="option-b" value="figura-b" label="Figura" [(ngModel)]="selectedValue"></p-radioButton>
+                    </div>
+                    <button pButton pRipple label="Elegir Archivo" class="btn col-span-2 col-start-5 p-3" [routerLink]="['/']"></button>
+                </div>
+                <h5 class="text-xl my-auto font-semibold text-slate-600 tracking-tight mt-6 mb-2">Resultado</h5>
+                <textarea pInputTextarea disabled styleClass="border-0" [rows]="3" [cols]="10" [autoResize]="true" [(ngModel)]="property"></textarea>
+            </p-card>
+            <p-card class="col-span-4 h-min">
+                <div class="flex flex-row gap-3 mb-6">
+                    <div class="p-2 shadow-sm border-slate-600 border-2 w-12 h-fit rounded-full text-center">
+                        <h5 class="text-xl my-auto font-semibold text-slate-600">C</h5>
+                    </div>       
+                    <div class="flex flex-col gap-3 mr-8">           
+                        <p-radioButton name="option-c" value="texto-c" label="Texto" [(ngModel)]="selectedValue"></p-radioButton>
+                        <p-radioButton name="option-c" value="figura-c" label="Figura" [(ngModel)]="selectedValue"></p-radioButton>
+                    </div>
+                    <button pButton pRipple label="Elegir Archivo" class="btn col-span-2 col-start-5 p-3" [routerLink]="['/']"></button>
+                </div>
+                <h5 class="text-xl my-auto font-semibold text-slate-600 tracking-tight mt-6 mb-2">Resultado</h5>
+                <textarea pInputTextarea disabled styleClass="border-0" [rows]="3" [cols]="10" [autoResize]="true" [(ngModel)]="property"></textarea>
+            </p-card>
+            <p-card class="col-span-4 h-min">
+                <div class="flex flex-row gap-3 mb-6">
+                    <div class="p-2 shadow-sm border-slate-600 border-2 w-12 h-fit rounded-full text-center">
+                        <h5 class="text-xl my-auto font-semibold text-slate-600">D</h5>
+                    </div>       
+                    <div class="flex flex-col gap-3 mr-8">           
+                        <p-radioButton name="option-d" value="texto-d" label="Texto" [(ngModel)]="selectedValue"></p-radioButton>
+                        <p-radioButton name="option-d" value="figura-d" label="Figura" [(ngModel)]="selectedValue"></p-radioButton>
+                    </div>
+                    <button pButton pRipple label="Elegir Archivo" class="btn col-span-2 col-start-5 p-3" [routerLink]="['/']"></button>
+                </div>
+                <h5 class="text-xl my-auto font-semibold text-slate-600 tracking-tight mt-6 mb-2">Resultado</h5>
+                <textarea pInputTextarea disabled styleClass="border-0" [rows]="3" [cols]="10" [autoResize]="true" [(ngModel)]="property"></textarea>
+            </p-card>
+            <p-card class="col-span-4 h-min">
+                <div class="flex flex-row gap-3">
+                    <div class="p-2 shadow-sm border-slate-600 border-2 w-12 h-fit rounded-full text-center">
+                        <h5 class="text-xl my-auto font-semibold text-slate-600">E</h5>
+                    </div>       
+                    <div class="flex flex-col gap-3 mr-8">           
+                        <p-radioButton name="option-e" value="texto-e" label="Texto" [(ngModel)]="selectedValue"></p-radioButton>
+                        <p-radioButton name="option-e" value="figura-e" label="Figura" [(ngModel)]="selectedValue"></p-radioButton>
+                    </div>
+                    <button pButton pRipple label="Elegir Archivo" class="btn col-span-2 col-start-5 p-3" [routerLink]="['/']"></button>
+                </div>
+                <div class="flex flex-row justify-around">
+                    <div class="flex flex-col">
+                        <h5 class="text-xl font-semibold text-slate-600 tracking-tight mt-6 mb-2">Rutina</h5>
+                        <textarea pInputTextarea disabled styleClass="border-0" [rows]="3" [cols]="10" [autoResize]="true" [(ngModel)]="property"></textarea>
+                    </div>
+                    <div class="flex flex-col">
+                        <h5 class="text-xl font-semibold text-slate-600 tracking-tight mt-6 mb-2">Resultado</h5>
+                        <textarea pInputTextarea disabled styleClass="border-0" [rows]="3" [cols]="10" [autoResize]="true" [(ngModel)]="property"></textarea>
+                    </div>
+                </div>
+            </p-card>
+        </div>
+    </div>
+</div>
+
+<!-- Categoría y Solución -->
+<div class="grid grid-cols-12 gap-6 mb-6">
+    <p-card class="col-span-2 shadow-md" header="Categoría">
+        <div class="flex flex-col gap-3">
+            <p-radioButton name="categorias" value="algebra" label="Álgebra" [(ngModel)]="selectedValue"></p-radioButton>
+            <p-radioButton name="categorias" value="geometria" label="Geometría" [(ngModel)]="selectedValue"></p-radioButton>
+            <p-radioButton name="categorias" value="probabilidad" label="Probabilidad" [(ngModel)]="selectedValue"></p-radioButton>
+            <p-radioButton name="categorias" value="teoria-numeros" label="Teoría de números" [(ngModel)]="selectedValue"></p-radioButton>
+            <p-radioButton name="categorias" value="sin-categoria" label="Sin categoría" [(ngModel)]="selectedValue"></p-radioButton>
+        </div>
+    </p-card>
+    <p-card class="col-span-2 shadow-md h-min" header="Solución">
+        <div class="flex flex-col gap-3">
+            <p-radioButton name="opciones" value="option-a" label="A" [(ngModel)]="selectedValue"></p-radioButton>
+            <p-radioButton name="opciones" value="option-b" label="B" [(ngModel)]="selectedValue"></p-radioButton>
+            <p-radioButton name="opciones" value="option-c" label="C" [(ngModel)]="selectedValue"></p-radioButton>
+            <p-radioButton name="opciones" value="option-d" label="D" [(ngModel)]="selectedValue"></p-radioButton>
+            <p-radioButton name="opciones" value="option-e" label="E" [(ngModel)]="selectedValue"></p-radioButton>
+        </div>
+    </p-card>
+</div>
+<div class="grid grid-cols-12">
+<button pButton pRipple label="Guardar" class="btn w-32 p-3 col-span-2 col-start-10" [routerLink]="['/']"></button>
+</div>
