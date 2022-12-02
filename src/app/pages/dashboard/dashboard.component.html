@@ -7,17 +7,17 @@
 
 <!-- Registros nuevos y Usuarios registrados -->
 <div class="grid grid-cols-12 gap-6 mb-6">
-    <p-card class="col-span-9 shadow-md" header="Registros Nuevos">
+    <p-card class="col-span-10 shadow-md" header="Registros Nuevos">
         <app-line-chart></app-line-chart>
     </p-card>
-    <p-card class="col-span-3 shadow-md h-min" header="Usuarios Registrados">
-        <p class="text-3xl font-semibold text-slate-700">{{ 50 }}</p>
+    <p-card class="col-span-2 shadow-md h-min" header="Usuarios Registrados">
+        <p class="text-4xl font-semibold text-slate-700">{{ 50 }}</p>
     </p-card>
 </div>
 
 <!-- Distribución por rol y Distribución por año escolar -->
 <div class="grid grid-cols-12 gap-6 justify-center mb-6">
-    <p-card class="col-span-4 justify-center shadow-md h-min" header="Ranking de usuarios por estado">
+    <p-card class="col-span-4 justify-center shadow-md h-min" header="Ranking de Usuarios">
         <app-ranking-list></app-ranking-list>
     </p-card>
     <p-card class="col-span-4 shadow-md h-min" header="Distribución por Rol">
@@ -27,3 +27,4 @@
         <app-pie-chart id="forLevel"></app-pie-chart>
     </p-card>
 </div>
+
