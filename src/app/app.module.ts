@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { KatexModule } from 'ng-katex';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -19,7 +20,8 @@ import { TestsModule } from './pages/tests/tests.module';
     AppRoutingModule,
     ComponentsModule,
     PagesModule,
-    TestsModule
+    TestsModule,
+    KatexModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,6 +1,7 @@
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
+@import '~katex/dist/katex.css';
 
 .p-slidemenu, .p-slidemenu-content {
     border-width: 0px !important;
@@ -15,9 +16,11 @@
     background: rgba(249, 146, 68, 0.15) !important;
 }
 
-.p-slidemenu .p-menuitem-link:focus {
-    box-shadow: none !important;
+*:focus, .p-focus {
+    box-shadow: 0 0 #0000, 0 0 #0000, 0 1px 2px 0 rgba(0, 0, 0, 0.05) !important;
+    border-width: 0px !important;
 }
+
 .min-h-95vh {
     min-height: 95vh !important;
 }
@@ -26,7 +29,14 @@
     background-color: #f59e0b !important;
     border-width: 0px !important;
     padding: 7px 10px !important;
-    font-size: 0.9rem !important;
+    font-size: 15px !important;
+    @apply shadow-md;
+}
+
+.toggle {
+    border-width: 0px !important;
+    padding: 7px 10px !important;
+    font-size: 15px !important;
     @apply shadow-md;
 }
 
@@ -49,4 +59,13 @@
 
 .p-card-content {
     padding: 0 !important;
+}
+
+.p-button:focus {
+    box-shadow: none !important;
+}
+
+.p-togglebutton.p-button.p-highlight, .p-togglebutton.p-button.p-highlight:focus-visible:hover, .p-radiobutton .p-radiobutton-box.p-highlight {
+    background: #f59e0b !important;
+    border-color: #f59e0b !important;
 }
