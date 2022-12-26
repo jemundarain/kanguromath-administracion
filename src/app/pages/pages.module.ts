@@ -3,25 +3,30 @@ import { CommonModule } from '@angular/common';
 
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { SettingsComponent } from './settings/settings.component';
-import { LoginComponent } from './login/login.component';
-import { ComponentsModule } from "../components/components.module";
+import { ErrorPageComponent } from '../shared/error-page/error-page.component';
+
 import { PrimeNgModule } from '../prime-ng/prime-ng.module';
+import { SharedModule } from '../shared/shared.module';
+import { HomeComponent } from './home/home.component';
+import { PagesRoutingModule } from './pages-routing.module';
 
 @NgModule({
     declarations: [
         DashboardComponent,
         SettingsComponent,
-        LoginComponent
+        ErrorPageComponent,
+        HomeComponent
     ],
     exports: [
         DashboardComponent,
         SettingsComponent,
-        LoginComponent
+        ErrorPageComponent
     ],
     imports: [
         CommonModule,
         PrimeNgModule,
-        ComponentsModule
+        SharedModule,
+        PagesRoutingModule
     ]
 })
 export class PagesModule { }

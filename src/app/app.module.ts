@@ -6,9 +6,10 @@ import { KatexModule } from 'ng-katex';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
-import { ComponentsModule } from './components/components.module';
+import { AuthModule } from './auth/auth.module';
+import { SharedModule } from './shared/shared.module';
 import { PagesModule } from './pages/pages.module';
-import { TestsModule } from './pages/tests/tests.module';
+import { TestsModule } from './tests/tests.module';
 
 import localeVZLA from '@angular/common/locales/es-VE';
 import { registerLocaleData  } from '@angular/common';
@@ -21,11 +22,11 @@ registerLocaleData( localeVZLA );
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-    AppRoutingModule,
-    ComponentsModule,
+    KatexModule,
+    AuthModule,
+    SharedModule,
     PagesModule,
-    TestsModule,
-    KatexModule
+    TestsModule
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'es-VE' }
