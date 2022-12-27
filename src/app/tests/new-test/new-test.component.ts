@@ -1,29 +1,23 @@
-import { Component } from '@angular/core';
-interface City {
-  name: string,
-  code: string
-}
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+
 @Component({
   selector: 'app-new-test',
   templateUrl: './new-test.component.html'
 })
-export class NewTestComponent {
+export class NewTestComponent implements OnInit {
+
   value1: number = 0;
   min: number = 0;
   max: number = 10;
+  
+  testForm: FormGroup;
 
-  selectedCity: City = {
-    name: "",
-    code: ""
-  };
-
-  cities = [
-      {name: 'New York', code: 'NY'},
-      {name: 'Rome', code: 'RM'},
-      {name: 'London', code: 'LDN'},
-      {name: 'Istanbul', code: 'IST'},
-      {name: 'Paris', code: 'PRS'}
-  ];
+  ngOnInit(): void {
+    this.testForm = new FormGroup({
+      "name": new FormControl(null, [Validators.required])
+    });    
+  }
   
   // uploadedFiles: any[] = [];
 

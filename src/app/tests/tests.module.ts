@@ -7,6 +7,7 @@ import { EditProblemComponent } from './edit-problem/edit-problem.component';
 import { PrimeNgModule } from '../prime-ng/prime-ng.module';
 import { HomeComponent } from './home/home.component';
 import { TestsRoutingModule } from './tests-routing.module';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { TestsRoutingModule } from './tests-routing.module';
   imports: [
     CommonModule,
     PrimeNgModule,
-    TestsRoutingModule
+    TestsRoutingModule,
+    ReactiveFormsModule
   ]
 })
 export class TestsModule { }
