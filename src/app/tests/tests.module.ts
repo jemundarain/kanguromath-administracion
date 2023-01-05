@@ -8,6 +8,8 @@ import { PrimeNgModule } from '../prime-ng/prime-ng.module';
 import { HomeComponent } from './home/home.component';
 import { TestsRoutingModule } from './tests-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { VisualizeTestComponent } from './visualize-test/visualize-test.component';
 
 @NgModule({
   declarations: [
@@ -15,13 +17,15 @@ import { ReactiveFormsModule } from '@angular/forms';
     NewTestComponent,
     EditTestComponent,
     EditProblemComponent,
-    HomeComponent
+    HomeComponent,
+    VisualizeTestComponent
   ],
   imports: [
     CommonModule,
     PrimeNgModule,
     TestsRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule
   ]
 })
 export class TestsModule { }
