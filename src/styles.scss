@@ -12,6 +12,19 @@
     overflow-x: hidden !important;
 }
 
+.pi {
+    font-size: 1.15rem !important;
+    @apply text-slate-600;
+}
+
+.p-slidemenu-content span:before {
+    @apply text-slate-600;
+}
+
+.p-slidemenu .p-menuitem-link .p-menuitem-icon {
+    margin-right: 1rem !important;
+}
+
 .p-slidemenu .p-menuitem-link:not(.p-disabled):hover {
     background: rgba(249, 146, 68, 0.15) !important;
 }
@@ -50,7 +63,7 @@
 }
 
 .p-element.p-dropdown-label.p-inputtext {
-    padding: 6px 12px;
+    padding: 10px 12px;
 }
 
 .btn:enabled:hover, .p-inputnumber-button:enabled:hover {
@@ -68,4 +81,26 @@
 .p-togglebutton.p-button.p-highlight, .p-togglebutton.p-button.p-highlight:focus-visible:hover, .p-radiobutton .p-radiobutton-box.p-highlight {
     background: #f59e0b !important;
     border-color: #f59e0b !important;
+}
+
+th {
+    background-color: #F1F5F9 !important;
+    text-align: center !important;
+    padding: 1rem !important;
+}
+
+td:not(:nth-child(1)) {
+    width: 120px;
+}
+
+td {
+    text-align: center !important;
+}
+
+.p-dropdown, .p-dropdown-items-wrapper {
+    width: 125px !important;
+}
+
+p-inputnumber [name="edition"] {
+    width: 90px !important;
 }
