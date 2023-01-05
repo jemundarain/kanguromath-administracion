@@ -26,17 +26,12 @@ export class SlideMenuComponent implements OnInit {
         items: [{
           label: 'Todas las Pruebas', 
           icon: 'pi pi-file',
-          routerLink: 'pruebas'
+          routerLink: 'pruebas/lista'
         },
         {
           label: 'Prueba Nueva', 
           icon: 'pi pi-plus',
           routerLink: 'pruebas/agregar'
-        },
-        {
-          label: 'Editar Prueba', 
-          icon: 'pi pi-pencil',
-          routerLink: 'pruebas/editar/222'
         },
         {
           label: 'Editar problema', 
