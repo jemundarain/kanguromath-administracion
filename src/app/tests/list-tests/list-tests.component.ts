@@ -1,28 +1,46 @@
-import { Component } from '@angular/core';
-interface City {
-  name: string,
-  code: string
-}
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { TestService } from '../services/test.service';
+import { Test } from '../test-model';
+
 @Component({
   selector: 'app-list-tests',
   templateUrl: './list-tests.component.html'
 })
-export class ListTestsComponent {
+export class ListTestsComponent implements OnInit, OnDestroy {
 
-  cities: City[];
+  constructor( private testService: TestService, private router: Router) { }
+  
+  tests: Test[] = [];
+  testSub = new Subscription();
 
-  selectedCity: City = {
-    name: "",
-    code: ""
-  };
+  editions: string[];
+  editionSub = new Subscription();
+  selectedEdition: string;
 
-  constructor() {
-      this.cities = [
-          {name: 'New York', code: 'NY'},
-          {name: 'Rome', code: 'RM'},
-          {name: 'London', code: 'LDN'},
-          {name: 'Istanbul', code: 'IST'},
-          {name: 'Paris', code: 'PRS'}
-      ];
+  ngOnInit(): void {
+    this.testService.getTests();
+    this.testSub = this.testService.testSubject.subscribe(tests => {
+      this.tests = tests;
+    });
+
+    this.testService.getEditions();
+    this.editionSub = this.testService.editionSubject.subscribe(editions => {
+      this.editions = editions;
+    });
   }
+
+  ngOnDestroy(): void {
+    this.testSub.unsubscribe();
+  }
+
+  /*onDelete(id: string){
+    this.testService.onDeleteTest(id);
+  }*/
+
+  onEdit(id: string){
+    this.router.navigate(['/pruebas/editar', id])
+  }
+
 }
