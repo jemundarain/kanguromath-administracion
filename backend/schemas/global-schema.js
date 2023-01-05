@@ -4,4 +4,4 @@ const entrySchema = mongoose.Schema({
     app_enabled: Boolean
 });
 
-module.exports = mongoose.model('globals', entrySchema);
+module.exports = mongoose.model('Global', entrySchema);
