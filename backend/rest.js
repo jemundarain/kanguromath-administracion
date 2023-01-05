@@ -1,12 +1,13 @@
 const express = require('express');
-const bodyParser = require('body-parser');
-const DiaryEntryModel = require('./entry-schema');
 const mongoose = require('mongoose');
-const UserModel = require('./user-model');
-const bcrypt = require('bcrypt');
+const bodyParser = require('body-parser');
+//const bcrypt = require('bcrypt');
+
+const TestModel = require('./schemas/test-schema');
+//const UserModel = require('./schemas/user-schema');
 
 const app = express();
-mongoose.connect("mongodb+srv://Jemundarain:aguacate@canguromathcluster.jwghf.mongodb.net/canguroMathDB?retryWrites=true&w=majority")    
+mongoose.connect("mongodb+srv://Jemundarain:Cuarentay2@canguromathcluster.jwghf.mongodb.net/canguro_math_db?retryWrites=true&w=majority")    
     .then(() => {
         console.log('Connected to MongoDB')
     })
@@ -49,19 +50,29 @@ app.post('/add-entry', (req,res) => {
                 message: 'Post submitted'
             })
         })
-})
+})*/
 
-app.get('/diary-entries',(req, res, next) => {
-    DiaryEntryModel.find()
+app.get('/pruebas',(req, res, next) => {
+    TestModel.find()
     .then((data) => {
-        res.json({'diaryEntries': data});
+        res.json({'pruebas': data});
     })
     .catch(() => {
         console.log('Error fetching entries')
     })
-})*/
+})
 
-app.post('/sign-up', (req,res) => {
+app.get('/ediciones',(req, res, next) => {
+    TestModel.distinct('edition')
+    .then((data) => {
+        res.json({'ediciones': data});
+    })
+    .catch(() => {
+        console.log('Error fetching entries')
+    })
+})
+
+/*app.post('/sign-up', (req,res) => {
 
     bcrypt.hash(req.body.password, 10)
         .then(hash => {
@@ -83,6 +94,6 @@ app.post('/sign-up', (req,res) => {
                 })
             })
         })
-})
+})*/
 
 module.exports = app;
