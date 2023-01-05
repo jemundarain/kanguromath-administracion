@@ -1,34 +1,42 @@
 import { Component, OnInit } from '@angular/core';
-interface City {
-  name: string,
-  code: string
-}
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { TestService } from '../services/test.service';
+import { LevelOption } from '../interfaces/level-option.interface'
+
 @Component({
   selector: 'app-edit-test',
   templateUrl: './edit-test.component.html'
 })
 export class EditTestComponent implements OnInit {
 
-  constructor() { }
+  edition: number = 0;
+  minEdition: number = 2009;
+
+  levels: LevelOption[];
+  selectedLevelCode: string;
+
+  testForm: FormGroup;
+
+  constructor(private testService: TestService) { }
 
   ngOnInit(): void {
+    this.levels = [
+      {name: '1ero', code: '1ero'},
+      {name: '1ero y 2do', code: '1ero-2d0'},
+      {name: '2do', code: '2do'},
+      {name: '3ero', code: '3ero'},
+      {name: '4to', code: '4to'},
+      {name: '4to y 5to', code: '4to-5to'},
+      {name: '5to', code: '5to'}
+    ]
+
+    this.testForm = new FormGroup({
+      // 'edition': new FormControl(this.editMode ? this.diaryEntry.date : '', [Validators.required]),
+      // 'entry': new FormControl(this.editMode ? this.diaryEntry.entry : '', [Validators.required])
+    })
   }
-  value1: number = 0;
-  min: number = 0;
-  max: number = 10;
 
-  selectedCity: City = {
-    name: "",
-    code: ""
-  };
-
-  cities = [
-      {name: 'New York', code: 'NY'},
-      {name: 'Rome', code: 'RM'},
-      {name: 'London', code: 'LDN'},
-      {name: 'Istanbul', code: 'IST'},
-      {name: 'Paris', code: 'PRS'}
-  ];
-  
-
+  onSubmit() {
+    
+  }
 }

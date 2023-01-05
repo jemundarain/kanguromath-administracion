@@ -18,6 +18,10 @@ export class NewTestComponent implements OnInit {
       "name": new FormControl(null, [Validators.required])
     });    
   }
+
+  onSubmit() {
+    
+  }
   
   // uploadedFiles: any[] = [];
 

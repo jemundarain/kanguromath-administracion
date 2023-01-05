@@ -1,18 +1,15 @@
 <!-- Encabezado -->
 <div class="grid grid-cols-1 mb-6">
-    <h1 class="inline-block text-5xl font-bold text-gray-700 tracking-tight">Editar Prueba</h1>
+    <h2 class="inline-block text-4xl font-bold text-gray-700 tracking-tight">Editar Prueba</h2>
 </div>
 
 <!-- Edición combobox -->
-<form action="">
+<form (ngSubmit)="onSubmit()" >
     <div class="flex gap-2 mb-6">
         <h5 class="text-xl my-auto font-semibold text-slate-600 tracking-tight">Edición:</h5>
-        <p-inputNumber [(ngModel)]="value1" [showButtons]="true" [min]="min" [max]="max"></p-inputNumber>    
+        <p-inputNumber name="edition" [(ngModel)]="edition" [showButtons]="true" [min]="minEdition"></p-inputNumber>    
         <h5 class="text-xl my-auto font-semibold text-slate-600 tracking-tight ml-5">Año Escolar:</h5>
-        <p-dropdown class="col-span-2 my-auto" [options]="cities" [(ngModel)]="selectedCity" optionLabel="name"></p-dropdown>
+        <p-dropdown name="level" class="col-span-2 my-auto mr-8" [options]="levels" [(ngModel)]="selectedLevelCode" optionLabel="name" optionValue="code"></p-dropdown>
+        <button pButton pRipple label="Guardar" class="btn col-span-2 col-start-5" [routerLink]="['/']"></button>
     </div>
 </form>
-
-<div class="grid grid-cols-12 mb-6">
-    <button pButton pRipple label="Iniciar Sesión" class="btn col-span-2 col-start-5 p-3" [routerLink]="['/']"></button>
-</div>
