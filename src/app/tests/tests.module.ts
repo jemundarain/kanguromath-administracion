@@ -10,6 +10,9 @@ import { TestsRoutingModule } from './tests-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { VisualizeTestComponent } from './visualize-test/visualize-test.component';
+import { LevelsTittlePipe } from './pipes/levels-tittle.pipe';
+import { LevelsHeaderPipe } from './pipes/levels-header.pipe';
+import { KatexModule } from 'ng-katex';
 
 @NgModule({
   declarations: [
@@ -18,14 +21,17 @@ import { VisualizeTestComponent } from './visualize-test/visualize-test.componen
     EditTestComponent,
     EditProblemComponent,
     HomeComponent,
-    VisualizeTestComponent
+    VisualizeTestComponent,
+    LevelsTittlePipe,
+    LevelsHeaderPipe
   ],
   imports: [
     CommonModule,
     PrimeNgModule,
     TestsRoutingModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    KatexModule
   ]
 })
 export class TestsModule { }

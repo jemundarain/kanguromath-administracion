@@ -22,7 +22,6 @@ registerLocaleData( localeVZLA );
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-    KatexModule,
     AuthModule,
     SharedModule,
     PagesModule,
