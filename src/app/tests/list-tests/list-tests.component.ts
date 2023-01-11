@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { TestService } from '../services/test.service';
 import { Test } from '../test-model';
@@ -10,37 +11,53 @@ import { Test } from '../test-model';
 })
 export class ListTestsComponent implements OnInit, OnDestroy {
 
-  constructor( private testService: TestService, private router: Router) { }
+  constructor(
+    private activateRoute: ActivatedRoute,
+    private testService: TestService,
+    private router: Router,
+    private formBuilder: FormBuilder
+  ) { }
+
+  form: FormGroup = new FormGroup({});
   
   tests: Test[] = [];
-  testSub = new Subscription();
+  testsSub = new Subscription();
 
   editions: string[];
   editionSub = new Subscription();
-  selectedEdition: string;
 
   ngOnInit(): void {
-    this.testService.getTests();
-    this.testSub = this.testService.testSubject.subscribe(tests => {
+    this.form = this.formBuilder.group({
+      edition: [null, Validators.nullValidator]
+    });
+
+    this.testsSub = this.testService.testsSubject.subscribe(tests => {
       this.tests = tests;
     });
 
     this.testService.getEditions();
     this.editionSub = this.testService.editionSubject.subscribe(editions => {
       this.editions = editions;
+      this.form.valueChanges.subscribe((data) => {
+        this.testService.getTestsByEdition(data['edition']);
+      })
     });
   }
 
   ngOnDestroy(): void {
-    this.testSub.unsubscribe();
+    this.testsSub.unsubscribe();
+  }
+
+  onEdit(id: string){
+    this.router.navigate(['pruebas/editar/',id])
   }
 
   /*onDelete(id: string){
     this.testService.onDeleteTest(id);
-  }*/
+  }
 
   onEdit(id: string){
     this.router.navigate(['/pruebas/editar', id])
-  }
+  }*/
 
 }

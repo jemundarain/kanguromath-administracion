@@ -4,7 +4,9 @@
 <!-- Edición combobox -->
 <div class="flex gap-2 mb-6">
     <h5 class="text-xl my-auto font-semibold text-slate-600 tracking-tight">Edición:</h5>
-    <p-dropdown class="col-span-2 my-auto" [options]="editions" [(ngModel)]="selectedEdition"></p-dropdown>
+    <form [formGroup]="form">
+        <p-dropdown class="col-span-2 my-auto" [options]="editions" formControlName="edition" ></p-dropdown>
+    </form>
 </div>
 
 <!-- Table -->
@@ -20,9 +22,9 @@
         </ng-template>
         <ng-template pTemplate="body" let-test>
             <tr>
-                <td>{{test.levels}}</td>
+                <td>{{test.levels | levelsTittle }}</td>
                 <td><a [routerLink]="['/pruebas/ver', test.test_id ]"><i class="pi pi-eye"></i></a></td>
-                <td><a [routerLink]="['/pruebas/editar', test.test_id ]"><i class="pi pi-file-edit"></i></a></td>
+                <td><a (click)="onEdit(test.test_id)"><i class="pi pi-file-edit"></i></a></td>
                 <td><a [routerLink]="['/pruebas/eliminar', test.test_id ]"><i class="pi pi-trash"></i></a></td>
             </tr>
         </ng-template>

@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 //const bcrypt = require('bcrypt');
 
 const TestModel = require('./schemas/test-schema');
+const ProblemModel = require('./schemas/problem-schema');
 //const UserModel = require('./schemas/user-schema');
 
 const app = express();
@@ -23,39 +24,40 @@ app.use((req, res, next) => {
     next();
 })
 
-/*app.delete('/remove-entry/:id', (req, res) => {
-    DiaryEntryModel.deleteOne({_id: req.params.id})
-    .then(() => {
-        res.status(200).json({
-            message: 'Post Deleted'
-        })
+app.get('/pruebas',(req, res, next) => {
+    TestModel.find({})
+    .then((data) => {
+        res.json({'pruebas': data});
+    })
+    .catch(() => {
+        console.log('Error fetching entries')
     })
 })
 
-app.put('/update-entry/:id', (req, res) => {
-    const updatedEntry = new DiaryEntryModel({_id: req.body.id, date: req.body.date, entry: req.body.entry})
-    DiaryEntryModel.updateOne({_id: req.body.id}, updatedEntry)
-        .then(() => {
-            res.status(200).json({
-                message: 'Update completed'
-            })    
-        })
-})
-
-app.post('/add-entry', (req,res) => {
-    const diaryEntry = new DiaryEntryModel({date: req.body.date, entry: req.body.entry});
-    diaryEntry.save()
-        .then(() => {
-            res.status(200).json({
-                message: 'Post submitted'
-            })
-        })
-})*/
-
-app.get('/pruebas',(req, res, next) => {
-    TestModel.find()
+app.get('/pruebas/:edition',(req, res, next) => {
+    TestModel.find({ 'edition': req.params.edition})
     .then((data) => {
         res.json({'pruebas': data});
+    })
+    .catch(() => {
+        console.log('Error fetching entries')
+    })
+})
+
+app.get('/prueba/:id',(req, res, next) => {
+    TestModel.find({ 'test_id': req.params.id})
+    .then((data) => {
+        res.json({'prueba': data});
+    })
+    .catch(() => {
+        console.log('Error fetching entries')
+    })
+})
+
+app.get('/problema/:id',(req, res, next) => {
+    ProblemModel.find({ 'problem_id': req.params.id})
+    .then((data) => {
+        res.json({'problema': data});
     })
     .catch(() => {
         console.log('Error fetching entries')
@@ -70,6 +72,16 @@ app.get('/ediciones',(req, res, next) => {
     .catch(() => {
         console.log('Error fetching entries')
     })
+})
+
+app.put('/pruebas/editar/:id', (req, res) => {
+    const updatedTest = new TestModel({_id: req.body.id, test_id: req.body.levels, edition: req.body.edition, problems: req.body.problems})
+    TestModel.updateOne({_id: req.body.id}, updatedTest)
+        .then(() => {
+            res.status(200).json({
+                message: 'Update completed'
+            })    
+        })
 })
 
 /*app.post('/sign-up', (req,res) => {

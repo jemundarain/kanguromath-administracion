@@ -4,7 +4,7 @@
 </div>
 
 <!-- Edición combobox -->
-<form action="" [formGroup]="testForm" (ngSubmit)="onSubmit()">
+<form [formGroup]="newTestForm" (ngSubmit)="onSubmit()">
     <div class="flex gap-2 mb-6">
         <h5 class="text-xl my-auto font-semibold text-slate-600 tracking-tight">Edición:</h5>
         <p-inputNumber [(ngModel)]="value1" [showButtons]="true" [min]="min" [max]="max" formControlName="name"></p-inputNumber>    

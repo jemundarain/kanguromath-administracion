@@ -11,10 +11,10 @@ export class NewTestComponent implements OnInit {
   min: number = 0;
   max: number = 10;
   
-  testForm: FormGroup;
+  newTestForm: FormGroup;
 
   ngOnInit(): void {
-    this.testForm = new FormGroup({
+    this.newTestForm = new FormGroup({
       "name": new FormControl(null, [Validators.required])
     });    
   }
