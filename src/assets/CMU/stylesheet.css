@@ -1,0 +1,12 @@
+@font-face {
+    font-family: 'CMU Serif';
+    src: url('CMUSerif-Roman.eot');
+    src: url('CMUSerif-Roman.eot?#iefix') format('embedded-opentype'),
+        url('CMUSerif-Roman.woff2') format('woff2'),
+        url('CMUSerif-Roman.woff') format('woff'),
+        url('CMUSerif-Roman.svg#CMUSerif-Roman') format('svg');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
