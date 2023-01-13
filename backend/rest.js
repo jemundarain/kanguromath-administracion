@@ -27,37 +27,7 @@ app.use((req, res, next) => {
 app.get('/pruebas',(req, res, next) => {
     TestModel.find({})
     .then((data) => {
-        res.json({'pruebas': data});
-    })
-    .catch(() => {
-        console.log('Error fetching entries')
-    })
-})
-
-app.get('/pruebas/:edition',(req, res, next) => {
-    TestModel.find({ 'edition': req.params.edition})
-    .then((data) => {
-        res.json({'pruebas': data});
-    })
-    .catch(() => {
-        console.log('Error fetching entries')
-    })
-})
-
-app.get('/prueba/:id',(req, res, next) => {
-    TestModel.find({ 'test_id': req.params.id})
-    .then((data) => {
-        res.json({'prueba': data});
-    })
-    .catch(() => {
-        console.log('Error fetching entries')
-    })
-})
-
-app.get('/problema/:id',(req, res, next) => {
-    ProblemModel.find({ 'problem_id': req.params.id})
-    .then((data) => {
-        res.json({'problema': data});
+        res.json(data);
     })
     .catch(() => {
         console.log('Error fetching entries')
@@ -67,7 +37,48 @@ app.get('/problema/:id',(req, res, next) => {
 app.get('/ediciones',(req, res, next) => {
     TestModel.distinct('edition')
     .then((data) => {
-        res.json({'ediciones': data});
+        res.json(data);
+    })
+    .catch(() => {
+        console.log('Error fetching entries')
+    })
+})
+
+app.get('/pruebas/:edition',(req, res, next) => {
+    TestModel.find({ 'edition': req.params.edition})
+    .then((data) => {
+        res.json(data);
+    })
+    .catch(() => {
+        console.log('Error fetching entries')
+    })
+})
+
+app.get('/prueba/:id',(req, res, next) => {
+    TestModel.find({ 'test_id': req.params.id})
+    .then((data) => {
+        res.json(data);
+    })
+    .catch(() => {
+        console.log('Error fetching entries')
+    })
+})
+
+app.get('/prueba/problema/:id',(req, res, next) => {
+    TestModel.find({ 'problems': {$elemMatch: req.params.id}})
+    .then((data) => {
+        console.log(data);
+        res.json(data);
+    })
+    .catch(() => {
+        console.log('Error fetching entries')
+    })
+})
+
+app.get('/problema/:id',(req, res, next) => {
+    ProblemModel.find({ 'problem_id': req.params.id})
+    .then((data) => {
+        res.json(data);
     })
     .catch(() => {
         console.log('Error fetching entries')
