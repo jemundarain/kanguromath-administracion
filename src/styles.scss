@@ -50,12 +50,16 @@
     min-height: 95vh !important;
 }
 
-.btn {
+.btn, .p-fileupload-choose.p-button {
     background-color: #f59e0b !important;
     border-width: 0px !important;
     padding: 7px 10px !important;
     font-size: 15px !important;
     @apply shadow-md;
+}
+
+.p-fileupload-choose .pi-plus::before {
+    color: #fff !important;
 }
 
 .toggle {
@@ -74,7 +78,7 @@
     height: 42px;
 }
 
-.p-element.p-dropdown-label.p-inputtext {
+[name="level"] .p-element.p-dropdown-label.p-inputtext {
     padding: 10px 12px;
 }
 
@@ -118,9 +122,42 @@ th:nth-child(1) {
 }
 
 .p-dropdown, .p-dropdown-items-wrapper {
-    width: 125px !important;
+    width: fit-content !important;
 }
 
 p-inputnumber [name="edition"] {
     width: 90px !important;
+}
+
+[name="dateRange"] .p-dropdown-label {
+    padding-top: 0px;
+}
+
+[name="dateRange"] .p-dropdown-label {
+    color: #fff;
+}
+
+[formcontrolname="dateRange"] .btn {
+    height: 37px !important;
+}
+
+[formcontrolname="dateRange"] .btn:hover {
+    background-color: #d97706 !important;
+}
+
+[formcontrolname="dateRange"] .pi-chevron-down::before {
+    content: "\e927";
+}
+
+.circleOption {
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    padding: 0px;
+    background: #fff;
+    border: 1px solid #000;
+    text-align: center;
+    font-family: 'CMU Serif';
+    font-size: 17px;
+    margin-right: 5px;
 }
