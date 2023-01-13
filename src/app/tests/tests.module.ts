@@ -13,6 +13,8 @@ import { VisualizeTestComponent } from './visualize-test/visualize-test.componen
 import { LevelsTittlePipe } from './pipes/levels-tittle.pipe';
 import { LevelsHeaderPipe } from './pipes/levels-header.pipe';
 import { KatexModule } from 'ng-katex';
+import { ProblemComponent } from './problem/problem.component';
+import { FiguresTableComponent } from './figures-table/figures-table.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +25,9 @@ import { KatexModule } from 'ng-katex';
     HomeComponent,
     VisualizeTestComponent,
     LevelsTittlePipe,
-    LevelsHeaderPipe
+    LevelsHeaderPipe,
+    ProblemComponent,
+    FiguresTableComponent
   ],
   imports: [
     CommonModule,

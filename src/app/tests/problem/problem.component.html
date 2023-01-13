@@ -1,0 +1,9 @@
+<ng-katex-html [html]="body_problem" class="col-start-4 col-span-6"></ng-katex-html>
+<div class="flex flex-row justify-between flex-wrap mt-2 mb-3">
+    <div class="flex flex-row mb-1" *ngFor="let option of problem.options">
+        <div class="circleOption">{{option.letter}}</div>
+        <span *ngIf="!isLink(option.answer); else imageAnswer">{{option.answer}}</span>
+        <ng-template #imageAnswer><img [src]="option.answer"></ng-template>
+    </div>
+    <p-button type="button" [routerLink]="['/pruebas/editar-problema', problem.problem_id]" label="Editar" class="col-span-2 md:col-span-2 md:col-start-7 p-button-raised my-auto" styleClass="btn float-right"></p-button>
+</div>
