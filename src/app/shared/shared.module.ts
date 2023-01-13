@@ -5,21 +5,23 @@ import { PrimeNgModule } from '../prime-ng/prime-ng.module';
 
 import { SlideMenuComponent } from './slide-menu/slide-menu.component';
 import { LineChartComponent } from './line-chart/line-chart.component';
-import { PieChartComponent } from './pie-chart/pie-chart.component';
 import { RankingListComponent } from './ranking-list/ranking-list.component';
+import { PieChartForRolComponent } from './pie-chart-for-rol/pie-chart-for-rol.component';
+import { PieChartForLevelComponent } from './pie-chart-for-level/pie-chart-for-level.component';
 
 @NgModule({
   declarations: [
     SlideMenuComponent, 
     LineChartComponent, 
-    PieChartComponent, 
-    RankingListComponent
+    PieChartForRolComponent, 
+    RankingListComponent, PieChartForLevelComponent
   ],
   exports: [
     SlideMenuComponent,
     LineChartComponent,
-    PieChartComponent,
-    RankingListComponent
+    PieChartForRolComponent,
+    RankingListComponent,
+    PieChartForLevelComponent
   ],
   imports: [
     CommonModule,
