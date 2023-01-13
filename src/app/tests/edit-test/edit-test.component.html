@@ -4,12 +4,12 @@
 </div>
 
 <!-- Edición combobox -->
-<form (ngSubmit)="onSubmit()" [formGroup]="testForm">
+<form (ngSubmit)="onSubmit()">
     <div class="flex gap-2 mb-6">
         <h5 class="text-xl my-auto font-semibold text-slate-600 tracking-tight">Edición:</h5>
-        <p-inputNumber formControlname="edition" [showButtons]="true" [min]="minEdition"></p-inputNumber>    
+        <p-inputNumber [(ngModel)]="test.edition" [format]="false" name="edition" [showButtons]="true" [min]="minEdition"></p-inputNumber>    
         <h5 class="text-xl my-auto font-semibold text-slate-600 tracking-tight ml-5">Año Escolar:</h5>
-        <p-dropdown formControlname="level" class="col-span-2 my-auto mr-8" [options]="levels"  optionLabel="name" optionValue="code"></p-dropdown>
+        <p-dropdown  [(ngModel)]="test.levels" name="level" class="col-span-2 my-auto mr-8" [options]="levels"  optionLabel="name" optionValue="code"></p-dropdown>
         <button pButton pRipple label="Guardar" class="btn col-span-2 col-start-5" [routerLink]="['/']"></button>
     </div>
 </form>
