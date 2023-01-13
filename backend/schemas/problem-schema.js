@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const Option = require('./option-subSchema');
 
 const problemSchema = mongoose.Schema({
     problem_id: {type: String, required: true, unique: true},
@@ -9,7 +8,10 @@ const problemSchema = mongoose.Schema({
     type: {type: String},
     url_image: {type: String},
     category: {type: String},
-    options: {type: mongoose.Schema.Types.ObjectId, ref: 'Option'}
+    options: [new mongoose.Schema({
+        letter: {type: String, required: true},
+        answer: {type: String}
+    })]
 });
 
 module.exports = mongoose.model("Problem", problemSchema);
