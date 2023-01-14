@@ -5,12 +5,15 @@ const problemSchema = mongoose.Schema({
     num_s: {type: Number, required: true},
     statement: {type: String},
     solution: {type: String},
-    type: {type: String},
-    url_image: {type: String},
     category: {type: String},
     options: [new mongoose.Schema({
         letter: {type: String, required: true},
         answer: {type: String}
+    })],
+    figures: [new mongoose.Schema({
+        num_s: {type: String, required: true},
+        url: {type: String},
+        ubication: {type: String}
     })]
 });
 
