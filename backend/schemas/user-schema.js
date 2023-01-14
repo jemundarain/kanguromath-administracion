@@ -20,7 +20,12 @@ const userSchema = mongoose.Schema({
     password: {type: String, required: true},
     institution: {type: String, required: true},
     achieves: {type: Achieve},
-    submit: {type: Submit},
+    submit: [new mongoose.Schema({
+        test: {type: String, required: true},
+        mode: {type: String, required: true},
+        in_progress: {type: Boolean, required: true},
+        t_remain_s: {type: Number, required: true},
+    })],
     reminder_hour: {type: Date},
 });
 
