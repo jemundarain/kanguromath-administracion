@@ -8,7 +8,8 @@ const ProblemModel = require('./schemas/problem-schema');
 //const UserModel = require('./schemas/user-schema');
 
 const app = express();
-mongoose.connect(process.env.MONGO_CONNECTION_STRING)    
+
+mongoose.connect("mongodb+srv://Jemundarain:Cuarentay2@canguromathcluster.azwnjh8.mongodb.net/canguro_math_db?retryWrites=true&w=majority")    
     .then(() => {
         console.log('Connected to MongoDB')
     })
