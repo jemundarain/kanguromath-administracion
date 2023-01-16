@@ -8,13 +8,17 @@ const ProblemModel = require('./schemas/problem-schema');
 //const UserModel = require('./schemas/user-schema');
 
 const app = express();
-mongoose.connect("mongodb+srv://Jemundarain:Cuarentay2@canguromathcluster.azwnjh8.mongodb.net/canguro_math_db?retryWrites=true&w=majority")    
+mongoose.connect(process.env.MONGO_CONNECTION_STRING)    
     .then(() => {
         console.log('Connected to MongoDB')
     })
     .catch(() => {
         console.log('Error connecting to MongoDB');
     })
+
+if(process.env.ENVIRONMENT !== 'production') {
+        require('dotenv').config()
+}
 
 app.use(bodyParser.json());
 app.use((req, res, next) => {
