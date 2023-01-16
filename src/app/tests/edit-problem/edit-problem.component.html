@@ -6,11 +6,14 @@
 <!-- Figuras -->
 <h5 class="text-3xl font-bold text-slate-600 tracking-tight my-3">Problema</h5>
 <div class="grid grid-cols-12 gap-6 mb-6">
-    <p-card class="col-span-5 shadow-md h-min" header="Figuras">
+    <p-card class="col-span-6 shadow-md h-min" header="Figuras">
         <div class="flex flex-col gap-3">
             <p-radioButton name="rutina" value="sin-figura" label="Sin figura" [(ngModel)]="rutina"></p-radioButton>
-            <p-radioButton name="rutina" value="con-figura" label="{{ 8+3 }} figuras detectadas" [(ngModel)]="rutina"></p-radioButton>
-            <app-figures-table></app-figures-table>
+            <div class="p-field-radiobutton">
+                <p-radioButton name="rutina" value="con-figura" [(ngModel)]="rutina" inputId="figurasDetectadas"></p-radioButton>
+                <label for="figurasDetectadas"><b>{{ problem.figures.length }}</b> figuras detectadas</label>
+            </div>
+            <app-figures-table [figures]="problem.figures"></app-figures-table>
         </div>
     </p-card>
 </div>

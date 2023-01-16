@@ -1,20 +1,20 @@
 <div class="grid grid-cols-12 mb-6">
-    <p-table class="col-span-12">
+    <p-table [value]="figures" class="col-span-12">
         <ng-template pTemplate="header">
             <tr>
                 <th>#</th>
                 <th>Nombre</th>
+                <th>Ubicación</th>
                 <th>Archivo</th>
-                <th>Eliminar</th>
                 <th>Vista Previa</th>
             </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-test>
+        <ng-template pTemplate="body" let-figure>
             <tr>
-                <td></td>
-                <td></td>
-                <td><!-- <p-fileUpload mode="basic" chooseLabel="Subir figura" name="demo[]" url="./upload.php" accept="image/*" [maxFileSize]="420000" (onUpload)="onBasicUpload()"></p-fileUpload> --></td>
-                <td></td>
+                <td>{{ figure.num_s }}</td>
+                <td>{{ figure.url.split("/").slice(-1) }}</td>
+                <td>{{ figure.url.split("/").slice(-1) }}</td>
+                <td><p-fileUpload mode="basic" chooseLabel="Subir figura" name="demo[]" url="./upload.php" accept="image/*" [maxFileSize]="420000" (onUpload)="onBasicUpload()"></p-fileUpload></td>
                 <td></td>
             </tr>
         </ng-template>
