@@ -8,7 +8,7 @@ const ProblemModel = require('./schemas/problem-schema');
 //const UserModel = require('./schemas/user-schema');
 
 const app = express();
-mongoose.connect("mongodb+srv://Jemundarain:Cuarentay2@canguromathcluster.jwghf.mongodb.net/canguro_math_db?retryWrites=true&w=majority")    
+mongoose.connect("mongodb+srv://Jemundarain:Cuarentay2@canguromathcluster.azwnjh8.mongodb.net/canguro_math_db?retryWrites=true&w=majority")    
     .then(() => {
         console.log('Connected to MongoDB')
     })
@@ -67,7 +67,6 @@ app.get('/prueba/:id',(req, res, next) => {
 app.get('/prueba/problema/:id',(req, res, next) => {
     TestModel.find({ 'problems': {$elemMatch: req.params.id}})
     .then((data) => {
-        console.log(data);
         res.json(data);
     })
     .catch(() => {

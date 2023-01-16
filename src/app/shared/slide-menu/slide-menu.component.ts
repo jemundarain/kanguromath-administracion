@@ -5,7 +5,11 @@ import {MenuItem} from 'primeng/api';
 @Component({
   selector: 'app-slide-menu',
   templateUrl: './slide-menu.component.html',
-  styleUrls: []
+  styles: [`
+    .min-h-95vh {
+      min-height: 95vh !important;
+    }
+  `]
 })
 export class SlideMenuComponent implements OnInit {
 

@@ -13,7 +13,7 @@ export class VisualizeTestComponent implements OnInit {
 
   constructor(
     private testService: TestService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
   ) { }
 
   test : Test;

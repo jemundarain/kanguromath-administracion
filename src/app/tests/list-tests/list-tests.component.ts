@@ -7,7 +7,25 @@ import { Test } from '../test-model';
 
 @Component({
   selector: 'app-list-tests',
-  templateUrl: './list-tests.component.html'
+  templateUrl: './list-tests.component.html',
+  styles: [`
+    td:not(:nth-child(1)) {
+      width: 120px;
+    }
+
+    td {
+        text-align: center !important;
+    }
+
+    table a:hover .pi:before {
+        color: #f59e0b;
+    }
+
+    th:nth-child(1) {
+        width: 40%;
+    }
+  `]
+  
 })
 export class ListTestsComponent implements OnInit, OnDestroy {
 
@@ -27,7 +45,7 @@ export class ListTestsComponent implements OnInit, OnDestroy {
     });
 
     this.testService.getEditions()
-      .subscribe( editions => this.editions = editions);
+      .subscribe( editions => {this.editions = editions});
 
     this.form.valueChanges.subscribe((data) => {
       this.testService.getTestsByEdition(data['edition'])

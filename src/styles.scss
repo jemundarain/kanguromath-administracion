@@ -37,17 +37,13 @@
     margin-right: 1rem !important;
 }
 
-.p-slidemenu .p-menuitem-link:not(.p-disabled):hover {
+.p-slidemenu .p-menuitem-link:not(.p-disabled):hover, .p-menuitem-link-active {
     background: rgba(249, 146, 68, 0.15) !important;
 }
 
 *:focus, .p-focus {
     box-shadow: 0 0 #0000, 0 0 #0000, 0 1px 2px 0 rgba(0, 0, 0, 0.05) !important;
     border-width: 0px !important;
-}
-
-.min-h-95vh {
-    min-height: 95vh !important;
 }
 
 .btn, .p-fileupload-choose.p-button {
@@ -103,26 +99,6 @@ th {
     background-color: #F1F5F9 !important;
     text-align: center !important;
     padding: 1rem !important;
-}
-
-td:not(:nth-child(1)) {
-    width: 120px;
-}
-
-td {
-    text-align: center !important;
-}
-
-table a:hover .pi:before {
-    color: #f59e0b;
-}
-
-th:nth-child(1) {
-    width: 40%;
-}
-
-.p-dropdown, .p-dropdown-items-wrapper {
-    width: fit-content !important;
 }
 
 p-inputnumber [name="edition"] {

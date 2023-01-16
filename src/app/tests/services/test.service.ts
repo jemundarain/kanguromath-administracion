@@ -11,19 +11,18 @@ export class TestService {
 
     private readonly _apiKey: string = 'f46979c97f7f0a98ddb55645a063494d';
     private baseUrl: string = environment.baseUrl;
-
     constructor(private http: HttpClient){}
-
+    
     getTestById(test_id: string): Observable<Test[]> {
         return this.http.get<Test[]>(`${ this.baseUrl }/prueba/${test_id}`)
     }
-
+    
     getTestsByEdition(edition: string): Observable<Test[]>{
         return this.http.get<Test[]>(`${ this.baseUrl }/pruebas/${edition}`)
     }
-
+    
     getEditions(): Observable<string[]>{
-        return this.http.get<string[]>('${ this.baseUrl }/ediciones')
+        return this.http.get<string[]>(`${ this.baseUrl }/ediciones`)
     }
     
     getProblemById(problem_id: string): Observable<Problem[]> {

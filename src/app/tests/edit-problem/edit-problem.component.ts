@@ -10,7 +10,18 @@ import { Problem } from '../problem-model';
 
 @Component({
   selector: 'app-edit-problem',
-  templateUrl: './edit-problem.component.html'
+  templateUrl: './edit-problem.component.html',
+  styles: [
+    `
+      .p-field-radiobutton {
+        display: flex;
+      }
+
+      label[for="figurasDetectadas"] {
+        margin-left: 8px !important;
+      }
+    `
+  ]
 })
 export class EditProblemComponent implements OnInit {
   formBuilder: any;
@@ -55,7 +66,7 @@ export class EditProblemComponent implements OnInit {
       )
       .subscribe( problem => {
         this.problem = problem[0];
-        this.rutina = this.problem.type;
+        /*this.rutina = this.problem.type;
         switch (this.problem.type) {
           case 'sin-figura':
             this.rutina = this.problem.type
@@ -67,7 +78,7 @@ export class EditProblemComponent implements OnInit {
             break;   
           default:
             break;
-        }
+        }*/
         this.cuerpoProblema = this.problem.statement;
       });
 
