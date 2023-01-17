@@ -27,6 +27,7 @@
     "extract-math": "^1.2.3",
     "katex": "^0.16.3",
     "mongoose": "^6.7.5",
+    "mongoose-unique-validator": "^3.1.0",
     "ng-katex": "^2.0.3",
     "primeicons": "^6.0.1",
     "primeng": "^14.2.2",
