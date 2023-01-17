@@ -10,8 +10,11 @@ export class FiguresTableComponent implements OnInit {
   constructor() { }
 
   @Input() figures: Figure[]
+  posiciones: string[] = [];
+  selectedPosicion: string;
 
   ngOnInit(): void {
+    this.posiciones = ['intermedia', 'derecha'];
     console.log(this.figures);
   }
 

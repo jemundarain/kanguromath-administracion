@@ -7,15 +7,19 @@
                 <th>Ubicación</th>
                 <th>Archivo</th>
                 <th>Vista Previa</th>
+                <th>Eliminar</th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-figure>
             <tr>
                 <td>{{ figure.num_s }}</td>
                 <td>{{ figure.url.split("/").slice(-1) }}</td>
-                <td>{{ figure.url.split("/").slice(-1) }}</td>
+                <td><p-dropdown class="col-span-2 my-auto" [options]="posiciones" optionLabel="name"></p-dropdown></td>
                 <td><p-fileUpload mode="basic" chooseLabel="Subir figura" name="demo[]" url="./upload.php" accept="image/*" [maxFileSize]="420000" (onUpload)="onBasicUpload()"></p-fileUpload></td>
-                <td></td>
+                <td>
+                    <p-image [src]="figure.url" [alt]="figure.url.split('/').slice(-1)" width="300"></p-image>
+                </td>
+                <td><a [routerLink]="['/figuras/eliminar', figure.url.split('/').slice(-1) ]"><i class="pi pi-trash"></i></a></td>
             </tr>
         </ng-template>
     </p-table>

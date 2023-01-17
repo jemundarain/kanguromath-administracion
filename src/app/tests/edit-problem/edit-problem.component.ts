@@ -20,6 +20,11 @@ import { Problem } from '../problem-model';
       label[for="figurasDetectadas"] {
         margin-left: 8px !important;
       }
+
+      ng-katex-html {
+        padding: 0.75rem 0.75rem;
+      }
+
     `
   ]
 })
@@ -43,8 +48,33 @@ export class EditProblemComponent implements OnInit {
   cuerpoProblema: string;
   resultado: string;
 
-  textoA: string;
-  optionA: string;
+  optionB: string = "rutina";
+  optionC: string = "rutina";
+  optionD: string = "rutina";
+  optionE: string = "rutina";
+
+
+  optionsValues:string[] = [];
+  
+  figuresMap1 = {
+    '=0': '',
+    '=1': 'Se detectó ',
+    'other': 'Se detectaron '
+  }
+
+  figuresMap2 = {
+    '=0': 'No se detectaron figuras',
+    '=1': 'figura',
+    'other': 'figuras'
+  }
+
+  getUrlOption(letter: string) {
+    for(let i=0; i < this.problem.options.length; i++) {
+      if(this.problem.options[i].letter == letter)
+        return this.problem.options[i].answer;
+    }
+    return letter;
+  }
 
   ngOnInit(): void {
     this.levels = [
@@ -66,6 +96,11 @@ export class EditProblemComponent implements OnInit {
       )
       .subscribe( problem => {
         this.problem = problem[0];
+        if(this.problem.figures.length) {
+          this.rutina = 'con-figura'
+        } else {
+          this.rutina = 'sin-figura'
+        }
         /*this.rutina = this.problem.type;
         switch (this.problem.type) {
           case 'sin-figura':
@@ -80,6 +115,10 @@ export class EditProblemComponent implements OnInit {
             break;
         }*/
         this.cuerpoProblema = this.problem.statement;
+        this.problem.options.sort((a,b) => (a.letter > b.letter) ? 1 : ((b.letter > a.letter) ? -1 : 0));
+        for(let i=0; i<this.problem.options.length; i++) {
+          this.problem.options[i].answer.includes('http')? this.optionsValues[i] = 'figura': this.optionsValues[i] = 'rutina';  
+        }
       });
 
   }

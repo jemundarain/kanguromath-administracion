@@ -13,6 +13,7 @@ import { RadioButtonModule } from 'primeng/radiobutton';
 import { SlideMenuModule } from 'primeng/slidemenu';
 import { TableModule } from 'primeng/table';
 import { ToggleButtonModule } from 'primeng/togglebutton';
+import { ImageModule } from 'primeng/image';
 
 @NgModule({
   exports: [
@@ -29,6 +30,7 @@ import { ToggleButtonModule } from 'primeng/togglebutton';
     SlideMenuModule,
     TableModule,
     ToggleButtonModule,
+    ImageModule
   ]
 })
 export class PrimeNgModule { }
