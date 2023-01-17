@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 //const bcrypt = require('bcrypt');
 
+const UserModel = require('./schemas/user-schema');
 const TestModel = require('./schemas/test-schema');
 const ProblemModel = require('./schemas/problem-schema');
 //const UserModel = require('./schemas/user-schema');
@@ -27,6 +28,17 @@ app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
     next();
+})
+
+/*Dashboard*/
+app.get('/usuarios',(req, res, next) => {
+    UserModel.find({ 'registration_date': {$gte: new Date(req.query.start), $lt: new Date(req.query.end)}}).count()
+    .then((data) => {
+        res.json(data);
+    })
+    .catch(() => {
+        console.log('Error fetching entries')
+    })
 })
 
 app.get('/pruebas',(req, res, next) => {
