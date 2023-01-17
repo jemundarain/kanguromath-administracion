@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { map, Subject, Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
 import { Test } from '../test-model';
 import { Problem } from '../problem-model';
-import { environment } from '../../../environments/environment';
+import { environment } from 'src/environments/environment';
 
 @Injectable({providedIn:'root'})
 export class TestService {
