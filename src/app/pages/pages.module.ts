@@ -9,6 +9,7 @@ import { PrimeNgModule } from '../prime-ng/prime-ng.module';
 import { SharedModule } from '../shared/shared.module';
 import { HomeComponent } from './home/home.component';
 import { PagesRoutingModule } from './pages-routing.module';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
     declarations: [
@@ -26,7 +27,8 @@ import { PagesRoutingModule } from './pages-routing.module';
         CommonModule,
         PrimeNgModule,
         SharedModule,
-        PagesRoutingModule
+        PagesRoutingModule,
+        ReactiveFormsModule
     ]
 })
 export class PagesModule { }
