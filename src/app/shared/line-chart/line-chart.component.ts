@@ -30,8 +30,8 @@ export class LineChartComponent implements OnInit {
         datasets: [
           {
             label: "dddd",
-            backgroundColor: "#4c51bf",
-            borderColor: "#4c51bf",
+            backgroundColor: "#F59E0B",
+            borderColor: "#F59E0B",
             data: [65, 78, 66, 44, 56, 67, 75],
             fill: false,
           }
