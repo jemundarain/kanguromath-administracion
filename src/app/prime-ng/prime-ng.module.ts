@@ -12,8 +12,11 @@ import { PasswordModule } from 'primeng/password';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { SlideMenuModule } from 'primeng/slidemenu';
 import { TableModule } from 'primeng/table';
-import { ToggleButtonModule } from 'primeng/togglebutton';
+
+import {InputSwitchModule} from 'primeng/inputswitch';
 import { ImageModule } from 'primeng/image';
+import { CalendarModule } from 'primeng/calendar';
+import { SelectButtonModule } from 'primeng/selectbutton';
 
 @NgModule({
   exports: [
@@ -29,8 +32,10 @@ import { ImageModule } from 'primeng/image';
     RadioButtonModule,
     SlideMenuModule,
     TableModule,
-    ToggleButtonModule,
-    ImageModule
+    InputSwitchModule,
+    ImageModule,
+    CalendarModule,
+    SelectButtonModule
   ]
 })
 export class PrimeNgModule { }

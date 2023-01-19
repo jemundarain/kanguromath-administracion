@@ -6,8 +6,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SettingsComponent implements OnInit {
 
-  val: boolean = false;
-
+  checked: boolean = false;
   constructor() { }
 
   ngOnInit(): void {
