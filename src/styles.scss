@@ -58,15 +58,12 @@
     color: #fff !important;
 }
 
-.toggle {
-    border-width: 0px !important;
-    padding: 7px 10px !important;
-    font-size: 15px !important;
+.p-inputswitch.p-inputswitch-checked .p-inputswitch-slider, .p-inputswitch.p-inputswitch-checked:not(.p-disabled):hover .p-inputswitch-slider, [type="checkbox"]:focus {
     @apply shadow-md;
 }
 
+
 .p-inputnumber-button {
-    background-color: #f59e0b !important;
     border-width: 0px !important;
 }
 
@@ -78,21 +75,12 @@
     padding: 10px 12px;
 }
 
-.btn:enabled:hover, .p-inputnumber-button:enabled:hover {
-    background-color: #d97706 !important;
-}
-
 .p-card-content {
     padding: 0 !important;
 }
 
 .p-button:focus {
     box-shadow: none !important;
-}
-
-.p-togglebutton.p-button.p-highlight, .p-togglebutton.p-button.p-highlight:focus-visible:hover, .p-radiobutton .p-radiobutton-box.p-highlight {
-    background: #f59e0b !important;
-    border-color: #f59e0b !important;
 }
 
 th {
@@ -117,24 +105,20 @@ p-inputnumber [name="numberFigures"] .p-inputnumber-button {
     white-space: nowrap !important;
 }
 
-[name="dateRange"] .p-dropdown-label {
+[formControlName="dateOption"] .p-dropdown-label {
     padding-top: 0px;
 }
 
-[name="dateRange"] .p-dropdown-label {
+[formControlName="dateOption"] .p-dropdown-label {
     color: #fff;
 }
 
-[formcontrolname="dateRange"] .btn {
+[formcontrolname="dateRange"] .btn, [formControlName="dateOption"] .btn {
     height: 37px !important;
 }
 
 [formcontrolname="dateRange"] .btn:hover {
     background-color: #d97706 !important;
-}
-
-[formcontrolname="dateRange"] .pi-chevron-down::before {
-    content: "\e927";
 }
 
 .circleOption {
@@ -149,3 +133,27 @@ p-inputnumber [name="numberFigures"] .p-inputnumber-button {
     font-size: 17px;
     margin-right: 5px;
 }
+
+[formControlName="dateOption"] .p-overlay{
+    right: 0px !important;
+    left: -150px !important;
+}
+
+p-calendar .p-button-icon::before {
+    color: #fff;
+}
+
+p-calendar .p-button:enabled {
+    height: 37px !important;
+}
+
+p-calendar .p-button:enabled:hover {
+    background: #d97706;
+    border: #d97706;
+}
+
+#range {
+    color: #fff !important;
+    font-weight: 500 !important;
+}
+
