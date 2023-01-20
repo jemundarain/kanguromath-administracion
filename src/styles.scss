@@ -105,19 +105,19 @@ p-inputnumber [name="numberFigures"] .p-inputnumber-button {
     white-space: nowrap !important;
 }
 
-[formControlName="dateOption"] .p-dropdown-label {
+[name="dateOption"] .p-dropdown-label {
     padding-top: 0px;
 }
 
-[formControlName="dateOption"] .p-dropdown-label {
+[name="dateOption"] .p-dropdown-label {
     color: #fff;
 }
 
-[formcontrolname="dateRange"] .btn, [formControlName="dateOption"] .btn {
+[name="dateRange"] .btn, [name="dateOption"] .btn, #range {
     height: 37px !important;
 }
 
-[formcontrolname="dateRange"] .btn:hover {
+[name="dateRange"] .btn:hover {
     background-color: #d97706 !important;
 }
 
@@ -134,7 +134,7 @@ p-inputnumber [name="numberFigures"] .p-inputnumber-button {
     margin-right: 5px;
 }
 
-[formControlName="dateOption"] .p-overlay{
+[name="dateOption"] .p-overlay, .p-datepicker.p-component {
     right: 0px !important;
     left: -150px !important;
 }
@@ -155,5 +155,5 @@ p-calendar .p-button:enabled:hover {
 #range {
     color: #fff !important;
     font-weight: 500 !important;
+    cursor: pointer;
 }
-
