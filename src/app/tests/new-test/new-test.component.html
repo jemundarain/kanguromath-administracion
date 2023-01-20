@@ -1,18 +1,50 @@
 <!-- Encabezado -->
 <div class="grid grid-cols-1 mb-6">
-    <h1 class="inline-block text-5xl font-bold text-gray-700 tracking-tight">Prueba Nueva</h1>
+    <h1 class="inline-block text-5xl font-bold text-gray-700 tracking-tight mb-6">Prueba Nueva</h1>
 </div>
 
-<!-- Edición combobox -->
-<form [formGroup]="newTestForm" (ngSubmit)="onSubmit()">
+<!-- Tipo de subida -->
+<div class="flex gap-2 mb-6">
+    <h5 class="text-xl my-auto font-semibold text-slate-600 tracking-tight">Tipo de subida:</h5>
+    <p-selectButton [options]="options" [(ngModel)]="option"></p-selectButton>
+</div>
+
+<!-- Subida Automática -->
+<p-fileUpload *ngIf="option == 'Automática'"
+              mode="basic"
+              chooseLabel="Subir archivo"
+              name="demo[]"
+              url="./upload.php"
+              accept=".zip, .rar"
+              [maxFileSize]="500000"
+              (onUpload)="onBasicUpload()">
+</p-fileUpload>
+
+<!-- Subida Manal -->
+<form *ngIf="option == 'Manual'" #addTestForm="ngForm">
     <div class="flex gap-2 mb-6">
         <h5 class="text-xl my-auto font-semibold text-slate-600 tracking-tight">Edición:</h5>
-        <p-inputNumber [(ngModel)]="value1" [showButtons]="true" [min]="min" [max]="max" formControlName="name"></p-inputNumber>    
+        <p-inputNumber [(ngModel)]="test.edition" name="edition" [showButtons]="true" [min]="min" [format]="false"></p-inputNumber>    
         <h5 class="text-xl my-auto font-semibold text-slate-600 tracking-tight ml-5">Año Escolar:</h5>
-        <!-- <p-dropdown class="col-span-2 my-auto" [options]="cities" [(ngModel)]="selectedCity" optionLabel="name"></p-dropdown> -->
+        <p-dropdown [(ngModel)]="test.levels" 
+                    name="level" 
+                    class="col-span-2 my-auto mr-8" 
+                    [options]="levels"  
+                    optionLabel="name" 
+                    optionValue="code">
+        </p-dropdown>
     </div>
-    <!-- <p-fileUpload name="myfile[]" url="./upload.php" accept="image/*"></p-fileUpload> -->
+    <button pButton 
+            type="button" 
+            class="float-right"
+            label="Siguiente" 
+            icon="pi pi-arrow-right" 
+            iconPos="right" 
+            [disabled]="addTestForm.form.invalid"
+            (click)="addTest(test)">
+    </button>
 </form>
+
 
 <!-- <div class="grid">
     <div class="col-12">
