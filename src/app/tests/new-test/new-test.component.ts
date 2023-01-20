@@ -13,7 +13,7 @@ export class NewTestComponent implements OnInit {
   min: number = 2002;
   currentYear: string = new Date().getFullYear().toString();
 
-  test: Test = new Test('', '', this.currentYear, ['']);
+  test: Test = new Test('', '', '', this.currentYear, ['']);
 
   levels: LevelOption[];
   selectedLevelCode: string;

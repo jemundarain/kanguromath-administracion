@@ -101,14 +101,14 @@ app.get('/problema/:id',(req, res, next) => {
     })
 })
 
-app.put('/pruebas/editar/:id', (req, res) => {
-    const updatedTest = new TestModel({_id: req.body.id, test_id: req.body.levels, edition: req.body.edition, problems: req.body.problems})
-    TestModel.updateOne({_id: req.body.id}, updatedTest)
-        .then(() => {
-            res.status(200).json({
-                message: 'Update completed'
-            })    
-        })
+app.put('/pruebas/editar/:_id', (req, res) => {
+    const updatedTest = new TestModel({_id: req.body._id, test_id: req.body.test_id, levels: req.body.levels, edition: req.body.edition, problems: req.body.problems})
+    TestModel.updateOne({_id: req.body._id}, updatedTest)
+    .then(() => {
+        res.status(200).json({
+            message: 'Update completed'
+        })    
+    })
 })
 
 /*app.post('/sign-up', (req,res) => {

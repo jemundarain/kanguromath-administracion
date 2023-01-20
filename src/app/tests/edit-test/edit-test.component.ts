@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { TestService } from '../services/test.service';
 import { LevelOption } from '../interfaces/level-option.interface';
 import { Test } from '../test-model';
 import { Router } from '@angular/router';
-import { ActivatedRoute, ParamMap } from '@angular/router';
-import { Subscription, switchMap } from 'rxjs';
+import { ActivatedRoute} from '@angular/router';
+import { switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-edit-test',
@@ -20,6 +20,8 @@ export class EditTestComponent implements OnInit {
   selectedLevelCode: string;
 
   test!: Test;
+
+  @ViewChild('editTestForm') editTestForm!: NgForm;
 
   constructor(private testService: TestService, private router: Router, private activatedRoute: ActivatedRoute) { }
 
@@ -41,6 +43,9 @@ export class EditTestComponent implements OnInit {
       .subscribe( test => this.test = test[0] );
   }
   
-  onSubmit(){
+  updateTest() {
+    const test = new Test(this.test._id, this.test.test_id, this.editTestForm?.form.value.levels, this.editTestForm?.form.value.edition, this.test.problems);
+    this.testService.updateTest(this.test._id, test);
+    this.router.navigateByUrl('pruebas/lista');
   }
 }

@@ -57,11 +57,10 @@ export class TestService {
     }*/
     
 
-    /*updateTest(id: string, test: Test) {
-        this.http.put<{message: string}>('${ this.baseUrl }/pruebas/editar/' + id, test).subscribe((jsonData) => {
+    updateTest(_id: string, test: Test) {
+        this.http.put<{message: string}>(`${this.baseUrl}/pruebas/editar/${_id}`, test).subscribe((jsonData) => {
           console.log(jsonData);
-        //   this.getDiaryEntries();
         })
-    }*/
+    }
 
 }
