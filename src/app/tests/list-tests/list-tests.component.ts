@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControlName, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TestService } from '../services/test.service';
-import { Test } from '../test-model';
+import { Test } from '../models/test-model';
 
 @Component({
   selector: 'app-list-tests',
@@ -56,16 +56,8 @@ export class ListTestsComponent implements OnInit, OnDestroy {
     
   }
 
-  /*onEdit(id: string){
-    this.router.navigate(['pruebas/editar/',id])
+
+  deleteTest(_id: string){
+    this.testService.deleteTest(_id);
   }
-
-  onDelete(id: string){
-    this.testService.onDeleteTest(id);
-  }
-
-  onEdit(id: string){
-    this.router.navigate(['/pruebas/editar', id])
-  }*/
-
 }

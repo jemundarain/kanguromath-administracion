@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
 
-import { Test } from '../test-model';
-import { Problem } from '../problem-model';
+import { Test } from '../models/test-model';
+import { Problem } from '../models/problem-model';
 import { environment } from 'src/environments/environment';
 
 @Injectable({providedIn:'root'})
@@ -63,4 +63,9 @@ export class TestService {
         })
     }
 
+    deleteTest(_id: string) {
+        this.http.delete<{message: string}>(`${this.baseUrl}/pruebas/eliminar/${_id}`).subscribe((jsonData) => {
+            console.log(jsonData);
+        })
+    }
 }
