@@ -10,6 +10,7 @@ import { SharedModule } from '../shared/shared.module';
 import { HomeComponent } from './home/home.component';
 import { PagesRoutingModule } from './pages-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
     declarations: [
@@ -28,6 +29,7 @@ import { ReactiveFormsModule } from '@angular/forms';
         PrimeNgModule,
         SharedModule,
         PagesRoutingModule,
+        HttpClientModule,
         ReactiveFormsModule
     ]
 })
