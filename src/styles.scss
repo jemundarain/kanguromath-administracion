@@ -67,10 +67,6 @@
     border-width: 0px !important;
 }
 
-.p-element.p-inputwrapper, .p-dropdown.p-component, .h-little {
-    height: 42px;
-}
-
 [name="level"] .p-element.p-dropdown-label.p-inputtext {
     padding: 10px 12px;
 }
@@ -111,6 +107,10 @@ p-inputnumber [name="numberFigures"] .p-inputnumber-button {
 
 [name="dateOption"] .p-dropdown-label {
     color: #fff;
+}
+
+[name="dateOption"] .p-element {
+    box-shadow: none;
 }
 
 [name="dateRange"] .btn, [name="dateOption"] .btn, #range {
