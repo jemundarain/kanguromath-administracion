@@ -2,10 +2,11 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { TestService } from '../services/test.service';
 import { LevelOption } from '../interfaces/level-option.interface';
-import { Test } from '../test-model';
+import { Test } from '../models/test-model';
 import { Router } from '@angular/router';
 import { ActivatedRoute} from '@angular/router';
 import { switchMap } from 'rxjs';
+import { GlobalConstants } from 'src/app/common/global-constants';
 
 @Component({
   selector: 'app-edit-test',
@@ -26,15 +27,7 @@ export class EditTestComponent implements OnInit {
   constructor(private testService: TestService, private router: Router, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.levels = [
-      {name: '1ero', code: '1ero'},
-      {name: '1ero y 2do', code: '1ero-2do'},
-      {name: '2do', code: '2do'},
-      {name: '3ero', code: '3ero'},
-      {name: '4to', code: '4to'},
-      {name: '4to y 5to', code: '4to-5to'},
-      {name: '5to', code: '5to'}
-    ]
+    this.levels = GlobalConstants.LEVELS;
 
     this.activatedRoute.params
       .pipe(

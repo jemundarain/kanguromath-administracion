@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators } from '@angular/forms';
 import { LevelOption } from '../interfaces/level-option.interface';
 import { TestService } from '../services/test.service';
-import { Test } from '../test-model';
+import { Test } from '../models/test-model';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Subscription, switchMap } from 'rxjs';
-import { Problem } from '../problem-model';
+import { Problem } from '../models/problem-model';
+import { GlobalConstants } from 'src/app/common/global-constants';
 
 
 @Component({
@@ -77,15 +78,7 @@ export class EditProblemComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.levels = [
-      {name: '1ero', code: '1ero'},
-      {name: '1ero y 2do', code: '1ero-2do'},
-      {name: '2do', code: '2do'},
-      {name: '3ero', code: '3ero'},
-      {name: '4to', code: '4to'},
-      {name: '4to y 5to', code: '4to-5to'},
-      {name: '5to', code: '5to'}
-    ]
+    this.levels = GlobalConstants.LEVELS;
 
     this.testService.getEditions()
       .subscribe( editions => this.editions = editions);

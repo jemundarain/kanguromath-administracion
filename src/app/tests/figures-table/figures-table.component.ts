@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Figure } from '../figure-model';
+import { Figure } from '../models/figure-model';
 
 @Component({
   selector: 'app-figures-table',

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Test } from '../test-model';
+import { Test } from '../models/test-model';
 import { TestService } from '../services/test.service';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { Problem } from '../problem-model';
+import { Problem } from '../models/problem-model';
 import { switchMap } from 'rxjs';
 
 @Component({

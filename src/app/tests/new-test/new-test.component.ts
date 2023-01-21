@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { LevelOption } from '../interfaces/level-option.interface';
-import { Test } from '../test-model';
+import { Test } from '../models/test-model';
 import {MenuItem} from 'primeng/api';
+import { GlobalConstants } from 'src/app/common/global-constants';
 
 @Component({
   selector: 'app-new-test',
@@ -21,22 +22,11 @@ export class NewTestComponent implements OnInit {
   items: MenuItem[];
 
   options: string[];
-  option: string = 'Manual';
+  option: string = GlobalConstants.UPLOAD_OPTIONS[0];
 
   ngOnInit(): void {
-    this.options = [
-      'Automática',
-      'Manual'
-    ]
-    this.levels = [
-      {name: '1ero', code: '1ero'},
-      {name: '1ero y 2do', code: '1ero-2do'},
-      {name: '2do', code: '2do'},
-      {name: '3ero', code: '3ero'},
-      {name: '4to', code: '4to'},
-      {name: '4to y 5to', code: '4to-5to'},
-      {name: '5to', code: '5to'}
-    ]
+    this.options = GlobalConstants.UPLOAD_OPTIONS;
+    this.levels = GlobalConstants.LEVELS;
 
     this.items = [
       {label: 'Step 1'},
