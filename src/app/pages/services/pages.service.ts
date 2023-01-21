@@ -16,4 +16,8 @@ export class PagesService {
     return this.http.get<number>(`${ this.baseUrl }/usuarios?start=${ start }&end=${ end }`)
   }
 
+  getMinimumRegistrationDate() {
+    return this.http.get<Date>(`${ this.baseUrl }/usuarios/fecha_minima`)
+  }
+
 }
