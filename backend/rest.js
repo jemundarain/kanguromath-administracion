@@ -41,6 +41,16 @@ app.get('/usuarios',(req, res, next) => {
     })
 })
 
+app.get('/usuarios/fecha_minima',(req, res, next) => {
+    UserModel.find({}, {'_id': 0, 'registration_date': 1}).sort({'registration_date': 1}).limit(1)
+    .then((data) => {
+        res.json(data[0].registration_date);
+    })
+    .catch(() => {
+        console.log('Error fetching entries')
+    })
+})
+
 app.get('/pruebas',(req, res, next) => {
     TestModel.find({})
     .then((data) => {
@@ -107,6 +117,15 @@ app.put('/pruebas/editar/:_id', (req, res) => {
     .then(() => {
         res.status(200).json({
             message: 'Update completed'
+        })    
+    })
+})
+
+app.delete('/pruebas/eliminar/:_id', (req, res) => {
+    TestModel.deleteOne({test_id: req.body._id})
+    .then((data) => {
+        res.status(200).json({
+            message: 'Post deleted'
         })    
     })
 })
