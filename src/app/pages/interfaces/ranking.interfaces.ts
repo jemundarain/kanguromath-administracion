@@ -1,4 +1,4 @@
 export interface Ranking {
-    state: string,
-    number: number
+    _id: string,
+    count: number
 }

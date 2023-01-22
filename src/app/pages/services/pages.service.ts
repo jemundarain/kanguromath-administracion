@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { Ranking } from '../interfaces/ranking.interfaces';
 
 
 @Injectable({
@@ -18,6 +19,10 @@ export class PagesService {
 
   getMinimumRegistrationDate() {
     return this.http.get<Date>(`${ this.baseUrl }/usuarios/fecha_minima`)
+  }
+
+  getRanking() {
+    return this.http.get<Ranking[]>(`${ this.baseUrl }/ranking`)
   }
 
 }

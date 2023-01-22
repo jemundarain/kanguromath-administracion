@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Ranking } from 'src/app/pages/interfaces/ranking.interfaces';
 
 @Component({
@@ -8,23 +8,10 @@ import { Ranking } from 'src/app/pages/interfaces/ranking.interfaces';
 export class RankingListComponent implements OnInit {
 
   constructor() { }
-  public rankings: Ranking[];
+  @Input() rankings: Ranking[];
 
   ngOnInit(): void {
-    this.rankings = [
-      {
-        state: "Distrito Capital",
-        number: 120
-      },
-      {
-        state: "Miranda",
-        number: 60
-      },
-      {
-        state: "Bolívar",
-        number: 20
-      }
-    ]
+
   }
 
 }

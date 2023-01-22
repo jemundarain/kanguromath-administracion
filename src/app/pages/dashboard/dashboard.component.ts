@@ -6,6 +6,7 @@ import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Subscription, switchMap } from 'rxjs';
 import { FormBuilder, FormGroup, Validators, NgForm } from '@angular/forms';
 import { GlobalConstants } from 'src/app/common/global-constants';
+import { Ranking } from '../interfaces/ranking.interfaces';
 
 @Component({
   selector: 'app-dashboard',
@@ -44,6 +45,8 @@ export class DashboardComponent implements OnInit {
   ]
   @ViewChild('dateFilterForm', { static: true }) dateFilterForm!: NgForm;
 
+  ranking: Ranking[];
+
   ngOnInit(): void {
     this.maxDate = new Date();
     this.pagesService.getMinimumRegistrationDate().subscribe((data) => {
@@ -76,10 +79,20 @@ export class DashboardComponent implements OnInit {
           .subscribe( numberUsers => this.numberUsers = numberUsers );
       }
     })
+    this.pagesService.getRanking().subscribe(ranking => {
+      this.ranking = ranking.sort((a, b) => b.count-a.count);
+      for(let i=0; i<this.ranking.length; i++) {
+        this.ranking[i]._id = this.capitalizeFirstLetters(this.ranking[i]._id.replace('-', ' '));
+      }
+    });
   }
 
-  capitalizeFirstLetter( word: string ) {
-    return word.charAt(0).toUpperCase() + word.slice(1);
+  capitalizeFirstLetters( word: string ) {
+    const arr = word.split(" ");
+    for (var i = 0; i < arr.length; i++) {
+      arr[i] = arr[i].charAt(0).toUpperCase() + arr[i].slice(1);
+    }
+    return arr.join(" ");
   }
 
   addDays(date: Date, days: number) {
@@ -90,7 +103,7 @@ export class DashboardComponent implements OnInit {
   getDateStringToLocale( backDays: number ){
     const month_formatter = new Intl.DateTimeFormat('es', { month: 'long' });
     var date = (new Date(new Date().setDate(new Date().getDate() - backDays )));
-    return `desde ${this.capitalizeFirstLetter(month_formatter.format(date))} ${date.getDate()}, ${date.getFullYear()}`
+    return `desde ${this.capitalizeFirstLetters(month_formatter.format(date))} ${date.getDate()}, ${date.getFullYear()}`
   }
 
   getDateStringToISO( backDays: number ){

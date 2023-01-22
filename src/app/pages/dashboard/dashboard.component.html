@@ -46,7 +46,7 @@
 <!-- Distribución por rol y Distribución por año escolar -->
 <div class="grid grid-cols-12 gap-6 justify-center mb-6">
     <p-card class="col-span-4 justify-center shadow-md h-min" header="Ranking de Usuarios">
-        <app-ranking-list></app-ranking-list>
+        <app-ranking-list [rankings]="ranking"></app-ranking-list>
     </p-card>
     <p-card class="col-span-4 shadow-md h-min" header="Distribución por Rol">
         <app-pie-chart-for-rol></app-pie-chart-for-rol>
