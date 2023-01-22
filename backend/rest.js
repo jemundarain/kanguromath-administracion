@@ -51,6 +51,16 @@ app.get('/usuarios/fecha_minima',(req, res, next) => {
     })
 })
 
+app.get('/ranking',(req, res, next) => {
+    UserModel.aggregate([ {$group : { _id : '$state', count : {$sum : 1}}} ])
+    .then((data) => {
+        res.json(data);
+    })
+    .catch(() => {
+        console.log('Error fetching entries')
+    })
+})
+
 app.get('/pruebas',(req, res, next) => {
     TestModel.find({})
     .then((data) => {
