@@ -111,7 +111,7 @@ app.get('/problema/:id',(req, res, next) => {
     })
 })
 
-app.put('/pruebas/editar/:_id', (req, res) => {
+app.put('/prueba/editar/:_id', (req, res) => {
     const updatedTest = new TestModel({_id: req.body._id, test_id: req.body.test_id, levels: req.body.levels, edition: req.body.edition, problems: req.body.problems})
     TestModel.updateOne({_id: req.body._id}, updatedTest)
     .then(() => {
@@ -121,12 +121,12 @@ app.put('/pruebas/editar/:_id', (req, res) => {
     })
 })
 
-app.delete('/pruebas/eliminar/:_id', (req, res) => {
-    TestModel.deleteOne({test_id: req.body._id})
-    .then((data) => {
+app.delete('/prueba/eliminar/:test_id', (req, res) => {
+    TestModel.deleteOne({test_id: req.body.test_id})
+    .then(() => {
         res.status(200).json({
-            message: 'Post deleted'
-        })    
+            message: 'Update completed'
+        })   
     })
 })
 

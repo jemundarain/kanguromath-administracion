@@ -58,13 +58,13 @@ export class TestService {
     
 
     updateTest(_id: string, test: Test) {
-        this.http.put<{message: string}>(`${this.baseUrl}/pruebas/editar/${_id}`, test).subscribe((jsonData) => {
+        this.http.put<{message: string}>(`${this.baseUrl}/prueba/editar/${_id}`, test).subscribe((jsonData) => {
           console.log(jsonData);
         })
     }
 
-    deleteTest(_id: string) {
-        this.http.delete<{message: string}>(`${this.baseUrl}/pruebas/eliminar/${_id}`).subscribe((jsonData) => {
+    deleteTest(test_id: string) {
+        this.http.delete<{message: string}>(`${this.baseUrl}/prueba/eliminar/${test_id}`).subscribe((jsonData) => {
             console.log(jsonData);
         })
     }

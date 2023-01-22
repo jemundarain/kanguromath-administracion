@@ -57,7 +57,7 @@ export class ListTestsComponent implements OnInit, OnDestroy {
   }
 
 
-  deleteTest(_id: string){
-    this.testService.deleteTest(_id);
+  deleteTest(test_id: string){
+    this.testService.deleteTest(test_id);
   }
 }
