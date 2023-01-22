@@ -9,8 +9,9 @@
     <form #dateFilterForm="ngForm" class="col-span-4 col-start-11 row-span-2">
         <p-dropdown [(ngModel)]="dateOption"
                     name="dateOption"
-                    class="p-button-raised grid row-start-1 -ml-16" 
-                    styleClass="btn float-right" 
+                    class="p-button-raised grid row-start-1 -ml-16"
+                    [class]="dateFilterForm?.form?.value.dateOption != 'customize' ? 'float-right' : ''"
+                    styleClass="btn" 
                     icon="pi pi-calendar" 
                     iconPos="right" 
                     [options]="dateOptions"
@@ -33,11 +34,11 @@
 </div>
 
 <!-- Registros nuevos y Usuarios registrados -->
-<div class="grid grid-cols-12 gap-6 mb-6">
+<div class="grid grid-cols-12 gap-6 mb-6" [class]="dateFilterForm?.form?.value.dateOption != 'customize' ? '-mt-12' : ''">
     <p-card class="col-span-10 shadow-md" header="Registros Nuevos">
-        <app-line-chart></app-line-chart>
+        <app-line-chart [labels]="labels" [datasets]="datasets"></app-line-chart>
     </p-card>
-    <p-card class="col-span-2 shadow-md h-min" header="Usuarios Registrados">
+    <p-card class="col-span-2 shadow-md h-min leading-6" header="Usuarios Registrados">
         <p class="text-4xl font-semibold text-slate-700">{{ numberUsers }}</p>
     </p-card>
 </div>

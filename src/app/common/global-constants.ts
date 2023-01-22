@@ -23,6 +23,7 @@ export class GlobalConstants {
         dateFormat: "dd/mm/yy",
     }
     public static DATE_OPTIONS: DateOption[] = [
+        {name: 'Hoy', code: 'today'},
         {name: 'Ayer', code: 'yesterday'},
         {name: 'Últimos 7 días', code: 'last-7days'},
         {name: 'Últimos 30 días', code: 'last-30days'},
