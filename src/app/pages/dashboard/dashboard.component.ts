@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ChartConfiguration } from 'chart.js';
+import { ChartConfiguration, ChartDataset, DatasetChartOptions } from 'chart.js';
 import { DateOption } from '../interfaces/date-option.interfaces';
 import { PagesService } from '../services/pages.service';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
@@ -22,8 +22,26 @@ export class DashboardComponent implements OnInit {
   maxDate: Date;
   dateStart: string;
   dateOption: string;
-  dateOptions: DateOption[] = GlobalConstants.DATE_OPTIONS;
+  dateOptions: DateOption[] = this.setCurrentDatesInLabels(GlobalConstants.DATE_OPTIONS);
   daysBack: number;
+  labels: string[] = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+  ]
+  datasets: ChartDataset[] = [
+    {
+      label: "dddd",
+      backgroundColor: "#F59E0B",
+      borderColor: "#F59E0B",
+      data: [65, 78, 66, 44, 56, 67, 75],
+      fill: false,
+    }
+  ]
   @ViewChild('dateFilterForm', { static: true }) dateFilterForm!: NgForm;
 
   ngOnInit(): void {
@@ -33,27 +51,67 @@ export class DashboardComponent implements OnInit {
     });
     this.dateFilterForm.form.valueChanges.subscribe((data) => {
       switch (this.dateFilterForm?.form.value.dateOption) {
-        case GlobalConstants.DATE_OPTIONS[0].code: //yesterday
+        case GlobalConstants.DATE_OPTIONS[0].code: //today
+          this.daysBack = 0;
+        break;
+        case GlobalConstants.DATE_OPTIONS[1].code: //yesterday
           this.daysBack = 1;
         break;
-        case GlobalConstants.DATE_OPTIONS[1].code: //last-7days
+        case GlobalConstants.DATE_OPTIONS[2].code: //last-7days
           this.daysBack = 7;
         break;
-        case GlobalConstants.DATE_OPTIONS[2].code: //last-30days
+        case GlobalConstants.DATE_OPTIONS[3].code: //last-30days
           this.daysBack = 30;
         break;
-        case GlobalConstants.DATE_OPTIONS[3].code: //customize
-        this.pagesService.getNumberUsersByDateRange(data?.dates[0], data?.dates[1])
+        case GlobalConstants.DATE_OPTIONS[4].code: //customize
+        this.pagesService.getNumberUsersByDateRange(data?.dates[0], this.addDays(new Date(data?.dates[1]), 1).toISOString().split('T')[0])
           .subscribe( numberUsers => this.numberUsers = numberUsers );
         break;
         default:
           break;
       }
-      if(this.dateFilterForm?.form.value.dateOption != GlobalConstants.DATE_OPTIONS[3].code){
-        this.dateStart = (new Date(new Date().setDate(new Date().getDate() - this.daysBack ))).toISOString().split('T')[0];
-        this.pagesService.getNumberUsersByDateRange(this.dateStart, new Date().toISOString().split('T')[0])
+      if(this.dateFilterForm?.form.value.dateOption != GlobalConstants.DATE_OPTIONS[4].code){
+        this.dateStart = this.getDateStringToISO(this.daysBack);
+        this.pagesService.getNumberUsersByDateRange(this.dateStart, this.addDays(new Date(), 1).toISOString().split('T')[0])
           .subscribe( numberUsers => this.numberUsers = numberUsers );
       }
     })
+  }
+
+  capitalizeFirstLetter( word: string ) {
+    return word.charAt(0).toUpperCase() + word.slice(1);
+  }
+
+  addDays(date: Date, days: number) {
+    date.setDate(date.getDate() + days);
+    return date;
+  }
+
+  getDateStringToLocale( backDays: number ){
+    const month_formatter = new Intl.DateTimeFormat('es', { month: 'long' });
+    var date = (new Date(new Date().setDate(new Date().getDate() - backDays )));
+    return `desde ${this.capitalizeFirstLetter(month_formatter.format(date))} ${date.getDate()}, ${date.getFullYear()}`
+  }
+
+  getDateStringToISO( backDays: number ){
+    return (new Date(new Date().setDate(new Date().getDate() - backDays ))).toISOString().split('T')[0];
+  }
+
+  setCurrentDatesInLabels( dateOptions: DateOption[] ) {
+    for(let i=0; i<dateOptions.length; i++) {
+      switch (dateOptions[i].code) {      
+        case 'last-7days':
+          dateOptions[i].name += ': ' + this.getDateStringToLocale(7);
+          break;
+
+        case 'last-30days':
+          dateOptions[i].name += ': ' + this.getDateStringToLocale(30);
+          break;
+      
+        default:
+          break;
+      }
+    }
+    return dateOptions;
   }
 }
