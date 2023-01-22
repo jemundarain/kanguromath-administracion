@@ -25,6 +25,7 @@
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "extract-math": "^1.2.3",
+    "jspdf": "^2.5.1",
     "katex": "^0.16.3",
     "mongoose": "^6.7.5",
     "mongoose-unique-validator": "^3.1.0",
