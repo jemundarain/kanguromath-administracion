@@ -11,7 +11,6 @@ export class RankingListComponent implements OnInit {
   @Input() rankings: Ranking[];
 
   ngOnInit(): void {
-
   }
 
 }
