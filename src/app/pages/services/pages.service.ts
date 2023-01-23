@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Ranking } from '../interfaces/ranking.interfaces';
+import { ChartDataset } from 'chart.js';
 
 
 @Injectable({
@@ -22,7 +23,15 @@ export class PagesService {
   }
 
   getRanking() {
-    return this.http.get<Ranking[]>(`${ this.baseUrl }/ranking`)
+    return this.http.get<Ranking[]>(`${ this.baseUrl }/usuarios/ranking`)
+  }
+
+  getUsersDistributionByType() {
+    return this.http.get<Ranking[]>(`${ this.baseUrl }/usuarios/distribution-by-type`)
+  }
+
+  getUsersDistributionByLevel() {
+    return this.http.get<Ranking[]>(`${ this.baseUrl }/usuarios/distribution-by-level`)
   }
 
 }

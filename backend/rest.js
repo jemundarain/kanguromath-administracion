@@ -51,8 +51,28 @@ app.get('/usuarios/fecha_minima',(req, res, next) => {
     })
 })
 
-app.get('/ranking',(req, res, next) => {
+app.get('/usuarios/ranking',(req, res, next) => {
     UserModel.aggregate([ {$group : { _id : '$state', count : {$sum : 1}}} ])
+    .then((data) => {
+        res.json(data);
+    })
+    .catch(() => {
+        console.log('Error fetching entries')
+    })
+})
+
+app.get('/usuarios/distribution-by-type',(req, res, next) => {
+    UserModel.aggregate([ {$group : { _id : '$type', count : {$sum : 1}}} ])
+    .then((data) => {
+        res.json(data);
+    })
+    .catch(() => {
+        console.log('Error fetching entries')
+    })
+})
+
+app.get('/usuarios/distribution-by-level',(req, res, next) => {
+    UserModel.aggregate([ {$group : { _id : '$level', count : {$sum : 1}}} ])
     .then((data) => {
         res.json(data);
     })
