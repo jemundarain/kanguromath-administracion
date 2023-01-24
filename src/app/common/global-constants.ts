@@ -72,6 +72,38 @@ export class GlobalConstants {
         "#7bb2af"
     ]
 
+    public static BASIC_OPTIONS = {
+        plugins: {
+            legend: {
+                labels: {
+                    color: '#495057'
+                }
+            }
+        },
+        scales: {
+            x: {
+                ticks: {
+                    color: '#495057',
+                },
+                grid: {
+                    color: '#ebedef'
+                }
+            },
+            y: {
+                ticks: {
+                    color: '#495057',
+                    beginAtZero: true,
+                    callback: function(v: number) { if (v % 1 === 0) return v; else return; },
+                    suggestedMin: 0
+                },
+                grid: {
+                    color: '#ebedef'
+                },
+                suggestedMin: 0
+            }
+        }
+    }; 
+
     public static getLabelsDistribution( distribution: Ranking[] ) {
         const arr = [];
         for(let i=0; i<distribution.length; i++){
@@ -104,13 +136,19 @@ export class GlobalConstants {
         return arr;
     }
 
-    public static getLabelsDateRange(start: Date, end: Date) {
-        var arr = [];
-        const month_formatter = new Intl.DateTimeFormat('es', { month: 'long' });
-        while(start.getTime() != end.getTime()) {
-            arr.push(`${start.getDate()} ${month_formatter.format(start)}`);
-            start.setDate(start.getDate() + 1);
-        }
-        return arr;
+    public static addDays(date: Date, days: number) {
+        date.setDate(date.getDate() + days);
+        return date;
     }
+
+    public static getDateStringToLocale( backDays: number ){
+        const month_formatter = new Intl.DateTimeFormat('es', { month: 'long' });
+        var date = (new Date(new Date().setDate(new Date().getDate() - backDays )));
+        return `desde ${this.capitalizeFirstLetters(month_formatter.format(date))} ${date.getDate()}, ${date.getFullYear()}`
+    }
+    
+    public static getDateStringToISO( backDays: number ){
+        return (new Date(new Date().setDate(new Date().getDate() - backDays ))).toISOString().split('T')[0];
+    }
+
 }

@@ -16,109 +16,107 @@ export class DashboardComponent implements OnInit {
 
   constructor(private pagesService: PagesService, private router: Router, private activatedRoute: ActivatedRoute, private fb: FormBuilder) { }
   
-  numberUsers: number;
-  dateRange: Date[];
-  dates: Date[]
-  minDate: Date;
-  maxDate: Date;
-  dateStart: string;
-  dateOption: string;
-  dateOptions: DateOption[] = this.setCurrentDatesInLabels(GlobalConstants.DATE_OPTIONS);
-  daysBack: number;
-  labels: string[] = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-  ]
-  datasets: ChartDataset[] = [
-    {
-      label: "dddd",
-      backgroundColor: "#F59E0B",
-      borderColor: "#F59E0B",
-      data: [65, 78, 66, 44, 56, 67, 75],
-      fill: false,
-    }
-  ]
   @ViewChild('dateFilterForm', { static: true }) dateFilterForm!: NgForm;
 
+  //Usuarios Registrados
+  numberUsers: number;
+
+  //Opciones de fecha
+  dateOption: string;
+  dateOptions: DateOption[] = this.setCurrentDatesInLabels(GlobalConstants.DATE_OPTIONS);
+
+  //Calendario
+  dates: Date[]
+  minDate: Date;
+  maxDate: Date = new Date();
+
+  //Line chart
+  basicData: any;
+  basicOptions = GlobalConstants.BASIC_OPTIONS;
+  labels: string[] = [];
+  data: number[];
+  
+  //Ranking por estados
   ranking: Ranking[];
+  dateStart: string;
+  dateEnd: string = new Date().toISOString().split('T')[0];
+
+  daysBack: number;
 
   ngOnInit(): void {
-    this.maxDate = new Date();
+    /*Set Usuarios Registrados*/
     this.pagesService.getMinimumRegistrationDate().subscribe((data) => {
       this.minDate = new Date(data);
     });
+
     this.dateFilterForm.form.valueChanges.subscribe((data) => {
       switch (this.dateFilterForm?.form.value.dateOption) {
         case GlobalConstants.DATE_OPTIONS[0].code: //today
-          this.daysBack = 0;
+          this.dateStart = GlobalConstants.getDateStringToISO(0);
         break;
         case GlobalConstants.DATE_OPTIONS[1].code: //yesterday
-          this.daysBack = 1;
+          this.dateStart = GlobalConstants.getDateStringToISO(1);
         break;
         case GlobalConstants.DATE_OPTIONS[2].code: //last-7days
-          this.daysBack = 7;
+          this.dateStart = GlobalConstants.getDateStringToISO(5);
         break;
         case GlobalConstants.DATE_OPTIONS[3].code: //last-30days
-          this.daysBack = 30;
+          this.dateStart = GlobalConstants.getDateStringToISO(30);
         break;
         case GlobalConstants.DATE_OPTIONS[4].code: //customize
-        this.pagesService.getNumberUsersByDateRange(data?.dates[0], this.addDays(new Date(data?.dates[1]), 1).toISOString().split('T')[0])
-          .subscribe( numberUsers => this.numberUsers = numberUsers );
+          if(data?.dates[0] && data?.dates[1]) {
+            this.dateStart = data?.dates[0];
+            this.dateEnd = data?.dates[1];
+          }
         break;
         default:
           break;
       }
-      if(this.dateFilterForm?.form.value.dateOption != GlobalConstants.DATE_OPTIONS[4].code){
-        this.dateStart = this.getDateStringToISO(this.daysBack);
-        this.pagesService.getNumberUsersByDateRange(this.dateStart, this.addDays(new Date(), 1).toISOString().split('T')[0])
-          .subscribe( numberUsers => this.numberUsers = numberUsers );
+      
+      let dateStartD = new Date(this.dateStart);
+      if(this.dateFilterForm?.form.value.dateOption != GlobalConstants.DATE_OPTIONS[4].code) {
+        let dateEndD = new Date();
+        GlobalConstants.addDays(dateEndD, 1);
+        this.dateEnd = dateEndD.toISOString().split('T')[0];
+        GlobalConstants.addDays(dateStartD, -1);
       }
+      let dateEndD = new Date(this.dateEnd);
+
+      //Usuarios Registrados
+      this.pagesService.getNumberUsersByDateRange(this.dateStart, this.dateEnd)
+        .subscribe( numberUsers => this.numberUsers = numberUsers );
+      
+      //Line chart
+      this.pagesService.getDatasetDateRange(dateStartD, dateEndD).subscribe((data) => {
+        this.basicData = {
+          labels: this.pagesService.getLabelsDateRange(this.dateStart, this.dateEnd),
+          datasets: [{
+            label: 'Usuarios',
+            data: data,
+            fill: false,
+            borderColor: '#f59e0b',
+            tension: 0.1
+          }]
+        }
+      });
     })
+
+    /*Ordenamiento mayor a menor del ranking*/
     this.pagesService.getRanking().subscribe(ranking => {
       this.ranking = ranking.sort((a, b) => b.count-a.count);
-      for(let i=0; i<this.ranking.length; i++) {
-        this.ranking[i]._id = this.capitalizeFirstLetters(this.ranking[i]._id.replace('-', ' '));
-      }
     });
   }
 
-  capitalizeFirstLetters( word: string ) {
-    const arr = word.split(" ");
-    for (var i = 0; i < arr.length; i++) {
-      arr[i] = arr[i].charAt(0).toUpperCase() + arr[i].slice(1);
-    }
-    return arr.join(" ");
-  }
-
-  addDays(date: Date, days: number) {
-    date.setDate(date.getDate() + days);
-    return date;
-  }
-
-  getDateStringToLocale( backDays: number ){
-    const month_formatter = new Intl.DateTimeFormat('es', { month: 'long' });
-    var date = (new Date(new Date().setDate(new Date().getDate() - backDays )));
-    return `desde ${this.capitalizeFirstLetters(month_formatter.format(date))} ${date.getDate()}, ${date.getFullYear()}`
-  }
-
-  getDateStringToISO( backDays: number ){
-    return (new Date(new Date().setDate(new Date().getDate() - backDays ))).toISOString().split('T')[0];
-  }
 
   setCurrentDatesInLabels( dateOptions: DateOption[] ) {
     for(let i=0; i<dateOptions.length; i++) {
       switch (dateOptions[i].code) {      
         case 'last-7days':
-          dateOptions[i].name += ': ' + this.getDateStringToLocale(7);
+          dateOptions[i].name += ': ' + GlobalConstants.getDateStringToLocale(6);
           break;
 
         case 'last-30days':
-          dateOptions[i].name += ': ' + this.getDateStringToLocale(30);
+          dateOptions[i].name += ': ' + GlobalConstants.getDateStringToLocale(31);
           break;
       
         default:

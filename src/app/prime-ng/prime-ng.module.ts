@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { CalendarModule } from 'primeng/calendar';
 import { CardModule } from 'primeng/card';
+import { ChartModule } from 'primeng/chart';
 import { DropdownModule } from 'primeng/dropdown';
 import { FileUploadModule } from 'primeng/fileupload';
 import { ImageModule } from 'primeng/image';
@@ -17,6 +18,7 @@ import { SelectButtonModule } from 'primeng/selectbutton';
 import { SlideMenuModule } from 'primeng/slidemenu';
 import { StepsModule } from 'primeng/steps';
 import { TableModule } from 'primeng/table';
+
 
 @NgModule({
   exports: [
@@ -36,7 +38,8 @@ import { TableModule } from 'primeng/table';
     SelectButtonModule,
     SlideMenuModule,
     StepsModule,
-    TableModule
+    TableModule,
+    ChartModule
   ]
 })
 export class PrimeNgModule { }

@@ -32,13 +32,22 @@ app.use((req, res, next) => {
 
 /*Dashboard*/
 app.get('/usuarios',(req, res, next) => {
-    UserModel.find({ 'registration_date': {$gte: new Date(req.query.start), $lt: new Date(req.query.end)}}).count()
-    .then((data) => {
-        res.json(data);
-    })
-    .catch(() => {
-        console.log('Error fetching entries')
-    })
+    if(req.query.start != req.query.end)
+        UserModel.find({ 'registration_date': {$gte: new Date(req.query.start), $lt: new Date(req.query.end)}}).count()
+        .then((data) => {
+            res.json(data);
+        })
+        .catch(() => {
+            console.log('Error fetching entries')
+        })
+    else
+        UserModel.find({ 'registration_date': new Date(req.query.start)}).count()
+        .then((data) => {
+            res.json(data);
+        })
+        .catch(() => {
+            console.log('Error fetching entries')
+        })
 })
 
 app.get('/usuarios/fecha_minima',(req, res, next) => {
