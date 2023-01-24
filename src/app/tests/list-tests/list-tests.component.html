@@ -24,8 +24,8 @@
         <ng-template pTemplate="body" let-test>
             <tr>
                 <td>{{test.levels | levelsTittle }}</td>
-                <td><a [routerLink]="['/prueba/ver', test.test_id ]"><i class="pi pi-eye"></i></a></td>
-                <td><a [routerLink]="['/prueba/editar', test.test_id ]"><i class="pi pi-file-edit"></i></a></td>
+                <td><a [routerLink]="['/pruebas/ver', test.test_id ]"><i class="pi pi-eye"></i></a></td>
+                <td><a [routerLink]="['/pruebas/editar', test.test_id ]"><i class="pi pi-file-edit"></i></a></td>
                 <td><a (click)="deleteTest(test.test_id)"><i class="pi pi-trash"></i></a></td>
             </tr>
         </ng-template>

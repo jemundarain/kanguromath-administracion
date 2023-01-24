@@ -23,8 +23,6 @@ const rutas: Routes = [
   }
 ];
 
-
-
 @NgModule({
   imports: [
     RouterModule.forChild( rutas )
