@@ -26,15 +26,9 @@ export class VisualizeTestComponent implements OnInit {
         switchMap( ({ id }) => this.testService.getTestById(id))
       )
       .subscribe( test => {
-        this.test = test[0];
+        this.test = test;
         this.problemsId = this.test.problems;
-        for(let i=0; i<this.problemsId.length; i++) {
-          this.testService.getProblemById(this.problemsId[i])
-          .subscribe( problem => {
-            this.problems.push(problem[0]);
-          })
-        }
-        this.problems.sort((a, b) => a.num_s-b.num_s);
+        this.testService.getProblemsByIds(this.problemsId).subscribe(problems => this.problems = problems)
       });
   };
 }

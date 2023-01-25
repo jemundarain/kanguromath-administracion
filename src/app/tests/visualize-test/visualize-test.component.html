@@ -9,7 +9,7 @@
     <img src="../../../assets/canguro-gray.png" alt="canguro-gray" class="col-start-9 col-span-2 -mt-2 -ml-3">
     <h3 class="font-['CMU_Serif'] inline-block text-center text-2xl font-bold text-gray-700 tracking-tight col-start-4 col-span-6 -mt-36 ml-7">CANGURO MATEMÁTICO</h3>
     <h3 class="font-['CMU_Serif'] inline-block text-center text-2xl font-bold text-gray-700 tracking-tight col-start-4 col-span-6 -mt-32 ml-7">PRUEBA PRELIMINAR</h3>
-    <h3 class="font-['CMU_Serif'] inline-block text-center text-2xl font-bold text-gray-700 tracking-tight col-start-4 col-span-6 -mt-28 ml-7"> {{ test.levels | levelsHeader}} </h3>
+    <!-- <h3 class="font-['CMU_Serif'] inline-block text-center text-2xl font-bold text-gray-700 tracking-tight col-start-4 col-span-6 -mt-28 ml-7"> {{ test.levels | levelsHeader}} </h3> -->
 </div>
 
 <div class="grid grid-cols-12 gap-4 bg-white mx-60 pb-10">
@@ -17,3 +17,5 @@
         <app-problem [problem]="problem"></app-problem>
     </div>
 </div>
+
+<p-scrollTop [threshold]="420" styleClass="btn"></p-scrollTop>
