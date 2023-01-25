@@ -13,12 +13,15 @@ import { InputSwitchModule } from 'primeng/inputswitch';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { RadioButtonModule } from 'primeng/radiobutton';
+import { ScrollTopModule } from 'primeng/scrolltop';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { SlideMenuModule } from 'primeng/slidemenu';
 import { StepsModule } from 'primeng/steps';
 import { TableModule } from 'primeng/table';
-
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ConfirmationService } from 'primeng/api';
 
 @NgModule({
   exports: [
@@ -34,12 +37,18 @@ import { TableModule } from 'primeng/table';
     InputTextareaModule,
     InputTextModule,
     PasswordModule,
+    ProgressSpinnerModule,
     RadioButtonModule,
+    ScrollTopModule,
     SelectButtonModule,
     SlideMenuModule,
     StepsModule,
     TableModule,
-    ChartModule
-  ]
+    ChartModule,
+    ConfirmDialogModule
+  ],
+  providers: [
+    ConfirmationService
+  ],
 })
 export class PrimeNgModule { }
