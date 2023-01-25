@@ -88,7 +88,7 @@ export class EditProblemComponent implements OnInit {
         switchMap( ({ id }) => this.testService.getProblemById(id))
       )
       .subscribe( problem => {
-        this.problem = problem[0];
+        this.problem = problem;
         if(this.problem.figures.length) {
           this.rutina = 'con-figura'
         } else {

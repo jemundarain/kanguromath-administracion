@@ -15,7 +15,6 @@ export class FiguresTableComponent implements OnInit {
 
   ngOnInit(): void {
     this.posiciones = ['intermedia', 'derecha'];
-    console.log(this.figures);
   }
 
   onBasicUpload() {

@@ -15,27 +15,29 @@ import { LevelsHeaderPipe } from './pipes/levels-header.pipe';
 import { KatexModule } from 'ng-katex';
 import { ProblemComponent } from './problem/problem.component';
 import { FiguresTableComponent } from './figures-table/figures-table.component';
+import { SharedModule } from "../shared/shared.module";
 
 @NgModule({
-  declarations: [
-    ListTestsComponent,
-    NewTestComponent,
-    EditTestComponent,
-    EditProblemComponent,
-    HomeComponent,
-    VisualizeTestComponent,
-    LevelsTittlePipe,
-    LevelsHeaderPipe,
-    ProblemComponent,
-    FiguresTableComponent
-  ],
-  imports: [
-    CommonModule,
-    PrimeNgModule,
-    TestsRoutingModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    KatexModule
-  ]
+    declarations: [
+        ListTestsComponent,
+        NewTestComponent,
+        EditTestComponent,
+        EditProblemComponent,
+        HomeComponent,
+        VisualizeTestComponent,
+        LevelsTittlePipe,
+        LevelsHeaderPipe,
+        ProblemComponent,
+        FiguresTableComponent
+    ],
+    imports: [
+        CommonModule,
+        PrimeNgModule,
+        TestsRoutingModule,
+        ReactiveFormsModule,
+        HttpClientModule,
+        KatexModule,
+        SharedModule
+    ]
 })
 export class TestsModule { }
