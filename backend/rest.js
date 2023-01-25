@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const UserModel = require('./schemas/user-schema');
 const TestModel = require('./schemas/test-schema');
 const ProblemModel = require('./schemas/problem-schema');
+const GlobalModel = require('./schemas/global-schema')
 //const UserModel = require('./schemas/user-schema');
 
 const app = express();
@@ -29,6 +30,35 @@ app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
     next();
 })
+
+/*Autenticación*/
+app.get('/usuarios-admin/', (req,res) => {
+
+})
+
+/*app.post('/sign-up', (req,res) => {
+
+    bcrypt.hash(req.body.password, 10)
+        .then(hash => {
+            const userModel = new UserModel({
+                username: req.body.username,
+                password: hash
+            })
+
+            userModel.save()
+            .then(result => {
+                res.status(201).json({
+                    message: 'User created',
+                    result: result
+                })
+            })
+            .catch(err => {
+                res.status(500).json({
+                    error: err
+                })
+            })
+        })
+})*/
 
 /*Dashboard*/
 app.get('/usuarios',(req, res, next) => {
@@ -90,6 +120,7 @@ app.get('/usuarios/distribution-by-level',(req, res, next) => {
     })
 })
 
+/*Pruebas*/
 app.get('/pruebas',(req, res, next) => {
     TestModel.find({})
     .then((data) => {
@@ -123,7 +154,7 @@ app.get('/pruebas/:edition',(req, res, next) => {
 app.get('/prueba/:id',(req, res, next) => {
     TestModel.find({ 'test_id': req.params.id})
     .then((data) => {
-        res.json(data);
+        res.json(data[0]);
     })
     .catch(() => {
         console.log('Error fetching entries')
@@ -140,10 +171,10 @@ app.get('/prueba/problema/:id',(req, res, next) => {
     })
 })
 
-app.get('/problema/:id',(req, res, next) => {
-    ProblemModel.find({ 'problem_id': req.params.id})
+app.get('/problema/:problem_id',(req, res, next) => {
+    ProblemModel.find({ 'problem_id': req.params.problem_id})
     .then((data) => {
-        res.json(data);
+        res.json(data[0]);
     })
     .catch(() => {
         console.log('Error fetching entries')
@@ -169,28 +200,15 @@ app.delete('/prueba/eliminar/:test_id', (req, res) => {
     })
 })
 
-/*app.post('/sign-up', (req,res) => {
-
-    bcrypt.hash(req.body.password, 10)
-        .then(hash => {
-            const userModel = new UserModel({
-                username: req.body.username,
-                password: hash
-            })
-
-            userModel.save()
-            .then(result => {
-                res.status(201).json({
-                    message: 'User created',
-                    result: result
-                })
-            })
-            .catch(err => {
-                res.status(500).json({
-                    error: err
-                })
-            })
-        })
-})*/
+/*Settings*/
+app.get('/ajustes/estado-app', (req, res) => {
+    GlobalModel.find({}, {'_id': 0, 'app_enabled': 1})
+    .then((data) => {
+        res.json(data[0].app_enabled);
+    })
+    .catch(() => {
+        console.log('Error fetching entries')
+    })
+})
 
 module.exports = app;
