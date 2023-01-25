@@ -1,8 +1,8 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormControlName, FormGroup, Validators } from '@angular/forms';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { TestService } from '../services/test.service';
 import { Test } from '../models/test-model';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-list-tests',
@@ -30,24 +30,20 @@ export class ListTestsComponent implements OnInit, OnDestroy {
 
   constructor(
     private testService: TestService,
-    private router: Router,
-    private formBuilder: FormBuilder
+    private router: Router
   ) { }
 
-  form: FormGroup = new FormGroup({});
+  @ViewChild('editionsForm', { static: true }) editionsForm!: NgForm;
   editions: string[];
+  edition: string;
   tests: Test[] = [];
 
   ngOnInit(): void {
-    this.form = this.formBuilder.group({
-      edition: [null, Validators.nullValidator]
-    });
-
     this.testService.getEditions()
       .subscribe( editions => {this.editions = editions});
 
-    this.form.valueChanges.subscribe((data) => {
-      this.testService.getTestsByEdition(data['edition'])
+    this.editionsForm?.form.valueChanges.subscribe((data) => {
+      this.testService.getTestsByEdition(data.edition)
         .subscribe( tests => this.tests = tests);
     })
   }

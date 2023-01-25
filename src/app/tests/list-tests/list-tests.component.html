@@ -5,29 +5,32 @@
 <!-- Edición combobox -->
 <div class="flex gap-2 mb-6">
     <h5 class="text-xl my-auto font-semibold text-slate-600 tracking-tight">Edición:</h5>
-    <form [formGroup]="form">
-        <p-dropdown class="col-span-2 my-auto" [options]="editions" formControlName="edition" ></p-dropdown>
-    </form>    
+    <form #editionsForm="ngForm">
+        <p-dropdown class="col-span-2 my-auto" [options]="editions" [(ngModel)]="edition" name="edition"></p-dropdown>
+    </form>
 </div>
 
 <!-- Table -->
-<div class="grid grid-cols-12 mb-6">
-    <p-table [value]="tests" class="col-span-4">
-        <ng-template pTemplate="header">
-            <tr>
-                <th>Año</th>
-                <th>Ver</th>
-                <th>Editar</th>
-                <th>Eliminar</th>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-test>
-            <tr>
-                <td>{{test.levels | levelsTittle }}</td>
-                <td><a [routerLink]="['/pruebas/ver', test.test_id ]"><i class="pi pi-eye"></i></a></td>
-                <td><a [routerLink]="['/pruebas/editar', test.test_id ]"><i class="pi pi-file-edit"></i></a></td>
-                <td><a (click)="deleteTest(test.test_id)"><i class="pi pi-trash"></i></a></td>
-            </tr>
-        </ng-template>
-    </p-table>
-</div>
+<app-progress-spinner [condition]="editions" [template]="tableT"></app-progress-spinner>
+<ng-template #tableT>
+    <div class="grid grid-cols-12 mb-6">
+        <p-table [value]="tests" class="col-span-4">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Año</th>
+                    <th>Ver</th>
+                    <th>Editar</th>
+                    <th>Eliminar</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-test>
+                <tr>
+                    <td>{{test.levels | levelsTittle }}</td>
+                    <td><a [routerLink]="['/pruebas/ver', test.test_id ]"><i class="pi pi-eye"></i></a></td>
+                    <td><a [routerLink]="['/pruebas/editar', test.test_id ]"><i class="pi pi-file-edit"></i></a></td>
+                    <td><a (click)="deleteTest(test.test_id)"><i class="pi pi-trash"></i></a></td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+</ng-template>
