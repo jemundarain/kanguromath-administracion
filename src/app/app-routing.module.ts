@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule, Routes, CanLoad } from '@angular/router';
+import { AuthGuard } from './auth/guards/auth.guard';
 
 import { ErrorPageComponent } from './shared/error-page/error-page.component';
 
@@ -10,11 +11,15 @@ const routes: Routes = [
   },
   {
     path: 'math',
-    loadChildren: () => import('./pages/pages.module').then( m => m.PagesModule )
+    loadChildren: () => import('./pages/pages.module').then( m => m.PagesModule ),
+    canLoad: [ AuthGuard ],
+    canActivate: [ AuthGuard ]
   },
   {
     path: 'pruebas',
-    loadChildren: () => import('./tests/tests.module').then( m => m.TestsModule )
+    loadChildren: () => import('./tests/tests.module').then( m => m.TestsModule ),
+    canLoad: [ AuthGuard ],
+    canActivate: [ AuthGuard ]
   },
   {
     path: '404',
