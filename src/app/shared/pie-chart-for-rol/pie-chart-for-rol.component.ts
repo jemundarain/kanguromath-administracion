@@ -10,6 +10,9 @@ import { GlobalConstants } from 'src/app/common/global-constants';
 })
 export class PieChartForRolComponent implements OnInit {
   constructor(private pagesService: PagesService) { }
+  
+    distributionByType: Ranking[];
+    public chart: any;
 
   ngOnInit(): void {
     this.pagesService.getUsersDistributionByType().subscribe(distributionByType => {
@@ -29,8 +32,5 @@ export class PieChartForRolComponent implements OnInit {
       });
     })
   }
-
-  distributionByType: Ranking[];
-  public chart: any;
 
 }

@@ -33,7 +33,7 @@ export class EditTestComponent implements OnInit {
       .pipe(
         switchMap( ({ id }) => this.testService.getTestById(id))
       )
-      .subscribe( test => this.test = test[0] );
+      .subscribe( test => this.test = test );
   }
   
   updateTest() {

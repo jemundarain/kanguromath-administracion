@@ -50,6 +50,7 @@ export class DashboardComponent implements OnInit {
     });
 
     this.dateFilterForm.form.valueChanges.subscribe((data) => {
+      this.basicData = null;
       switch (this.dateFilterForm?.form.value.dateOption) {
         case GlobalConstants.DATE_OPTIONS[0].code: //today
           this.dateStart = GlobalConstants.getDateStringToISO(0);
@@ -64,7 +65,7 @@ export class DashboardComponent implements OnInit {
           this.dateStart = GlobalConstants.getDateStringToISO(30);
         break;
         case GlobalConstants.DATE_OPTIONS[4].code: //customize
-          if(data?.dates[0] && data?.dates[1]) {
+          if(data?.dates && data?.dates[0] && data?.dates[1]) {
             this.dateStart = data?.dates[0];
             this.dateEnd = data?.dates[1];
           }

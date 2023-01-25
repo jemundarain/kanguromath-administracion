@@ -157,3 +157,53 @@ p-calendar .p-button:enabled:hover {
     font-weight: 500 !important;
     cursor: pointer;
 }
+
+.custom-spinner {
+    display: flex !important;
+    margin: 0 auto !important;
+    width: 64px !important;
+    height: 64px !important;
+}
+
+.p-progress-spinner-circle {
+    animation: custom-progress-spinner-dash 2.5s ease-in-out infinite, custom-progress-spinner-color 5s ease-in-out infinite !important;
+}
+
+@keyframes custom-progress-spinner-color {
+    0%,100% {
+        stroke: #FBD89D;
+    }
+    15% {
+        stroke: #FACF85;
+    }
+    30% {
+        stroke: #F9C56D;
+    }
+    45% {
+        stroke: #F8BB54;
+    }
+    60% {
+        stroke: #F7B13C;
+    }
+    75% {
+        stroke: #F6A823;
+    }
+    90% {
+        stroke: #f59e0b;
+    }
+}
+
+@keyframes custom-progress-spinner-dash {
+    0% {
+        stroke-dasharray: 1, 200;
+        stroke-dashoffset: 0;
+    }
+    50% {
+        stroke-dasharray: 89, 200;
+        stroke-dashoffset: -35px;
+    }
+    100% {
+        stroke-dasharray: 89, 200;
+        stroke-dashoffset: -124px;
+    }
+}

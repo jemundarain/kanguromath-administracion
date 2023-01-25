@@ -63,4 +63,8 @@ export class PagesService {
     return concat(...arr).pipe(toArray());
   }
 
+  getAppState(): Observable<boolean> {
+    return this.http.get<boolean>(`${ this.baseUrl }/ajustes/estado-app`)
+  }
+
 }

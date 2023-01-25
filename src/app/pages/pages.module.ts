@@ -11,6 +11,8 @@ import { HomeComponent } from './home/home.component';
 import { PagesRoutingModule } from './pages-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { ConfirmationService } from 'primeng/api';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 @NgModule({
     declarations: [
@@ -30,7 +32,11 @@ import { HttpClientModule } from '@angular/common/http';
         SharedModule,
         PagesRoutingModule,
         HttpClientModule,
-        ReactiveFormsModule
-    ]
+        ReactiveFormsModule,
+        ConfirmDialogModule
+    ],
+    providers: [
+        ConfirmationService
+      ]
 })
 export class PagesModule { }

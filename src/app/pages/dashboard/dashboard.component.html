@@ -36,17 +36,26 @@
 <!-- Registros nuevos y Usuarios registrados -->
 <div class="grid grid-cols-12 gap-6 mb-6" [class]="dateFilterForm?.form?.value.dateOption != 'customize' ? '-mt-12' : ''">
     <p-card class="col-span-10 shadow-md" header="Registros Nuevos">
-        <p-chart id="usersLineChart" type="line" [data]="basicData" [options]="basicOptions"></p-chart>
+        <app-progress-spinner [condition]="basicData" [template]="lineChartT"></app-progress-spinner>
+        <ng-template #lineChartT>
+            <p-chart id="usersLineChart" type="line" [data]="basicData" [options]="basicOptions"></p-chart>
+        </ng-template>    
     </p-card>
     <p-card class="col-span-2 shadow-md h-min leading-6" header="Usuarios Registrados">
-        <p class="text-4xl font-semibold text-slate-700">{{ numberUsers }}</p>
+        <app-progress-spinner [condition]="numberUsers" [template]="numberUsersT"></app-progress-spinner>
+        <ng-template #numberUsersT>
+            <p class="text-4xl font-semibold text-slate-700">{{ numberUsers }}</p>
+        </ng-template>
     </p-card>
 </div>
 
 <!-- Distribución por rol y Distribución por año escolar -->
 <div class="grid grid-cols-12 gap-6 justify-center mb-6">
     <p-card class="col-span-4 justify-center shadow-md h-min" header="Ranking por Estados">
-        <app-ranking-list [rankings]="ranking"></app-ranking-list>
+        <app-progress-spinner [condition]="ranking" [template]="rankingListT"></app-progress-spinner>
+        <ng-template #rankingListT>
+            <app-ranking-list [rankings]="ranking"></app-ranking-list>
+        </ng-template>
     </p-card>
     <p-card class="col-span-4 shadow-md h-min" header="Distribución por Rol">
         <app-pie-chart-for-rol></app-pie-chart-for-rol>
