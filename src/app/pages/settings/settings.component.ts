@@ -11,8 +11,8 @@ export class SettingsComponent implements OnInit {
 
   @ViewChild('settingsForm', {static: true}) settingsForm !: NgForm;
   state: boolean;
-  //constructor( private pagesService: PagesService, private confirmationService: ConfirmationService, private messageService: MessageService ) { }
-  constructor( private pagesService: PagesService ) { }
+  // constructor( private pagesService: PagesService, private confirmationService: ConfirmationService, private messageService: MessageService ) { }
+  constructor( public pagesService: PagesService ) { }
 
   ngOnInit(): void {
     this.pagesService.getAppState().subscribe((state) => {

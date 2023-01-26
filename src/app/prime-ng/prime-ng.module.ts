@@ -49,6 +49,6 @@ import { ConfirmationService } from 'primeng/api';
   ],
   providers: [
     ConfirmationService
-  ],
+  ]
 })
 export class PrimeNgModule { }

@@ -13,8 +13,6 @@ import { TestsModule } from './tests/tests.module';
 
 import localeVZLA from '@angular/common/locales/es-VE';
 import { registerLocaleData  } from '@angular/common';
-import { ConfirmationService } from 'primeng/api';
-import { ConfirmDialogModule } from 'primeng/confirmdialog';
 registerLocaleData( localeVZLA );
 @NgModule({
   declarations: [
@@ -27,11 +25,9 @@ registerLocaleData( localeVZLA );
     AuthModule,
     SharedModule,
     PagesModule,
-    TestsModule,
-    ConfirmDialogModule
+    TestsModule
   ],
   providers: [
-    ConfirmationService,
     { provide: LOCALE_ID, useValue: 'es-VE' }
   ],
   bootstrap: [AppComponent]
