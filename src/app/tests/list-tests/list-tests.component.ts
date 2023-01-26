@@ -25,6 +25,7 @@ export class ListTestsComponent implements OnInit, OnDestroy {
       .subscribe( editions => {this.editions = editions});
 
     this.editionsForm?.form.valueChanges.subscribe((data) => {
+      this.tests = [];
       this.testService.getTestsByEdition(data.edition)
         .subscribe( tests => this.tests = tests);
     })
