@@ -38,7 +38,7 @@ export class EditTestComponent implements OnInit {
   
   updateTest() {
     const test = new Test(this.test._id, this.test.test_id, this.editTestForm?.form.value.levels, this.editTestForm?.form.value.edition, this.test.problems);
-    this.testService.updateTest(this.test._id, test);
+    this.testService.updateTest(test);
     this.router.navigateByUrl('pruebas/lista');
   }
 }

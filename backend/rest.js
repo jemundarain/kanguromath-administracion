@@ -181,7 +181,7 @@ app.get('/problema/:problem_id',(req, res, next) => {
     })
 })
 
-app.put('/prueba/editar/:_id', (req, res) => {
+app.put('/prueba/editar/', (req, res) => {
     const updatedTest = new TestModel({_id: req.body._id, test_id: req.body.test_id, levels: req.body.levels, edition: req.body.edition, problems: req.body.problems})
     TestModel.updateOne({_id: req.body._id}, updatedTest)
     .then(() => {

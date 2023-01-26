@@ -66,8 +66,8 @@ export class TestService {
     }*/
     
 
-    updateTest(_id: string, test: Test) {
-        this.http.put<{message: string}>(`${this.baseUrl}/prueba/editar/${_id}`, test).subscribe((jsonData) => {
+    updateTest(test: Test) {
+        this.http.put<{message: string}>(`${this.baseUrl}/prueba/editar/`, test).subscribe((jsonData) => {
           console.log(jsonData);
         })
     }
