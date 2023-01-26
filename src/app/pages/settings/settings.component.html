@@ -6,12 +6,14 @@
 <div class="flex gap-2 mb-6">
     <h5 class="text-2xl my-auto font-semibold text-slate-600 tracking-tight">Estado de la aplicación:</h5>
     <form #settingsForm="ngForm" class="mt-2">
-        <p-inputSwitch [(ngModel)]="state" class="mt-2" name="state"></p-inputSwitch>
+        <p-inputSwitch [(ngModel)]="state" class="mt-2" name="state" (onChange)="confirm($event)"></p-inputSwitch>
     </form>
 </div>
 
-<!-- <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"></p-confirmDialog>
-<p-button (click)="confirm1()" icon="pi pi-check" label="Confirm"></p-button>
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"></p-confirmDialog>
+<p-toast position="bottom-center"></p-toast>
 
 
-<p-messages [value]="msgs"></p-messages> -->
+<!-- <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+
+<p-toggleButton [(ngModel)]="checked" name="togglebtn" onLabel="Unlocked" offLabel="Locked" onIcon="pi-lock" offIcon="pi pi-unlock" styleClass="tglBtn" appendTo="body" (onChange)="confirm($event)"></p-toggleButton> -->

@@ -20,7 +20,8 @@ import { SelectButtonModule } from 'primeng/selectbutton';
 import { SlideMenuModule } from 'primeng/slidemenu';
 import { StepsModule } from 'primeng/steps';
 import { TableModule } from 'primeng/table';
-//import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ToastModule } from 'primeng/toast';
 
 @NgModule({
   exports: [
@@ -43,8 +44,9 @@ import { TableModule } from 'primeng/table';
     SlideMenuModule,
     StepsModule,
     TableModule,
-    ChartModule/*,
-    ConfirmDialogModule*/
+    ChartModule,
+    ConfirmDialogModule,
+    ToastModule
   ]
 })
 export class PrimeNgModule { }

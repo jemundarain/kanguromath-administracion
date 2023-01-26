@@ -167,8 +167,16 @@ th:nth-child(1) {
     left: -255px !important;
 }
 
-p-calendar .p-button-icon::before, .p-inputwrapper .pi::before {
+p-calendar .p-button-icon::before, .p-inputwrapper .pi::before, .p-dialog-footer .pi:before {
     color: #fff;
+}
+
+p-toast div {
+    border-radius: 6px !important;
+}
+
+.p-confirm-dialog-message {
+    font-size: 18px;
 }
 
 .pi-caret-left::before, table .pi {
