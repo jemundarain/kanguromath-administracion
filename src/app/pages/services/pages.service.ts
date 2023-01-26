@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { concat, forkJoin, map, merge, Observable, of, toArray } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Ranking } from '../interfaces/ranking.interfaces';
+import { Global } from '../global-model'
 import { ChartDataset } from 'chart.js';
 
 
@@ -63,8 +64,14 @@ export class PagesService {
     return concat(...arr).pipe(toArray());
   }
 
-  getAppState(): Observable<boolean> {
-    return this.http.get<boolean>(`${ this.baseUrl }/ajustes/estado-app`)
+  getAppState(): Observable<Global> {
+    return this.http.get<Global>(`${ this.baseUrl }/ajustes/estado-app`)
+  }
+
+  updateAppState(global: Global) {
+    this.http.put<{message: string}>(`${this.baseUrl}/ajustes/cambiar-estado`, global).subscribe((jsonData) => {
+      console.log(jsonData);
+    })
   }
 
 }

@@ -20,8 +20,7 @@ import { SelectButtonModule } from 'primeng/selectbutton';
 import { SlideMenuModule } from 'primeng/slidemenu';
 import { StepsModule } from 'primeng/steps';
 import { TableModule } from 'primeng/table';
-import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { ConfirmationService } from 'primeng/api';
+//import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 @NgModule({
   exports: [
@@ -44,11 +43,8 @@ import { ConfirmationService } from 'primeng/api';
     SlideMenuModule,
     StepsModule,
     TableModule,
-    ChartModule,
-    ConfirmDialogModule
-  ],
-  providers: [
-    ConfirmationService
+    ChartModule/*,
+    ConfirmDialogModule*/
   ]
 })
 export class PrimeNgModule { }

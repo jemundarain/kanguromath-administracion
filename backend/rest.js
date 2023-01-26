@@ -202,12 +202,22 @@ app.delete('/prueba/eliminar/:test_id', (req, res) => {
 
 /*Settings*/
 app.get('/ajustes/estado-app', (req, res) => {
-    GlobalModel.find({}, {'_id': 0, 'app_enabled': 1})
+    GlobalModel.find({})
     .then((data) => {
-        res.json(data[0].app_enabled);
+        res.json(data[0]);
     })
     .catch(() => {
         console.log('Error fetching entries')
+    })
+})
+
+app.put('/ajustes/cambiar-estado/', (req, res) => {
+    var UpdateGlobal = new GlobalModel({_id: req.body._id, app_enabled: req.body.app_enabled});
+    GlobalModel.updateOne({_id: req.body._id}, UpdateGlobal)
+    .then(() => {
+        res.status(200).json({
+            message: 'Update completed'
+        })   
     })
 })
 
