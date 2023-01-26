@@ -80,7 +80,7 @@
 }
 
 th {
-    background-color: #F1F5F9 !important;
+    background-color: #fef9f0 !important;
     text-align: center !important;
     padding: 1rem !important;
 }
@@ -167,12 +167,12 @@ th:nth-child(1) {
     left: -255px !important;
 }
 
-p-calendar .p-button-icon::before, .pi::before {
+p-calendar .p-button-icon::before, .p-inputwrapper .pi::before {
     color: #fff;
 }
 
-.pi-caret-left::before {
-    color: #18181b;
+.pi-caret-left::before, table .pi {
+    color: #3f3f46 !important;
 }
 
 p-calendar .p-button:enabled {
