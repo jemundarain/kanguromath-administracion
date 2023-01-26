@@ -18,7 +18,7 @@ export class VisualizeTestComponent implements OnInit {
 
   test : Test;
   problemsId: string[];
-  problems : Problem[] = [];
+  problems : Problem[];
 
   ngOnInit(): void {
     this.activatedRoute.params
