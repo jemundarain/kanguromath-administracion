@@ -35,7 +35,7 @@
 
 <!-- Registros nuevos y Usuarios registrados -->
 <div class="grid grid-cols-12 gap-6 mb-6" [class]="dateFilterForm?.form?.value.dateOption != 'customize' ? '-mt-12' : ''">
-    <p-card class="col-span-10 shadow-md" header="Registros Nuevos">
+    <p-card class="col-span-10 shadow-md h-fit" header="Registros Nuevos">
         <app-progress-spinner [condition]="basicData" [template]="lineChartT"></app-progress-spinner>
         <ng-template #lineChartT>
             <p-chart id="usersLineChart" type="line" [data]="basicData" [options]="basicOptions"></p-chart>

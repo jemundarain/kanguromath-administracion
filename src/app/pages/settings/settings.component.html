@@ -4,9 +4,9 @@
 </div>
 
 <div class="flex gap-2 mb-6">
-    <h5 class="text-xl my-auto font-semibold text-slate-600 tracking-tight">Estado de la aplicación:</h5>
+    <h5 class="text-2xl my-auto font-semibold text-slate-600 tracking-tight">Estado de la aplicación:</h5>
     <!-- <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog> -->
-    <form #settingsForm="ngForm">
+    <form #settingsForm="ngForm" class="mt-2">
         <p-inputSwitch [(ngModel)]="state" class="mt-2" name="state"></p-inputSwitch>
     </form>
 </div>

@@ -5,7 +5,7 @@
 
 <!-- Tipo de subida -->
 <div class="flex gap-2 mb-6">
-    <h5 class="text-xl my-auto font-semibold text-slate-600 tracking-tight">Tipo de subida:</h5>
+    <h5 class="text-2xl my-auto font-semibold text-slate-600 tracking-tight">Tipo de subida:</h5>
     <p-selectButton [options]="options" [(ngModel)]="option"></p-selectButton>
 </div>
 
@@ -23,9 +23,9 @@
 <!-- Subida Manual -->
 <form *ngIf="option == 'Manual'" #addTestForm="ngForm">
     <div class="flex gap-2 mb-6">
-        <h5 class="text-xl my-auto font-semibold text-slate-600 tracking-tight">Edición:</h5>
+        <h5 class="text-2xl my-auto font-semibold text-slate-600 tracking-tight">Edición:</h5>
         <p-inputNumber [(ngModel)]="test.edition" name="edition" [showButtons]="true" [min]="min" [format]="false"></p-inputNumber>    
-        <h5 class="text-xl my-auto font-semibold text-slate-600 tracking-tight ml-5">Año Escolar:</h5>
+        <h5 class="text-2xl my-auto font-semibold text-slate-600 tracking-tight ml-5">Año Escolar:</h5>
         <p-dropdown [(ngModel)]="test.levels" 
                     name="level" 
                     class="col-span-2 my-auto mr-8" 

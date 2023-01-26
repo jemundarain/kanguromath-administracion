@@ -54,7 +54,7 @@
     @apply shadow-md;
 }
 
-.p-fileupload-choose .pi-plus::before {
+.p-fileupload-choose .pi-plus::before, .pi-chevron-down::before {
     color: #fff !important;
 }
 
@@ -117,8 +117,36 @@ p-inputnumber [name="numberFigures"] .p-inputnumber-button {
     height: 37px !important;
 }
 
-[name="dateRange"] .btn:hover {
+[name="dateRange"] .btn:hover, .p-dropdown-trigger:hover {
     background-color: #d97706 !important;
+}
+
+td:not(:nth-child(1)) {
+    width: 120px;
+}
+
+.p-datatable-wrapper {
+    border-radius: 6px;
+}
+
+td {
+    text-align: center !important;
+}
+
+th {
+    font-size: 17px !important;
+}
+
+table a .pi:before  {
+    font-size: 21px !important;
+}
+
+table a:hover .pi:before {
+    color: #f59e0b;
+}
+
+th:nth-child(1) {
+    width: 40%;
 }
 
 .circleOption {
@@ -139,8 +167,12 @@ p-inputnumber [name="numberFigures"] .p-inputnumber-button {
     left: -255px !important;
 }
 
-p-calendar .p-button-icon::before {
+p-calendar .p-button-icon::before, .pi::before {
     color: #fff;
+}
+
+.pi-caret-left::before {
+    color: #18181b;
 }
 
 p-calendar .p-button:enabled {
@@ -206,4 +238,8 @@ p-calendar .p-button:enabled:hover {
         stroke-dasharray: 89, 200;
         stroke-dashoffset: -124px;
     }
+}
+
+.p-dropdown-trigger {
+    background-color: #f59e0b !important;
 }
