@@ -191,11 +191,11 @@ app.put('/prueba/editar/', (req, res) => {
     })
 })
 
-app.delete('/prueba/eliminar/:test_id', (req, res) => {
-    TestModel.deleteOne({test_id: req.body.test_id})
+app.delete('/prueba/eliminar/:_id', (req, res) => {
+    TestModel.deleteOne({_id: req.params._id})
     .then(() => {
         res.status(200).json({
-            message: 'Update completed'
+            message: 'Delete successful'
         })   
     })
 })

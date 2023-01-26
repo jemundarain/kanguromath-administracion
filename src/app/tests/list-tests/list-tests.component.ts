@@ -22,21 +22,19 @@ export class ListTestsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.testService.getEditions()
-      .subscribe( editions => {this.editions = editions});
+    .subscribe( editions => {this.editions = editions});
 
     this.editionsForm?.form.valueChanges.subscribe((data) => {
       this.tests = [];
       this.testService.getTestsByEdition(data.edition)
-        .subscribe( tests => this.tests = tests);
+      .subscribe( tests => this.tests = tests);
     })
   }
-
+  
   ngOnDestroy(): void {
-    
   }
 
-
-  deleteTest(test_id: string){
-    this.testService.deleteTest(test_id);
+  deleteTest(_id: string){
+    this.testService.deleteTest(_id);
   }
 }

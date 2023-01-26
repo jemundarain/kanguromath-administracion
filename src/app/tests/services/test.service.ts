@@ -72,8 +72,8 @@ export class TestService {
         })
     }
 
-    deleteTest(test_id: string) {
-        this.http.delete<{message: string}>(`${this.baseUrl}/prueba/eliminar/${test_id}`).subscribe((jsonData) => {
+    deleteTest(_id: string) {
+        this.http.delete<{message: string}>(`${this.baseUrl}/prueba/eliminar/${_id}`).subscribe((jsonData) => {
             console.log(jsonData);
         })
     }
