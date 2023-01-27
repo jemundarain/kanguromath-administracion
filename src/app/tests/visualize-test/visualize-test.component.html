@@ -3,7 +3,7 @@
     <h1 class="inline-block text-5xl font-bold text-gray-700 tracking-tight col-start-1 col-span-4">Ver Prueba</h1>
 </div>
 
-<app-progress-spinner [condition]="test" [template]="testHeaderT"></app-progress-spinner>
+<app-progress-spinner [condition]="test === null" [template]="testHeaderT"></app-progress-spinner>
 <ng-template #testHeaderT>
     <div class="grid grid-cols-12 gap-4 pt-14 mx-60" [class]="test != undefined? 'bg-white':''">
         <h3 class="font-['CMU_Serif'] inline-block text-center text-2xl font-bold text-gray-700 tracking-tight col-start-4 col-span-6 ml-7">OLIMPÍADA JUVENIL DE MATEMÁTICA</h3>
@@ -16,7 +16,7 @@
     </div>
 </ng-template>
 
-<app-progress-spinner [condition]="problems" [template]="problemT"></app-progress-spinner>
+<app-progress-spinner [condition]="problems == []" [template]="problemT"></app-progress-spinner>
 <ng-template #problemT>
 <div class="grid grid-cols-12 gap-4 mx-60 pb-10" [class]="problems.length != 0? 'bg-white':''">
     <div *ngFor="let problem of problems" class="col-start-3 col-span-8 mx-14">
