@@ -3,203 +3,215 @@
     <h1 class="inline-block text-5xl font-bold text-gray-700 tracking-tight">Editar Problema</h1>
 </div>
 
-<!-- Figuras -->
-<h5 class="text-3xl font-bold text-slate-600 tracking-tight my-3">Problema</h5>
-<div class="grid grid-cols-12 gap-6 mb-6">
-    <p-card class="col-span-8 shadow-md h-min" header="Figuras">
-        <div class="flex flex-col gap-3">
-            <div class="flex flex-row gap-3">
-                <span class="mt-2">{{problem.figures.length | i18nPlural:figuresMap1}} </span><p-inputNumber [(ngModel)]="problem.figures.length" [format]="false" name="numberFigures" [showButtons]="true"></p-inputNumber><span class="mt-2">{{problem.figures.length | i18nPlural:figuresMap2}}</span>    
+<app-progress-spinner [condition]="problem == null"></app-progress-spinner>
+<div [hidden]="problem == null">
+    <form #problemForm="ngForm">
+        <!-- Figuras -->
+        <ng-container *ngIf="problem">
+            <div class="grid grid-cols-12 gap-6 mb-6">
+                <p-card class="col-span-8 shadow-md h-min" header="Figuras">
+                    <div class="flex flex-col gap-3">
+                        <div class="flex flex-row gap-3">
+                            <span class="mt-2">{{problem.figures.length | i18nPlural:figuresMap1}}</span>
+                            <p-inputNumber [(ngModel)]="problem.figures.length" [format]="false" name="numberFigures" [showButtons]="true"></p-inputNumber>
+                            <span class="mt-2">{{problem.figures.length | i18nPlural:figuresMap2}}</span>    
+                        </div>
+                        <app-figures-table *ngIf="this.problem.figures.length" [figures]="problem.figures"></app-figures-table>
+                    </div>
+                </p-card>
             </div>
-            <app-figures-table *ngIf="this.problem.figures.length" [figures]="problem.figures"></app-figures-table>
-        </div>
-    </p-card>
-</div>
+        </ng-container>
+            
+            <!-- Rutina y Resultado -->
+            <div class="grid grid-cols-12 gap-6 mb-6">
+                <p-card class="col-span-5 shadow-md" header="Rutina">
+                    <div class="flex flex-col gap-3">
+                        <textarea pInputTextarea [autoResize]="true" [(ngModel)]="cuerpoProblema" name="rutina"></textarea>
+                    </div>
+                </p-card>
+                <p-card class="col-span-5 shadow-md h-min" header="Resultado">
+                    <div class="flex flex-col gap-3">
+                        <ng-katex-html [html]="cuerpoProblema"></ng-katex-html>
+                    </div>
+                </p-card>
+            </div>
 
-<!-- Rutina y Resultado -->
-<div class="grid grid-cols-12 gap-6 mb-6">
-    <p-card class="col-span-5 shadow-md" header="Rutina">
-        <div class="flex flex-col gap-3">
-            <textarea pInputTextarea [autoResize]="true" [(ngModel)]="cuerpoProblema"></textarea>
-        </div>
-    </p-card>
-    <p-card class="col-span-5 shadow-md h-min" header="Resultado">
-        <div class="flex flex-col gap-3">
-            <ng-katex-html [html]="cuerpoProblema"></ng-katex-html>
-        </div>
-    </p-card>
+            <!-- Opciones -->
+            <ng-container *ngIf="problem">
+            <div class="grid grid-cols-12 gap-2 mb-6">
+                <h5 class="text-3xl font-bold text-slate-600 tracking-tight my-3">Opciones</h5>
+                <div class="col-span-12 h-min">
+                    <div class="grid grid-cols-12 gap-8 mb-6">
+                        <p-accordion class="col-span-10">
+                            <p-accordionTab header="Opción A">
+                                <div class="flex flex-row gap-3 mb-6">
+                                    <div class="p-2 pt-1 shadow-sm border-slate-600 border-2 w-fit h-10 rounded-full text-center">
+                                        <h5 class="font-['CMU_Serif'] text-2xl my-auto font-semibold text-slate-600">A</h5>
+                                    </div>       
+                                    <div class="flex flex-col gap-3 mr-8">
+                                        <p-radioButton name="optionA" value="rutina" label="Rutina" [(ngModel)]="optionsValues[0]"></p-radioButton>
+                                        <p-radioButton name="optionA" value="figura" label="Figura" [(ngModel)]="optionsValues[0]"></p-radioButton>
+                                    </div>
+                                </div>
+                                <div *ngIf="optionsValues[0] == 'rutina'; else figureA" class="flex flex-row gap-3">
+                                    <div class="flex flex-col">
+                                        <h5 class="text-xl font-semibold text-slate-600 tracking-tight">Rutina</h5>
+                                        <textarea pInputTextarea [rows]="2" [cols]="15" [autoResize]="true" [(ngModel)]="problem.options[0].answer" name="rutinaA"></textarea>
+                                    </div>
+                                    <div class="flex flex-col">
+                                        <h5 class="text-xl font-semibold text-slate-600 tracking-tight">Resultado</h5>
+                                        <ng-katex-html [html]="problem.options[0].answer"></ng-katex-html>
+                                    </div>
+                                </div>
+                                <ng-template #figureA>
+                                    <h5 class="text-xl font-semibold text-slate-600 tracking-tight mb-2">Resultado</h5>
+                                    <div class="flex flex-row justify-around">
+                                        <p-image [src]="problem.options[0].answer" [alt]="problem.options[0].letter" width="auto"></p-image>
+                                        <p-fileUpload mode="basic" chooseLabel="Subir figura" name="demo[]" url="./upload.php" accept="image/*" [maxFileSize]="420000" (onUpload)="onBasicUpload()" name="uploadA"></p-fileUpload>
+                                    </div>
+                                </ng-template>
+                            </p-accordionTab>
+                            <p-accordionTab header="Opción B">
+                                <div class="flex flex-row gap-3 mb-6">
+                                    <div class="p-2 shadow-sm border-slate-600 border-2 w-12 h-fit rounded-full text-center">
+                                        <h5 class="text-xl my-auto font-semibold text-slate-600">B</h5>
+                                    </div>       
+                                    <div class="flex flex-col gap-3 mr-8">           
+                                        <p-radioButton name="optionB" value="rutina" label="Rutina" [(ngModel)]="optionsValues[1]"></p-radioButton>
+                                        <p-radioButton name="optionB" value="figura" label="Figura" [(ngModel)]="optionsValues[1]"></p-radioButton>
+                                    </div>
+                                </div>
+                                <div *ngIf="optionsValues[1] == 'rutina'; else figureB" class="flex flex-row gap-3">
+                                    <div class="flex flex-col">
+                                        <h5 class="text-xl font-semibold text-slate-600 tracking-tight">Rutina</h5>
+                                        <textarea pInputTextarea [rows]="2" [cols]="15" [autoResize]="true" [(ngModel)]="problem.options[1].answer" name="rutinaB"></textarea>
+                                    </div>
+                                    <div class="flex flex-col">
+                                        <h5 class="text-xl font-semibold text-slate-600 tracking-tight">Resultado</h5>
+                                        <ng-katex-html [html]="problem.options[1].answer"></ng-katex-html>
+                                    </div>
+                                </div>
+                                <ng-template #figureB>
+                                    <h5 class="text-xl font-semibold text-slate-600 tracking-tight mb-2">Resultado</h5>
+                                    <div class="flex flex-row justify-around">
+                                        <p-image [src]="problem.options[1].answer" [alt]="problem.options[0].letter" width="auto"></p-image>
+                                        <p-fileUpload mode="basic" chooseLabel="Subir figura" name="demo[]" url="./upload.php" accept="image/*" [maxFileSize]="420000" (onUpload)="onBasicUpload()" name="uploadB"></p-fileUpload>
+                                    </div>
+                                </ng-template>
+                            </p-accordionTab>
+                            <p-accordionTab header="Opción C">
+                                <div class="flex flex-row gap-3 mb-6">
+                                    <div class="p-2 shadow-sm border-slate-600 border-2 w-12 h-fit rounded-full text-center">
+                                        <h5 class="text-xl my-auto font-semibold text-slate-600">C</h5>
+                                    </div>       
+                                    <div class="flex flex-col gap-3 mr-8">           
+                                        <p-radioButton name="optionC" value="rutina" label="Rutina" [(ngModel)]="optionsValues[2]"></p-radioButton>
+                                        <p-radioButton name="optionC" value="figura" label="Figura" [(ngModel)]="optionsValues[2]"></p-radioButton>
+                                    </div>
+                                </div>
+                                <div *ngIf="optionsValues[2] == 'rutina'; else figureC" class="flex flex-row gap-3">
+                                    <div class="flex flex-col">
+                                        <h5 class="text-xl font-semibold text-slate-600 tracking-tight">Rutina</h5>
+                                        <textarea pInputTextarea [rows]="2" [cols]="15" [autoResize]="true" [(ngModel)]="problem.options[2].answer" name="rutinaC"></textarea>
+                                    </div>
+                                    <div class="flex flex-col">
+                                        <h5 class="text-xl font-semibold text-slate-600 tracking-tight">Resultado</h5>
+                                        <ng-katex-html [html]="problem.options[2].answer"></ng-katex-html>
+                                    </div>
+                                </div>
+                                <ng-template #figureC>
+                                    <h5 class="text-xl font-semibold text-slate-600 tracking-tight mb-2">Resultado</h5>
+                                    <div class="flex flex-row justify-around">
+                                        <p-image [src]="problem.options[2].answer" [alt]="problem.options[0].letter" width="auto"></p-image>
+                                        <p-fileUpload mode="basic" chooseLabel="Subir figura" name="demo[]" url="./upload.php" accept="image/*" [maxFileSize]="420000" (onUpload)="onBasicUpload()" name="uploadC"></p-fileUpload>
+                                    </div>
+                                </ng-template>
+                            </p-accordionTab>
+                            <p-accordionTab header="Opción D">
+                                <div class="flex flex-row gap-3 mb-6">
+                                    <div class="p-2 shadow-sm border-slate-600 border-2 w-12 h-fit rounded-full text-center">
+                                        <h5 class="text-xl my-auto font-semibold text-slate-600">D</h5>
+                                    </div>       
+                                    <div class="flex flex-col gap-3 mr-8">           
+                                        <p-radioButton name="optionD" value="rutina" label="Rutina" [(ngModel)]="optionsValues[3]"></p-radioButton>
+                                        <p-radioButton name="optionD" value="figura" label="Figura" [(ngModel)]="optionsValues[3]"></p-radioButton>
+                                    </div>
+                                </div>
+                                <div *ngIf="optionsValues[3] == 'rutina'; else figureD" class="flex flex-row gap-3">
+                                    <div class="flex flex-col">
+                                        <h5 class="text-xl font-semibold text-slate-600 tracking-tight">Rutina</h5>
+                                        <textarea pInputTextarea [rows]="2" [cols]="15" [autoResize]="true" [(ngModel)]="problem.options[3].answer" name="rutinaD"></textarea>
+                                    </div>
+                                    <div class="flex flex-col">
+                                        <h5 class="text-xl font-semibold text-slate-600 tracking-tight">Resultado</h5>
+                                        <ng-katex-html [html]="problem.options[3].answer"></ng-katex-html>
+                                    </div>
+                                </div>
+                                <ng-template #figureD>
+                                    <h5 class="text-xl font-semibold text-slate-600 tracking-tight mb-2">Resultado</h5>
+                                    <div class="flex flex-row justify-around">
+                                        <p-image [src]="problem.options[3].answer" [alt]="problem.options[0].letter" width="auto"></p-image>
+                                        <p-fileUpload mode="basic" chooseLabel="Subir figura" name="demo[]" url="./upload.php" accept="image/*" [maxFileSize]="420000" (onUpload)="onBasicUpload()" name="uploadD"></p-fileUpload>
+                                    </div>
+                                </ng-template>
+                            </p-accordionTab>
+                            <p-accordionTab header="Opción E">
+                                <div class="flex flex-row gap-3 mb-6">
+                                    <div class="p-2 shadow-sm border-slate-600 border-2 w-12 h-fit rounded-full text-center">
+                                        <h5 class="text-xl my-auto font-semibold text-slate-600">E</h5>
+                                    </div>       
+                                    <div class="flex flex-col gap-3 mr-8">           
+                                        <p-radioButton name="optionE" value="rutina" label="Rutina" [(ngModel)]="optionsValues[4]"></p-radioButton>
+                                        <p-radioButton name="optionE" value="figura" label="Figura" [(ngModel)]="optionsValues[4]"></p-radioButton>
+                                    </div>
+                                </div>
+                                <div *ngIf="optionsValues[4] == 'rutina'; else figureE" class="flex flex-row gap-3">
+                                    <div class="flex flex-col">
+                                        <h5 class="text-xl font-semibold text-slate-600 tracking-tight">Rutina</h5>
+                                        <textarea pInputTextarea [rows]="2" [cols]="15" [autoResize]="true" [(ngModel)]="problem.options[4].answer" name="rutinaE"></textarea>
+                                    </div>
+                                    <div class="flex flex-col">
+                                        <h5 class="text-xl font-semibold text-slate-600 tracking-tight">Resultado</h5>
+                                        <ng-katex-html [html]="problem.options[4].answer"></ng-katex-html>
+                                    </div>
+                                </div>
+                                <ng-template #figureE>
+                                    <h5 class="text-xl font-semibold text-slate-600 tracking-tight mb-2">Resultado</h5>
+                                    <div class="flex flex-row justify-around">
+                                        <p-image [src]="problem.options[4].answer" [alt]="problem.options[0].letter" width="auto"></p-image>
+                                        <p-fileUpload mode="basic" chooseLabel="Subir figura" name="demo[]" url="./upload.php" accept="image/*" [maxFileSize]="420000" (onUpload)="onBasicUpload()" name="rutinaE"></p-fileUpload>
+                                    </div>
+                                </ng-template>
+                            </p-accordionTab>
+                        </p-accordion>
+                    </div>
+                </div>
+            </div>
+            </ng-container>
+            <!-- Categoría y Solución -->
+            
+            <div class="grid grid-cols-12 gap-6 mb-6">
+                <p-card class="col-span-3 shadow-md" header="Categoría">
+                    <div class="flex flex-col gap-3">
+                        <p-radioButton name="categorias" value="sin-categoria" label="Sin categoría" [(ngModel)]="category"></p-radioButton>
+                        <p-radioButton name="categorias" value="algebra" label="Álgebra" [(ngModel)]="category"></p-radioButton>
+                        <p-radioButton name="categorias" value="geometria" label="Geometría" [(ngModel)]="category"></p-radioButton>
+                        <p-radioButton name="categorias" value="probabilidad" label="Probabilidad" [(ngModel)]="category"></p-radioButton>
+                        <p-radioButton name="categorias" value="teoria-numeros" label="Teoría de números" [(ngModel)]="category"></p-radioButton>
+                    </div>
+                </p-card>
+                <p-card class="col-span-3 shadow-md h-min" header="Solución">
+                    <div class="flex flex-col gap-3">
+                        <p-radioButton name="opciones" value="A" label="A" [(ngModel)]="solution"></p-radioButton>
+                        <p-radioButton name="opciones" value="B" label="B" [(ngModel)]="solution"></p-radioButton>
+                        <p-radioButton name="opciones" value="C" label="C" [(ngModel)]="solution"></p-radioButton>
+                        <p-radioButton name="opciones" value="D" label="D" [(ngModel)]="solution"></p-radioButton>
+                        <p-radioButton name="opciones" value="E" label="E" [(ngModel)]="solution"></p-radioButton>
+                    </div>
+                </p-card>
+            </div>
+            <div class="grid grid-cols-12">
+                <button pButton pRipple label="Guardar" class="btn w-32 p-3 col-span-2 col-start-10" [routerLink]="['/']"></button>
+            </div>
+        </form>
 </div>
-
-<!-- Opciones -->
-<div class="grid grid-cols-12 gap-2 mb-6">
-    <h5 class="text-3xl font-bold text-slate-600 tracking-tight my-3">Opciones</h5>
-    <div class="col-span-12 h-min">
-        <div class="grid grid-cols-12 gap-8 mb-6">
-            <p-card class="col-span-4 h-min">
-                <div class="flex flex-row gap-3 mb-6">
-                    <div class="p-2 pt-1 shadow-sm border-slate-600 border-2 w-fit h-10 rounded-full text-center">
-                        <h5 class="font-['CMU_Serif'] text-2xl my-auto font-semibold text-slate-600">A</h5>
-                    </div>       
-                    <div class="flex flex-col gap-3 mr-8">
-                        <p-radioButton name="optionA" value="rutina" label="Rutina" [(ngModel)]="optionsValues[0]"></p-radioButton>
-                        <p-radioButton name="optionA" value="figura" label="Figura" [(ngModel)]="optionsValues[0]"></p-radioButton>
-                    </div>
-                </div>
-                <div *ngIf="optionsValues[0] == 'rutina'; else figureA" class="flex flex-row gap-3">
-                    <div class="flex flex-col">
-                        <h5 class="text-xl font-semibold text-slate-600 tracking-tight">Rutina</h5>
-                        <textarea pInputTextarea [rows]="2" [cols]="15" [autoResize]="true" [(ngModel)]="problem.options[0].answer"></textarea>
-                    </div>
-                    <div class="flex flex-col">
-                        <h5 class="text-xl font-semibold text-slate-600 tracking-tight">Resultado</h5>
-                        <ng-katex-html [html]="problem.options[0].answer"></ng-katex-html>
-                    </div>
-                </div>
-                <ng-template #figureA>
-                    <h5 class="text-xl font-semibold text-slate-600 tracking-tight mb-2">Resultado</h5>
-                    <div class="flex flex-row justify-around">
-                        <p-image [src]="problem.options[0].answer" [alt]="problem.options[0].letter" width="auto"></p-image>
-                        <p-fileUpload mode="basic" chooseLabel="Subir figura" name="demo[]" url="./upload.php" accept="image/*" [maxFileSize]="420000" (onUpload)="onBasicUpload()"></p-fileUpload>
-                    </div>
-                </ng-template>
-            </p-card>
-            <p-card class="col-span-4 h-min">
-                <div class="flex flex-row gap-3 mb-6">
-                    <div class="p-2 shadow-sm border-slate-600 border-2 w-12 h-fit rounded-full text-center">
-                        <h5 class="text-xl my-auto font-semibold text-slate-600">B</h5>
-                    </div>       
-                    <div class="flex flex-col gap-3 mr-8">           
-                        <p-radioButton name="optionB" value="rutina" label="Rutina" [(ngModel)]="optionsValues[1]"></p-radioButton>
-                        <p-radioButton name="optionB" value="figura" label="Figura" [(ngModel)]="optionsValues[1]"></p-radioButton>
-                    </div>
-                </div>
-                <div *ngIf="optionsValues[1] == 'rutina'; else figureB" class="flex flex-row gap-3">
-                    <div class="flex flex-col">
-                        <h5 class="text-xl font-semibold text-slate-600 tracking-tight">Rutina</h5>
-                        <textarea pInputTextarea [rows]="2" [cols]="15" [autoResize]="true" [(ngModel)]="problem.options[1].answer"></textarea>
-                    </div>
-                    <div class="flex flex-col">
-                        <h5 class="text-xl font-semibold text-slate-600 tracking-tight">Resultado</h5>
-                        <ng-katex-html [html]="problem.options[1].answer"></ng-katex-html>
-                    </div>
-                </div>
-                <ng-template #figureB>
-                    <h5 class="text-xl font-semibold text-slate-600 tracking-tight mb-2">Resultado</h5>
-                    <div class="flex flex-row justify-around">
-                        <p-image [src]="problem.options[1].answer" [alt]="problem.options[0].letter" width="auto"></p-image>
-                        <p-fileUpload mode="basic" chooseLabel="Subir figura" name="demo[]" url="./upload.php" accept="image/*" [maxFileSize]="420000" (onUpload)="onBasicUpload()"></p-fileUpload>
-                    </div>
-                </ng-template>
-            </p-card>
-            <p-card class="col-span-4 h-min">
-                <div class="flex flex-row gap-3 mb-6">
-                    <div class="p-2 shadow-sm border-slate-600 border-2 w-12 h-fit rounded-full text-center">
-                        <h5 class="text-xl my-auto font-semibold text-slate-600">C</h5>
-                    </div>       
-                    <div class="flex flex-col gap-3 mr-8">           
-                        <p-radioButton name="optionC" value="rutina" label="Rutina" [(ngModel)]="optionsValues[2]"></p-radioButton>
-                        <p-radioButton name="optionC" value="figura" label="Figura" [(ngModel)]="optionsValues[2]"></p-radioButton>
-                    </div>
-                </div>
-                <div *ngIf="optionsValues[2] == 'rutina'; else figureC" class="flex flex-row gap-3">
-                    <div class="flex flex-col">
-                        <h5 class="text-xl font-semibold text-slate-600 tracking-tight">Rutina</h5>
-                        <textarea pInputTextarea [rows]="2" [cols]="15" [autoResize]="true" [(ngModel)]="problem.options[2].answer"></textarea>
-                    </div>
-                    <div class="flex flex-col">
-                        <h5 class="text-xl font-semibold text-slate-600 tracking-tight">Resultado</h5>
-                        <ng-katex-html [html]="problem.options[2].answer"></ng-katex-html>
-                    </div>
-                </div>
-                <ng-template #figureC>
-                    <h5 class="text-xl font-semibold text-slate-600 tracking-tight mb-2">Resultado</h5>
-                    <div class="flex flex-row justify-around">
-                        <p-image [src]="problem.options[2].answer" [alt]="problem.options[0].letter" width="auto"></p-image>
-                        <p-fileUpload mode="basic" chooseLabel="Subir figura" name="demo[]" url="./upload.php" accept="image/*" [maxFileSize]="420000" (onUpload)="onBasicUpload()"></p-fileUpload>
-                    </div>
-                </ng-template>
-            </p-card>
-            <p-card class="col-span-4 h-min">
-                <div class="flex flex-row gap-3 mb-6">
-                    <div class="p-2 shadow-sm border-slate-600 border-2 w-12 h-fit rounded-full text-center">
-                        <h5 class="text-xl my-auto font-semibold text-slate-600">D</h5>
-                    </div>       
-                    <div class="flex flex-col gap-3 mr-8">           
-                        <p-radioButton name="optionD" value="rutina" label="Rutina" [(ngModel)]="optionsValues[3]"></p-radioButton>
-                        <p-radioButton name="optionD" value="figura" label="Figura" [(ngModel)]="optionsValues[3]"></p-radioButton>
-                    </div>
-                </div>
-                <div *ngIf="optionsValues[3] == 'rutina'; else figureD" class="flex flex-row gap-3">
-                    <div class="flex flex-col">
-                        <h5 class="text-xl font-semibold text-slate-600 tracking-tight">Rutina</h5>
-                        <textarea pInputTextarea [rows]="2" [cols]="15" [autoResize]="true" [(ngModel)]="problem.options[3].answer"></textarea>
-                    </div>
-                    <div class="flex flex-col">
-                        <h5 class="text-xl font-semibold text-slate-600 tracking-tight">Resultado</h5>
-                        <ng-katex-html [html]="problem.options[3].answer"></ng-katex-html>
-                    </div>
-                </div>
-                <ng-template #figureD>
-                    <h5 class="text-xl font-semibold text-slate-600 tracking-tight mb-2">Resultado</h5>
-                    <div class="flex flex-row justify-around">
-                        <p-image [src]="problem.options[3].answer" [alt]="problem.options[0].letter" width="auto"></p-image>
-                        <p-fileUpload mode="basic" chooseLabel="Subir figura" name="demo[]" url="./upload.php" accept="image/*" [maxFileSize]="420000" (onUpload)="onBasicUpload()"></p-fileUpload>
-                    </div>
-                </ng-template>
-            </p-card>
-            <p-card class="col-span-4 h-min">
-                <div class="flex flex-row gap-3 mb-6">
-                    <div class="p-2 shadow-sm border-slate-600 border-2 w-12 h-fit rounded-full text-center">
-                        <h5 class="text-xl my-auto font-semibold text-slate-600">E</h5>
-                    </div>       
-                    <div class="flex flex-col gap-3 mr-8">           
-                        <p-radioButton name="optionE" value="rutina" label="Rutina" [(ngModel)]="optionsValues[4]"></p-radioButton>
-                        <p-radioButton name="optionE" value="figura" label="Figura" [(ngModel)]="optionsValues[4]"></p-radioButton>
-                    </div>
-                </div>
-                <div *ngIf="optionsValues[4] == 'rutina'; else figureE" class="flex flex-row gap-3">
-                    <div class="flex flex-col">
-                        <h5 class="text-xl font-semibold text-slate-600 tracking-tight">Rutina</h5>
-                        <textarea pInputTextarea [rows]="2" [cols]="15" [autoResize]="true" [(ngModel)]="problem.options[4].answer"></textarea>
-                    </div>
-                    <div class="flex flex-col">
-                        <h5 class="text-xl font-semibold text-slate-600 tracking-tight">Resultado</h5>
-                        <ng-katex-html [html]="problem.options[4].answer"></ng-katex-html>
-                    </div>
-                </div>
-                <ng-template #figureE>
-                    <h5 class="text-xl font-semibold text-slate-600 tracking-tight mb-2">Resultado</h5>
-                    <div class="flex flex-row justify-around">
-                        <p-image [src]="problem.options[4].answer" [alt]="problem.options[0].letter" width="auto"></p-image>
-                        <p-fileUpload mode="basic" chooseLabel="Subir figura" name="demo[]" url="./upload.php" accept="image/*" [maxFileSize]="420000" (onUpload)="onBasicUpload()"></p-fileUpload>
-                    </div>
-                </ng-template>
-            </p-card>
-        </div>
-    </div>
-</div>
-
-<!-- Categoría y Solución -->
-<!-- <div class="grid grid-cols-12 gap-6 mb-6">
-    <p-card class="col-span-2 shadow-md" header="Categoría">
-        <div class="flex flex-col gap-3">
-            <p-radioButton name="categorias" value="algebra" label="Álgebra" [(ngModel)]="selectedValue"></p-radioButton>
-            <p-radioButton name="categorias" value="geometria" label="Geometría" [(ngModel)]="selectedValue"></p-radioButton>
-            <p-radioButton name="categorias" value="probabilidad" label="Probabilidad" [(ngModel)]="selectedValue"></p-radioButton>
-            <p-radioButton name="categorias" value="teoria-numeros" label="Teoría de números" [(ngModel)]="selectedValue"></p-radioButton>
-            <p-radioButton name="categorias" value="sin-categoria" label="Sin categoría" [(ngModel)]="selectedValue"></p-radioButton>
-        </div>
-    </p-card>
-    <p-card class="col-span-2 shadow-md h-min" header="Solución">
-        <div class="flex flex-col gap-3">
-            <p-radioButton name="opciones" value="option-a" label="A" [(ngModel)]="selectedValue"></p-radioButton>
-            <p-radioButton name="opciones" value="option-b" label="B" [(ngModel)]="selectedValue"></p-radioButton>
-            <p-radioButton name="opciones" value="option-c" label="C" [(ngModel)]="selectedValue"></p-radioButton>
-            <p-radioButton name="opciones" value="option-d" label="D" [(ngModel)]="selectedValue"></p-radioButton>
-            <p-radioButton name="opciones" value="option-e" label="E" [(ngModel)]="selectedValue"></p-radioButton>
-        </div>
-    </p-card>
-</div>
-<div class="grid grid-cols-12">
-<button pButton pRipple label="Guardar" class="btn w-32 p-3 col-span-2 col-start-10" [routerLink]="['/']"></button>
-</div> -->

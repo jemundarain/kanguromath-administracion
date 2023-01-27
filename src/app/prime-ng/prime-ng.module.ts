@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
+import { AccordionModule } from 'primeng/accordion';
 import { ButtonModule } from 'primeng/button';
 import { CalendarModule } from 'primeng/calendar';
 import { CardModule } from 'primeng/card';
@@ -25,9 +26,12 @@ import { ToastModule } from 'primeng/toast';
 
 @NgModule({
   exports: [
+    AccordionModule,
     ButtonModule,
     CalendarModule,
     CardModule,
+    ChartModule,
+    ConfirmDialogModule,
     DropdownModule,
     FileUploadModule,
     FormsModule,
@@ -44,8 +48,6 @@ import { ToastModule } from 'primeng/toast';
     SlideMenuModule,
     StepsModule,
     TableModule,
-    ChartModule,
-    ConfirmDialogModule,
     ToastModule
   ]
 })

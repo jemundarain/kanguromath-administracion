@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { LevelOption } from '../interfaces/level-option.interface';
 import { TestService } from '../services/test.service';
 import { Test } from '../models/test-model';
@@ -30,9 +30,10 @@ import { GlobalConstants } from 'src/app/common/global-constants';
   ]
 })
 export class EditProblemComponent implements OnInit {
-  formBuilder: any;
 
   constructor( private testService: TestService, private activatedRoute: ActivatedRoute ) { }
+  
+  @ViewChild('problemForm', { static: true }) problemForm !: NgForm;
   rutina: string;
   conFigura: string;
   value1: number = 0;
@@ -40,7 +41,6 @@ export class EditProblemComponent implements OnInit {
   property: string = '';
   
   levels: LevelOption[];
-  form: FormGroup = new FormGroup({});
   editions: string[];
   tests: Test[] = [];
   test!: Test;
@@ -49,13 +49,9 @@ export class EditProblemComponent implements OnInit {
   cuerpoProblema: string;
   resultado: string;
 
-  optionB: string = "rutina";
-  optionC: string = "rutina";
-  optionD: string = "rutina";
-  optionE: string = "rutina";
-
-
   optionsValues:string[] = [];
+  category: string;
+  solution: string;
   
   figuresMap1 = {
     '=0': '',
@@ -83,40 +79,27 @@ export class EditProblemComponent implements OnInit {
     this.testService.getEditions()
       .subscribe( editions => this.editions = editions);
 
-    this.activatedRoute.params
-      .pipe(
-        switchMap( ({ id }) => this.testService.getProblemById(id))
-      )
-      .subscribe( problem => {
-        this.problem = problem;
-        if(this.problem.figures.length) {
-          this.rutina = 'con-figura'
-        } else {
-          this.rutina = 'sin-figura'
-        }
-        /*this.rutina = this.problem.type;
-        switch (this.problem.type) {
-          case 'sin-figura':
-            this.rutina = this.problem.type
-            break;    
-          case 'figura-derecha':
-          case 'figura-intermedia':
-            this.rutina = 'con-figura';
-            this.conFigura = this.problem.type;
-            break;   
-          default:
-            break;
-        }*/
-        this.cuerpoProblema = this.problem.statement;
-        this.problem.options.sort((a,b) => (a.letter > b.letter) ? 1 : ((b.letter > a.letter) ? -1 : 0));
-        for(let i=0; i<this.problem.options.length; i++) {
-          this.problem.options[i].answer.includes('http')? this.optionsValues[i] = 'figura': this.optionsValues[i] = 'rutina';  
-        }
-      });
-
+    this.activatedRoute.params.pipe(
+      switchMap( ({ id }) => this.testService.getProblemById(id))
+    ).subscribe( problem => {
+      this.problem = problem;
+      this.problem.figures.length ? this.rutina = 'con-figura' : this.rutina = 'sin-figura';
+      this.cuerpoProblema = this.problem.statement;
+      this.problem.options.sort((a,b) => (a.letter > b.letter) ? 1 : ((b.letter > a.letter) ? -1 : 0));
+      for(let i=0; i<this.problem.options.length; i++) {
+        this.problem.options[i].answer.includes('http')? this.optionsValues[i] = 'figura': this.optionsValues[i] = 'rutina';  
+      }
+      this.category = this.problem.category;
+      this.solution = this.problem.solution;
+    });
+    
+    console.log('problemFor', this.problemForm);
+    this.problemForm?.form.valueChanges.subscribe((data) => {
+      console.log('data', data);
+    })
   }
 
-  onSubmit(){
+  onSubmit(): void{
   }
   onBasicUpload(){
 

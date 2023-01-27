@@ -251,3 +251,7 @@ p-calendar .p-button:enabled:hover, .edit-btn:hover, .p-fileupload-choose.p-butt
 .p-dropdown-trigger {
     background-color: #f59e0b !important;
 }
+
+.p-accordion-tab-active .pi-chevron-down::before {
+    color: #f59e0b !important;
+}
