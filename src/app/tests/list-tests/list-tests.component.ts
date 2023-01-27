@@ -18,7 +18,7 @@ export class ListTestsComponent implements OnInit, OnDestroy {
   @ViewChild('editionsForm', { static: true }) editionsForm!: NgForm;
   editions: string[];
   edition: string;
-  tests: Test[] = [];
+  tests: Test[];
 
   ngOnInit(): void {
     this.testService.getEditions()

@@ -121,7 +121,7 @@ p-inputnumber [name="numberFigures"] .p-inputnumber-button {
     background-color: #d97706 !important;
 }
 
-td:not(:nth-child(1)) {
+#tests-table td:not(:nth-child(1)) {
     width: 120px;
 }
 
@@ -145,7 +145,7 @@ table a:hover .pi:before {
     color: #f59e0b;
 }
 
-th:nth-child(1) {
+#tests-table th:nth-child(1) {
     width: 40%;
 }
 
@@ -187,9 +187,9 @@ p-calendar .p-button:enabled {
     height: 37px !important;
 }
 
-p-calendar .p-button:enabled:hover {
-    background: #d97706;
-    border: #d97706;
+p-calendar .p-button:enabled:hover, .edit-btn:hover, .p-fileupload-choose.p-button:hover, .p-inputnumber-button:hover {
+    background: #d97706 !important;
+    border: #d97706 !important;
 }
 
 #range {

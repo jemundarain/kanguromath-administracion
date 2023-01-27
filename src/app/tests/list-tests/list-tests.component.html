@@ -2,6 +2,7 @@
 <div class="grid grid-cols-1 mb-6">
     <h1 class="inline-block text-5xl font-bold text-gray-700 tracking-tight">Pruebas</h1>
 </div>
+
 <!-- Edición combobox -->
 <div class="flex gap-2 mb-6">
     <h5 class="text-2xl my-auto font-semibold text-slate-600 tracking-tight">Edición:</h5>
@@ -10,11 +11,12 @@
     </form>
 </div>
 
+
 <!-- Table -->
-<app-progress-spinner [condition]="tests" [template]="tableT"></app-progress-spinner>
+<app-progress-spinner [condition]="tests == []" [template]="tableT"></app-progress-spinner>
 <ng-template #tableT>
     <div class="grid grid-cols-12 mb-6">
-        <p-table [value]="tests" class="col-span-4">
+        <p-table [value]="tests" class="col-span-4" id="tests-table">
             <ng-template pTemplate="header">
                 <tr>
                     <th>Año</th>

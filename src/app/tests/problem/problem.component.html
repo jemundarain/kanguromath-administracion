@@ -5,5 +5,5 @@
         <span *ngIf="!isLink(option.answer); else imageAnswer">{{option.answer}}</span>
         <ng-template #imageAnswer><img [src]="option.answer"></ng-template>
     </div>
-    <p-button type="button" [routerLink]="['/pruebas/editar-problema', problem.problem_id]" label="Editar" class="col-span-2 md:col-span-2 md:col-start-7 p-button-raised my-auto" styleClass="btn float-right"></p-button>
+    <p-button type="button" [routerLink]="['/pruebas/editar-problema', problem.problem_id]" label="Editar" class="col-span-2 md:col-span-2 md:col-start-7 p-button-raised my-auto" styleClass="btn float-right edit-btn"></p-button>
 </div>
