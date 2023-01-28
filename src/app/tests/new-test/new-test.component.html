@@ -24,7 +24,7 @@
 <form *ngIf="option == 'Manual'" #addTestForm="ngForm">
     <div class="flex gap-2 mb-6">
         <h5 class="text-2xl my-auto font-semibold text-slate-600 tracking-tight">Edición:</h5>
-        <p-inputNumber [(ngModel)]="test.edition" name="edition" [showButtons]="true" [min]="min" [format]="false"></p-inputNumber>    
+        <p-inputNumber [(ngModel)]="test.edition" name="edition" [showButtons]="true" [min]="minEdition" [max]="maxEdition" [format]="false"></p-inputNumber>    
         <h5 class="text-2xl my-auto font-semibold text-slate-600 tracking-tight ml-5">Año Escolar:</h5>
         <p-dropdown [(ngModel)]="test.levels" 
                     name="level" 

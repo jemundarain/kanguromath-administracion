@@ -11,10 +11,10 @@ import { GlobalConstants } from 'src/app/common/global-constants';
 export class NewTestComponent implements OnInit {
 
   value1: number = 0;
-  min: number = 2002;
-  currentYear: string = new Date().getFullYear().toString();
+  minEdition: number = GlobalConstants.MIN_DATE_EDITION;
+  maxEdition: number = GlobalConstants.MAX_DATE_EDITION;
 
-  test: Test = new Test('', '', '', this.currentYear, ['']);
+  test: Test = new Test('', '', '', GlobalConstants.MAX_DATE_EDITION.toString(), ['']);
 
   levels: LevelOption[];
   selectedLevelCode: string;

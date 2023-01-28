@@ -4,6 +4,7 @@ import { LevelOption } from "../tests/interfaces/level-option.interface";
 
 export class GlobalConstants {
     public static MIN_DATE_EDITION: number = 2002;
+    public static MAX_DATE_EDITION: number = (new Date()).getFullYear();
 
     public static SITE_TITLE: string = 'administrador-canguromath-app';
 

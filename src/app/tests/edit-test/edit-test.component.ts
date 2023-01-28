@@ -17,7 +17,8 @@ import { MessageService } from 'primeng/api';
 export class EditTestComponent implements OnInit {
 
   edition: number = 0;
-  minEdition: number = 2009;
+  minEdition: number = GlobalConstants.MIN_DATE_EDITION;
+  maxEdition: number = GlobalConstants.MAX_DATE_EDITION;
 
   levels: LevelOption[];
   selectedLevelCode: string;
