@@ -4,28 +4,31 @@
 </div>
 
 <!-- Edición combobox -->
-<form (ngSubmit)="updateTest()"
-      #editTestForm="ngForm">
-    <div class="flex gap-2 mb-6">
-        <h5 class="text-xl my-auto font-semibold text-slate-600 tracking-tight">Edición:</h5>
-        <p-inputNumber [(ngModel)]="test.edition" 
-                       name="edition" 
-                       [format]="false" 
-                       [showButtons]="true" 
-                       [min]="minEdition">
-        </p-inputNumber>    
-        <h5 class="text-xl my-auto font-semibold text-slate-600 tracking-tight ml-5">Año Escolar:</h5>
-        <p-dropdown  [(ngModel)]="test.levels"
-                     name="levels"
-                     class="col-span-2 my-auto mr-8"
-                     [options]="levels"
-                     optionLabel="name"
-                     optionValue="code">
-        </p-dropdown>
-        <button pButton pRipple
-                label="Guardar" 
-                class="btn col-span-2 col-start-5" 
-                type="submit">
-        </button>
-    </div>
-</form>
+<app-progress-spinner [condition]="test == undefined" [template]="settingsT"></app-progress-spinner>
+<ng-template #settingsT>
+    <form (ngSubmit)="updateTest()"
+        #editTestForm="ngForm">
+        <div class="flex gap-2 mb-6">
+            <h5 class="text-xl my-auto font-semibold text-slate-600 tracking-tight">Edición:</h5>
+            <p-inputNumber [(ngModel)]="test.edition" 
+                        name="edition" 
+                        [format]="false" 
+                        [showButtons]="true" 
+                        [min]="minEdition">
+            </p-inputNumber>    
+            <h5 class="text-xl my-auto font-semibold text-slate-600 tracking-tight ml-5">Año Escolar:</h5>
+            <p-dropdown  [(ngModel)]="test.levels"
+                        name="levels"
+                        class="col-span-2 my-auto mr-8"
+                        [options]="levels"
+                        optionLabel="name"
+                        optionValue="code">
+            </p-dropdown>
+            <button pButton pRipple
+                    label="Guardar" 
+                    class="btn col-span-2 col-start-5" 
+                    type="submit">
+            </button>
+        </div>
+    </form>
+</ng-template>
