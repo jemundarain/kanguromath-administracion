@@ -10,15 +10,19 @@ import { Ranking } from '../interfaces/ranking.interfaces';
 
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html'
+  templateUrl: './dashboard.component.html',
+  providers: [ MessageService ]
 })
 export class DashboardComponent implements OnInit {
 
-  constructor(private pagesService: PagesService, private router: Router, private activatedRoute: ActivatedRoute, private fb: FormBuilder) { 
-  }
+  constructor( private pagesService: PagesService,
+               private messageService: MessageService,
+               private router: Router,
+               private activatedRoute: ActivatedRoute ) { }
   
   @ViewChild('dateFilterForm', { static: true }) dateFilterForm!: NgForm;
   @ViewChild('report') report!: ElementRef;
@@ -132,9 +136,11 @@ export class DashboardComponent implements OnInit {
     return dateOptions;
   }
 
-  public openPDF(): void {
+  showToast() {
+    this.messageService.add({ severity:'success', summary: 'Reporte descargado' });
+  }
 
-    // Extraemos el
+  public openPDF(): void {
     const DATA = document.getElementById('report');
     const doc = new jsPDF('p', 'pt', 'a4');
     const options = {
@@ -158,5 +164,6 @@ export class DashboardComponent implements OnInit {
         docResult.save(`${new Date().toISOString()}_tutorial.pdf`);
       });
     }
+    this.showToast();
   }
 }
