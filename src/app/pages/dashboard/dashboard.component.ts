@@ -111,7 +111,7 @@ export class DashboardComponent implements OnInit {
       });
     })
 
-    /*Ordenamiento mayor a menor del ranking*/
+    /*Ordenamiento de mayor a menor del ranking*/
     this.pagesService.getRanking().subscribe(ranking => {
       this.ranking = ranking.sort((a, b) => b.count-a.count);
     });
@@ -134,10 +134,6 @@ export class DashboardComponent implements OnInit {
       }
     }
     return dateOptions;
-  }
-
-  showToast() {
-    this.messageService.add({ severity:'success', summary: 'Reporte descargado' });
   }
 
   public openPDF(): void {
@@ -164,6 +160,6 @@ export class DashboardComponent implements OnInit {
         docResult.save(`${new Date().toISOString()}_tutorial.pdf`);
       });
     }
-    this.showToast();
+    this.messageService.add({ severity:'success', summary: 'Reporte descargado' });
   }
 }
