@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Figure } from '../models/figure-model';
+import { TestService } from '../services/test.service';
 
 @Component({
   selector: 'app-figures-table',
@@ -7,17 +8,20 @@ import { Figure } from '../models/figure-model';
 })
 export class FiguresTableComponent implements OnInit {
 
-  constructor() { }
+  constructor( private testService: TestService) { }
 
-  @Input() figures: Figure[]
-  posiciones: string[] = [];
-  selectedPosicion: string;
+  @Input() figures: Figure[];
+  position: string;
 
   ngOnInit(): void {
-    this.posiciones = ['intermedia', 'derecha'];
+    this.testService.getProblemById
   }
 
   onBasicUpload() {
     
+  }
+
+  setPosition(position: string){
+    this.position = position;
   }
 }

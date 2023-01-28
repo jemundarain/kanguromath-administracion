@@ -7,6 +7,7 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Subscription, switchMap } from 'rxjs';
 import { Problem } from '../models/problem-model';
 import { GlobalConstants } from 'src/app/common/global-constants';
+import { Figure } from '../models/figure-model';
 
 
 @Component({
@@ -93,15 +94,30 @@ export class EditProblemComponent implements OnInit {
       this.solution = this.problem.solution;
     });
     
-    console.log('problemFor', this.problemForm);
     this.problemForm?.form.valueChanges.subscribe((data) => {
-      console.log('data', data);
+      if(this.problemForm.controls['numberFigures'].value != this.problem.figures.length) {
+        if(this.problemForm.controls['numberFigures'].value > this.problem.figures.length) {
+          this.addFigure();
+        } /*else {
+          console.log('disminuy');  
+        }*/
+      }
     })
   }
 
   onSubmit(): void{
   }
   onBasicUpload(){
-
   }
+
+  addFigure() {
+    let num_s = this.problem.figures.length;
+    const newFigure = new Figure('', num_s + 1 , '', 'intermedia');
+    this.problem.figures.push(newFigure);
+  }
+
+  // deleteFigure() {
+  //   this.problem.figures.pop();
+  // }
+
 }
