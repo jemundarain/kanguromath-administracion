@@ -3,15 +3,18 @@ import { Router } from '@angular/router';
 import { TestService } from '../services/test.service';
 import { Test } from '../models/test-model';
 import { NgForm } from '@angular/forms';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-list-tests',
-  templateUrl: './list-tests.component.html'
+  templateUrl: './list-tests.component.html',
+  providers: [MessageService]
 })
 export class ListTestsComponent implements OnInit, OnDestroy {
 
   constructor(
     private testService: TestService,
+    private messageService: MessageService,
     private router: Router
   ) { }
 
@@ -36,5 +39,6 @@ export class ListTestsComponent implements OnInit, OnDestroy {
 
   deleteTest(_id: string){
     this.testService.deleteTest(_id);
+    this.messageService.add({ severity:'success', summary: 'Exitoso', detail: 'Prueba Eliminada' });
   }
 }
