@@ -3,7 +3,7 @@ import { NgForm } from '@angular/forms';
 import { LevelOption } from '../interfaces/level-option.interface';
 import { TestService } from '../services/test.service';
 import { Test } from '../models/test-model';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Subscription, switchMap } from 'rxjs';
 import { Problem } from '../models/problem-model';
 import { GlobalConstants } from 'src/app/common/global-constants';
@@ -32,7 +32,7 @@ import { Figure } from '../models/figure-model';
 })
 export class EditProblemComponent implements OnInit {
 
-  constructor( private testService: TestService, private activatedRoute: ActivatedRoute ) { }
+  constructor( private testService: TestService, private activatedRoute: ActivatedRoute, private router: Router ) { }
   
   @ViewChild('problemForm', { static: true }) problemForm !: NgForm;
   rutina: string;
@@ -114,6 +114,10 @@ export class EditProblemComponent implements OnInit {
     let num_s = this.problem.figures.length;
     const newFigure = new Figure('', num_s + 1 , '', 'intermedia');
     this.problem.figures.push(newFigure);
+  }
+
+  back( test_id: string ) {
+    this.router.navigateByUrl(`/pruebas/ver/${test_id}`);
   }
 
   // deleteFigure() {

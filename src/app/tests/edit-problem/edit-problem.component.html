@@ -188,8 +188,8 @@
                 </div>
             </div>
             </ng-container>
+
             <!-- Categoría y Solución -->
-            
             <div class="grid grid-cols-12 gap-6 mb-6">
                 <p-card class="col-span-3 shadow-md" header="Categoría">
                     <div class="flex flex-col gap-3">
@@ -214,4 +214,14 @@
                 <button pButton pRipple label="Guardar" class="btn w-32 p-3 col-span-2 col-start-10" [routerLink]="['/']"></button>
             </div>
         </form>
+
+        <button pButton 
+                type="button" 
+                class="btn float-left"
+                label="Volver" 
+                icon="pi pi-arrow-left" 
+                iconPos="left"
+                (click)="back('preliminar-2010-1ero-2do')">
+</button>
+
 </div>
