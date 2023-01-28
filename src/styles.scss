@@ -113,6 +113,10 @@ p-inputnumber [name="numberFigures"] .p-inputnumber-button {
     box-shadow: none;
 }
 
+[name="dateOption"] .p-dropdown-items-wrapper {
+    max-height: max-content !important;
+}
+
 [name="dateRange"] .btn, [name="dateOption"] .btn, #range {
     height: 37px !important;
 }
