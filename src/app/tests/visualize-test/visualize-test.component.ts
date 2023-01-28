@@ -14,6 +14,7 @@ export class VisualizeTestComponent implements OnInit {
   constructor(
     private testService: TestService,
     private activatedRoute: ActivatedRoute,
+    private router: Router
   ) { }
 
   test : Test;
@@ -31,4 +32,8 @@ export class VisualizeTestComponent implements OnInit {
         this.testService.getProblemsByIds(this.problemsId).subscribe(problems => this.problems = problems)
       });
   };
+
+  back() {
+    this.router.navigateByUrl('pruebas/lista');
+  }
 }
