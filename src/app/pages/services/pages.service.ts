@@ -69,7 +69,7 @@ export class PagesService {
   }
 
   updateAppState(global: Global) {
-    this.http.put<{message: string}>(`${this.baseUrl}/ajustes/cambiar-estado`, global).subscribe((jsonData) => {
+    this.http.put<{message: string}>(`${ this.baseUrl }/ajustes/cambiar-estado`, global).subscribe((jsonData) => {
       console.log(jsonData);
     })
   }

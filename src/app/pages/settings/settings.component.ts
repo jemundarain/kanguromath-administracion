@@ -28,7 +28,7 @@ export class SettingsComponent implements OnInit {
       this.state = this.global.app_enabled;
     })
 
-    this.settingsForm.form.valueChanges.subscribe((data) => {
+    this.settingsForm?.form.valueChanges.subscribe((data) => {
       const global = new Global(this.global?._id, data.state);
       this.pagesService.updateAppState(global);
     })
@@ -64,23 +64,5 @@ export class SettingsComponent implements OnInit {
 
   showToast(action: string) {
     this.messageService.add({severity:'success', summary: 'Exitoso', detail: 'Aplicación ' + action });
-  }
-
-  updateState() {
-    const global = new Global(this.global._id, !this.global.app_enabled);
-    this.pagesService.updateAppState(global);
-  }
-  
-  confirm1() {
-    this.confirmationService.confirm({
-      message: '¿Estás seguro de que quieres activar la aplicación?',
-      header: 'Confirmación',
-      accept: () => {
-        this.msgs = [{severity:'info', detail:'Aplicación activada'}];
-      },
-      reject: () => {
-        this.msgs = [{severity:'info', detail:'Aplicación desactivada'}];
-      }
-    });
   }
 }
