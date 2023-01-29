@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { HomeComponent } from './home/home.component';
 import { SettingsComponent } from './settings/settings.component';
+import { ProfileComponent } from './profile/profile.component';
 
 const routes: Routes = [
     {
@@ -12,6 +13,7 @@ const routes: Routes = [
       children: [
         { path: 'informe', component: DashboardComponent },
         { path: 'ajustes', component: SettingsComponent },
+        { path: 'perfil', component: ProfileComponent },
         { path: '**', redirectTo: 'informe' }
       ]
     }

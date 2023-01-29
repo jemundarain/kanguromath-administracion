@@ -1,1 +1,59 @@
-<p>profile works!</p>
+<!-- <app-progress-spinner [condition]="state == undefined" [template]="settingsT"></app-progress-spinner>
+<ng-template #settingsT> -->
+    <form #profileForm="ngForm" (ngSubmit)="updateProfile()" class="col-span-4 col-start-5 row-start-3 ml-24 mr-20">
+        <div class="grid grid-cols-12 grid-row-5">
+            <div class="col-span-3 col-start-2 row-start-1 mb-5">
+                <label for="name" class="block text-900 text-xl font-medium mb-2">Nombre</label>
+                <input pInputText id="name" name="name" type="text" placeholder="Primer nombre" class="mb-5 w-11/12">
+            </div>
+            <div class="col-span-3 col-start-5 row-start-1 mb-5">
+                <label for="last_name" class="block text-900 text-xl font-medium mb-2">Apellido</label>
+                <input pInputText id="last_name" name="last_name" type="text" placeholder="Primer apellido" class="mb-5 w-11/12">
+            </div>
+
+            <div class="col-span-3 col-start-2 row-start-2 mb-5">
+                <label for="username" class="block text-900 text-xl font-medium mb-2">Nombre de usuario</label>
+                <input pInputText id="username" name="username" type="text" placeholder="Nombre de usuario" class="mb-5 w-11/12">
+            </div>
+
+            <div class="col-span-3 col-start-5 row-start-2 mb-5">
+                <label for="username" class="block text-900 text-xl font-medium mb-2">Fecha de nacimiento</label>
+                <p-calendar [(ngModel)]="date_birthday"
+                            name="date_birthday"
+                            selectionMode="simple" 
+                            [maxDate]="maxDate" 
+                            [readonlyInput]="true" 
+                            inputId="range" 
+                            [showIcon]="true" 
+                            class="p-button-raised grid row-start-2 mt-3">
+                </p-calendar>            
+            </div>
+            
+            <div class="col-span-3 col-start-2 row-start-3 mb-5">
+                <label for="email" class="block text-900 text-xl font-medium mb-2">Email</label>
+                <input pInputText id="email" name="email" type="email" placeholder="Correo electrónico" class="mb-5 w-11/12">
+            </div>
+
+            <div class="col-span-3 col-start-5 row-start-3 mb-5">
+                <label for="password" class="block text-900 font-medium text-xl mb-2">Contraseña</label>
+                <p-password id="password" name="password" autocomplete="off" [(ngModel)]="password" placeholder="Password" [feedback]="true" [toggleMask]="true" styleClass="mb-7"></p-password>
+            </div>
+
+            <div class="col-span-4 col-start-9 row-start-1 row-span-3 mb-5">
+                <p-image src="/src/assets/canguro-gray.png" [preview]="true" [preview]="true" alt="profileImgALT" width="auto"></p-image>
+            </div>
+
+            <div class="col-span-2 col-start-6 row-start-4 mb-5">
+                <button pButton pRipple
+                        type="submit"
+                        label="Guardar"
+                        class="btn float-right pl-5"
+                        [disabled]="false">
+                </button>
+            </div>
+        </div>
+    </form>
+<!-- </ng-template> -->
+
+<!-- <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"></p-confirmDialog>
+<p-toast position="bottom-center"></p-toast> -->
