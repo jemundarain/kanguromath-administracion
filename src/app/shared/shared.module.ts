@@ -10,6 +10,7 @@ import { PieChartForLevelComponent } from './pie-chart-for-level/pie-chart-for-l
 import { StateTitlePipe } from './pipes/state-title.pipe';
 import { ProgressSpinnerComponent } from './progress-spinner/progress-spinner.component';
 import { NavbarComponent } from './navbar/navbar.component';
+import { HeaderComponent } from './header/header.component';
 
 @NgModule({
   declarations: [
@@ -19,14 +20,17 @@ import { NavbarComponent } from './navbar/navbar.component';
     PieChartForLevelComponent,
     StateTitlePipe,
     ProgressSpinnerComponent,
-    NavbarComponent
+    NavbarComponent,
+    HeaderComponent
   ],
   exports: [
     SlideMenuComponent,
     PieChartForRolComponent,
     RankingListComponent,
     PieChartForLevelComponent,
-    ProgressSpinnerComponent
+    ProgressSpinnerComponent,
+    NavbarComponent,
+    HeaderComponent
   ],
   imports: [
     CommonModule,
