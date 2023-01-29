@@ -1,17 +1,41 @@
 import { Component } from '@angular/core';
+import { animate, style, transition, trigger } from '@angular/animations';
+
 import { PrimeNGConfig } from 'primeng/api';
+
 import { GlobalConstants } from './common/global-constants';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
+  animations: [
+    trigger('slidein', [
+      transition(':enter', [
+        // when ngif has true
+        style({ transform: 'translateX(-100%)' }),
+        animate(420, style({ transform: 'translateX(0)' }))
+      ]),
+      transition(':leave', [
+        // when ngIf has false
+        animate(420, style({ transform: 'translateX(-100%)' }))
+      ])
+    ])
+  ]
 })
 export class AppComponent {
-  constructor(private primengConfing: PrimeNGConfig) {}  
+  
   title = GlobalConstants.SITE_TITLE;
+  expanded: boolean = true;
+  constructor(private primengConfing: PrimeNGConfig) {}  
+  
 
   ngOnInit() {
     this.primengConfing.ripple = true;
     this.primengConfing.setTranslation(GlobalConstants.TRANSLATION);
+  }
+
+  changeExpanded(arg: boolean) {
+    this.expanded = !arg;
   }
 }

@@ -1,0 +1,9 @@
+#navbar {
+    transition-property: margin-left;
+    transition-timing-function: ease-in-out;
+    transition-duration: 500ms;
+}
+
+.transformed-state {
+    margin-left: 16rem;
+}

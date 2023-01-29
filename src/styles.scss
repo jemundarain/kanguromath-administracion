@@ -264,6 +264,10 @@ p-calendar .p-button:enabled:hover, .edit-btn:hover, .p-fileupload-choose.p-butt
     background-color: rgba(245, 158, 11, 0.1) !important;
 }
 
-.pi-caret-left::before, .p-image-preview-icon.pi:before {
+.p-image-preview-icon.pi:before {
     color: #f59e0b !important;
+}
+
+header button {
+  padding: 6px 8px !important;
 }
