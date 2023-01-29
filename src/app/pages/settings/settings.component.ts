@@ -4,6 +4,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { PagesService } from '../services/pages.service';
 import { Message } from 'primeng/api';
 import { Global } from '../global-model'
+import { TestService } from '../../tests/services/test.service';
 
 @Component({
   selector: 'app-settings',
@@ -20,7 +21,8 @@ export class SettingsComponent implements OnInit {
   checked = false;
   constructor( private pagesService: PagesService,
                private confirmationService: ConfirmationService,
-               private messageService: MessageService) { }
+               private messageService: MessageService,
+               private testService: TestService) { }
 
   ngOnInit(): void {
     this.pagesService.getAppState().subscribe((global) => {
@@ -64,5 +66,11 @@ export class SettingsComponent implements OnInit {
 
   showToast(action: string) {
     this.messageService.add({severity:'success', summary: 'Exitoso', detail: 'Aplicación ' + action });
+  }
+
+  onInput(e: Event) {
+    const input = e.target as HTMLInputElement;
+    if (!input.files) return;
+    this.testService.upload(input.files[0]).subscribe(url => console.log(url));
   }
 }

@@ -9,7 +9,7 @@ import { environment } from 'src/environments/environment';
 @Injectable({providedIn:'root'})
 export class TestService {
 
-    private readonly _apiKey: string = 'f46979c97f7f0a98ddb55645a063494d';
+    private readonly _imgBBapiKey: string = 'f46979c97f7f0a98ddb55645a063494d';
     private baseUrl: string = environment.baseUrl;
     constructor(private http: HttpClient){}
     
@@ -33,14 +33,13 @@ export class TestService {
         return this.http.get<Test[]>(`${ this.baseUrl }/prueba/problema/${problem_id}`)
     }
 
-    upload(file: File) {
+    upload(file: File): Observable<string> {
         const formData = new FormData();
 
         formData.append('image', file);
 
-        return this.http
-            .post('/upload', formData, { params: { key: this._apiKey } })
-            .pipe(map((response) => console.log(response)));
+        return this.http.post('/upload', formData, { params: { key: this._imgBBapiKey } })
+            .pipe(map((response: any) => response['data']['url']));
     }
 
     getProblemsByIds(problemsIds: string[]) {
