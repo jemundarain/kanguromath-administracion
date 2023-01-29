@@ -23,7 +23,7 @@
                     <p-fileUpload mode="basic" chooseLabel="Subir figura" [auto]="true" [customUpload]="true" accept=".png, .jpg" [maxFileSize]="500000" (uploadHandler)="uploadFigure($event)"></p-fileUpload>
                 </td>
                 <td>
-                    <p-image [src]="figure.url" [alt]="figure.url.split('/').slice(-1)" width="300"></p-image>
+                    <p-image [src]="figure.url" [alt]="figure.url.split('/').slice(-1)" width="300" [preview]="true"></p-image>
                 </td>
                 <td><a [routerLink]="['/figuras/eliminar', figure.url.split('/').slice(-1) ]"><i class="pi pi-trash"></i></a></td>
             </tr>

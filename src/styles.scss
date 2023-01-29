@@ -259,3 +259,11 @@ p-calendar .p-button:enabled:hover, .edit-btn:hover, .p-fileupload-choose.p-butt
 .p-accordion-tab-active .pi-chevron-down::before {
     color: #f59e0b !important;
 }
+
+.p-image-preview-container:hover > .p-image-preview-indicator {
+    background-color: rgba(245, 158, 11, 0.1) !important;
+}
+
+.pi-caret-left::before, .p-image-preview-icon.pi:before {
+    color: #f59e0b !important;
+}
