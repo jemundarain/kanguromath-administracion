@@ -11,13 +11,15 @@ import { HomeComponent } from './home/home.component';
 import { PagesRoutingModule } from './pages-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { ProfileComponent } from './profile/profile.component';
 
 @NgModule({
     declarations: [
         DashboardComponent,
         SettingsComponent,
         ErrorPageComponent,
-        HomeComponent
+        HomeComponent,
+        ProfileComponent
     ],
     exports: [
         DashboardComponent,
