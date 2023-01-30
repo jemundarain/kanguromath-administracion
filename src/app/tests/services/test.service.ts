@@ -1,16 +1,22 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { concat, map, Observable, toArray } from 'rxjs';
 
 import { Test } from '../models/test-model';
 import { Problem } from '../models/problem-model';
 import { environment } from 'src/environments/environment';
+import { ImageInfo } from '../interfaces/image-info.interface';
 
 @Injectable({providedIn:'root'})
 export class TestService {
 
-    private readonly _imgBBapiKey: string = 'f46979c97f7f0a98ddb55645a063494d';
     private baseUrl: string = environment.baseUrl;
+    
+    private images:object[] = [];
+    private url: string = 'https://api.imgur.com/3/image';
+    private clientId: string = 'YOUR_CLIENT_ID';
+    imageLink:any;
+
     constructor(private http: HttpClient){}
     
     getTestById(test_id: string): Observable<Test> {
@@ -33,13 +39,29 @@ export class TestService {
         return this.http.get<Test[]>(`${ this.baseUrl }/prueba/problema/${problem_id}`)
     }
 
-    upload(file: File): Observable<string> {
-        const formData = new FormData();
+    uploadImage(imageFile:File, infoObject: ImageInfo){
+        let formData = new FormData();
+        formData.append('image', imageFile, imageFile.name);
+    
+        let header = new HttpHeaders({
+          "authorization": 'Client-ID '+this.clientId
+        });
+       
+        this.http.post(this.url, formData, {headers:header}).subscribe((imageData: any) => {
+            
+            this.imageLink = imageData['data'].link;
+            
+            let newImageObject: ImageInfo = {
+                title: infoObject["title"],
+                link:this.imageLink
+            };
+            
+            this.images.unshift(newImageObject);
+        });
+    }
 
-        formData.append('image', file);
-
-        return this.http.post('/upload', formData, { params: { key: this._imgBBapiKey } })
-            .pipe(map((response: any) => response['data']['url']));
+    getImages(){
+        return this.images;
     }
 
     getProblemsByIds(problemsIds: string[]) {

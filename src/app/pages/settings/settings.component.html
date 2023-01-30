@@ -1,4 +1,4 @@
-<app-header title="Ajustes"></app-header>
+<app-header title="Ajustes" [breadcrumbs]="items"></app-header>
 <!-- <app-progress-spinner [condition]="state == undefined" [template]="settingsT"></app-progress-spinner>
 <ng-template #settingsT> -->
     <div class="flex gap-2 mb-6">
@@ -11,5 +11,3 @@
 
 <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"></p-confirmDialog>
 <p-toast position="bottom-center"></p-toast>
-
-<input type="file" (input)="onInput($event)">
