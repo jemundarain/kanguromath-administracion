@@ -68,7 +68,11 @@
 }
 
 [name="level"] .p-element.p-dropdown-label.p-inputtext {
-    padding: 10px 12px;
+    padding: 6px 12px;
+}
+
+.p-dropdown, .p-button, .p-inputnumber {
+    height: 36.5px;
 }
 
 .p-card-content {
@@ -271,7 +275,6 @@ p-calendar .p-button:enabled:hover, .edit-btn:hover, .p-fileupload-choose.p-butt
 header button {
     padding: 6px 8px !important;
 }
-
 
 .p-breadcrumb.p-component {
     background-color: transparent;

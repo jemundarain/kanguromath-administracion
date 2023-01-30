@@ -4,6 +4,7 @@ import { TestService } from '../services/test.service';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Problem } from '../models/problem-model';
 import { switchMap } from 'rxjs';
+import { MenuItem } from 'primeng/api';
 
 @Component({
   selector: 'app-visualize-test',
@@ -20,8 +21,10 @@ export class VisualizeTestComponent implements OnInit {
   test : Test;
   problemsId: string[];
   problems : Problem[];
+  items: MenuItem[];
 
   ngOnInit(): void {
+
     this.activatedRoute.params
       .pipe(
         switchMap( ({ id }) => this.testService.getTestById(id))
@@ -30,6 +33,10 @@ export class VisualizeTestComponent implements OnInit {
         this.test = test;
         this.problemsId = this.test.problems;
         this.testService.getProblemsByIds(this.problemsId).subscribe(problems => this.problems = problems)
+        this.items = [
+          {label: 'Pruebas'},
+          {label: `Preliminar ${this.test.edition} ${this.test.levels}`}
+        ];
       });
   };
 
