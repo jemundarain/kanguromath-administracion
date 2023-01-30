@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { TestService } from '../services/test.service';
 import { Test } from '../models/test-model';
 import { NgForm } from '@angular/forms';
-import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-list-tests',
@@ -23,8 +23,15 @@ export class ListTestsComponent implements OnInit, OnDestroy {
   editions: string[];
   edition: string;
   tests: Test[];
+  items: MenuItem[];
+
 
   ngOnInit(): void {
+    this.items = [
+      {label:'Pruebas'},
+      {label:'Todas las pruebas'}
+    ];
+
     this.testService.getEditions()
     .subscribe( editions => {this.editions = editions});
 

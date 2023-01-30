@@ -29,10 +29,9 @@ export class NewTestComponent implements OnInit {
     this.levels = GlobalConstants.LEVELS;
 
     this.items = [
-      {label: 'Step 1'},
-      {label: 'Step 2'},
-      {label: 'Step 3'}
-  ];
+      {label: 'Pruebas'},
+      {label: 'Prueba nueva'}
+    ];
   }
 
   onBasicUpload() {    

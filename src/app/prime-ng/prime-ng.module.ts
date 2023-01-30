@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 
 import { AccordionModule } from 'primeng/accordion';
 import { ButtonModule } from 'primeng/button';
+import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { CalendarModule } from 'primeng/calendar';
 import { CardModule } from 'primeng/card';
 import { ChartModule } from 'primeng/chart';
@@ -28,6 +29,7 @@ import { ToastModule } from 'primeng/toast';
   exports: [
     AccordionModule,
     ButtonModule,
+    BreadcrumbModule,
     CalendarModule,
     CardModule,
     ChartModule,

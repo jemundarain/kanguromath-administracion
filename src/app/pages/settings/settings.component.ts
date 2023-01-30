@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { PagesService } from '../services/pages.service';
 import { Message } from 'primeng/api';
 import { Global } from '../global-model'
@@ -19,6 +19,8 @@ export class SettingsComponent implements OnInit {
   msgs: Message[] = [];
   position: string;
   checked = false;
+  items: MenuItem[];
+  
   constructor( private pagesService: PagesService,
                private confirmationService: ConfirmationService,
                private messageService: MessageService,
@@ -34,6 +36,11 @@ export class SettingsComponent implements OnInit {
       const global = new Global(this.global?._id, data.state);
       this.pagesService.updateAppState(global);
     })
+
+    this.items = [
+      {label:'Pruebas'},
+      {label:'Ajustes'}
+    ];
   }
 
   confirm(e: any) {
@@ -66,11 +73,5 @@ export class SettingsComponent implements OnInit {
 
   showToast(action: string) {
     this.messageService.add({severity:'success', summary: 'Exitoso', detail: 'Aplicación ' + action });
-  }
-
-  onInput(e: Event) {
-    const input = e.target as HTMLInputElement;
-    if (!input.files) return;
-    this.testService.upload(input.files[0]).subscribe(url => console.log(url));
   }
 }

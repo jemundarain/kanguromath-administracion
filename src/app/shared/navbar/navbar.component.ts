@@ -27,16 +27,13 @@ import { animate, style, transition, trigger } from '@angular/animations';
     ])
   ]
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent {
 
-  constructor() { }
   @Input() expanded: boolean;
-
   @Output() onEmitExpanded: EventEmitter<boolean> = new EventEmitter();
 
-  ngOnInit(): void {
-  }
-
+  constructor() { }
+  
   emitExpanded() {
     this.onEmitExpanded.emit(this.expanded);
   }

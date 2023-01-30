@@ -269,5 +269,16 @@ p-calendar .p-button:enabled:hover, .edit-btn:hover, .p-fileupload-choose.p-butt
 }
 
 header button {
-  padding: 6px 8px !important;
+    padding: 6px 8px !important;
+}
+
+
+.p-breadcrumb.p-component {
+    background-color: transparent;
+    border: 0 !important;
+    padding: 0 !important;
+}
+
+.p-breadcrumb .p-menuitem-text {
+  white-space: nowrap;
 }
