@@ -67,8 +67,8 @@
     border-width: 0px !important;
 }
 
-[name="level"] .p-element.p-dropdown-label.p-inputtext {
-    padding: 6px 12px;
+.p-dropdown-label.p-inputtext {
+    padding: 6px 20px;
 }
 
 .p-dropdown, .p-button, .p-inputnumber {
@@ -175,7 +175,7 @@ table a:hover .pi:before {
     left: -255px !important;
 }
 
-p-calendar .p-button-icon::before, .p-inputwrapper .pi::before, .p-dialog-footer .pi:before, .pi-arrow-left::before, .pi-arrow-right::before {
+p-calendar .p-button-icon::before, .p-dialog-footer .pi:before, .pi-arrow-left::before, .pi-arrow-right::before {
     color: #fff;
 }
 
@@ -191,11 +191,11 @@ p-toast div {
     color: #3f3f46 !important;
 }
 
-p-calendar .p-button:enabled {
+p-calendar .p-button:enabled, .p-inputtext {
     height: 37px !important;
 }
 
-p-calendar .p-button:enabled:hover, .edit-btn:hover, .p-fileupload-choose.p-button:hover, .p-inputnumber-button:hover {
+p-calendar .p-button:enabled:hover, .p-button:enabled:hover, .edit-btn:hover, .p-fileupload-choose.p-button:hover, .p-inputnumber-button:hover {
     background: #d97706 !important;
     border: #d97706 !important;
 }
@@ -283,5 +283,5 @@ header button {
 }
 
 .p-breadcrumb .p-menuitem-text {
-  white-space: nowrap;
+    white-space: nowrap;
 }

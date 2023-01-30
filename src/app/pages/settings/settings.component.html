@@ -2,7 +2,7 @@
 <!-- <app-progress-spinner [condition]="state == undefined" [template]="settingsT"></app-progress-spinner>
 <ng-template #settingsT> -->
     <div class="flex gap-2 mb-6">
-        <h5 class="text-2xl my-auto font-semibold text-slate-600 tracking-tight">Estado de la aplicación:</h5>
+        <h5 class="text-2xl my-auto font-semibold text-[#3f3f46] tracking-tight">Estado de la aplicación:</h5>
             <form #settingsForm="ngForm" class="mt-2">
                 <p-inputSwitch [(ngModel)]="state" class="mt-2" name="state" (onChange)="confirm($event)"></p-inputSwitch>
             </form>

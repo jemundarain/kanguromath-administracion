@@ -1,11 +1,11 @@
 <!-- Encabezado -->
 <div class="grid grid-cols-12 grid-rows-2 mb-6">
-    <h1 class="col-span-6 md:col-span-4 inline-block text-5xl font-bold text-gray-700 tracking-tight">Informe General</h1>
+    <h1 class="col-span-3 md:col-span-3 inline-block text-5xl font-bold text-gray-700 tracking-tight">Informe General</h1>
     <p-button type="button"
               label="Exportar PDF"
               (click)="openPDF()"
-              class="col-span-2 md:col-span-2 md:col-start-7 p-button-raised" 
-              styleClass="btn float-right">
+              class="col-span-1 md:col-span-1 md:col-start-4 p-button-raised flex my-auto" 
+              styleClass="btn">
     </p-button>
     <form #dateFilterForm="ngForm" class="col-span-4 col-start-11 row-span-2">
         <p-dropdown [(ngModel)]="dateOption"
