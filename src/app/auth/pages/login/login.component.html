@@ -1,25 +1,27 @@
 <div class="min-h-95vh overflow-hidden">
     <div class="m-auto">
         <div class="grid grid-cols-12 grid-rows-3 row-start-1 surface-card py-8 px-5 sm:px-8 -mt-24">
-            <div class="col-span-4 col-start-5 row-start-2 text-center mb-1">
-                <img class="mx-auto mb-2 shadow-md" src="/assets/img/Kangaroo-eu.png" alt="logo">
-                <h1 class="text-4xl font-bold text-gray-700 tracking-tight drop-shadow-md">Canguromath App</h1>
-                <h2 class="text-3xl font-bold text-gray-700 tracking-tight drop-shadow-md">Administración</h2>
+            <div class="col-span-3 col-start-5 row-start-2 text-center mb-1">
+                <img class="mx-auto mb-2 shadow-md text-center" src="/assets/img/Kangaroo-eu.png" alt="logo">
+                <img class="mx-auto w-80 mt-4 text-center" src="/assets/img/title.png" alt="title">
+                <h2 class="mx-auto font-['Pangram'] text-[22px] text-center font-bold text-gray-700 tracking-tight">administración</h2>
             </div>
 
-                <form #loginForm="ngForm" (ngSubmit)="login()" class="col-span-4 col-start-5 row-start-3 ml-24 mr-20">
-                    <label for="email" class="block text-900 text-xl font-medium mb-2">Email</label>
-                    <input pInputText id="email" name="email" type="text" placeholder="Email address" class="mb-5 w-11/12">
+                <form #loginForm="ngForm" (ngSubmit)="login()" class="col-span-3 col-start-5 row-start-3 ml-10">
+                    <label for="email" class="block mb-1 text-[21px] font-normal text-[#26201F] tracking-tight">Email</label>
+                    <input pInputText id="email" name="email" type="text" placeholder="Email address" class="w-[89.5%]">
 
-                    <label for="password" class="block text-900 font-medium text-xl mt-4 mb-2">Contraseña</label>
+                    <label for="password" class="block mb-1 mt-5 text-[21px] font-normal text-[#26201F] tracking-tight">Contraseña</label>
                     <p-password id="password" name="password" autocomplete="off" [(ngModel)]="password" placeholder="Password" [feedback]="false" [toggleMask]="true" styleClass="mb-7"></p-password>
                     
-                    <button pButton pRipple
-                            type="submit"
-                            label="Iniciar Sesión"
-                            class="btn float-right pl-5"
-                            [disabled]="!loginForm.valid">
-                    </button>
+                    <div class="grid grid-cols-2 mr-9">
+                        <button pButton pRipple
+                                type="submit"
+                                label="Iniciar Sesión"
+                                class="btn col-start-2 text-center mb-1 mr-5"
+                                [disabled]="!loginForm.valid">
+                        </button>
+                    </div>
                 </form>
         </div>
     </div>
