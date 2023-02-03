@@ -104,6 +104,18 @@ th {
     padding: 1rem !important;
 }
 
+app-figures-table tbody.p-element > tr > td:nth-child(6) {
+    text-align: center !important;
+}
+
+.p-image-toolbar .pi::before {
+    color: #f59e0b;
+}
+
+.p-image-toolbar button:hover .pi::before {
+    color:#d97706 !important;
+}
+
 p-inputnumber [name="edition"] {
     width: 90px !important;
 }

@@ -10,17 +10,19 @@
                 <th>Eliminar</th>
             </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-figure>
+        <ng-template pTemplate="body" let-figure id="figures-table">
             <tr>
                 <td>{{ figure.num_s }}</td>
                 <td>{{ figure.url.split("/").slice(-1) }}</td>
                 <td>
                     {{ setPosition(figure.ubication) }}
-                    <p-radioButton name="position" value="intermedia" label="Intermedia" [(ngModel)]="position"></p-radioButton>
-                    <p-radioButton name="position" value="derecha" label="Derecha" [(ngModel)]="position"></p-radioButton>
+                    <div class="flex flex-col">
+                        <p-radioButton name="position" value="intermedia" label="Intermedia" [(ngModel)]="position" class="mb-2"></p-radioButton>
+                        <p-radioButton name="position" value="derecha" label="Derecha" [(ngModel)]="position"></p-radioButton>
+                    </div>
                 </td>
                 <td>
-                    <p-fileUpload mode="basic" chooseLabel="Subir figura" [auto]="true" [customUpload]="true" accept=".png, .jpg" [maxFileSize]="500000" (uploadHandler)="uploadFigure($event)"></p-fileUpload>
+                    <p-fileUpload mode="basic" chooseLabel="Subir figura" [auto]="true" [customUpload]="true" accept=".png, .jpg" [maxFileSize]="500000" (uploadHandler)="uploadFigure($event)" class="text-center mx-auto"></p-fileUpload>
                 </td>
                 <td>
                     <p-image [src]="figure.url" [alt]="figure.url.split('/').slice(-1)" width="300" [preview]="true"></p-image>
