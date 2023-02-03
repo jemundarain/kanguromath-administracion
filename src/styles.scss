@@ -62,7 +62,6 @@
     @apply shadow-md;
 }
 
-
 .p-inputnumber-button {
     border-width: 0px !important;
 }
@@ -71,7 +70,7 @@
     padding: 6px 20px;
 }
 
-.p-dropdown, .p-button, .p-inputnumber {
+.p-dropdown, .p-button, .p-inputnumber, p-calendar .p-button:enabled, .p-inputtext {
     height: 36.5px;
 }
 
@@ -107,9 +106,6 @@ p-inputnumber [name="numberFigures"] .p-inputnumber-button {
 
 [name="dateOption"] .p-dropdown-label {
     padding-top: 0px;
-}
-
-[name="dateOption"] .p-dropdown-label {
     color: #fff;
 }
 
@@ -189,10 +185,6 @@ p-toast div {
 
 .pi-caret-left::before, table .pi {
     color: #3f3f46 !important;
-}
-
-p-calendar .p-button:enabled, .p-inputtext {
-    height: 37px !important;
 }
 
 p-calendar .p-button:enabled:hover, .p-button:enabled:hover, .edit-btn:hover, .p-fileupload-choose.p-button:hover, .p-inputnumber-button:hover {
