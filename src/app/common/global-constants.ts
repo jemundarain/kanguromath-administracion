@@ -77,7 +77,7 @@ export class GlobalConstants {
         plugins: {
             legend: {
                 labels: {
-                    color: '#495057'
+                    color: '#26201F'
                 }
             }
         },
@@ -100,7 +100,7 @@ export class GlobalConstants {
                 grid: {
                     color: '#ebedef'
                 },
-                suggestedMin: 0
+                min: 0
             }
         }
     }; 
