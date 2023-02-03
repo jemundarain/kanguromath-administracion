@@ -17,7 +17,7 @@
     <app-progress-spinner [condition]="problems == []" [template]="problemT"></app-progress-spinner>
     <ng-template #problemT>
         <div class="grid grid-cols-12 gap-4 mx-60 pb-10" [class]="problems.length != 0? 'bg-white':''">
-            <div *ngFor="let problem of problems" class="col-start-3 col-span-8 mx-14">
+            <div *ngFor="let problem of problems" class="col-start-3 col-span-8 mx-6">
                 <app-problem [problem]="problem"></app-problem>
             </div>
         </div>

@@ -77,6 +77,9 @@
 
 .p-inputnumber-button {
     border-width: 0px !important;
+    .pi::before {
+        color: #fff;
+    }
 }
 
 .p-dropdown-label.p-inputtext {
@@ -177,6 +180,8 @@ table a:hover .pi:before {
     font-family: 'CMU Serif';
     font-size: 17px;
     margin-right: 5px;
+    margin-top: auto;
+    margin-bottom: auto;
 }
 
 [name="dateOption"] .p-overlay, .p-datepicker.p-component {
