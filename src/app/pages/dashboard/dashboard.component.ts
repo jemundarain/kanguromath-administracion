@@ -88,15 +88,15 @@ export class DashboardComponent implements OnInit {
       
       let dateStartD = new Date(this.dateStart);
       if(this.dateFilterForm?.form.value.dateOption != GlobalConstants.DATE_OPTIONS[4].code) {
-        let dateEndD = new Date();
+        var dateEndD = new Date();
         GlobalConstants.addDays(dateEndD, 1);
         this.dateEnd = dateEndD.toISOString().split('T')[0];
         GlobalConstants.addDays(dateStartD, -1);
       }
-      let dateEndD = new Date(this.dateEnd);
+      var dateEndD = new Date(this.dateEnd);
 
       //Usuarios Registrados
-      this.pagesService.getNumberUsersByDateRange(this.dateStart, this.dateEnd)
+      this.pagesService.getNumberUsersByDateRange(dateStartD.toISOString().split('T')[0], this.dateEnd)
         .subscribe( numberUsers => this.numberUsers = numberUsers );
       
       //Line chart
