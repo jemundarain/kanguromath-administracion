@@ -7,6 +7,7 @@ import { Subscription, switchMap } from 'rxjs';
 import { FormBuilder, FormGroup, Validators, NgForm } from '@angular/forms';
 import { GlobalConstants } from 'src/app/common/global-constants';
 import { Ranking } from '../interfaces/ranking.interfaces';
+import { Chart } from 'chart.js/auto';
 
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
@@ -53,6 +54,8 @@ export class DashboardComponent implements OnInit {
   daysBack: number;
 
   ngOnInit(): void {
+    Chart.defaults.font.size = 16;
+    Chart.defaults.font.family = 'Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"';
     /*Set Usuarios Registrados*/
     this.pagesService.getMinimumRegistrationDate().subscribe((data) => {
       this.minDate = new Date(data);

@@ -9,29 +9,22 @@ import { PagesService } from 'src/app/pages/services/pages.service';
   templateUrl: './pie-chart-for-level.component.html'
 })
 export class PieChartForLevelComponent implements OnInit {
-  constructor(private pagesService: PagesService) { }
 
-  ngOnInit(): void {
-    this.createChart();
-  }
-
-  public chart: any;
+  data: any;
   distributionByLevel: Ranking[];
 
-  createChart(){
+  constructor(private pagesService: PagesService) { }
+
+  ngOnInit() {
     this.pagesService.getUsersDistributionByLevel().subscribe(distributionByLevel => {
       this.distributionByLevel = distributionByLevel.sort((a,b) => (a._id > b._id) ? 1 : ((b._id > a._id) ? -1 : 0));
-      this.chart = new Chart("pie-chart-forLevel", {
-        type: 'pie',
-        data: {
-          labels: GlobalConstants.getLabelsDistribution(this.distributionByLevel),
-          datasets: [{
-            label: "Usuarios",
-            backgroundColor: GlobalConstants.getDesorderArray(GlobalConstants.LEVELS_COLORS).slice(0, GlobalConstants.getLabelsDistribution(this.distributionByLevel).length),
-            data: GlobalConstants.convertDistributionToArray(this.distributionByLevel)
-          }]
-        }
-      });
+      this.data = {
+        labels: GlobalConstants.getLabelsDistribution(this.distributionByLevel),
+        datasets: [{
+          data: GlobalConstants.convertDistributionToArray(this.distributionByLevel),
+          backgroundColor: GlobalConstants.getDesorderArray(GlobalConstants.LEVELS_COLORS).slice(0, GlobalConstants.getLabelsDistribution(this.distributionByLevel).length)
+        }]
+      };
     })
   }
 }     

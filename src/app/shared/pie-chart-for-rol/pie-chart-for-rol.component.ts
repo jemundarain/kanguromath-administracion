@@ -11,26 +11,19 @@ import { GlobalConstants } from 'src/app/common/global-constants';
 export class PieChartForRolComponent implements OnInit {
   constructor(private pagesService: PagesService) { }
   
-    distributionByType: Ranking[];
-    public chart: any;
-
-  ngOnInit(): void {
+  data: any;
+  distributionByType: Ranking[];
+  
+  ngOnInit() {
     this.pagesService.getUsersDistributionByType().subscribe(distributionByType => {
-      this.distributionByType = distributionByType;
-      Chart.defaults.font.size = 16;
-      Chart.defaults.font.family = 'Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"';
-      this.chart = new Chart("pie-chart-forRol",  {
-          type: 'pie',
-          data: {
-            labels: GlobalConstants.getLabelsDistribution(this.distributionByType),
-            datasets: [{
-              label: "Usuarios",
-              backgroundColor: GlobalConstants.getDesorderArray(GlobalConstants.TYPES_COLORS).slice(0, GlobalConstants.getLabelsDistribution(this.distributionByType).length),
-              data: GlobalConstants.convertDistributionToArray(this.distributionByType)
-            }]
-          }
-      });
+      this.distributionByType = distributionByType.sort((a,b) => (a._id > b._id) ? 1 : ((b._id > a._id) ? -1 : 0));
+      this.data = {
+        labels: GlobalConstants.getLabelsDistribution(this.distributionByType),
+        datasets: [{
+          data: GlobalConstants.convertDistributionToArray(this.distributionByType),
+          backgroundColor: GlobalConstants.getDesorderArray(GlobalConstants.TYPES_COLORS).slice(0, GlobalConstants.getLabelsDistribution(this.distributionByType).length)
+        }]
+      };
     })
   }
-
 }
