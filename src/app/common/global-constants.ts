@@ -112,7 +112,7 @@ export class GlobalConstants {
                 arr.push(this.capitalizeFirstLetters(distribution[i]._id));
             }
         }
-        return arr.sort();
+        return arr;
     }
 
     public static getDesorderArray(array: string[]) {

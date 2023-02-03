@@ -20,7 +20,7 @@ export class PieChartForLevelComponent implements OnInit {
 
   createChart(){
     this.pagesService.getUsersDistributionByLevel().subscribe(distributionByLevel => {
-      this.distributionByLevel = distributionByLevel;
+      this.distributionByLevel = distributionByLevel.sort((a,b) => (a._id > b._id) ? 1 : ((b._id > a._id) ? -1 : 0));
       this.chart = new Chart("pie-chart-forLevel", {
         type: 'pie',
         data: {
