@@ -15,6 +15,19 @@
     font-display: swap;
 }
 
+@font-face {
+    font-family: 'Pangram';
+    src: url('./assets/pangram/Pangram-Bold.eot');
+    src: url('./assets/pangram/Pangram-Bold.eot?#iefix') format('embedded-opentype'),
+        url('./assets/pangram/Pangram-Bold.woff2') format('woff2'),
+        url('./assets/pangram/Pangram-Bold.woff') format('woff'),
+        url('./assets/pangram/Pangram-Bold.ttf') format('truetype'),
+        url('./assets/pangram/Pangram-Bold.svg#Pangram-Bold') format('svg');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
 .p-slidemenu, .p-slidemenu-content {
     border-width: 0px !important;
     padding: 12px 5px !important;
