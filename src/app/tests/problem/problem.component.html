@@ -1,8 +1,8 @@
-<div class="grid grid-cols-12">   
-    <ng-katex-html [html]="body_problem" class="col-start-4 col-span-6 text-[20px] font-normal text-[#26201F] tracking-tight"></ng-katex-html>
-    <img *ngIf="problem.figures.length > 0" [src]="problem.figures[problem.figures.length - 1].url">
-</div> 
-    <div class="flex flex-row justify-between flex-wrap mt-3 mb-3">
+<div class="flex flex-row gap-3">
+    <ng-katex-html [html]="body_problem" class="basis-auto text-[20px] font-normal text-[#26201F] tracking-tight"></ng-katex-html>
+    <img class="basis-auto mt-4 right-img" *ngIf="this.right_img_url" [src]="this.right_img_url">
+</div>
+<div class="flex flex-row justify-between flex-wrap mt-3 mb-6">
     <div class="flex flex-row mb-1" *ngFor="let option of problem.options">
         <div class="circleOption">{{option.letter}}</div>
         <span *ngIf="!isLink(option.answer); else imageAnswer" class="text-[20px] font-normal text-[#26201F] tracking-tight">{{option.answer}}</span>
