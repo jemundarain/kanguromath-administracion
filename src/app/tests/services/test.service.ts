@@ -99,6 +99,13 @@ export class TestService {
         })
     }
 
+    updateProblem(problem: Problem) {
+        this.http.put<{message: string}>(`${this.baseUrl}/problema/editar/`, problem).subscribe((jsonData) => {
+          console.log(jsonData);
+        })
+    }
+
+
     /*function string_to_slug(str) {
         str = str.replace(/^\s+|\s+$/g, ''); // trim
         //str = str.replace(/\{.*\}/, ''); // trim

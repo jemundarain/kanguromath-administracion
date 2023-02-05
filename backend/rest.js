@@ -200,6 +200,16 @@ app.delete('/prueba/eliminar/:_id', (req, res) => {
     })
 })
 
+app.put('/problema/editar/', (req, res) => {
+    const updatedProblem = new ProblemModel({_id: req.body._id, problem_id: req.body.test_id, num_s: req.body.num_s, statement: req.body.statement, solution: req.body.solution, category: req.body.category, option: req.body.options, figures: req.body.figures})
+    ProblemModel.updateOne({_id: req.body._id}, updatedProblem)
+    .then(() => {
+        res.status(200).json({
+            message: 'Update completed'
+        })    
+    })
+})
+
 /*Settings*/
 app.get('/ajustes/estado-app', (req, res) => {
     GlobalModel.find({})
