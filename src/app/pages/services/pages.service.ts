@@ -74,4 +74,8 @@ export class PagesService {
     })
   }
 
+  deleteImage(file_id: string) {
+    this.http.delete(`${ this.baseUrl }/imagekit-delete/${ file_id }`).subscribe()
+  }
+
 }
