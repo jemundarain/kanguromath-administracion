@@ -2,6 +2,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 //const bcrypt = require('bcrypt');
+var ImageKit = require("imagekit");
+var cors = require('cors')
 
 const UserModel = require('./schemas/user-schema');
 const TestModel = require('./schemas/test-schema');
@@ -9,18 +11,24 @@ const ProblemModel = require('./schemas/problem-schema');
 const GlobalModel = require('./schemas/global-schema')
 //const UserModel = require('./schemas/user-schema');
 
+var imagekit = new ImageKit({
+    publicKey : 'public_VoBZkirixLnqfCe0fUaeGUj6XQs=',
+    privateKey : 'private_mBXoZE1JUrqhmxHZeApipeWtAXc=',
+    urlEndpoint : 'https://ik.imagekit.io/661ijdspv/'
+});
+
 const app = express();
 
 mongoose.connect("mongodb+srv://Jemundarain:Cuarentay2@canguromathcluster.azwnjh8.mongodb.net/canguro_math_db?retryWrites=true&w=majority")    
-    .then(() => {
-        console.log('Connected to MongoDB')
-    })
-    .catch(() => {
-        console.log('Error connecting to MongoDB');
-    })
+.then(() => {
+    console.log('Connected to MongoDB')
+})
+.catch(() => {
+    console.log('Error connecting to MongoDB');
+})
 
 if(process.env.ENVIRONMENT !== 'production') {
-        require('dotenv').config()
+    require('dotenv').config()
 }
 
 app.use(bodyParser.json());
@@ -29,6 +37,19 @@ app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
     next();
+})
+app.use(cors())
+
+app.get('/imagekit-auth', (req, res) => {
+    var authenticationParameters = imagekit.getAuthenticationParameters();
+    res.json(authenticationParameters);
+})
+
+app.delete('/imagekit-delete/:file_id', (req, res) => {
+    imagekit.deleteFile(req.params.file_id, function(error, result) {
+        if(error) console.log(error);
+        else console.log(result);
+    });
 })
 
 /*Autenticación*/
@@ -209,6 +230,8 @@ app.put('/problema/editar/', (req, res) => {
         })    
     })
 })
+
+
 
 /*Settings*/
 app.get('/ajustes/estado-app', (req, res) => {
