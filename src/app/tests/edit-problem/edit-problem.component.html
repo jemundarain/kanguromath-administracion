@@ -5,18 +5,18 @@
 
 <app-progress-spinner [condition]="problem == null"></app-progress-spinner>
 <div [hidden]="problem == null">
-    <form #problemForm="ngForm">
+    <form (ngSubmit)="updateProblem()" #problemForm="ngForm">
         <!-- Figuras -->
         <ng-container *ngIf="problem">
             <div class="grid grid-cols-12 gap-6 mb-6">
-                <p-card class="col-span-8 shadow-md h-min" header="Figuras">
+                <p-card class="col-span-10 shadow-md h-min" header="Figuras">
                     <div class="flex flex-col gap-3">
                         <div class="flex flex-row gap-3">
                             <span class="mt-2">{{problem.figures.length | i18nPlural:figuresMap1}}</span>
                             <p-inputNumber [(ngModel)]="problem.figures.length" [format]="false" name="numberFigures" [showButtons]="true"></p-inputNumber>
                             <span class="mt-2">{{problem.figures.length | i18nPlural:figuresMap2}}</span>    
                         </div>
-                        <app-figures-table *ngIf="this.problem.figures.length" [figures]="problem.figures"></app-figures-table>
+                        <app-figures-table *ngIf="this.problem.figures.length" [figures]="problem.figures" [problem_id]="problem.problem_id"></app-figures-table>
                     </div>
                 </p-card>
             </div>
@@ -64,8 +64,8 @@
                                 <ng-template #figureA>
                                     <h5 class="text-xl font-semibold text-slate-600 tracking-tight mb-2">Resultado</h5>
                                     <div class="flex flex-row justify-around">
-                                        <p-image [src]="problem.options[0].answer" [preview]="true" [preview]="true" [alt]="problem.options[0].letter" width="auto"></p-image>
-                                        <p-fileUpload mode="basic" chooseLabel="Subir figura" name="demo[]" url="./upload.php" accept="image/*" [maxFileSize]="420000" (onUpload)="onBasicUpload()" name="uploadA"></p-fileUpload>
+                                        <p-image [src]="problem.options[0].answer" [preview]="true" [alt]="problem.options[0].letter" width="auto"></p-image>
+                                        <app-upload-file fileName="A" [folder]="problem.problem_id"></app-upload-file>                                    
                                     </div>
                                 </ng-template>
                             </p-accordionTab>
@@ -92,8 +92,8 @@
                                 <ng-template #figureB>
                                     <h5 class="text-xl font-semibold text-slate-600 tracking-tight mb-2">Resultado</h5>
                                     <div class="flex flex-row justify-around">
-                                        <p-image [src]="problem.options[1].answer" [preview]="true" [preview]="true" [alt]="problem.options[0].letter" width="auto"></p-image>
-                                        <p-fileUpload mode="basic" chooseLabel="Subir figura" name="demo[]" url="./upload.php" accept="image/*" [maxFileSize]="420000" (onUpload)="onBasicUpload()" name="uploadB"></p-fileUpload>
+                                        <p-image [src]="problem.options[1].answer" [preview]="true" [alt]="problem.options[0].letter" width="auto"></p-image>
+                                        <app-upload-file fileName="B" [folder]="problem.problem_id"></app-upload-file>                                    
                                     </div>
                                 </ng-template>
                             </p-accordionTab>
@@ -120,8 +120,8 @@
                                 <ng-template #figureC>
                                     <h5 class="text-xl font-semibold text-slate-600 tracking-tight mb-2">Resultado</h5>
                                     <div class="flex flex-row justify-around">
-                                        <p-image [src]="problem.options[2].answer" [preview]="true" [preview]="true" [alt]="problem.options[0].letter" width="auto"></p-image>
-                                        <p-fileUpload mode="basic" chooseLabel="Subir figura" name="demo[]" url="./upload.php" accept="image/*" [maxFileSize]="420000" (onUpload)="onBasicUpload()" name="uploadC"></p-fileUpload>
+                                        <p-image [src]="problem.options[2].answer" [preview]="true" [alt]="problem.options[0].letter" width="auto"></p-image>
+                                        <app-upload-file fileName="C" [folder]="problem.problem_id"></app-upload-file>                                    
                                     </div>
                                 </ng-template>
                             </p-accordionTab>
@@ -148,8 +148,8 @@
                                 <ng-template #figureD>
                                     <h5 class="text-xl font-semibold text-slate-600 tracking-tight mb-2">Resultado</h5>
                                     <div class="flex flex-row justify-around">
-                                        <p-image [src]="problem.options[3].answer" [preview]="true" [preview]="true" [alt]="problem.options[0].letter" width="auto"></p-image>
-                                        <p-fileUpload mode="basic" chooseLabel="Subir figura" name="demo[]" url="./upload.php" accept="image/*" [maxFileSize]="420000" (onUpload)="onBasicUpload()" name="uploadD"></p-fileUpload>
+                                        <p-image [src]="problem.options[3].answer" [preview]="true" [alt]="problem.options[0].letter" width="auto"></p-image>
+                                        <app-upload-file fileName="D" [folder]="problem.problem_id"></app-upload-file>                                    
                                     </div>
                                 </ng-template>
                             </p-accordionTab>
@@ -176,8 +176,8 @@
                                 <ng-template #figureE>
                                     <h5 class="text-xl font-semibold text-slate-600 tracking-tight mb-2">Resultado</h5>
                                     <div class="flex flex-row justify-around">
-                                        <p-image [src]="problem.options[4].answer" [preview]="true" [preview]="true" [alt]="problem.options[0].letter" width="auto"></p-image>
-                                        <p-fileUpload mode="basic" chooseLabel="Subir figura" name="demo[]" url="./upload.php" accept="image/*" [maxFileSize]="420000" (onUpload)="onBasicUpload()" name="rutinaE"></p-fileUpload>
+                                        <p-image [src]="problem.options[4].answer" [preview]="true" [alt]="problem.options[0].letter" width="auto"></p-image>
+                                        <app-upload-file fileName="E" [folder]="problem.problem_id"></app-upload-file>                                    
                                     </div>
                                 </ng-template>
                             </p-accordionTab>
@@ -208,9 +208,9 @@
                 </p-card>
             </div>
             <div class="grid grid-cols-12">
-                <button pButton pRipple label="Guardar" class="btn w-32 p-3 col-span-2 col-start-10" [routerLink]="['/']"></button>
+                <button pButton pRipple label="Guardar" class="btn w-32 p-3 col-span-2 col-start-10" type="submit"></button>
             </div>
         </ng-container>
     </form> 
-    <button pButton type="button" class="btn float-left"label="Volver" icon="pi pi-arrow-left" iconPos="left"(click)="back('preliminar-2010-1ero-2do')"></button>
+    <button pButton type="button" class="btn float-left" label="Volver" icon="pi pi-arrow-left" iconPos="left" (click)="back()"></button>
 </div>

@@ -22,7 +22,7 @@
                     </div>
                 </td>
                 <td>
-                    <p-fileUpload mode="basic" chooseLabel="Subir figura" [auto]="true" [customUpload]="true" accept=".png, .jpg" [maxFileSize]="500000" (uploadHandler)="uploadFigure($event)" class="text-center mx-auto"></p-fileUpload>
+                    <app-upload-file [fileName]="figure.num_s" [folder]="problem_id"></app-upload-file>                                    
                 </td>
                 <td>
                     <p-image [src]="figure.url" [alt]="figure.url.split('/').slice(-1)" width="300" [preview]="true"></p-image>

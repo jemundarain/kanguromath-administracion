@@ -6,8 +6,11 @@ import { Test } from '../models/test-model';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Subscription, switchMap } from 'rxjs';
 import { Problem } from '../models/problem-model';
-import { GlobalConstants } from 'src/app/common/global-constants';
+import { Option } from '../models/option-model';
 import { Figure } from '../models/figure-model';
+import { GlobalConstants } from 'src/app/common/global-constants';
+import { MessageService } from 'primeng/api';
+import { Location } from '@angular/common'
 
 
 @Component({
@@ -32,7 +35,10 @@ import { Figure } from '../models/figure-model';
 })
 export class EditProblemComponent implements OnInit {
 
-  constructor( private testService: TestService, private activatedRoute: ActivatedRoute, private router: Router ) { }
+  constructor( private testService: TestService, 
+               private activatedRoute: ActivatedRoute, 
+               private router: Router/*, 
+               private messageService: MessageService*/,private location: Location ) { }
   
   @ViewChild('problemForm', { static: true }) problemForm !: NgForm;
   rutina: string;
@@ -102,12 +108,11 @@ export class EditProblemComponent implements OnInit {
           console.log('disminuy');  
         }*/
       }
+      //console.log(data);
     })
   }
 
   onSubmit(): void{
-  }
-  onBasicUpload(){
   }
 
   addFigure() {
@@ -116,8 +121,51 @@ export class EditProblemComponent implements OnInit {
     this.problem.figures.push(newFigure);
   }
 
-  back( test_id: string ) {
-    this.router.navigateByUrl(`/pruebas/ver/${test_id}`);
+  updateProblem() {
+    var options_answers = [];
+    var options: Option[] = [];
+    if(this.problemForm?.value.optionA == 'rutina') {
+      options_answers.push(this.problemForm?.value.rutinaA);
+    } else {
+
+    }
+    if(this.problemForm?.value.optionB == 'rutina') {
+      options_answers.push(this.problemForm?.value.rutinaB);
+    } else {
+
+    }
+    if(this.problemForm?.value.optionC == 'rutina') {
+      options_answers.push(this.problemForm?.value.rutinaC);
+    } else {
+
+    }
+    if(this.problemForm?.value.optionD == 'rutina') {
+      options_answers.push(this.problemForm?.value.rutinaD);
+    } else {
+
+    }
+    if(this.problemForm?.value.optionE == 'rutina') {
+      options_answers.push(this.problemForm?.value.rutinaE);
+    } else {
+
+    }
+    for(let i=0; i<this.problem.options.length; i++) {
+      options.push(new Option(this.problem.options[i]._id, this.problem.options[i].letter, options_answers[i]));
+    }
+    /*const figures = new Figure();
+    const problem = new Problem(this.problem._id, this.problem.problem_id, this.problem.num_s, this.problemForm?.form.value.statement, this.problemForm?.form.value.solution, this.problemForm?.value.category, options, []);
+    this.testService.updateProblem(problem);
+    this.router.navigateByUrl(`pruebas/ver/${this.test}`);
+    this.messageService.add({severity:'success', summary: 'Exitoso', detail: 'Problema editado'});*/
+  }
+
+  back() {
+    this.location.back()
+  }
+
+  uploadOption(event: any) {
+    
+    console.log(event);
   }
 
   // deleteFigure() {
