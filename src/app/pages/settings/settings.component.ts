@@ -5,6 +5,7 @@ import { PagesService } from '../services/pages.service';
 import { Message } from 'primeng/api';
 import { Global } from '../global-model'
 import { TestService } from '../../tests/services/test.service';
+import { ThisReceiver } from '@angular/compiler';
 
 @Component({
   selector: 'app-settings',
@@ -14,6 +15,7 @@ import { TestService } from '../../tests/services/test.service';
 export class SettingsComponent implements OnInit {
 
   @ViewChild('settingsForm', {static: true}) settingsForm !: NgForm;
+
   state: boolean;
   global: Global;
   msgs: Message[] = [];
@@ -74,4 +76,15 @@ export class SettingsComponent implements OnInit {
   showToast(action: string) {
     this.messageService.add({severity:'success', summary: 'Exitoso', detail: 'Aplicación ' + action });
   }
+
+  // transformationOne = [{ height: "200", width: "200" }];
+  // path = "/default-image.jpg";
+
+  // transformationTwo = [
+  //   { height: "200", width: "200" },
+  //   {
+  //     rotation: "90"
+  //   }
+  // ];
+  // lqip = { active: true, quality: 1 };
 }
