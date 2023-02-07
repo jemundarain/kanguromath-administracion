@@ -11,6 +11,10 @@ import { StateTitlePipe } from './pipes/state-title.pipe';
 import { ProgressSpinnerComponent } from './progress-spinner/progress-spinner.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { HeaderComponent } from './header/header.component';
+import { UploadFileComponent } from './upload-file/upload-file.component';
+import { ImagekitioAngularModule } from 'imagekitio-angular';
+import { environment } from 'src/environments/environment';
+
 
 @NgModule({
   declarations: [
@@ -21,7 +25,8 @@ import { HeaderComponent } from './header/header.component';
     StateTitlePipe,
     ProgressSpinnerComponent,
     NavbarComponent,
-    HeaderComponent
+    HeaderComponent,
+    UploadFileComponent
   ],
   exports: [
     SlideMenuComponent,
@@ -30,11 +35,17 @@ import { HeaderComponent } from './header/header.component';
     PieChartForLevelComponent,
     ProgressSpinnerComponent,
     NavbarComponent,
-    HeaderComponent
+    HeaderComponent,
+    UploadFileComponent
   ],
   imports: [
     CommonModule,
-    PrimeNgModule
+    PrimeNgModule,
+    ImagekitioAngularModule.forRoot({
+      publicKey: environment.publicKey,
+      urlEndpoint: environment.urlEndpoint,
+      authenticationEndpoint: environment.authenticationEndpoint
+    })
   ]
 })
 export class SharedModule { }
