@@ -40,6 +40,110 @@ export class GlobalConstants {
         'Automática',
         'Manual'
     ]
+
+    public static GENDERS = [
+        'F',
+        'M'
+    ]
+
+    public static STATES = [
+        {
+            code: "amazonas",
+            name: "Amazonas"
+        },
+        {
+            code: "anzoategui",
+            name: "Anzoátegui"
+        },
+        {
+            code: "apure",
+            name: "Apure"
+        },
+        {
+            code: "aragua",
+            name: "Aragua"
+        },
+        {
+            code: "barinas",
+            name: "Barinas"
+        },
+        {
+            code: "bolivar",
+            name: "Bolívar"
+        },
+        {
+            code: "carabobo",
+            name: "Carabobo"
+        },
+        {
+            code: "cojedes",
+            name: "Cojedes"
+        },
+        {
+            code: "delta-amacuro",
+            name: "Delta Amacuro"
+        },
+        {
+            code: "distrito-capital",
+            name: "Distrito Capital"
+        },
+        {
+            code: "falcon",
+            name: "Falcón"
+        },
+        {
+            code: "guarico",
+            name: "Guárico"
+        },
+        {
+            code: "la-guaira",
+            name: "La Guaira"
+        },
+        {
+            code: "lara",
+            name: "Lara"
+        },
+        {
+            code: "merida",
+            name: "Mérida"
+        },
+        {
+            code: "miranda",
+            name: "Miranda"
+        },
+        {
+            code: "monagas",
+            name: "Monagas"
+        },
+        {
+            code: "nueva-esparta",
+            name: "Nueva Esparta"
+        },
+        {
+            code: "portuguesa",
+            name: "Portuguesa"
+        },
+        {
+            code: "sucre",
+            name: "Sucre"
+        },
+        {
+            code: "tachira",
+            name: "Táchira"
+        },
+        {
+            code: "trujillo",
+            name: "Trujillo"
+        },
+        {
+            code: "yaracuy",
+            name: "Yaracuy"
+        },
+        {
+            code: "zulia",
+            name: "Zulia"
+        }
+    ]
     
     public static USER_TYPE_LABELS = [
         'Estudiante',
@@ -93,9 +197,7 @@ export class GlobalConstants {
             y: {
                 ticks: {
                     color: '#495057',
-                    beginAtZero: true,
-                    callback: function(v: number) { if (v % 1 === 0) return v; else return; },
-                    suggestedMin: 0
+                    callback: function(v: number) { if (v % 1 === 0) return v; else return; }
                 },
                 grid: {
                     color: '#ebedef'
