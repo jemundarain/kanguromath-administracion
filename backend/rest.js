@@ -114,6 +114,7 @@ app.get('/usuarios/fecha_minima',(req, res, next) => {
 app.get('/usuarios/ranking',(req, res, next) => {
     UserModel.aggregate([ {$group : { _id : '$state', count : {$sum : 1}}} ])
     .then((data) => {
+        data.splice(data.findIndex((state) => state._id === null), 1)
         res.json(data);
     })
     .catch(() => {
