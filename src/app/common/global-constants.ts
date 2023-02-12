@@ -1,6 +1,7 @@
 import { DateOption } from "../pages/interfaces/date-option.interfaces";
 import { Ranking } from "../pages/interfaces/ranking.interfaces";
 import { LevelOption } from "../tests/interfaces/level-option.interface";
+import * as dayjs from 'dayjs'
 
 export class GlobalConstants {
     public static MIN_DATE_EDITION: number = 2002;
@@ -29,6 +30,7 @@ export class GlobalConstants {
     }
 
     public static DATE_OPTIONS: DateOption[] = [
+        {name: 'Desde el comienzo', code: 'beginning'},
         {name: 'Hoy', code: 'today'},
         {name: 'Ayer', code: 'yesterday'},
         {name: 'Últimos 7 días', code: 'last-7days'},
@@ -239,19 +241,14 @@ export class GlobalConstants {
         return arr;
     }
 
-    public static addDays(date: Date, days: number) {
-        date.setDate(date.getDate() + days);
-        return date;
-    }
-
     public static getDateStringToLocale( backDays: number ){
         const month_formatter = new Intl.DateTimeFormat('es', { month: 'long' });
         var date = (new Date(new Date().setDate(new Date().getDate() - backDays )));
         return `desde ${this.capitalizeFirstLetters(month_formatter.format(date))} ${date.getDate()}, ${date.getFullYear()}`
     }
     
-    public static getDateStringToISO( backDays: number ){
-        return (new Date(new Date().setDate(new Date().getDate() - backDays ))).toISOString().split('T')[0];
+    public static getDateBackString( backDays: number ){
+        return dayjs().subtract(backDays, 'day').format('YYYY-MM-DD');
     }
 
 }

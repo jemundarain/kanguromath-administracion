@@ -4,8 +4,7 @@ import { concat, forkJoin, map, merge, Observable, of, toArray } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Ranking } from '../interfaces/ranking.interfaces';
 import { Global } from '../global-model'
-import { ChartDataset } from 'chart.js';
-
+import * as dayjs from 'dayjs'
 
 @Injectable({
   providedIn: 'root'
@@ -15,8 +14,12 @@ export class PagesService {
   private baseUrl: string = environment.baseUrl;
   constructor(private http: HttpClient) {}
 
-  getNumberUsersByDateRange(start: string, end: string): Observable<number> {
-    return this.http.get<number>(`${ this.baseUrl }/usuarios?start=${ start }&end=${ end }`)
+  getNumberUsersByDateRangeTotal(start: string, end: string): Observable<number> {
+    return this.http.get<number>(`${ this.baseUrl }/usuarios-total?start=${ start }&end=${ dayjs(end).add(1, 'day').clone().format('YYYY-MM-DD') }`)
+  }
+
+  getNumberUsersByDateRange(start: string, end: string): Observable<number[]> {
+    return this.http.get<number[]>(`${ this.baseUrl }/usuarios?start=${ start }&end=${ end }`)
   }
 
   getMinimumRegistrationDate() {
@@ -35,33 +38,15 @@ export class PagesService {
     return this.http.get<Ranking[]>(`${ this.baseUrl }/usuarios/distribution-by-level`)
   }
 
-  addDays(date: Date, days: number) {
-    date.setDate(date.getDate() + days);
-    return date;
-  }
-
   getLabelsDateRange(start: string, end: string) {
     var arr = [];
-    var startD = new Date(start);
-    var endD = this.addDays(new Date(end), 1);
-    const month_formatter = new Intl.DateTimeFormat('es', { month: 'long' });
-    while(startD.getTime() != endD.getTime()) {
-        arr.push(`${startD.getDate()} ${month_formatter.format(startD)}`);
-        startD.setDate(startD.getDate() + 1);
+    var startD = dayjs(start);
+    var endD = dayjs(end).add(1, 'day');
+    while(startD.format('YYYY-MM-DD') != endD.format('YYYY-MM-DD')) {
+      arr.push(startD.format('DD-MM-YY'));
+      startD = startD.add(1, 'day');
     }
     return arr;
-  }
-
-  getDatasetDateRange(start: Date, end: Date ) {
-    var arr: Observable<number>[] = [];
-    var start_aux = new Date(start);
-    var end_aux = new Date(end);
-    this.addDays(end_aux, 1);
-    while(start_aux.getTime() != end_aux.getTime()) {
-      arr.push(this.getNumberUsersByDateRange(start_aux.toISOString().split('T')[0], start_aux.toISOString().split('T')[0]));
-      this.addDays(start_aux, 1);
-    }
-    return concat(...arr).pipe(toArray());
   }
 
   getAppState(): Observable<Global> {

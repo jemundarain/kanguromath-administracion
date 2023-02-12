@@ -8,6 +8,7 @@ import { FormBuilder, FormGroup, Validators, NgForm } from '@angular/forms';
 import { GlobalConstants } from 'src/app/common/global-constants';
 import { Ranking } from '../interfaces/ranking.interfaces';
 import { Chart } from 'chart.js/auto';
+import * as dayjs from 'dayjs'
 
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
@@ -49,7 +50,7 @@ export class DashboardComponent implements OnInit {
   //Ranking por estados
   ranking: Ranking[];
   dateStart: string;
-  dateEnd: string = new Date().toISOString().split('T')[0];
+  dateEnd: string = dayjs().format('YYYY-MM-DD');
 
   daysBack: number;
 
@@ -57,6 +58,7 @@ export class DashboardComponent implements OnInit {
     Chart.defaults.font.size = 18;
     Chart.defaults.color = "#26201f";
     Chart.defaults.font.family = 'Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"';
+    
     /*Set Usuarios Registrados*/
     this.pagesService.getMinimumRegistrationDate().subscribe((data) => {
       this.minDate = new Date(data);
@@ -65,19 +67,23 @@ export class DashboardComponent implements OnInit {
     this.dateFilterForm.form.valueChanges.subscribe((data) => {
       this.basicData = null;
       switch (this.dateFilterForm?.form.value.dateOption) {
-        case GlobalConstants.DATE_OPTIONS[0].code: //today
-          this.dateStart = GlobalConstants.getDateStringToISO(0);
+        case GlobalConstants.DATE_OPTIONS[0].code: //beginning
+          //this.dateStart = dayjs(this.minDate).format('YYYY-MM-DD');
+          this.dateStart = '2023-01-01';
         break;
-        case GlobalConstants.DATE_OPTIONS[1].code: //yesterday
-          this.dateStart = GlobalConstants.getDateStringToISO(1);
+        case GlobalConstants.DATE_OPTIONS[1].code: //today
+          this.dateStart = GlobalConstants.getDateBackString(1);
         break;
-        case GlobalConstants.DATE_OPTIONS[2].code: //last-7days
-          this.dateStart = GlobalConstants.getDateStringToISO(5);
+        case GlobalConstants.DATE_OPTIONS[2].code: //yesterday
+          this.dateStart = GlobalConstants.getDateBackString(2);
         break;
-        case GlobalConstants.DATE_OPTIONS[3].code: //last-30days
-          this.dateStart = GlobalConstants.getDateStringToISO(30);
+        case GlobalConstants.DATE_OPTIONS[3].code: //last-7days
+          this.dateStart = GlobalConstants.getDateBackString(6);
         break;
-        case GlobalConstants.DATE_OPTIONS[4].code: //customize
+        case GlobalConstants.DATE_OPTIONS[4].code: //last-30days
+          this.dateStart = GlobalConstants.getDateBackString(31);
+        break;
+        case GlobalConstants.DATE_OPTIONS[5].code: //customize
           if(data?.dates && data?.dates[0] && data?.dates[1]) {
             this.dateStart = data?.dates[0];
             this.dateEnd = data?.dates[1];
@@ -87,27 +93,29 @@ export class DashboardComponent implements OnInit {
           break;
       }
       
-      let dateStartD = new Date(this.dateStart);
+      /*let dateStartD = new Date(this.dateStart);
       if(this.dateFilterForm?.form.value.dateOption != GlobalConstants.DATE_OPTIONS[4].code) {
         var dateEndD = new Date();
         GlobalConstants.addDays(dateEndD, 1);
         this.dateEnd = dateEndD.toISOString().split('T')[0];
         GlobalConstants.addDays(dateStartD, -1);
       }
-      var dateEndD = new Date(this.dateEnd);
+      var dateEndD = new Date(this.dateEnd);*/
 
       //Usuarios Registrados
-      this.pagesService.getNumberUsersByDateRange(dateStartD.toISOString().split('T')[0], this.dateEnd)
-        .subscribe( numberUsers => this.numberUsers = numberUsers );
+      this.pagesService.getNumberUsersByDateRangeTotal(this.dateStart, this.dateEnd)
+        .subscribe( data => this.numberUsers = data );
       
       //Line chart
-      this.pagesService.getDatasetDateRange(dateStartD, dateEndD).subscribe((data) => {
+      console.log(`${this.dateStart} - ${this.dateEnd}`);
+      this.pagesService.getNumberUsersByDateRange(this.dateStart, this.dateEnd).subscribe((data) => {
         this.basicData = {
           labels: this.pagesService.getLabelsDateRange(this.dateStart, this.dateEnd),
           datasets: [{
             label: 'Usuarios',
             data: data,
-            fill: false,
+            fill: true,
+            backgroundColor: '#f59e0b',
             borderColor: '#f59e0b',
             tension: 0.1
           }]
