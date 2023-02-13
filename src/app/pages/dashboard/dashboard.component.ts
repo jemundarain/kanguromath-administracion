@@ -69,7 +69,7 @@ export class DashboardComponent implements OnInit {
       switch (this.dateFilterForm?.form.value.dateOption) {
         case GlobalConstants.DATE_OPTIONS[0].code: //beginning
           //this.dateStart = dayjs(this.minDate).format('YYYY-MM-DD');
-          this.dateStart = '2023-01-01';
+          this.dateStart = '2023-02-01';
         break;
         case GlobalConstants.DATE_OPTIONS[1].code: //today
           this.dateStart = GlobalConstants.getDateBackString(1);
@@ -92,22 +92,14 @@ export class DashboardComponent implements OnInit {
         default:
           break;
       }
-      
-      /*let dateStartD = new Date(this.dateStart);
-      if(this.dateFilterForm?.form.value.dateOption != GlobalConstants.DATE_OPTIONS[4].code) {
-        var dateEndD = new Date();
-        GlobalConstants.addDays(dateEndD, 1);
-        this.dateEnd = dateEndD.toISOString().split('T')[0];
-        GlobalConstants.addDays(dateStartD, -1);
-      }
-      var dateEndD = new Date(this.dateEnd);*/
 
       //Usuarios Registrados
-      this.pagesService.getNumberUsersByDateRangeTotal(this.dateStart, this.dateEnd)
-        .subscribe( data => this.numberUsers = data );
-      
+      if(this.numberUsers === undefined) {
+        this.pagesService.getNumberUsersByDateRangeTotal(this.dateStart, this.dateEnd)
+          .subscribe( data => this.numberUsers = data );
+      }
+
       //Line chart
-      console.log(`${this.dateStart} - ${this.dateEnd}`);
       this.pagesService.getNumberUsersByDateRange(this.dateStart, this.dateEnd).subscribe((data) => {
         this.basicData = {
           labels: this.pagesService.getLabelsDateRange(this.dateStart, this.dateEnd),
