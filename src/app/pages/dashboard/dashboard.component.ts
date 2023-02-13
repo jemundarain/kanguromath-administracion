@@ -72,16 +72,16 @@ export class DashboardComponent implements OnInit {
           this.dateStart = '2023-02-01';
         break;
         case GlobalConstants.DATE_OPTIONS[1].code: //today
-          this.dateStart = GlobalConstants.getDateBackString(1);
+          this.dateStart = GlobalConstants.getDateBackString(0);
         break;
         case GlobalConstants.DATE_OPTIONS[2].code: //yesterday
-          this.dateStart = GlobalConstants.getDateBackString(2);
+          this.dateStart = GlobalConstants.getDateBackString(1);
         break;
         case GlobalConstants.DATE_OPTIONS[3].code: //last-7days
           this.dateStart = GlobalConstants.getDateBackString(6);
         break;
         case GlobalConstants.DATE_OPTIONS[4].code: //last-30days
-          this.dateStart = GlobalConstants.getDateBackString(31);
+          this.dateStart = GlobalConstants.getDateBackString(29);
         break;
         case GlobalConstants.DATE_OPTIONS[5].code: //customize
           if(data?.dates && data?.dates[0] && data?.dates[1]) {

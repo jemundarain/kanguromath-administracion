@@ -195,12 +195,12 @@ app.get('/usuarios-total',(req, res, next) => {
 app.get('/usuarios', async (req, res, next) => {
 	var startD = dayjs(req.query.start);
 	var endD = dayjs(req.query.end);
-	var data = [];
+	var arr = [];
 	while(startD.format('YYYY-MM-DD') != endD.add(1, 'day').format('YYYY-MM-DD')) {
 		endD_aux = startD.add(1, 'day');
-		await UserModel.find({ 'registration_date': {$gte: startD.format('YYYY-MM-DD'), $lt: endD_aux.format('YYYY-MM-DD') }}).count()
+		await UserModel.find({ 'registration_date': {$gte: startD.format('YYYY-MM-DD'), $lte: endD_aux.format('YYYY-MM-DD') }}).count()
 		.then((data) => {
-			data.push(data)
+			arr.push(data)
 		})
 		.catch(() => {
 			console.log('Error fetching entries /usuarios')
@@ -208,7 +208,7 @@ app.get('/usuarios', async (req, res, next) => {
 		startD = startD.add(1, 'day');
 		setTimeout(() => {}, 50);
 	}
-	res.json(data);
+	res.json(arr);
 })
 
 app.get('/usuarios/fecha_minima',(req, res, next) => {

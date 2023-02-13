@@ -241,10 +241,65 @@ export class GlobalConstants {
         return arr;
     }
 
+    public static translateMonth(month_en: string) {
+        switch (month_en) {
+            case 'January':
+                return this.TRANSLATION.monthNames[0];
+                break;
+        
+            case 'February':
+                return this.TRANSLATION.monthNames[1];
+                break;
+        
+            case 'March':
+                return this.TRANSLATION.monthNames[2];
+                break;
+        
+            case 'April':
+                return this.TRANSLATION.monthNames[3];
+                break;
+        
+            case 'May':
+                return this.TRANSLATION.monthNames[4];
+                break;
+        
+            case 'June':
+                return this.TRANSLATION.monthNames[5];
+                break;
+
+            case 'July':
+                return this.TRANSLATION.monthNames[6];
+                break;
+        
+            case 'August':
+                return this.TRANSLATION.monthNames[7];
+                break;
+        
+            case 'September':
+                return this.TRANSLATION.monthNames[8];
+                break;
+        
+            case 'October':
+                return this.TRANSLATION.monthNames[9];
+                break;
+        
+            case 'November':
+                return this.TRANSLATION.monthNames[10];
+                break;
+        
+            case 'December':
+                return this.TRANSLATION.monthNames[11];
+                break;
+        
+            default:
+                return '';
+                break;
+        }
+    }
+
     public static getDateStringToLocale( backDays: number ){
-        const month_formatter = new Intl.DateTimeFormat('es', { month: 'long' });
-        var date = (new Date(new Date().setDate(new Date().getDate() - backDays )));
-        return `desde ${this.capitalizeFirstLetters(month_formatter.format(date))} ${date.getDate()}, ${date.getFullYear()}`
+        var date = dayjs().subtract(backDays, 'day');
+        return `desde ${this.capitalizeFirstLetters(this.translateMonth(date.format('MMMM')))} ${date.format('DD')}, ${date.format('YYYY')}`
     }
     
     public static getDateBackString( backDays: number ){
