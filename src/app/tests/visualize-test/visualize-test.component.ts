@@ -31,8 +31,7 @@ export class VisualizeTestComponent implements OnInit {
       )
       .subscribe( test => {
         this.test = test;
-        this.problemsId = this.test.problems;
-        this.testService.getProblemsByIds(this.problemsId).subscribe(problems => this.problems = problems)
+        this.testService.getProblemsByTestId(this.test.test_id).subscribe(problems => this.problems = problems)
         this.items = [
           {label: 'Pruebas'},
           {label: `Preliminar ${this.test.edition} ${this.test.levels}`}

@@ -35,6 +35,10 @@ export class TestService {
         return this.http.get<Problem>(`${ this.baseUrl }/problema/${problem_id}`)
     }
 
+    getProblemsByTestId(test_id: string): Observable<Problem[]> {
+        return this.http.get<Problem[]>(`${ this.baseUrl }/problemas/${test_id}`)
+    }
+
     getTestByProblemId(problem_id: string): Observable<Test[]> {
         return this.http.get<Test[]>(`${ this.baseUrl }/prueba/problema/${problem_id}`)
     }
@@ -63,29 +67,6 @@ export class TestService {
     getImages(){
         return this.images;
     }
-
-    getProblemsByIds(problemsIds: string[]) {
-        var arr: Observable<Problem>[] = [];
-        for(let i=0; i<problemsIds.length; i++) {
-          arr.push(this.getProblemById( problemsIds[i] ))
-        }
-        //this.problems.sort((a, b) => a.num_s-b.num_s);
-        return concat(...arr).pipe(toArray());
-      }
-
-    /*getLevelbyId(){
-        this.http.get<{niveles: any}>('${ this.baseUrl }/niveles')
-        .pipe(map((responseData) => {
-            return responseData.niveles.map((levels: string) => {
-                return levels
-            })
-        }))
-        .subscribe((updateResponse) => {
-            this.levels = updateResponse;
-            this.levelSubject.next(this.levels);
-        })
-    }*/
-    
 
     updateTest(test: Test) {
         this.http.put<{message: string}>(`${this.baseUrl}/prueba/editar/`, test).subscribe((jsonData) => {
