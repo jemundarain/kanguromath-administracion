@@ -54,7 +54,7 @@ async function seedDB() {
                 } else {
                     ci = null;
                 }
-                type_institution = faker.helpers.arrayElement(["publico", "privado"]);
+                type_institution = faker.helpers.arrayElement(["publica", "privada"]);
             } else {
                 level = null;
                 ci = null;
