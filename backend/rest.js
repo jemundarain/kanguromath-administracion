@@ -32,6 +32,105 @@ if(process.env.ENVIRONMENT !== 'production') {
 	require('dotenv').config()
 }
 
+const STATES = [
+	{
+		code: "amazonas",
+		name: "Amazonas"
+	},
+	{
+		code: "anzoategui",
+		name: "Anzoátegui"
+	},
+	{
+		code: "apure",
+		name: "Apure"
+	},
+	{
+		code: "aragua",
+		name: "Aragua"
+	},
+	{
+		code: "barinas",
+		name: "Barinas"
+	},
+	{
+		code: "bolivar",
+		name: "Bolívar"
+	},
+	{
+		code: "carabobo",
+		name: "Carabobo"
+	},
+	{
+		code: "cojedes",
+		name: "Cojedes"
+	},
+	{
+		code: "delta-amacuro",
+		name: "Delta Amacuro"
+	},
+	{
+		code: "distrito-capital",
+		name: "Distrito Capital"
+	},
+	{
+		code: "falcon",
+		name: "Falcón"
+	},
+	{
+		code: "guarico",
+		name: "Guárico"
+	},
+	{
+		code: "la-guaira",
+		name: "La Guaira"
+	},
+	{
+		code: "lara",
+		name: "Lara"
+	},
+	{
+		code: "merida",
+		name: "Mérida"
+	},
+	{
+		code: "miranda",
+		name: "Miranda"
+	},
+	{
+		code: "monagas",
+		name: "Monagas"
+	},
+	{
+		code: "nueva-esparta",
+		name: "Nueva Esparta"
+	},
+	{
+		code: "portuguesa",
+		name: "Portuguesa"
+	},
+	{
+		code: "sucre",
+		name: "Sucre"
+	},
+	{
+		code: "tachira",
+		name: "Táchira"
+	},
+	{
+		code: "trujillo",
+		name: "Trujillo"
+	},
+	{
+		code: "yaracuy",
+		name: "Yaracuy"
+	},
+	{
+		code: "zulia",
+		name: "Zulia"
+	}
+]
+
 app.use(bodyParser.json());
 app.use((req, res, next) => {
 	res.setHeader('Access-Control-Allow-Origin', '*');
@@ -107,7 +206,7 @@ app.get('/usuarios', async (req, res, next) => {
 			console.log('Error fetching entries /usuarios')
 		})
 		startD = startD.add(1, 'day');
-		setTimeout(function(){}, 50);
+		setTimeout(() => {}, 50);
 	}
 	res.json(data);
 })
@@ -123,14 +222,31 @@ app.get('/usuarios/fecha_minima',(req, res, next) => {
 })
 
 app.get('/usuarios/ranking',(req, res, next) => {
-	UserModel.aggregate([ {$group : { _id : '$state', count : {$sum : 1}}} ])
+	UserModel.find({'type': 'estudiante', 'level':{ "$ne": "universitario"} }, {'_id': 0, 'state': 1} )
+	.then((data) => {
+		var ranking = []
+		for(let i=0; i<STATES.length; i++) {
+			var count = 0;
+			for(let j=0; j<data.length; j++) {
+				if(STATES[i].code === data[j].state) {
+					count++;
+				}
+			}
+			ranking.push({'_id': STATES[i].code, 'count': count})
+		}
+		res.json(ranking);
+	})
+	.catch(() => {
+		console.log('Error fetching entries /usuarios/ranking')
+	})
+	/*UserModel.aggregate([ {$group : { _id : '$state', count : {$sum : 1}}} ])
 	.then((data) => {
 		data.splice(data.findIndex((state) => state._id === null), 1)
 		res.json(data);
 	})
 	.catch(() => {
 		console.log('Error fetching entries /usuarios/ranking')
-	})
+	})*/
 })
 
 app.get('/usuarios/distribution-by-type',(req, res, next) => {
@@ -146,7 +262,7 @@ app.get('/usuarios/distribution-by-type',(req, res, next) => {
 app.get('/usuarios/distribution-by-level',(req, res, next) => {
 	UserModel.aggregate([ {$group : { _id : '$level', count : {$sum : 1}}} ])
 	.then((data) => {
-		res.json(data);
+		res.json(data.sort((a,b) => (a._id > b._id) ? 1 : ((b._id > a._id) ? -1 : 0)));
 	})
 	.catch(() => {
 		console.log('Error fetching entries')
@@ -202,6 +318,30 @@ app.get('/prueba/problema/:id',(req, res, next) => {
 	.catch(() => {
 		console.log('Error fetching entries')
 	})
+})
+
+app.get('/problemas/:test_id', async (req, res, next) => {
+	var problems_id = [];
+	var problems = [];
+	await TestModel.find({ 'test_id': req.params.test_id })
+		.then((data) => {
+			problems_id = data[0].problems;
+		})
+		.catch(() => {
+			console.log('Error fetching entries')
+		})
+
+	for(let i=0; i<problems_id.length; i++) {
+		await ProblemModel.find({ 'problem_id': problems_id[i]})
+		.then((data) => {
+			problems.push(data[0])
+		})
+		.catch(() => {
+			console.log('Error fetching entries')
+		})
+		setTimeout(() => {}, 50);
+	}
+	res.json(problems);
 })
 
 app.get('/problema/:problem_id',(req, res, next) => {

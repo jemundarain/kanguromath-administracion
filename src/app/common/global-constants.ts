@@ -250,5 +250,5 @@ export class GlobalConstants {
     public static getDateBackString( backDays: number ){
         return dayjs().subtract(backDays, 'day').format('YYYY-MM-DD');
     }
-
+    
 }
