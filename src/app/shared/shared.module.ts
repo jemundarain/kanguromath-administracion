@@ -14,6 +14,8 @@ import { HeaderComponent } from './header/header.component';
 import { UploadFileComponent } from './upload-file/upload-file.component';
 import { ImagekitioAngularModule } from 'imagekitio-angular';
 import { environment } from 'src/environments/environment';
+import { PieChartForInstitutionComponent } from './pie-chart-for-institution/pie-chart-for-institution.component';
+import { PieChartForSexComponent } from './pie-chart-for-sex/pie-chart-for-sex.component';
 
 
 @NgModule({
@@ -26,7 +28,9 @@ import { environment } from 'src/environments/environment';
     ProgressSpinnerComponent,
     NavbarComponent,
     HeaderComponent,
-    UploadFileComponent
+    UploadFileComponent,
+    PieChartForInstitutionComponent,
+    PieChartForSexComponent
   ],
   exports: [
     SlideMenuComponent,
@@ -36,7 +40,9 @@ import { environment } from 'src/environments/environment';
     ProgressSpinnerComponent,
     NavbarComponent,
     HeaderComponent,
-    UploadFileComponent
+    UploadFileComponent,
+    PieChartForInstitutionComponent,
+    PieChartForSexComponent
   ],
   imports: [
     CommonModule,

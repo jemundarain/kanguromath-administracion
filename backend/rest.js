@@ -221,7 +221,7 @@ app.get('/usuarios/fecha_minima',(req, res, next) => {
 	})
 })
 
-app.get('/usuarios/ranking',(req, res, next) => {
+app.get('/usuarios/ranking', (req, res, next) => {
 	UserModel.find({'type': 'estudiante', 'level':{ "$ne": "universitario"} }, {'_id': 0, 'state': 1} )
 	.then((data) => {
 		var ranking = []
@@ -249,7 +249,7 @@ app.get('/usuarios/ranking',(req, res, next) => {
 	})*/
 })
 
-app.get('/usuarios/distribution-by-type',(req, res, next) => {
+app.get('/usuarios/distribution-by-type', (req, res, next) => {
 	UserModel.aggregate([ {$group : { _id : '$type', count : {$sum : 1}}} ])
 	.then((data) => {
 		res.json(data);
@@ -259,8 +259,28 @@ app.get('/usuarios/distribution-by-type',(req, res, next) => {
 	})
 })
 
-app.get('/usuarios/distribution-by-level',(req, res, next) => {
+app.get('/usuarios/distribution-by-level', (req, res, next) => {
 	UserModel.aggregate([ {$group : { _id : '$level', count : {$sum : 1}}} ])
+	.then((data) => {
+		res.json(data.sort((a,b) => (a._id > b._id) ? 1 : ((b._id > a._id) ? -1 : 0)));
+	})
+	.catch(() => {
+		console.log('Error fetching entries')
+	})
+})
+
+app.get('/usuarios/distribution-by-sex', (req, res, next) => {
+	UserModel.aggregate([ {$group : { _id : '$sex', count : {$sum : 1}}} ])
+	.then((data) => {
+		res.json(data.sort((a,b) => (a._id > b._id) ? 1 : ((b._id > a._id) ? -1 : 0)));
+	})
+	.catch(() => {
+		console.log('Error fetching entries')
+	})
+})
+
+app.get('/usuarios/distribution-by-institution', (req, res, next) => {
+	UserModel.aggregate([ {$group : { _id : '$type_institution', count : {$sum : 1}}} ])
 	.then((data) => {
 		res.json(data.sort((a,b) => (a._id > b._id) ? 1 : ((b._id > a._id) ? -1 : 0)));
 	})

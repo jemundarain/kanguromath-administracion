@@ -38,6 +38,14 @@ export class PagesService {
     return this.http.get<Ranking[]>(`${ this.baseUrl }/usuarios/distribution-by-level`)
   }
 
+  getUsersDistributionBySex() {
+    return this.http.get<Ranking[]>(`${ this.baseUrl }/usuarios/distribution-by-sex`)
+  }
+
+  getUsersDistributionByInstitution() {
+    return this.http.get<Ranking[]>(`${ this.baseUrl }/usuarios/distribution-by-institution`)
+  }
+
   getLabelsDateRange(start: string, end: string) {
     var arr = [];
     var startD = dayjs(start);

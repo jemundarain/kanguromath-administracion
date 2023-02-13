@@ -251,6 +251,11 @@ p-calendar .p-button:enabled:hover, .p-button:enabled:hover, .edit-btn:hover, .p
     cursor: pointer;
 }
 
+[type="pie"] canvas {
+    height: 450px !important;
+    margin: 0 auto;
+}
+
 .custom-spinner {
     display: flex !important;
     margin: 0 auto !important;
