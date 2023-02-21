@@ -2,10 +2,6 @@
 const { faker } = require('@faker-js/faker/locale/es');
 const MongoClient = require("mongodb").MongoClient;
 
-function randomIntFromInterval(min, max) { // min and max included 
-    return Math.floor(Math.random() * (max - min + 1) + min);
-}
-
 async function seedDB() {
     // Connection URL
     const uri = "mongodb+srv://Jemundarain:Cuarentay2@canguromathcluster.azwnjh8.mongodb.net/canguro_math_db?retryWrites=true&w=majority";
