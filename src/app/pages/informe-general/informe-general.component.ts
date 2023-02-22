@@ -15,11 +15,11 @@ import html2canvas from 'html2canvas';
 import { MessageService } from 'primeng/api';
 
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
+  selector: 'app-informe-general',
+  templateUrl: './informe-general.component.html',
   providers: [ MessageService ]
 })
-export class DashboardComponent implements OnInit {
+export class InformeGeneralComponent implements OnInit {
 
   constructor( private pagesService: PagesService,
                private messageService: MessageService,
@@ -34,7 +34,7 @@ export class DashboardComponent implements OnInit {
 
   //Opciones de fecha
   dateOption: string;
-  dateOptions: DateOption[] = this.setCurrentDatesInLabels(GlobalConstants.DATE_OPTIONS);
+  dateOptions: DateOption[] = this.pagesService.setCurrentDatesInLabels(GlobalConstants.DATE_OPTIONS);
 
   //Calendario
   dates: Date[]
@@ -122,37 +122,18 @@ export class DashboardComponent implements OnInit {
   }
 
 
-  setCurrentDatesInLabels( dateOptions: DateOption[] ) {
-    for(let i=0; i<dateOptions.length; i++) {
-      switch (dateOptions[i].code) {      
-        case 'last-7days':
-          dateOptions[i].name += ': ' + GlobalConstants.getDateStringToLocale(6);
-          break;
 
-        case 'last-30days':
-          dateOptions[i].name += ': ' + GlobalConstants.getDateStringToLocale(31);
-          break;
-      
-        default:
-          break;
-      }
-    }
-    return dateOptions;
-  }
 
-  public openPDF(): void {
-    const DATA = document.getElementById('report');
+  public downloadInformeGeneral(): void {
+    const informe = document.getElementById('report');
     const doc = new jsPDF('p', 'pt', 'a4');
     const options = {
       background: 'white',
       scale: 3
     };
-    if(DATA) {
-      html2canvas(DATA, options).then((canvas) => {
-
+    if(informe) {
+      html2canvas(informe, options).then((canvas) => {
         const img = canvas.toDataURL('image/PNG');
-
-        // Add image Canvas to PDF
         const bufferX = 15;
         const bufferY = 15;
         const imgProps = (doc as any).getImageProperties(img);
@@ -161,7 +142,7 @@ export class DashboardComponent implements OnInit {
         doc.addImage(img, 'PNG', bufferX, bufferY, pdfWidth, pdfHeight, undefined, 'FAST');
         return doc;
       }).then((docResult) => {
-        docResult.save(`${new Date().toISOString()}_tutorial.pdf`);
+        docResult.save(`InformeGeneral-${dayjs().format('DD-MM-YYYY')}.pdf`);
       });
     }
     this.messageService.add({ severity:'success', summary: 'Reporte descargado' });
