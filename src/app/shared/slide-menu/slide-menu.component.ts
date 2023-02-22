@@ -20,9 +20,20 @@ export class SlideMenuComponent implements OnInit {
   ngOnInit(): void {
     this.items = [
       {
-        label: 'Informe',
+        label: 'Informes',
         icon: 'pi pi-th-large',
-        routerLink: 'math/informe'
+        items: [
+          {
+            label: 'Informe General', 
+            icon: 'pi pi-file',
+            routerLink: 'acm/informe-general'
+          },
+          {
+            label: 'Informe Académico', 
+            icon: 'pi pi-file',
+            routerLink: 'acm/informe-desempeno'
+          }
+        ]
       },
       {
         label: 'Pruebas',
@@ -41,7 +52,7 @@ export class SlideMenuComponent implements OnInit {
       {
         label: 'Ajustes',
         icon: 'pi pi-cog',
-        routerLink: 'math/ajustes'
+        routerLink: 'acm/ajustes'
       },
       {
         label: 'Cerrar Sesión',
