@@ -10,7 +10,7 @@ const routes: Routes = [
     loadChildren: () => import('./auth/auth.module').then( m => m.AuthModule )
   },
   {
-    path: 'math',
+    path: 'acm',
     loadChildren: () => import('./pages/pages.module').then( m => m.PagesModule ),
     canLoad: [ AuthGuard ],
     canActivate: [ AuthGuard ]
