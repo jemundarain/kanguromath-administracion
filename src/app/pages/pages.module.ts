@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { DashboardComponent } from './dashboard/dashboard.component';
+import { InformeGeneralComponent } from './informe-general/informe-general.component';
 import { SettingsComponent } from './settings/settings.component';
 import { ErrorPageComponent } from '../shared/error-page/error-page.component';
 
@@ -12,17 +12,19 @@ import { PagesRoutingModule } from './pages-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { ProfileComponent } from './profile/profile.component';
+import { InformeDesempenoComponent } from './informe-desempeno/informe-desempeno.component';
 
 @NgModule({
     declarations: [
-        DashboardComponent,
+        InformeGeneralComponent,
         SettingsComponent,
         ErrorPageComponent,
         HomeComponent,
-        ProfileComponent
+        ProfileComponent,
+        InformeDesempenoComponent
     ],
     exports: [
-        DashboardComponent,
+        InformeGeneralComponent,
         SettingsComponent,
         ErrorPageComponent
     ],

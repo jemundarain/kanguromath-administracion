@@ -5,6 +5,8 @@ import { environment } from 'src/environments/environment';
 import { Ranking } from '../interfaces/ranking.interfaces';
 import { Global } from '../global-model'
 import * as dayjs from 'dayjs'
+import { DateOption } from '../interfaces/date-option.interfaces';
+import { GlobalConstants } from 'src/app/common/global-constants';
 
 @Injectable({
   providedIn: 'root'
@@ -46,6 +48,14 @@ export class PagesService {
     return this.http.get<Ranking[]>(`${ this.baseUrl }/usuarios/distribution-by-institution`)
   }
 
+  getAlgebraPerformanceDistribution(start: string, end: string) {
+    return this.http.get<Ranking[]>(`${ this.baseUrl }/desempeno-total/algebra?start=${ start }&end=${ end }`)
+  }
+  
+  getAlgebraPerformanceByDateRange(start: string, end: string) {
+    return this.http.get<number[][]>(`${ this.baseUrl }/desempeno/algebra?start=${ start }&end=${ end }`)
+  }
+
   getLabelsDateRange(start: string, end: string) {
     var arr = [];
     var startD = dayjs(start);
@@ -56,6 +66,7 @@ export class PagesService {
     }
     return arr;
   }
+  
 
   getAppState(): Observable<Global> {
     return this.http.get<Global>(`${ this.baseUrl }/ajustes/estado-app`)
@@ -69,6 +80,24 @@ export class PagesService {
 
   deleteImage(file_id: string) {
     this.http.delete(`${ this.baseUrl }/imagekit-delete/${ file_id }`).subscribe()
+  }
+
+  setCurrentDatesInLabels( dateOptions: DateOption[] ) {
+    for(let i=0; i<dateOptions.length; i++) {
+      switch (dateOptions[i].code) {      
+        case 'last-7days':
+          dateOptions[i].name += ': ' + GlobalConstants.getDateStringToLocale(6);
+          break;
+
+        case 'last-30days':
+          dateOptions[i].name += ': ' + GlobalConstants.getDateStringToLocale(31);
+          break;
+      
+        default:
+          break;
+      }
+    }
+    return dateOptions;
   }
 
 }
