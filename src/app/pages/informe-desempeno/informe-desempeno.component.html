@@ -1,0 +1,106 @@
+<!-- Encabezado -->
+<div class="grid grid-cols-12 grid-rows-2 mb-6">
+    <h1 class="col-span-6 inline-block text-5xl font-bold text-gray-700 tracking-tight">Informe de Desempeño</h1>
+    <p-button type="button"
+              label="Exportar PDF"
+              (click)="downloadInformeDesempeno()"
+              class="col-span-2 col-start-7 p-button-raised flex my-auto" 
+              styleClass="btn">
+    </p-button>
+    <form #dateFilterForm="ngForm" class="col-span-4 col-start-10 row-span-2">
+        <p-dropdown [(ngModel)]="dateOption"
+                    name="dateOption"
+                    class="p-button-raised grid row-start-1 -ml-16"
+                    [class]="dateFilterForm?.form?.value.dateOption != 'customize' ? 'float-right' : ''"
+                    styleClass="btn" 
+                    icon="pi pi-calendar" 
+                    iconPos="right" 
+                    [options]="dateOptions"
+                    optionLabel="name" 
+                    optionValue="code">
+        </p-dropdown>
+        <p-calendar [(ngModel)]="dates"
+                    name="dates"
+                    *ngIf="dateOption=='customize'"
+                    selectionMode="range" 
+                    [minDate]="minDate" 
+                    [maxDate]="maxDate" 
+                    [readonlyInput]="true" 
+                    inputId="range" 
+                    [showIcon]="true" 
+                    class="p-button-raised grid row-start-2 mt-3" 
+                    inputStyleClass="btn float-right">
+        </p-calendar>
+    </form>
+</div>
+
+<div id="report">
+    <div class="gap-6 mb-6" [class]="dateFilterForm?.form?.value.dateOption != 'customize' ? '-mt-12' : ''">
+        <p-card class="shadow-md h-fit" header="Álgebra">
+            <div class="grid grid-cols-12">
+                <div class="col-span-8">
+                    <app-progress-spinner [condition]="algebraData == null" [template]="algebraLineChartT"></app-progress-spinner>
+                    <ng-template #algebraLineChartT>
+                        <p-chart id="usersLineChart" type="line" [data]="algebraData" [options]="basicOptions"></p-chart>
+                    </ng-template>    
+                </div>
+                <div class="col-span-4">
+                    <app-progress-spinner [condition]="false" [template]="algebraChartT"></app-progress-spinner>
+                    <ng-template #algebraChartT>
+                        <app-pie-chart-algebra></app-pie-chart-algebra>
+                    </ng-template>
+                </div>
+            </div>
+        </p-card>
+        <p-card class="shadow-md h-fit" header="Geometría">
+            <div class="grid grid-cols-12">
+                <div class="col-span-6">
+                    <app-progress-spinner [condition]="geometryData == null" [template]="geometriaLineChartT"></app-progress-spinner>
+                    <ng-template #geometriaLineChartT>
+                        <p-chart id="usersLineChart" type="line" [data]="geometryData" [options]="basicOptions"></p-chart>
+                    </ng-template>    
+                </div>
+                <div class="col-span-6">
+                    <app-progress-spinner [condition]="false" [template]="geometriaChartT"></app-progress-spinner>
+                    <ng-template #geometriaChartT>
+                        <app-pie-chart-for-level></app-pie-chart-for-level>
+                    </ng-template>
+                </div>
+            </div>
+        </p-card>
+        <p-card class="shadow-md h-fit" header="Probabilidad">
+            <div class="grid grid-cols-12">
+                <div class="col-span-6">
+                    <app-progress-spinner [condition]="probabilityData == null" [template]="probabilidadLineChartT"></app-progress-spinner>
+                    <ng-template #probabilidadLineChartT>
+                        <p-chart id="usersLineChart" type="line" [data]="probabilityData" [options]="basicOptions"></p-chart>
+                    </ng-template>    
+                </div>
+                <div class="col-span-6">
+                    <app-progress-spinner [condition]="false" [template]="teoriaNumerosChartT"></app-progress-spinner>
+                    <ng-template #teoriaNumerosChartT>
+                        <app-pie-chart-for-level></app-pie-chart-for-level>
+                    </ng-template>
+                </div>
+            </div>
+        </p-card>
+        <p-card class="shadow-md h-fit" header="Teoría de Números">
+            <div class="grid grid-cols-12">
+                <div class="col-span-6">
+                    <app-progress-spinner [condition]="numberTheoryData == null" [template]="teoriaNumerosLineChartT"></app-progress-spinner>
+                    <ng-template #teoriaNumerosLineChartT>
+                        <p-chart id="usersLineChart" type="line" [data]="numberTheoryData" [options]="basicOptions"></p-chart>
+                    </ng-template>    
+                </div>
+                <div class="col-span-6">
+                    <app-progress-spinner [condition]="false" [template]="teoriaNumerosChartT"></app-progress-spinner>
+                    <ng-template #teoriaNumerosChartT>
+                        <app-pie-chart-for-level></app-pie-chart-for-level>
+                    </ng-template>
+                </div>
+            </div>
+        </p-card>
+    </div>
+</div>
+
+<p-toast position="bottom-center"></p-toast>
