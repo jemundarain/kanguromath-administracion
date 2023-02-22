@@ -17,9 +17,9 @@ import { environment } from 'src/environments/environment';
 import { PieChartForInstitutionComponent } from './pie-chart-for-institution/pie-chart-for-institution.component';
 import { PieChartForSexComponent } from './pie-chart-for-sex/pie-chart-for-sex.component';
 import { PieChartAlgebraComponent } from './pie-chart-algebra/pie-chart-algebra.component';
-import { PieChartGeometriaComponent } from './pie-chart-geometria/pie-chart-geometria.component';
-import { PieChartProbabilidadComponent } from './pie-chart-probabilidad/pie-chart-probabilidad.component';
-import { PieChartTeoriaNumerosComponent } from './pie-chart-teoria-numeros/pie-chart-teoria-numeros.component';
+import { PieChartGeometryComponent } from './pie-chart-geometry/pie-chart-geometry.component';
+import { PieChartProbabilityComponent } from './pie-chart-probability/pie-chart-probability.component';
+import { PieChartNumberTheoryComponent } from './pie-chart-number-theory/pie-chart-number-theory.component';
 
 
 @NgModule({
@@ -36,9 +36,9 @@ import { PieChartTeoriaNumerosComponent } from './pie-chart-teoria-numeros/pie-c
     PieChartForInstitutionComponent,
     PieChartForSexComponent,
     PieChartAlgebraComponent,
-    PieChartGeometriaComponent,
-    PieChartProbabilidadComponent,
-    PieChartTeoriaNumerosComponent
+    PieChartGeometryComponent,
+    PieChartProbabilityComponent,
+    PieChartNumberTheoryComponent
   ],
   exports: [
     SlideMenuComponent,
@@ -52,9 +52,9 @@ import { PieChartTeoriaNumerosComponent } from './pie-chart-teoria-numeros/pie-c
     PieChartForInstitutionComponent,
     PieChartForSexComponent,
     PieChartAlgebraComponent,
-    PieChartGeometriaComponent,
-    PieChartProbabilidadComponent,
-    PieChartTeoriaNumerosComponent
+    PieChartGeometryComponent,
+    PieChartProbabilityComponent,
+    PieChartNumberTheoryComponent
   ],
   imports: [
     CommonModule,

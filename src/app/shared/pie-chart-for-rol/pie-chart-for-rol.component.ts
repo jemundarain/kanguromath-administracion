@@ -1,5 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { Chart } from 'chart.js/auto';
+import { Component, OnInit } from '@angular/core';
 import { Ranking } from 'src/app/pages/interfaces/ranking.interfaces';
 import { PagesService } from '../../pages/services/pages.service';
 import { GlobalConstants } from 'src/app/common/global-constants';

@@ -55,15 +55,15 @@
         <p-card class="shadow-md h-fit" header="Geometría">
             <div class="grid grid-cols-12">
                 <div class="col-span-6">
-                    <app-progress-spinner [condition]="geometryData == null" [template]="geometriaLineChartT"></app-progress-spinner>
-                    <ng-template #geometriaLineChartT>
+                    <app-progress-spinner [condition]="geometryData == null" [template]="geometryLineChartT"></app-progress-spinner>
+                    <ng-template #geometryLineChartT>
                         <p-chart id="usersLineChart" type="line" [data]="geometryData" [options]="basicOptions"></p-chart>
                     </ng-template>    
                 </div>
                 <div class="col-span-6">
-                    <app-progress-spinner [condition]="false" [template]="geometriaChartT"></app-progress-spinner>
-                    <ng-template #geometriaChartT>
-                        <app-pie-chart-for-level></app-pie-chart-for-level>
+                    <app-progress-spinner [condition]="false" [template]="geometryChartT"></app-progress-spinner>
+                    <ng-template #geometryChartT>
+                        <app-pie-chart-geometry></app-pie-chart-geometry>
                     </ng-template>
                 </div>
             </div>
@@ -71,15 +71,15 @@
         <p-card class="shadow-md h-fit" header="Probabilidad">
             <div class="grid grid-cols-12">
                 <div class="col-span-6">
-                    <app-progress-spinner [condition]="probabilityData == null" [template]="probabilidadLineChartT"></app-progress-spinner>
-                    <ng-template #probabilidadLineChartT>
+                    <app-progress-spinner [condition]="probabilityData == null" [template]="probabilityLineChartT"></app-progress-spinner>
+                    <ng-template #probabilityLineChartT>
                         <p-chart id="usersLineChart" type="line" [data]="probabilityData" [options]="basicOptions"></p-chart>
                     </ng-template>    
                 </div>
                 <div class="col-span-6">
-                    <app-progress-spinner [condition]="false" [template]="teoriaNumerosChartT"></app-progress-spinner>
-                    <ng-template #teoriaNumerosChartT>
-                        <app-pie-chart-for-level></app-pie-chart-for-level>
+                    <app-progress-spinner [condition]="false" [template]="probabilityChartT"></app-progress-spinner>
+                    <ng-template #probabilityChartT>
+                        <app-pie-chart-probability></app-pie-chart-probability>
                     </ng-template>
                 </div>
             </div>
@@ -87,15 +87,15 @@
         <p-card class="shadow-md h-fit" header="Teoría de Números">
             <div class="grid grid-cols-12">
                 <div class="col-span-6">
-                    <app-progress-spinner [condition]="numberTheoryData == null" [template]="teoriaNumerosLineChartT"></app-progress-spinner>
-                    <ng-template #teoriaNumerosLineChartT>
+                    <app-progress-spinner [condition]="numberTheoryData == null" [template]="numberTheoryLineChartT"></app-progress-spinner>
+                    <ng-template #numberTheoryLineChartT>
                         <p-chart id="usersLineChart" type="line" [data]="numberTheoryData" [options]="basicOptions"></p-chart>
                     </ng-template>    
                 </div>
                 <div class="col-span-6">
-                    <app-progress-spinner [condition]="false" [template]="teoriaNumerosChartT"></app-progress-spinner>
-                    <ng-template #teoriaNumerosChartT>
-                        <app-pie-chart-for-level></app-pie-chart-for-level>
+                    <app-progress-spinner [condition]="false" [template]="numberTheoryChartT"></app-progress-spinner>
+                    <ng-template #numberTheoryChartT>
+                        <app-pie-chart-number-theory></app-pie-chart-number-theory>
                     </ng-template>
                 </div>
             </div>
