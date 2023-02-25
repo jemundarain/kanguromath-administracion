@@ -223,19 +223,9 @@ app.get('/usuarios/fecha_minima',(req, res, next) => {
 })
 
 app.get('/usuarios/ranking', (req, res, next) => {
-	UserModel.find({'type': 'estudiante', 'level':{ "$ne": "universitario"} }, {'_id': 0, 'state': 1} )
+	UserModel.aggregate([{$match:{"type":"estudiante", "level": {"$ne": "universitario"}, "country": "venezuela"}}, {$group : { _id : '$state', count : {$sum : 1}}}])
 	.then((data) => {
-		var ranking = []
-		for(let i=0; i<STATES.length; i++) {
-			var count = 0;
-			for(let j=0; j<data.length; j++) {
-				if(STATES[i].code === data[j].state) {
-					count++;
-				}
-			}
-			ranking.push({'_id': STATES[i].code, 'count': count})
-		}
-		res.json(ranking);
+		res.json(data);
 	})
 	.catch(() => {
 		console.log('Error fetching entries /usuarios/ranking')
