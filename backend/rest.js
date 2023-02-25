@@ -372,24 +372,14 @@ app.get('/problemas/:test_id', async (req, res, next) => {
 	var problems_id = [];
 	var problems = [];
 	await TestModel.find({ 'test_id': req.params.test_id })
-		.then((data) => {
-			problems_id = data[0].problems;
-		})
-		.catch(() => {
-			console.log('Error fetching entries')
-		})
-
-	for(let i=0; i<problems_id.length; i++) {
-		await ProblemModel.find({ 'problem_id': problems_id[i]})
-		.then((data) => {
-			problems.push(data[0])
-		})
-		.catch(() => {
-			console.log('Error fetching entries')
-		})
-		setTimeout(() => {}, 50);
-	}
-	res.json(problems);
+	.then((data) => {
+		problems_id = data[0].problems;
+	})
+	.catch(() => {
+		console.log('Error fetching /problemas/:test_id')
+	})
+	problems = await ProblemModel.find({ problem_id : { $in : problems_id } });
+	res.json(problems.sort((a,b) => a.num_s - b.num_s));
 })
 
 app.get('/problema/:problem_id',(req, res, next) => {
