@@ -18,7 +18,7 @@ import { PieChartForInstitutionComponent } from './pie-chart-for-institution/pie
 import { PieChartForSexComponent } from './pie-chart-for-sex/pie-chart-for-sex.component';
 import { PieChartAlgebraComponent } from './pie-chart-algebra/pie-chart-algebra.component';
 import { PieChartGeometryComponent } from './pie-chart-geometry/pie-chart-geometry.component';
-import { PieChartProbabilityComponent } from './pie-chart-probability/pie-chart-probability.component';
+import { PieChartCombinatoricsComponent } from './pie-chart-combinatorics/pie-chart-combinatorics.component';
 import { PieChartNumberTheoryComponent } from './pie-chart-number-theory/pie-chart-number-theory.component';
 
 
@@ -37,7 +37,7 @@ import { PieChartNumberTheoryComponent } from './pie-chart-number-theory/pie-cha
     PieChartForSexComponent,
     PieChartAlgebraComponent,
     PieChartGeometryComponent,
-    PieChartProbabilityComponent,
+    PieChartCombinatoricsComponent,
     PieChartNumberTheoryComponent
   ],
   exports: [
@@ -53,7 +53,7 @@ import { PieChartNumberTheoryComponent } from './pie-chart-number-theory/pie-cha
     PieChartForSexComponent,
     PieChartAlgebraComponent,
     PieChartGeometryComponent,
-    PieChartProbabilityComponent,
+    PieChartCombinatoricsComponent,
     PieChartNumberTheoryComponent
   ],
   imports: [

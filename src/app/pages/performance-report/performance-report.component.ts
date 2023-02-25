@@ -38,7 +38,7 @@ export class PerformanceReportComponent implements OnInit {
   //Line chart
   algebraData: any;
   geometryData: any;
-  probabilityData: any;
+  combinatoricsData: any;
   numberTheoryData: any;
   basicOptions = GlobalConstants.BASIC_OPTIONS;
   labels: string[] = [];
@@ -51,7 +51,7 @@ export class PerformanceReportComponent implements OnInit {
     this.dateFilterForm.form.valueChanges.subscribe((data) => {
       this.algebraData = null;
       this.geometryData = null;
-      this.probabilityData = null;
+      this.combinatoricsData = null;
       this.numberTheoryData = null;
       switch (this.dateFilterForm?.form.value.dateOption) {
         case GlobalConstants.DATE_OPTIONS[0].code: //beginning

@@ -68,18 +68,18 @@
                 </div>
             </div>
         </p-card>
-        <p-card class="shadow-md h-fit" header="Probabilidad">
+        <p-card class="shadow-md h-fit" header="Combinatoria">
             <div class="grid grid-cols-12">
                 <div class="col-span-6">
-                    <app-progress-spinner [condition]="probabilityData == null" [template]="probabilityLineChartT"></app-progress-spinner>
-                    <ng-template #probabilityLineChartT>
-                        <p-chart id="usersLineChart" type="line" [data]="probabilityData" [options]="basicOptions"></p-chart>
+                    <app-progress-spinner [condition]="combinatoricsData == null" [template]="combinatoricsLineChartT"></app-progress-spinner>
+                    <ng-template #combinatoricsLineChartT>
+                        <p-chart id="usersLineChart" type="line" [data]="combinatoricsData" [options]="basicOptions"></p-chart>
                     </ng-template>    
                 </div>
                 <div class="col-span-6">
-                    <app-progress-spinner [condition]="false" [template]="probabilityChartT"></app-progress-spinner>
-                    <ng-template #probabilityChartT>
-                        <app-pie-chart-probability></app-pie-chart-probability>
+                    <app-progress-spinner [condition]="false" [template]="combinatoricsChartT"></app-progress-spinner>
+                    <ng-template #combinatoricsChartT>
+                        <app-pie-chart-combinatorics></app-pie-chart-combinatorics>
                     </ng-template>
                 </div>
             </div>

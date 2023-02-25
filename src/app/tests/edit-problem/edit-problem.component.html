@@ -9,7 +9,7 @@
         <!-- Figuras -->
         <ng-container *ngIf="problem">
             <div class="grid grid-cols-12 gap-6 mb-6">
-                <p-card class="col-span-10 shadow-md h-min" header="Figuras">
+                <p-card class="col-span-10 h-min" header="Figuras">
                     <div class="flex flex-col gap-3">
                         <div class="flex flex-row gap-3">
                             <span class="mt-2">{{problem.figures.length | i18nPlural:figuresMap1}}</span>
@@ -23,12 +23,12 @@
             
             <!-- Rutina y Resultado -->
             <div class="grid grid-cols-12 gap-6 mb-6">
-                <p-card class="col-span-5 shadow-md" header="Rutina">
+                <p-card class="col-span-5" header="Rutina">
                     <div class="flex flex-col gap-3">
                         <textarea pInputTextarea [autoResize]="true" [(ngModel)]="cuerpoProblema" name="rutina"></textarea>
                     </div>
                 </p-card>
-                <p-card class="col-span-5 shadow-md h-min" header="Resultado">
+                <p-card class="col-span-5 h-min" header="Resultado">
                     <div class="flex flex-col gap-3">
                         <ng-katex-html [html]="cuerpoProblema"></ng-katex-html>
                     </div>
@@ -188,16 +188,16 @@
             
             <!-- Categoría y Solución -->
             <div class="grid grid-cols-12 gap-6 mb-6">
-                <p-card class="col-span-3 shadow-md" header="Categoría">
+                <p-card class="col-span-3" header="Categoría">
                     <div class="flex flex-col gap-3">
                         <p-radioButton name="categorias" value="sin-categoria" label="Sin categoría" [(ngModel)]="category"></p-radioButton>
                         <p-radioButton name="categorias" value="algebra" label="Álgebra" [(ngModel)]="category"></p-radioButton>
                         <p-radioButton name="categorias" value="geometria" label="Geometría" [(ngModel)]="category"></p-radioButton>
-                        <p-radioButton name="categorias" value="probabilidad" label="Probabilidad" [(ngModel)]="category"></p-radioButton>
+                        <p-radioButton name="categorias" value="combinatoria" label="Combinatoria" [(ngModel)]="category"></p-radioButton>
                         <p-radioButton name="categorias" value="teoria-numeros" label="Teoría de números" [(ngModel)]="category"></p-radioButton>
                     </div>
                 </p-card>
-                <p-card class="col-span-3 shadow-md h-min" header="Solución">
+                <p-card class="col-span-3 h-min" header="Solución">
                     <div class="flex flex-col gap-3">
                         <p-radioButton name="opciones" value="A" label="A" [(ngModel)]="solution"></p-radioButton>
                         <p-radioButton name="opciones" value="B" label="B" [(ngModel)]="solution"></p-radioButton>
