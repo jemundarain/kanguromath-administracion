@@ -11,11 +11,11 @@ import { Chart } from 'chart.js/auto';
 import { PagesService } from '../services/pages.service';
 
 @Component({
-  selector: 'app-informe-desempeno',
-  templateUrl: './informe-desempeno.component.html',
+  selector: 'app-performance-report',
+  templateUrl: './performance-report.component.html',
   providers: [ MessageService ]
 })
-export class InformeDesempenoComponent implements OnInit {
+export class PerformanceReportComponent implements OnInit {
 
   constructor(private pagesService: PagesService,
     private messageService: MessageService) { }
@@ -105,7 +105,7 @@ export class InformeDesempenoComponent implements OnInit {
     })
   }
 
-  public downloadInformeDesempeno(): void {
+  public downloadPerformanceReport(): void {
     const informe = document.getElementById('report');
     const doc = new jsPDF('p', 'pt', 'a4');
     const options = {

@@ -29,7 +29,7 @@ export class SlideMenuComponent implements OnInit {
             routerLink: 'acm/informe-general'
           },
           {
-            label: 'Informe Académico', 
+            label: 'Informe de Desempeño', 
             icon: 'pi pi-file',
             routerLink: 'acm/informe-desempeno'
           }

@@ -12,7 +12,7 @@ import { PagesRoutingModule } from './pages-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { ProfileComponent } from './profile/profile.component';
-import { InformeDesempenoComponent } from './informe-desempeno/informe-desempeno.component';
+import { PerformanceReportComponent } from './performance-report/performance-report.component';
 
 @NgModule({
     declarations: [
@@ -21,7 +21,7 @@ import { InformeDesempenoComponent } from './informe-desempeno/informe-desempeno
         ErrorPageComponent,
         HomeComponent,
         ProfileComponent,
-        InformeDesempenoComponent
+        PerformanceReportComponent
     ],
     exports: [
         InformeGeneralComponent,

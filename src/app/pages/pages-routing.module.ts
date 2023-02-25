@@ -2,7 +2,7 @@ import { NgModule, Component } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { InformeGeneralComponent } from './informe-general/informe-general.component';
-import { InformeDesempenoComponent } from './informe-desempeno/informe-desempeno.component';
+import { PerformanceReportComponent } from './performance-report/performance-report.component';
 import { HomeComponent } from './home/home.component';
 import { SettingsComponent } from './settings/settings.component';
 import { ProfileComponent } from './profile/profile.component';
@@ -13,7 +13,7 @@ const routes: Routes = [
       component: HomeComponent,
       children: [
         { path: 'informe-general', component: InformeGeneralComponent },
-        { path: 'informe-desempeno', component: InformeDesempenoComponent },
+        { path: 'informe-desempeno', component: PerformanceReportComponent },
         { path: 'ajustes', component: SettingsComponent },
         { path: 'perfil', component: ProfileComponent },
         { path: '**', redirectTo: 'informe-general' }
