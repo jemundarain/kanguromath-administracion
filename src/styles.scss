@@ -28,8 +28,16 @@
     font-display: swap;
 }
 
+p-slidemenu {
+    padding-left: 0px !important;
+}
 .p-slidemenu {
     width: 13.5rem !important;
+    padding-left: 0px !important;
+}
+
+.p-slidemenu .p-menuitem-link {
+    padding-left: 5px !important;
 }
 
 .p-slidemenu, .p-slidemenu-content {
@@ -51,7 +59,7 @@
 }
 
 .p-slidemenu .p-menuitem-link .p-menuitem-icon {
-    margin-right: 1rem !important;
+    margin-right: 10px !important;
 }
 
 .p-slidemenu .p-menuitem-link:not(.p-disabled):hover, .p-menuitem-link-active {
