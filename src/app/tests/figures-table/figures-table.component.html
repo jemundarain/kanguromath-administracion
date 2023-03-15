@@ -17,7 +17,7 @@
                 <td>
                     <div class="flex flex-col">
                         <p-radioButton name="position" value="intermedia" label="Intermedia" [(ngModel)]="figure.position" class="mb-2"></p-radioButton>
-                        <p-radioButton name="position" value="derecha" label="Derecha" [(ngModel)]="figure.position"></p-radioButton>
+                        <p-radioButton *ngIf="figure.num_s === 1" name="position" value="derecha" label="Derecha" [(ngModel)]="figure.position"></p-radioButton>
                     </div>
                 </td>
                 <td>

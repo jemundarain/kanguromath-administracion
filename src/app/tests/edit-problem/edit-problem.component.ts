@@ -9,7 +9,7 @@ import { Problem } from '../models/problem-model';
 import { Option } from '../models/option-model';
 import { Figure } from '../models/figure-model';
 import { GlobalConstants } from 'src/app/common/global-constants';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { Location } from '@angular/common'
 
 @Component({
@@ -29,14 +29,16 @@ import { Location } from '@angular/common'
         padding: 0.75rem 0.75rem;
       }
     `
-  ]
+  ],
+  providers: [ConfirmationService, MessageService]
 })
 export class EditProblemComponent implements OnInit {
 
   constructor( private testService: TestService, 
-               private activatedRoute: ActivatedRoute, 
-               private router: Router/*, 
-               private messageService: MessageService*/,
+               private activatedRoute: ActivatedRoute,
+               private confirmationService: ConfirmationService,
+               private router: Router, 
+               private messageService: MessageService,
                private location: Location ) { }
   
   @ViewChild('updateProblemForm', { static: true }) updateProblemForm !: NgForm;
@@ -104,8 +106,6 @@ export class EditProblemComponent implements OnInit {
   }
 
   updateProblem() {
-    var options_answers = [];
-    var options: Option[] = [];
     if(this.updateProblemForm?.value.optionA === 'rutina') {
       this.problem.options[0].answer = this.updateProblemForm?.value.rutinaA
     }
@@ -126,10 +126,17 @@ export class EditProblemComponent implements OnInit {
       this.problem.options[4].answer = this.updateProblemForm?.value.rutinaE
     }
 
-    this.testService.updateProblem(this.problem);
-    // console.log(this.activatedRoute.params);
-    this.location.back()
-    // this.messageService.add({severity:'success', summary: 'Exitoso', detail: 'Problema editado'});
+    this.confirmationService.confirm({
+      header: "Confirmación",
+      message: '¿Está seguro que desea editar este problema?',
+      accept: () => {
+        this.testService.updateProblem(this.problem);
+        this.messageService.add({severity:'success', summary: 'Exitoso', detail: 'Problema editado'});
+        setTimeout(() => {
+          this.location.back()
+        }, 1420);
+      }
+    });
   }
 
   back() {

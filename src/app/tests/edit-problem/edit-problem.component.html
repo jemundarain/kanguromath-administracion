@@ -3,8 +3,6 @@
     <h1 class="inline-block text-5xl font-bold text-gray-700 tracking-tight">Editar Problema</h1>
 </div>
 
-{{problem.figures | json}}
-
 <app-progress-spinner [condition]="problem == null"></app-progress-spinner>
 <div [hidden]="problem == null">
     <form (ngSubmit)="updateProblem()" #updateProblemForm="ngForm">
@@ -258,3 +256,6 @@
         </ng-container>
     </form> 
 </div>
+
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"></p-confirmDialog>
+<p-toast position="bottom-center"></p-toast>

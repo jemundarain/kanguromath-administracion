@@ -267,6 +267,23 @@ p-toast div {
     font-size: 18px;
 }
 
+.p-confirm-dialog-reject .pi::before {
+    color: #f59e0b !important;
+}
+
+.p-confirm-dialog-reject {
+    background: #fff !important;
+    border-color: #fff !important;
+}
+
+.p-dialog-footer .p-button.p-confirm-dialog-reject:hover {
+    background-color: #fef9f0 !important;
+}
+
+.p-confirm-dialog-reject span {
+    color: #f59e0b !important;
+}
+
 .pi-caret-left::before, table .pi {
     color: #26201F !important;
 }
