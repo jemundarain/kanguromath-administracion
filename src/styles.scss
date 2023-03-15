@@ -231,6 +231,15 @@ table a:hover .pi:before {
     color: #f59e0b;
 }
 
+.pi.disabled {
+    color: #d3d3d3 !important;
+    cursor: initial !important;
+}
+
+a:hover .pi.disabled::before {
+    color: #d3d3d3 !important;
+}
+
 #tests-table th:nth-child(1) {
     width: 40%;
 }

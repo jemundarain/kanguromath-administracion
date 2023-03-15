@@ -26,8 +26,14 @@
                 <tr>
                     <td>{{test.levels | levelsTittle }}</td>
                     <td><a [routerLink]="['/pruebas/ver', test.test_id ]"><i class="pi pi-eye"></i></a></td>
-                    <td><a [routerLink]="['/pruebas/editar', test.test_id ]"><i class="pi pi-file-edit"></i></a></td>
-                    <td><a (click)="deleteTest(test)"><i class="pi pi-trash"></i></a></td>
+                    <ng-container *ngIf="app_enabled; else editTest">
+                        <td><a><i class="pi pi-file-edit disabled"></i></a></td>
+                        <td><a><i class="pi pi-trash disabled"></i></a></td>
+                    </ng-container>
+                    <ng-template #editTest>
+                        <td><a [routerLink]="['/pruebas/editar', test.test_id ]"><i class="pi pi-file-edit"></i></a></td>
+                        <td><a (click)="deleteTest(test)"><i class="pi pi-trash"></i></a></td>
+                    </ng-template>
                 </tr>
             </ng-template>
         </p-table>

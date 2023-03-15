@@ -4,6 +4,7 @@ import { TestService } from '../services/test.service';
 import { Test } from '../models/test-model';
 import { NgForm } from '@angular/forms';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
+import { PagesService } from 'src/app/pages/services/pages.service';
 
 @Component({
   selector: 'app-list-tests',
@@ -14,6 +15,7 @@ export class ListTestsComponent implements OnInit, OnDestroy {
 
   constructor(
     private testService: TestService,
+    private pagesService: PagesService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private router: Router
@@ -24,7 +26,7 @@ export class ListTestsComponent implements OnInit, OnDestroy {
   edition: string;
   tests: Test[];
   items: MenuItem[];
-
+  app_enabled: boolean;
 
   ngOnInit(): void {
     this.items = [
@@ -40,6 +42,11 @@ export class ListTestsComponent implements OnInit, OnDestroy {
       this.testService.getTestsByEdition(data.edition)
       .subscribe( tests => this.tests = tests);
     })
+
+    this.pagesService.getAppState().subscribe((global) => {
+      this.app_enabled = global.app_enabled;
+    })
+
   }
   
   ngOnDestroy(): void {
