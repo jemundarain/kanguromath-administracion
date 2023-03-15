@@ -235,6 +235,10 @@ table a:hover .pi:before {
     width: 40%;
 }
 
+.pi.pi-trash {
+    cursor: pointer;
+}
+
 .circleOption {
     border-radius: 50%;
     width: 25px;
