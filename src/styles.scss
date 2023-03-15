@@ -74,9 +74,28 @@ p-slidemenu {
 .btn, .p-fileupload-choose.p-button {
     background-color: #f59e0b !important;
     border-width: 0px !important;
-    padding: 7px 14px !important;
     font-size: 15px !important;
     @apply shadow-md;
+}
+
+.btn {
+    padding: 7px 14px !important;
+}
+
+.p-fileupload-choose.p-button {
+    padding: 0px !important;
+}
+
+.p-fileupload-choose.p-button .p-button-label {
+    padding: 7px 14px 7px 0px !important;
+}
+
+.p-fileupload-choose.p-button .p-button-icon.p-button-icon-left {
+    padding: 7px 0px 7px 14px !important;
+}
+
+input[type="file"] {
+    cursor: pointer;
 }
 
 ik-uploaddiv:hover, .fakefile span:hover {
@@ -102,7 +121,7 @@ input[type=file] {
 	z-index: 2;
 }
 
-.p-fileupload-choose .pi-plus::before, .pi-chevron-down::before {
+.p-fileupload-choose .pi-plus::before, .pi-chevron-down::before, .p-button .p-button-icon-left {
     color: #fff !important;
 }
 
@@ -264,7 +283,6 @@ p-calendar .p-button:enabled:hover, .p-button:enabled:hover, .edit-btn:hover, .p
 }
 
 [type="pie"] canvas {
-    height: 450px !important;
     margin: 0 auto;
 }
 

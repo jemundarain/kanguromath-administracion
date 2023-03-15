@@ -4,10 +4,10 @@
 
 export const environment = {
   production: false,
-  baseUrl: 'http://localhost:3000',
+  baseUrl: 'http://localhost:3002',
   urlEndpoint: 'https://ik.imagekit.io/661ijdspv/',
   publicKey: 'public_VoBZkirixLnqfCe0fUaeGUj6XQs=',
-  authenticationEndpoint: `http://localhost:3000/imagekit-auth`
+  authenticationEndpoint: `http://localhost:3002/admin_uploads/imagekit-auth`
 };
 
 /*

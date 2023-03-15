@@ -12,125 +12,78 @@ export class TestService {
 
     private baseUrl: string = environment.baseUrl;
     
-    private images:object[] = [];
-    private url: string = 'https://api.imgur.com/3/image';
-    private clientId: string = 'YOUR_CLIENT_ID';
-    imageLink:any;
-
     constructor(private http: HttpClient){}
     
     getTestById(test_id: string): Observable<Test> {
-        return this.http.get<Test>(`${ this.baseUrl }/prueba/${test_id}`)
+        return this.http.get<Test>(`${ this.baseUrl }/admin_tests/get_test/${test_id}`)
     }
     
     getTestsByEdition(edition: string): Observable<Test[]>{
-        return this.http.get<Test[]>(`${ this.baseUrl }/pruebas/${edition}`)
+        return this.http.get<Test[]>(`${ this.baseUrl }/admin_tests/get_tests_by_edition/${edition}`)
     }
     
     getEditions(): Observable<string[]>{
-        return this.http.get<string[]>(`${ this.baseUrl }/ediciones`)
+        return this.http.get<string[]>(`${ this.baseUrl }/admin_tests/get_editions`)
     }
     
     getProblemById(problem_id: string): Observable<Problem> {
-        return this.http.get<Problem>(`${ this.baseUrl }/problema/${problem_id}`)
+        return this.http.get<Problem>(`${ this.baseUrl }/admin_problems/get_problem/${problem_id}`)
     }
 
     getProblemsByTestId(test_id: string): Observable<Problem[]> {
-        return this.http.get<Problem[]>(`${ this.baseUrl }/problemas/${test_id}`)
+        return this.http.get<Problem[]>(`${ this.baseUrl }/admin_problems/get_all_problems_from_test/${test_id}`)
     }
 
     getTestByProblemId(problem_id: string): Observable<Test[]> {
-        return this.http.get<Test[]>(`${ this.baseUrl }/prueba/problema/${problem_id}`)
-    }
-
-    uploadImage(imageFile:File, infoObject: ImageInfo){
-        let formData = new FormData();
-        formData.append('image', imageFile, imageFile.name);
-    
-        let header = new HttpHeaders({
-          "authorization": 'Client-ID '+this.clientId
-        });
-       
-        this.http.post(this.url, formData, {headers:header}).subscribe((imageData: any) => {
-            
-            this.imageLink = imageData['data'].link;
-            
-            let newImageObject: ImageInfo = {
-                title: infoObject["title"],
-                link:this.imageLink
-            };
-            
-            this.images.unshift(newImageObject);
-        });
-    }
-
-    getImages(){
-        return this.images;
+        return this.http.get<Test[]>(`${ this.baseUrl }/admin_problems/get_test_by_problem/${problem_id}`)
     }
 
     updateTest(test: Test) {
-        this.http.put<{message: string}>(`${this.baseUrl}/prueba/editar/`, test).subscribe((jsonData) => {
+        this.http.put<{message: string}>(`${this.baseUrl}/admin_tests/put_test/`, test).subscribe((jsonData) => {
           console.log(jsonData);
         })
     }
 
     deleteTest(_id: string) {
-        this.http.delete<{message: string}>(`${this.baseUrl}/prueba/eliminar/${_id}`).subscribe((jsonData) => {
+        this.http.delete<{message: string}>(`${this.baseUrl}/admin_tests/delete_test/${_id}`).subscribe((jsonData) => {
             console.log(jsonData);
         })
     }
 
     updateProblem(problem: Problem) {
-        this.http.put<{message: string}>(`${this.baseUrl}/problema/editar/`, problem).subscribe((jsonData) => {
+        this.http.put<{message: string}>(`${this.baseUrl}/admin_problems/put_problem`, problem).subscribe((jsonData) => {
           console.log(jsonData);
         })
     }
 
-
-    /*function string_to_slug(str) {
-        str = str.replace(/^\s+|\s+$/g, ''); // trim
-        //str = str.replace(/\{.*\}/, ''); // trim
-        //str = str.replace(/\\includegraphics\[.*\]/, '{*1*}'); // trim
-        //str = str.replace(/\centerline{\[.*\}/, '{*1*}'); // 
-    
-        return str;
-    }
-    var x = String.raw` María dibujó varias figuras en hojas de papel cuadradas e idénticas:
-    
-    \medskip
-    \centerline{\includegraphics[height=17mm]{B_fig/B12-1.eps}}
-    
-    \smallskip
-    ¿Cuántas de estas formas tienen el mismo perímetro que la hoja de papel en que están dibujadas?
-    `;
-    console.log(string_to_slug(x.replace(/\r?\n|\r/gm,"")));*/
-
-    /*
-    function string_to_slug(str) {
-    str = str.replace(/^\s+|\s+$/g, ''); // trim
-    str = str.replace(/\{\*.*\*\}/, ''); // trim
-    str = str.toLowerCase();
-  
-    // remove accents, swap ñ for n, etc
-    var from = "àáäâèéëêìíïîòóöôùúüûñç·/_,:;";
-    var to   = "aaaaeeeeiiiioooouuuunc------";
-    for (var i=0, l=from.length ; i<l ; i++) {
-        str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
+    authenticationImageKitIO() {
+        this.http.get<any>(`${this.baseUrl}/admin_uploads/imagekit-auth`).subscribe((data) => {
+            console.log(data);
+        });
     }
 
-    str = str.replace(/[^a-z0-9 -]/g, '') // remove invalid chars
-        .replace(/\s+/g, '-') // collapse whitespace and replace by -
-        .replace(/-+/g, '-'); // collapse dashes
-  
-    if(str[str.length-1] === '-') {
-      str = str.slice(0,-1);
+    updateFigure(newFigure: any) {
+        this.http.put<any>(`${this.baseUrl}/admin_uploads/put_figure`, newFigure).subscribe((data) => {
+            console.log(data);
+        });
     }
-    if(str[0] === '-') {
-      str = str.slice(1);
+
+    deleteFigure(ik_id: string) {
+        this.http.delete<any>(`${this.baseUrl}/admin_uploads/imagekit-delete/${ik_id}`).subscribe((data) => {
+            console.log(data);
+        });
     }
-    return str;
-    }
-    var x = "María dibujó varias figuras en hojas de papel cuadradas e idénticas: {*1*} ¿Cuántas de estas formas tienen el mismo perímetro que la hoja de papel en que están dibujadas?";
-    console.log(string_to_slug(x));
-    */
+
+    // renameFigure(filePath: string, newFileName: string) {
+    //     this.http.put<any>(`${this.baseUrl}/admin_uploads/imagekit-rename`, { filePath: filePath, newFileName: newFileName }).subscribe((data) => {
+    //         console.log(data);
+    //     })
+    // }
+
+    // deleteCache(problem_id: string, num_s: number) {
+    //     this.http.delete<any>(`${this.baseUrl}/admin_uploads/delete_cache/${problem_id}/${num_s}`).subscribe((data) => {
+    //         console.log(data);
+    //     });
+    // }
+
 }

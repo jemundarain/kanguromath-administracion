@@ -34,7 +34,7 @@ export class ProblemComponent implements OnInit {
     }
     this.body_problem = `<b>${this.problem.num_s}.</b> ${this.decode_statement}`;
     for(let i=this.problem.figures.length-1; i>=0; i--) {
-      if(this.problem.figures[i].ubication === 'derecha')
+      if(this.problem.figures[i].position === 'derecha')
         this.right_img_url = this.problem.figures[i].url;
     }
   }

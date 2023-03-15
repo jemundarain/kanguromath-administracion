@@ -6,9 +6,25 @@ import * as dayjs from 'dayjs'
 export class GlobalConstants {
     public static MIN_DATE_EDITION: number = 2002;
     public static MAX_DATE_EDITION: number = (new Date()).getFullYear();
+    public static randomNumber: number;
+    
+    public static generateRandomSuffix() {
+        this.randomNumber = Math.floor(Math.random() * 1000);
+    }
 
+    public static getRandomSuffix() : number {
+        return this.randomNumber;
+    }
+
+    public static getRandomName(preffix: string) {
+        return `${ preffix }-${ GlobalConstants.getRandomSuffix() }`
+    }
+
+    
     public static SITE_TITLE: string = 'administrador-canguromath-app';
 
+    public static OPTIONS_LETTERS: string[] = ['A', 'B', 'C', 'D', 'E'];
+    
     public static LEVELS: LevelOption[] = [
         {name: '1ero', code: '1ero'},
         {name: '1ero y 2do', code: '1ero-2do'},

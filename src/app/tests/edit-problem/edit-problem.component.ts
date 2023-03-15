@@ -12,7 +12,6 @@ import { GlobalConstants } from 'src/app/common/global-constants';
 import { MessageService } from 'primeng/api';
 import { Location } from '@angular/common'
 
-
 @Component({
   selector: 'app-edit-problem',
   templateUrl: './edit-problem.component.html',
@@ -29,7 +28,6 @@ import { Location } from '@angular/common'
       ng-katex-html {
         padding: 0.75rem 0.75rem;
       }
-
     `
   ]
 })
@@ -38,27 +36,14 @@ export class EditProblemComponent implements OnInit {
   constructor( private testService: TestService, 
                private activatedRoute: ActivatedRoute, 
                private router: Router/*, 
-               private messageService: MessageService*/,private location: Location ) { }
+               private messageService: MessageService*/,
+               private location: Location ) { }
   
-  @ViewChild('problemForm', { static: true }) problemForm !: NgForm;
-  rutina: string;
-  conFigura: string;
-  value1: number = 0;
-  min: number = 2009;
-  property: string = '';
-  
-  levels: LevelOption[];
-  editions: string[];
-  tests: Test[] = [];
-  test!: Test;
-
+  @ViewChild('updateProblemForm', { static: true }) updateProblemForm !: NgForm;
   problem: Problem;
-  cuerpoProblema: string;
-  resultado: string;
-
-  optionsValues:string[] = [];
-  category: string;
-  solution: string;
+  routine: string;
+  optionsTypes:string[] = [];
+  uploadings: boolean[] = [];
   
   figuresMap1 = {
     '=0': '',
@@ -81,82 +66,70 @@ export class EditProblemComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.levels = GlobalConstants.LEVELS;
-
-    this.testService.getEditions()
-      .subscribe( editions => this.editions = editions);
-
+    GlobalConstants.generateRandomSuffix();
     this.activatedRoute.params.pipe(
       switchMap( ({ id }) => this.testService.getProblemById(id))
     ).subscribe( problem => {
       this.problem = problem;
-      this.problem.figures.length ? this.rutina = 'con-figura' : this.rutina = 'sin-figura';
-      this.cuerpoProblema = this.problem.statement;
+      this.problem.figures.length ? this.routine = 'con-figura' : this.routine = 'sin-figura';
       this.problem.options.sort((a,b) => (a.letter > b.letter) ? 1 : ((b.letter > a.letter) ? -1 : 0));
       for(let i=0; i<this.problem.options.length; i++) {
-        this.problem.options[i].answer.includes('http')? this.optionsValues[i] = 'figura': this.optionsValues[i] = 'rutina';  
+        this.problem.options[i].answer.includes('http')? this.optionsTypes[i] = 'figura': this.optionsTypes[i] = 'rutina';  
       }
-      this.category = this.problem.category;
-      this.solution = this.problem.solution;
     });
-    
-    this.problemForm?.form.valueChanges.subscribe((data) => {
-      if(this.problemForm.controls['numberFigures'].value != this.problem.figures.length) {
-        if(this.problemForm.controls['numberFigures'].value > this.problem.figures.length) {
-          this.addFigure();
-        } /*else {
-          console.log('disminuy');  
-        }*/
-      }
-      //console.log(data);
-    })
   }
 
   onSubmit(): void{
   }
 
   addFigure() {
-    let num_s = this.problem.figures.length;
-    const newFigure = new Figure('', num_s + 1 , '', 'intermedia');
-    this.problem.figures.push(newFigure);
+    this.problem.figures.push(new Figure('', '' , this.problem.figures.length + 1, '', 'intermedia'));
+  }
+
+  addOptionFigure(newOption: Option) {
+    GlobalConstants.generateRandomSuffix();
+    for(let i=0; i < this.problem.options.length; i++) {
+      if(this.problem.options[i].letter === newOption.letter) {
+        if(this.problem.options[i].ik_id) {
+          this.testService.deleteFigure(this.problem.options[i].ik_id);
+        }
+        this.problem.options[i] = newOption;
+        this.uploadings[i] = false;
+      }
+    }
+  }
+
+  generateRandomOptionFigureName(letter: string) {
+    return `${ letter }-${ GlobalConstants.getRandomSuffix() }`
   }
 
   updateProblem() {
     var options_answers = [];
     var options: Option[] = [];
-    if(this.problemForm?.value.optionA == 'rutina') {
-      options_answers.push(this.problemForm?.value.rutinaA);
-    } else {
+    if(this.updateProblemForm?.value.optionA === 'rutina') {
+      this.problem.options[0].answer = this.updateProblemForm?.value.rutinaA
+    }
 
+    if(this.updateProblemForm?.value.optionB === 'rutina') {
+      this.problem.options[1].answer = this.updateProblemForm?.value.rutinaB
     }
-    if(this.problemForm?.value.optionB == 'rutina') {
-      options_answers.push(this.problemForm?.value.rutinaB);
-    } else {
 
+    if(this.updateProblemForm?.value.optionC === 'rutina') {
+      this.problem.options[2].answer = this.updateProblemForm?.value.rutinaC
     }
-    if(this.problemForm?.value.optionC == 'rutina') {
-      options_answers.push(this.problemForm?.value.rutinaC);
-    } else {
+    
+    if(this.updateProblemForm?.value.optionD === 'rutina') {
+      this.problem.options[3].answer = this.updateProblemForm?.value.rutinaD
+    }
 
+    if(this.updateProblemForm?.value.optionE === 'rutina') {
+      this.problem.options[4].answer = this.updateProblemForm?.value.rutinaE
     }
-    if(this.problemForm?.value.optionD == 'rutina') {
-      options_answers.push(this.problemForm?.value.rutinaD);
-    } else {
 
-    }
-    if(this.problemForm?.value.optionE == 'rutina') {
-      options_answers.push(this.problemForm?.value.rutinaE);
-    } else {
-
-    }
-    for(let i=0; i<this.problem.options.length; i++) {
-      options.push(new Option(this.problem.options[i]._id, this.problem.options[i].letter, options_answers[i]));
-    }
-    /*const figures = new Figure();
-    const problem = new Problem(this.problem._id, this.problem.problem_id, this.problem.num_s, this.problemForm?.form.value.statement, this.problemForm?.form.value.solution, this.problemForm?.value.category, options, []);
-    this.testService.updateProblem(problem);
-    this.router.navigateByUrl(`pruebas/ver/${this.test}`);
-    this.messageService.add({severity:'success', summary: 'Exitoso', detail: 'Problema editado'});*/
+    this.testService.updateProblem(this.problem);
+    // console.log(this.activatedRoute.params);
+    this.location.back()
+    // this.messageService.add({severity:'success', summary: 'Exitoso', detail: 'Problema editado'});
   }
 
   back() {
@@ -164,7 +137,6 @@ export class EditProblemComponent implements OnInit {
   }
 
   uploadOption(event: any) {
-    
     console.log(event);
   }
 

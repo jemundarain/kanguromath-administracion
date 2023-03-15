@@ -15,19 +15,24 @@
                 <td>{{ figure.num_s }}</td>
                 <td>{{ figure.url.split("/").slice(-1) }}</td>
                 <td>
-                    {{ setPosition(figure.ubication) }}
                     <div class="flex flex-col">
-                        <p-radioButton name="position" value="intermedia" label="Intermedia" [(ngModel)]="position" class="mb-2"></p-radioButton>
-                        <p-radioButton name="position" value="derecha" label="Derecha" [(ngModel)]="position"></p-radioButton>
+                        <p-radioButton name="position" value="intermedia" label="Intermedia" [(ngModel)]="figure.position" class="mb-2"></p-radioButton>
+                        <p-radioButton name="position" value="derecha" label="Derecha" [(ngModel)]="figure.position"></p-radioButton>
                     </div>
                 </td>
                 <td>
-                    <app-upload-file [fileName]="figure.num_s" [folder]="problem_id"></app-upload-file>                                    
+                    <app-upload-file
+                        (startUpload)="uploadings[figure.num_s-1] = $event"
+                        (endUpload)="addFigure($event)"
+                        [fileName]="getRandomFigureName(figure.num_s)"
+                        [folder]="problem_id">
+                    </app-upload-file>                                    
                 </td>
                 <td>
-                    <p-image [src]="figure.url" [alt]="figure.url.split('/').slice(-1)" width="300" [preview]="true"></p-image>
+                    <p-image *ngIf="!uploadings[figure.num_s-1]" [src]="figure.url" [alt]="figure.url.split('/').slice(-1)" width="300" [preview]="true"></p-image>
+                    <app-progress-spinner [condition]="uploadings[figure.num_s-1]"></app-progress-spinner>
                 </td>
-                <td><a [routerLink]="['/figuras/eliminar', figure.url.split('/').slice(-1) ]"><i class="pi pi-trash"></i></a></td>
+                <td><i (click)="deleteFigure(figure.num_s)" class="pi pi-trash"></i></td>
             </tr>
         </ng-template>
     </p-table>

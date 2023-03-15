@@ -28,7 +28,12 @@ app.get('/get_all_problems_from_test/:test_id', async (req, res, next) => {
 })
 
 app.put('/put_problem/', (req, res) => {
-	const updatedProblem = new ProblemModel({_id: req.body._id, problem_id: req.body.test_id, num_s: req.body.num_s, statement: req.body.statement, solution: req.body.solution, category: req.body.category, option: req.body.options, figures: req.body.figures})
+	// x = req.body.figures;
+	// x.forEach(object => {
+	// 	delete object['_id'];
+	//   });
+	// console.log(x);
+	const updatedProblem = new ProblemModel({_id: req.body._id, problem_id: req.body.problem_id, num_s: req.body.num_s, statement: req.body.statement, solution: req.body.solution, category: req.body.category, options: req.body.options, figures: req.body.figures})
 	ProblemModel.updateOne({_id: req.body._id}, updatedProblem)
 	.then(() => {
 		res.status(200).json({

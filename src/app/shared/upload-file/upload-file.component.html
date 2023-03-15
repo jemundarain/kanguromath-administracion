@@ -1,5 +1,13 @@
 <div class="fileinputs">
-    <ik-upload [fileName]="fileName" [folder]="folder" [useUniqueFileName]="false" [isPrivateFile]="false" (onSuccess)="handleUploadSuccess($event)" (onError)="handleUploadError($event)"></ik-upload>
+    <ik-upload 
+        [fileName]="fileName"
+        [folder]="folder"
+        [useUniqueFileName]="false"
+        [isPrivateFile]="false"
+        (onSuccess)="handleUploadSuccess($event)"
+        (onError)="handleUploadError($event)"
+        [onUploadStart]="onUploadStart">
+    </ik-upload>
     <div class="fakefile">
         <span tabindex="0" pripple="" class="p-ripple p-element p-button p-component p-fileupload-choose" ng-reflect-ng-class="[object Object]">
             <span class="p-button-icon p-button-icon-left pi pi-plus" ng-reflect-ng-class="pi pi-plus"></span>
@@ -8,3 +16,4 @@
         </span>
     </div>
 </div>
+

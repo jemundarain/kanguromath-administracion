@@ -8,12 +8,14 @@ const problemSchema = mongoose.Schema({
     category: {type: String},
     options: [new mongoose.Schema({
         letter: {type: String, required: true},
-        answer: {type: String}
+        answer: {type: String},
+        ik_id: {type: String}
     })],
     figures: [new mongoose.Schema({
-        num_s: {type: String, required: true},
+        ik_id: {type: String},
+        num_s: {type: Number, required: true},
         url: {type: String},
-        ubication: {type: String}
+        position: {type: String}
     })]
 });
 

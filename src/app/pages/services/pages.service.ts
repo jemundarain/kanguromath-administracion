@@ -17,43 +17,43 @@ export class PagesService {
   constructor(private http: HttpClient) {}
 
   getNumberUsersByDateRangeTotal(start: string, end: string): Observable<number> {
-    return this.http.get<number>(`${ this.baseUrl }/usuarios-total?start=${ start }&end=${ dayjs(end).add(1, 'day').clone().format('YYYY-MM-DD') }`)
+    return this.http.get<number>(`${ this.baseUrl }/admin_users/get_total?start=${ start }&end=${ dayjs(end).add(1, 'day').clone().format('YYYY-MM-DD') }`)
   }
 
   getNumberUsersByDateRange(start: string, end: string): Observable<number[]> {
-    return this.http.get<number[]>(`${ this.baseUrl }/usuarios?start=${ start }&end=${ end }`)
+    return this.http.get<number[]>(`${ this.baseUrl }/admin_users/get_distribution?start=${ start }&end=${ end }`)
   }
 
   getMinimumRegistrationDate() {
-    return this.http.get<Date>(`${ this.baseUrl }/usuarios/fecha_minima`)
+    return this.http.get<Date>(`${ this.baseUrl }/admin_users/get_minimum_date`)
   }
 
   getRanking() {
-    return this.http.get<Ranking[]>(`${ this.baseUrl }/usuarios/ranking`)
+    return this.http.get<Ranking[]>(`${ this.baseUrl }/admin_users/get_ranking`)
   }
 
   getUsersDistributionByType() {
-    return this.http.get<Ranking[]>(`${ this.baseUrl }/usuarios/distribution-by-type`)
+    return this.http.get<Ranking[]>(`${ this.baseUrl }/admin_users/get_distribution_by_type`)
   }
 
   getUsersDistributionByLevel() {
-    return this.http.get<Ranking[]>(`${ this.baseUrl }/usuarios/distribution-by-level`)
+    return this.http.get<Ranking[]>(`${ this.baseUrl }/admin_users/get_distribution_by_level`)
   }
 
   getUsersDistributionBySex() {
-    return this.http.get<Ranking[]>(`${ this.baseUrl }/usuarios/distribution-by-sex`)
+    return this.http.get<Ranking[]>(`${ this.baseUrl }/admin_users/get_distribution_by_sex`)
   }
 
   getUsersDistributionByInstitution() {
-    return this.http.get<Ranking[]>(`${ this.baseUrl }/usuarios/distribution-by-institution`)
+    return this.http.get<Ranking[]>(`${ this.baseUrl }/admin_users/get_distribution_by_type_institution`)
   }
 
   getAlgebraPerformanceDistribution(start: string, end: string) {
-    return this.http.get<Ranking[]>(`${ this.baseUrl }/desempeno-total/algebra?start=${ start }&end=${ end }`)
+    return this.http.get<Ranking[]>(`${ this.baseUrl }/performance_total/algebra?start=${ start }&end=${ end }`)
   }
   
   getAlgebraPerformanceByDateRange(start: string, end: string) {
-    return this.http.get<number[][]>(`${ this.baseUrl }/desempeno/algebra?start=${ start }&end=${ end }`)
+    return this.http.get<number[][]>(`${ this.baseUrl }/performance/algebra?start=${ start }&end=${ end }`)
   }
 
   getLabelsDateRange(start: string, end: string) {
@@ -69,11 +69,11 @@ export class PagesService {
   
 
   getAppState(): Observable<Global> {
-    return this.http.get<Global>(`${ this.baseUrl }/ajustes/estado-app`)
+    return this.http.get<Global>(`${ this.baseUrl }/settings/app-state`)
   }
 
   updateAppState(global: Global) {
-    this.http.put<{message: string}>(`${ this.baseUrl }/ajustes/cambiar-estado`, global).subscribe((jsonData) => {
+    this.http.put<{message: string}>(`${ this.baseUrl }/settings/change-estado`, global).subscribe((jsonData) => {
       console.log(jsonData);
     })
   }

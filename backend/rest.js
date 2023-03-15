@@ -1,16 +1,9 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-var ImageKit = require("imagekit");
 var cors = require('cors')
 
 const GlobalModel = require('./schemas/global-schema');
-
-var imagekit = new ImageKit({
-	publicKey : 'public_VoBZkirixLnqfCe0fUaeGUj6XQs=',
-	privateKey : 'private_mBXoZE1JUrqhmxHZeApipeWtAXc=',
-	urlEndpoint : 'https://ik.imagekit.io/661ijdspv/'
-});
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -22,6 +15,7 @@ var usersRoutes = require('./routes/users');
 var performanceRoutes = require('./routes/performance');
 var testsRoutes = require('./routes/tests');
 var problemsRoutes = require('./routes/problems');
+var uploadsRoutes = require('./routes/uploads');
 
 mongoose.connect("mongodb+srv://Jemundarain:Cuarentay2@canguromathcluster.azwnjh8.mongodb.net/canguro_math_db?retryWrites=true&w=majority")    
 .then(() => {
@@ -48,21 +42,9 @@ app.use('/admin_admin_users', usersRoutes);
 app.use('/performance', performanceRoutes);
 app.use('/admin_tests', testsRoutes);
 app.use('/admin_problems', problemsRoutes);
+app.use('/admin_uploads', uploadsRoutes);
 
 app.use(cors())
-
-
-app.get('/imagekit-auth', (req, res) => {
-	var authenticationParameters = imagekit.getAuthenticationParameters();
-	res.json(authenticationParameters);
-})
-
-app.delete('/imagekit-delete/:file_id', (req, res) => {
-	imagekit.deleteFile(req.params.file_id, function(error, result) {
-		if(error) console.log(error);
-		else console.log(result);
-	});
-})
 
 /*app.post('/sign-up', (req,res) => {
 
