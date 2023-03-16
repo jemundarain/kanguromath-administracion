@@ -17,6 +17,7 @@
             <ng-template pTemplate="header">
                 <tr>
                     <th>Año</th>
+                    <th>Completada</th>
                     <th>Ver</th>
                     <th>Editar</th>
                     <th>Eliminar</th>
@@ -25,6 +26,7 @@
             <ng-template pTemplate="body" let-test>
                 <tr>
                     <td>{{test.levels | levelsTittle }}</td>
+                    <td><i *ngIf="test.problems.length === 30" class="pi pi-check"></i><i *ngIf="test.problems.length < 30" class="pi pi-times text-300"></i></td>
                     <td><a [routerLink]="['/pruebas/ver', test.test_id ]"><i class="pi pi-eye"></i></a></td>
                     <ng-container *ngIf="app_enabled; else editTest">
                         <td><a (click)="appDisabledAlert()"><i class="pi pi-file-edit disabled"></i></a></td>
