@@ -1,6 +1,6 @@
-<div class="flex flex-row gap-3 items-start">
-    <ng-katex-html [html]="body_problem" class="basis-auto text-[20px] font-normal text-[#26201F] tracking-tight"></ng-katex-html>
-    <p-image *ngIf="this.right_img_url"     class="basis-auto mt-4 right-img" [src]="this.right_img_url" [preview]="true" [alt]="problem.num_s.toString()" width="auto"></p-image>
+<div class="grid grid-cols-12">
+    <ng-katex-html [html]="body_problem" class="text-[20px] font-normal text-[#26201F] tracking-tight" [class]="right_img_url? 'col-span-9':'col-span-12'"></ng-katex-html>
+    <p-image *ngIf="right_img_url" class="mt-4 right-img" [class]="right_img_url? 'col-span-3':'hidden'" [src]="this.right_img_url" [preview]="true" [alt]="problem.num_s.toString()" width="auto"></p-image>
 </div>
 <div class="flex flex-row justify-between flex-wrap mt-3 mb-6">
     <div class="flex flex-row items-center mb-1" *ngFor="let option of problem.options">

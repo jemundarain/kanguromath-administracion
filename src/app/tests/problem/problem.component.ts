@@ -7,7 +7,7 @@ import { PagesService } from '../../pages/services/pages.service';
   templateUrl: './problem.component.html',
   styles:[ `
     .right-img {
-      max-width: 180px !important;
+      max-width: 240px !important;
       height: auto !important;
     }
     .option-img {
