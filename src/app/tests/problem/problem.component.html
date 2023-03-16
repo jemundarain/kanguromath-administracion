@@ -1,12 +1,13 @@
 <div class="flex flex-row gap-3 items-start">
     <ng-katex-html [html]="body_problem" class="basis-auto text-[20px] font-normal text-[#26201F] tracking-tight"></ng-katex-html>
-    <img class="basis-auto mt-4 right-img" *ngIf="this.right_img_url" [src]="this.right_img_url">
+    <p-image *ngIf="this.right_img_url"     class="basis-auto mt-4 right-img" [src]="this.right_img_url" [preview]="true" [alt]="problem.num_s.toString()" width="auto"></p-image>
 </div>
 <div class="flex flex-row justify-between flex-wrap mt-3 mb-6">
     <div class="flex flex-row items-center mb-1" *ngFor="let option of problem.options">
         <div class="circleOption">{{option.letter}}</div>
         <span *ngIf="!isLink(option.answer); else imageAnswer" class="text-[20px] font-normal text-[#26201F] tracking-tight">{{option.answer}}</span>
-        <ng-template #imageAnswer><img class="option-img" [src]="option.answer"></ng-template>
+        <ng-template #imageAnswer><p-image class="option-img" [src]="option.answer" [preview]="true" [alt]="option.answer" width="auto"></p-image>
+        </ng-template>
     </div>
-    <p-button type="button" [routerLink]="['/pruebas/editar-problema', problem.problem_id]" label="Editar" class="col-span-2 md:col-span-2 md:col-start-7 p-button-raised my-auto" styleClass="btn float-right edit-btn"></p-button>
+    <p-button *ngIf="!app_enabled" type="button" [routerLink]="['/pruebas/editar-problema', problem.problem_id]" label="Editar" class="col-span-2 md:col-span-2 md:col-start-7 p-button-raised my-auto" styleClass="btn float-right edit-btn"></p-button>
 </div>

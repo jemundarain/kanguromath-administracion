@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Problem } from '../models/problem-model';
+import { PagesService } from '../../pages/services/pages.service';
 
 @Component({
   selector: 'app-problem',
@@ -21,9 +22,16 @@ export class ProblemComponent implements OnInit {
   public body_problem: string;
   public right_img_url: string;
   public decode_statement: string;
-  constructor() { }
+  public app_enabled: boolean;
+  
+  constructor(
+    private pagesService: PagesService
+  ) { }
 
   ngOnInit(): void {
+    this.pagesService.getAppState().subscribe((global) => {
+      this.app_enabled = global.app_enabled;
+    })
     this.decode_statement = this.problem.statement;
     let n=0;
     for(let i=0; i<this.problem.statement.length; i++) {
