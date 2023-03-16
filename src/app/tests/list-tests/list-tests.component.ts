@@ -52,6 +52,10 @@ export class ListTestsComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
   }
 
+  appDisabledAlert() {
+    this.messageService.add({ severity:'error', summary: 'Rechazado', detail: 'Es necesario deshabilitar la aplicación' });
+  }
+
   deleteTest(test: Test){
     this.confirmationService.confirm({
       header: "Confirmación",
