@@ -33,6 +33,7 @@
     "imagekitio-angular": "^2.0.0",
     "jsonwebtoken": "^9.0.0",
     "jspdf": "^2.5.1",
+    "jszip": "^3.10.1",
     "katex": "^0.16.3",
     "mongoose": "^6.7.5",
     "mongoose-unique-validator": "^3.1.0",
