@@ -42,8 +42,8 @@ app.get('/get_test/:id',(req, res, next) => {
 	})
 })
 
-app.get('/get_test_by_problem/:id',(req, res) => {
-	TestModel.find({ 'problems': {$elemMatch: req.params.id}})
+app.get('/get_test_by_problem/:problem_id',(req, res) => {
+	TestModel.find({ 'problems': {$elemMatch: {$eq: req.params.problem_id }}})
 	.then((data) => {
 		res.json(data);
 	})

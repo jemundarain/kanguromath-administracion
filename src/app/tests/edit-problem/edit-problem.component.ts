@@ -9,7 +9,7 @@ import { Problem } from '../models/problem-model';
 import { Option } from '../models/option-model';
 import { Figure } from '../models/figure-model';
 import { GlobalConstants } from 'src/app/common/global-constants';
-import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { Location } from '@angular/common'
 
 @Component({
@@ -42,11 +42,13 @@ export class EditProblemComponent implements OnInit {
                private location: Location ) { }
   
   @ViewChild('updateProblemForm', { static: true }) updateProblemForm !: NgForm;
+  test: Test;
   problem: Problem;
   routine: string;
   optionsTypes:string[] = [];
   uploadings: boolean[] = [];
-  
+  items: MenuItem[];
+
   figuresMap1 = {
     '=0': '',
     '=1': 'Se detectó ',
@@ -73,6 +75,15 @@ export class EditProblemComponent implements OnInit {
       switchMap( ({ id }) => this.testService.getProblemById(id))
     ).subscribe( problem => {
       this.problem = problem;
+      this.testService.getTestByProblemId(this.problem.problem_id).subscribe( test => {
+        this.test = test[0];
+        this.items = [
+          {label: 'Pruebas'},
+          {label: `Preliminar ${this.test.edition} ${this.test.levels}`},
+          {label: 'Editar Problema'},
+          {label: `Problema #${this.problem.num_s}`}
+        ];
+      })
       this.problem.figures.length ? this.routine = 'con-figura' : this.routine = 'sin-figura';
       this.problem.options.sort((a,b) => (a.letter > b.letter) ? 1 : ((b.letter > a.letter) ? -1 : 0));
       for(let i=0; i<this.problem.options.length; i++) {

@@ -35,7 +35,7 @@ export class TestService {
     }
 
     getTestByProblemId(problem_id: string): Observable<Test[]> {
-        return this.http.get<Test[]>(`${ this.baseUrl }/admin_problems/get_test_by_problem/${problem_id}`)
+        return this.http.get<Test[]>(`${ this.baseUrl }/admin_tests/get_test_by_problem/${problem_id}`)
     }
 
     updateTest(test: Test) {
