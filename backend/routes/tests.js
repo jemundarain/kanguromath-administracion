@@ -52,6 +52,16 @@ app.get('/get_test_by_problem/:id',(req, res) => {
 	})
 })
 
+app.post('/post_test/', (req, res) => {
+	const updatedTest = new TestModel({_id: req.body._id, test_id: req.body.test_id, levels: req.body.levels, edition: req.body.edition, problems: req.body.problems})
+	TestModel.updateOne({_id: req.body._id}, updatedTest)
+	.then(() => {
+		res.status(200).json({
+			message: 'Update completed'
+		})    
+	})
+})
+
 app.put('/put_test/', (req, res) => {
 	const updatedTest = new TestModel({_id: req.body._id, test_id: req.body.test_id, levels: req.body.levels, edition: req.body.edition, problems: req.body.problems})
 	TestModel.updateOne({_id: req.body._id}, updatedTest)
@@ -64,6 +74,15 @@ app.put('/put_test/', (req, res) => {
 
 app.delete('/delete_test/:_id', (req, res) => {
 	TestModel.deleteOne({_id: req.params._id})
+	.then(() => {
+		res.status(200).json({
+			message: 'Delete successful'
+		})   
+	})
+})
+
+app.delete('/delete_problem/:_id', (req, res) => {
+	ProblemModel.deleteOne({_id: req.params._id})
 	.then(() => {
 		res.status(200).json({
 			message: 'Delete successful'

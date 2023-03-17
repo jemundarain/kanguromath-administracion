@@ -56,6 +56,12 @@ export class TestService {
         })
     }
 
+    deleteProblem(_id: string) {
+        this.http.delete<{message: string}>(`${this.baseUrl}/admin_tests/delete_problem/${_id}`).subscribe((jsonData) => {
+            console.log(jsonData);
+        })       
+    }
+
     authenticationImageKitIO() {
         this.http.get<any>(`${this.baseUrl}/admin_uploads/imagekit-auth`).subscribe((data) => {
             console.log(data);
@@ -70,6 +76,12 @@ export class TestService {
 
     deleteFigure(ik_id: string) {
         this.http.delete<any>(`${this.baseUrl}/admin_uploads/imagekit-delete/${ik_id}`).subscribe((data) => {
+            console.log(data);
+        });
+    }
+
+    uploadTest(ik_id: string) {
+        this.http.delete<any>(`${this.baseUrl}/admin_uploads/upload-test/${ik_id}`).subscribe((data) => {
             console.log(data);
         });
     }

@@ -9,5 +9,11 @@
         <ng-template #imageAnswer><p-image class="option-img" [src]="option.answer" [preview]="true" [alt]="option.answer" width="auto"></p-image>
         </ng-template>
     </div>
-    <p-button *ngIf="!app_enabled" type="button" [routerLink]="['/pruebas/editar-problema', problem.problem_id]" label="Editar" class="col-span-2 md:col-span-2 md:col-start-7 p-button-raised my-auto" styleClass="btn float-right edit-btn"></p-button>
+    <div class="flex flex-row justify-between flex-wrap mt-3 mb-6">
+        <a *ngIf="!app_enabled" class="mr-4 mt-2" [routerLink]="['/pruebas/editar-problema', problem.problem_id]"><i class="pi pi-file-edit" style="font-size: 1.8rem !important"></i></a>
+        <a *ngIf="!app_enabled" class="mr-4 mt-2" (click)="deleteProblem(problem)"><i class="pi pi-trash" style="font-size: 1.8rem !important"></i></a>
+    </div>
 </div>
+
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"></p-confirmDialog>
+<p-toast position="bottom-center"></p-toast>

@@ -1,6 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Problem } from '../models/problem-model';
 import { PagesService } from '../../pages/services/pages.service';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { TestService } from '../services/test.service';
 
 @Component({
   selector: 'app-problem',
@@ -14,7 +16,8 @@ import { PagesService } from '../../pages/services/pages.service';
       max-width: 100px !important;
     }
 
-  `]
+  `],
+  providers: [ConfirmationService, MessageService]
 })
 export class ProblemComponent implements OnInit {
 
@@ -25,7 +28,10 @@ export class ProblemComponent implements OnInit {
   public app_enabled: boolean;
   
   constructor(
-    private pagesService: PagesService
+    private pagesService: PagesService,
+    private testService: TestService,
+    private messageService: MessageService,
+    private confirmationService: ConfirmationService
   ) { }
 
   ngOnInit(): void {
@@ -55,5 +61,17 @@ export class ProblemComponent implements OnInit {
       '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
       '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
     return !!pattern.test(answer);
+  }
+
+  deleteProblem(problem: Problem){
+    this.confirmationService.confirm({
+      header: "Confirmación",
+      message: `¿Está seguro que desea eliminar el problema #${problem.num_s}?`,
+      accept: () => {
+        this.testService.deleteProblem(problem._id);
+        this.messageService.add({ severity:'success', summary: 'Exitoso', detail: 'Prueba Eliminada' });
+      },
+      reject: () => {}
+    });
   }
 }
