@@ -1,8 +1,11 @@
 var express = require('express');
 const TestModel = require('../schemas/test-schema');
 var ImageKit = require("imagekit");
+const fileUpload = require('express-fileupload');
+const JSZip = require('jszip');
 
 var app = express();
+app.use(fileUpload());
 
 var imagekit = new ImageKit({
   publicKey : 'public_VoBZkirixLnqfCe0fUaeGUj6XQs=',
@@ -53,6 +56,25 @@ app.put('/put_figure/', (req, res) => {
   }).catch((error) => {
     res.status(500).send(error);
   })
+});
+
+app.post('/post_testXXXXXX', (req, res) => {
+  if (!req.files || !req.files.zipfile) {
+    return res.status(400).send('No file uploaded.');
+  }
+
+  const zipfile = req.files.zipfile;
+
+  JSZip.loadAsync(zipfile.data)
+    .then((zip) => {
+      // do something with the unzipped files
+      console.log(zip.files);
+      res.send('File uploaded and unzipped successfully.');
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send('Failed to unzip file.');
+    });
 });
 
 module.exports = app;
