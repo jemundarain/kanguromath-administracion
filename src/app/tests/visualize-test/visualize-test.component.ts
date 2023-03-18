@@ -24,7 +24,6 @@ export class VisualizeTestComponent implements OnInit {
   items: MenuItem[];
 
   ngOnInit(): void {
-
     this.activatedRoute.params
       .pipe(
         switchMap( ({ id }) => this.testService.getTestById(id))
@@ -41,5 +40,9 @@ export class VisualizeTestComponent implements OnInit {
 
   back() {
     this.router.navigateByUrl('pruebas/lista');
+  }
+
+  addProblem(test: Test) {
+    this.router.navigateByUrl(`pruebas/agregar-problema/${test}`);
   }
 }

@@ -50,6 +50,12 @@ export class TestService {
         })
     }
 
+    addProblem(problem: Problem) {
+        this.http.post<{message: string}>(`${this.baseUrl}/admin_problems/post_problem`, problem).subscribe((jsonData) => {
+          console.log(jsonData);
+        })
+    }
+
     updateProblem(problem: Problem) {
         this.http.put<{message: string}>(`${this.baseUrl}/admin_problems/put_problem`, problem).subscribe((jsonData) => {
           console.log(jsonData);
@@ -57,7 +63,7 @@ export class TestService {
     }
 
     deleteProblem(_id: string) {
-        this.http.delete<{message: string}>(`${this.baseUrl}/admin_tests/delete_problem/${_id}`).subscribe((jsonData) => {
+        this.http.delete<{message: string}>(`${this.baseUrl}/admin_problems/delete_problem/${_id}`).subscribe((jsonData) => {
             console.log(jsonData);
         })       
     }

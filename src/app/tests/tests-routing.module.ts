@@ -6,6 +6,7 @@ import { HomeComponent } from './home/home.component';
 import { ListTestsComponent } from './list-tests/list-tests.component';
 import { NewTestComponent } from './new-test/new-test.component';
 import { EditProblemComponent } from './edit-problem/edit-problem.component';
+import { NewProblemComponent } from './new-problem/new-problem.component';
 import { VisualizeTestComponent } from './visualize-test/visualize-test.component';
 
 const rutas: Routes = [
@@ -17,6 +18,7 @@ const rutas: Routes = [
       { path: 'agregar', component: NewTestComponent },
       { path: 'ver/:id', component: VisualizeTestComponent },
       { path: 'editar/:id', component: EditTestComponent },
+      { path: 'agregar-problema/:id', component: NewProblemComponent },
       { path: 'editar-problema/:id', component: EditProblemComponent },
       { path: '**', redirectTo: 'lista' }
     ]

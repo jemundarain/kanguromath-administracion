@@ -1,0 +1,16 @@
+<!-- Encabezado -->
+<app-header title="Problema Nuevo" [breadcrumbs]="items"></app-header>
+
+<!-- Tipo de subida -->
+<div class="flex gap-2 mb-6">
+    <h5 class="text-[21px] font-normal text-[#26201F] tracking-tight">Agregar problema:</h5>
+    <p-selectButton [options]="options" [(ngModel)]="option"></p-selectButton>
+</div>
+
+<form *ngIf="option == 'Nuevo'" #addNewProblemForm="ngForm">
+    <h1>TRAERME EL COMPONENTE EDIT PROBLEM</h1>
+    <!-- <app-edit-problem></app-edit-problem> -->
+</form>
+
+<form *ngIf="option == 'Existente'" #addExistingProblemForm="ngForm">
+</form>

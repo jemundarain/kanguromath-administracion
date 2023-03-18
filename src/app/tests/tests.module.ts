@@ -16,6 +16,7 @@ import { KatexModule } from 'ng-katex';
 import { ProblemComponent } from './problem/problem.component';
 import { FiguresTableComponent } from './figures-table/figures-table.component';
 import { SharedModule } from "../shared/shared.module";
+import { NewProblemComponent } from './new-problem/new-problem.component';
 
 @NgModule({
     declarations: [
@@ -28,7 +29,8 @@ import { SharedModule } from "../shared/shared.module";
         LevelsTittlePipe,
         LevelsHeaderPipe,
         ProblemComponent,
-        FiguresTableComponent
+        FiguresTableComponent,
+        NewProblemComponent
     ],
     imports: [
         CommonModule,

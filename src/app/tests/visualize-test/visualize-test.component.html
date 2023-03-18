@@ -2,6 +2,25 @@
 
 <app-progress-spinner [condition]="test === undefined" [template]="testHeaderT"></app-progress-spinner>
 <ng-template #testHeaderT>
+    <div *ngIf="test" class="flex flex-row justify-between mx-16 mb-5">
+        <button pButton 
+                type="button" 
+                class="btn"
+                label="Volver" 
+                icon="pi pi-arrow-left" 
+                iconPos="left"
+                (click)="back()">
+        </button>
+        <button pButton
+                *ngIf="problems.length < 30"
+                type="button" 
+                class="btn pr-32"
+                label="Añadir Problema" 
+                icon="pi pi-plus" 
+                iconPos="left"
+                [routerLink]="['/pruebas/agregar-problema', test.test_id]">
+        </button>
+    </div>
     <div class="grid grid-cols-12 gap-4 pt-14 mx-16" *ngIf="test" [class]="test != undefined? 'bg-white rounded-tl rounded-tr':''">
         <h3 class="font-['CMU_Serif'] inline-block text-center text-2xl font-bold text-gray-700 tracking-tight col-start-4 col-span-6">OLIMPÍADA JUVENIL DE MATEMÁTICA</h3>
         <img src="../../../assets/img/canguro-gray.png" alt="canguro-gray" class="col-start-5 col-span-2 -mt-2 -ml-24">
@@ -20,25 +39,6 @@
             <div *ngFor="let problem of problems" class="col-start-3 col-span-8 mx-5">
                 <app-problem [problem]="problem"></app-problem>
             </div>
-        </div>
-        <div class="flex flex-row justify-between mx-10">
-            <button pButton 
-                    type="button" 
-                    class="btn"
-                    label="Volver" 
-                    icon="pi pi-arrow-left" 
-                    iconPos="left"
-                    (click)="back()">
-            </button>
-            <button pButton
-                    *ngIf="problems.length < 30"
-                    type="button" 
-                    class="btn pr-32"
-                    label="Añadir Problema" 
-                    icon="pi pi-plus" 
-                    iconPos="left"
-                    (click)="back()">
-            </button>
         </div>
     </ng-template>
 

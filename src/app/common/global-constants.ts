@@ -59,6 +59,11 @@ export class GlobalConstants {
         'Manual'
     ]
 
+    public static NEW_PROBLEM_OPTIONS = [
+        'Nuevo',
+        'Existente'
+    ]
+
     public static GENDERS = [
         'F',
         'M'
