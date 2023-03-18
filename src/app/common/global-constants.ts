@@ -1,6 +1,6 @@
 import { DateOption } from "../pages/interfaces/date-option.interfaces";
 import { Ranking } from "../pages/interfaces/ranking.interfaces";
-import { LevelOption } from "../tests/interfaces/level-option.interface";
+import { RadioOption } from "./radio-option.interface";
 import * as dayjs from 'dayjs'
 
 export class GlobalConstants {
@@ -25,7 +25,7 @@ export class GlobalConstants {
 
     public static OPTIONS_LETTERS: string[] = ['A', 'B', 'C', 'D', 'E'];
     
-    public static LEVELS: LevelOption[] = [
+    public static LEVELS: RadioOption[] = [
         {name: '1ero', code: '1ero'},
         {name: '1ero y 2do', code: '1ero-2do'},
         {name: '2do', code: '2do'},
@@ -34,6 +34,13 @@ export class GlobalConstants {
         {name: '4to', code: '4to'},
         {name: '4to y 5to', code: '4to-5to'},
         {name: '5to', code: '5to'}
+    ]
+
+    public static CATEGORIES: RadioOption[] = [
+        {name: 'Álgebra', code: 'algebra'},
+        {name: 'Geometría', code: 'geometria'},
+        {name: 'Combinatoria', code: 'combinatoria'},
+        {name: 'Teoría de Números', code: 'teoria-numeros'},
     ]
 
     public static TRANSLATION = {

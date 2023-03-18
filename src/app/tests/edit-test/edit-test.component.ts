@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { TestService } from '../services/test.service';
-import { LevelOption } from '../interfaces/level-option.interface';
+import { RadioOption } from '../../common/radio-option.interface';
 import { Test } from '../models/test-model';
 import { Router } from '@angular/router';
 import { ActivatedRoute} from '@angular/router';
@@ -20,7 +20,7 @@ export class EditTestComponent implements OnInit {
   minEdition: number = GlobalConstants.MIN_DATE_EDITION;
   maxEdition: number = GlobalConstants.MAX_DATE_EDITION;
 
-  levels: LevelOption[];
+  levels: RadioOption[];
   selectedLevelCode: string;
 
   test!: Test;

@@ -1,10 +1,9 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { LevelOption } from '../interfaces/level-option.interface';
 import { TestService } from '../services/test.service';
 import { Test } from '../models/test-model';
-import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { Subscription, switchMap } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
+import { switchMap } from 'rxjs';
 import { Problem } from '../models/problem-model';
 import { Option } from '../models/option-model';
 import { Figure } from '../models/figure-model';

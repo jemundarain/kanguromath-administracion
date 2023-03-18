@@ -20,11 +20,15 @@ import { PieChartAlgebraComponent } from './pie-chart-algebra/pie-chart-algebra.
 import { PieChartGeometryComponent } from './pie-chart-geometry/pie-chart-geometry.component';
 import { PieChartCombinatoricsComponent } from './pie-chart-combinatorics/pie-chart-combinatorics.component';
 import { PieChartNumberTheoryComponent } from './pie-chart-number-theory/pie-chart-number-theory.component';
+import { CategoryComponent } from './category/category.component';
+import { SolutionComponent } from './solution/solution.component';
 
 
 @NgModule({
   declarations: [
+    CategoryComponent,
     SlideMenuComponent, 
+    SolutionComponent,
     PieChartForRolComponent, 
     RankingListComponent,
     PieChartForLevelComponent,
@@ -38,10 +42,12 @@ import { PieChartNumberTheoryComponent } from './pie-chart-number-theory/pie-cha
     PieChartAlgebraComponent,
     PieChartGeometryComponent,
     PieChartCombinatoricsComponent,
-    PieChartNumberTheoryComponent
+    PieChartNumberTheoryComponent,
   ],
   exports: [
+    CategoryComponent,
     SlideMenuComponent,
+    SolutionComponent,
     PieChartForRolComponent,
     RankingListComponent,
     PieChartForLevelComponent,

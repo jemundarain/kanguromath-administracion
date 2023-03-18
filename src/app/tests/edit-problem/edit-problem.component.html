@@ -235,20 +235,12 @@
             <div class="grid grid-cols-12 gap-6 mb-6">
                 <p-card class="col-span-3" header="Categoría">
                     <div class="flex flex-col gap-3">
-                        <p-radioButton name="categorias" value="sin-categoria" label="Sin categoría" [(ngModel)]="problem.category"></p-radioButton>
-                        <p-radioButton name="categorias" value="algebra" label="Álgebra" [(ngModel)]="problem.category"></p-radioButton>
-                        <p-radioButton name="categorias" value="geometria" label="Geometría" [(ngModel)]="problem.category"></p-radioButton>
-                        <p-radioButton name="categorias" value="combinatoria" label="Combinatoria" [(ngModel)]="problem.category"></p-radioButton>
-                        <p-radioButton name="categorias" value="teoria-numeros" label="Teoría de números" [(ngModel)]="problem.category"></p-radioButton>
+                        <app-category (onChangeCategory)="problem.category = $event" [category]="problem.category"></app-category>
                     </div>
                 </p-card>
                 <p-card class="col-span-3 h-min" header="Solución">
                     <div class="flex flex-col gap-3">
-                        <p-radioButton name="opciones" value="A" label="A" [(ngModel)]="problem.solution"></p-radioButton>
-                        <p-radioButton name="opciones" value="B" label="B" [(ngModel)]="problem.solution"></p-radioButton>
-                        <p-radioButton name="opciones" value="C" label="C" [(ngModel)]="problem.solution"></p-radioButton>
-                        <p-radioButton name="opciones" value="D" label="D" [(ngModel)]="problem.solution"></p-radioButton>
-                        <p-radioButton name="opciones" value="E" label="E" [(ngModel)]="problem.solution"></p-radioButton>
+                        <app-solution (onChangeSolution)="problem.solution = $event" [solution]="problem.solution"></app-solution>
                     </div>
                 </p-card>
             </div>

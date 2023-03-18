@@ -1,4 +1,4 @@
-export interface LevelOption {
+export interface RadioOption {
   name: string,
   code: string
 }

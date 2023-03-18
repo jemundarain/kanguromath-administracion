@@ -1,0 +1,10 @@
+<div class="flex flex-col">
+    <p-radioButton *ngFor="let option of options; let i = index"
+                name="option"
+                [value]="option"
+                [label]="option"
+                [(ngModel)]="solutionOut"
+                (click)="onSelectionChange()"
+                [class]="i < options.length-1? 'mb-4':''">
+    </p-radioButton>
+</div>

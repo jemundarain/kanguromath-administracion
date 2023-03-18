@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { LevelOption } from '../interfaces/level-option.interface';
+import { RadioOption } from '../../common/radio-option.interface';
 import { Test } from '../models/test-model';
 import {MenuItem} from 'primeng/api';
 import { GlobalConstants } from 'src/app/common/global-constants';
@@ -16,7 +16,7 @@ export class NewTestComponent implements OnInit {
 
   test: Test = new Test('', '', '', GlobalConstants.MAX_DATE_EDITION.toString(), ['']);
 
-  levels: LevelOption[];
+  levels: RadioOption[];
   selectedLevelCode: string;
 
   items: MenuItem[];
