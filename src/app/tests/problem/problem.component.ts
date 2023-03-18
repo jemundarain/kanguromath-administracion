@@ -68,7 +68,7 @@ export class ProblemComponent implements OnInit {
       header: "Confirmación",
       message: `¿Está seguro que desea eliminar el problema #${problem.num_s}?`,
       accept: () => {
-        this.testService.deleteProblem(problem._id);
+        this.testService.deleteProblem(problem.problem_id);
         this.messageService.add({ severity:'success', summary: 'Exitoso', detail: 'Prueba Eliminada' });
       },
       reject: () => {}

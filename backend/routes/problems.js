@@ -27,6 +27,31 @@ app.get('/get_all_problems_from_test/:test_id', async (req, res, next) => {
 	res.json(problems.sort((a,b) => a.num_s - b.num_s));
 })
 
+app.post('/post_problem/', (req, res) => {
+	var body = req.body;
+	var problem = new ProblemModel({
+		problem_id: body.problem_id,
+    	num_s: body.num_s,
+    	statement: body.statement,
+    	solution: body.solution,
+    	category: body.category,
+    	options: body.options,
+    	figures: body.figures
+	});
+
+	problem.save((err, newProblem) => {
+		if(err) {
+			return res.status(400).json({
+				message: 'post_admin_user error',
+				errors: err
+			})
+		}
+		res.status(201).json({
+			problem: newProblem
+		});
+	});
+})
+
 app.put('/put_problem/', (req, res) => {
 	// x = req.body.figures;
 	// x.forEach(object => {
@@ -39,6 +64,15 @@ app.put('/put_problem/', (req, res) => {
 		res.status(200).json({
 			message: 'Update completed'
 		})    
+	})
+})
+
+app.delete('/delete_problem/:_id', (req, res) => {
+	ProblemModel.deleteOne({_id: req.params._id})
+	.then(() => {
+		res.status(200).json({
+			message: 'Delete successful'
+		})   
 	})
 })
 

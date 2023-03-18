@@ -81,14 +81,4 @@ app.delete('/delete_test/:_id', (req, res) => {
 	})
 })
 
-app.delete('/delete_problem/:_id', (req, res) => {
-	ProblemModel.deleteOne({_id: req.params._id})
-	.then(() => {
-		res.status(200).json({
-			message: 'Delete successful'
-		})   
-	})
-})
-
-
 module.exports = app;
