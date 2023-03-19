@@ -52,32 +52,32 @@
     </div>
 
     <!-- Distribución por rol y Distribución por año escolar -->
-    <div class="grid grid-cols-12 grid-rows-2 gap-6 justify-center mb-6">
+    <div class="grid grid-cols-12 grid-rows-2 gap-6">
         <p-card class="col-span-4 row-span-2 row-start-1 justify-center h-min" header="Ranking de Estudiantes por Estados">
             <app-progress-spinner [condition]="ranking === undefined" [template]="rankingListT"></app-progress-spinner>
             <ng-template #rankingListT>
                 <app-ranking-list [rankings]="ranking"></app-ranking-list>
             </ng-template>
         </p-card>
-        <p-card class="col-span-4 row-span-1 h-min" header="Distribución de Usuarios por Rol">
+        <p-card class="col-span-4 row-span-1" header="Distribución de Usuarios por Rol">
             <app-progress-spinner [condition]="false" [template]="byRolChartT"></app-progress-spinner>
             <ng-template #byRolChartT>
                 <app-pie-chart-for-rol></app-pie-chart-for-rol>
             </ng-template>
         </p-card>
-        <p-card class="col-span-4 row-span-1 h-min" header="Distribución de Estudiantes por Nivel">
+        <p-card class="col-span-4 row-span-1" header="Distribución de Estudiantes por Nivel">
             <app-progress-spinner [condition]="false" [template]="byLevelChartT"></app-progress-spinner>
             <ng-template #byLevelChartT>
                 <app-pie-chart-for-level></app-pie-chart-for-level>
             </ng-template>
         </p-card>
-        <p-card class="col-span-4 row-span-1 row-start-2 h-min" header="Distribución de Estudiantes por Institución">
+        <p-card class="col-span-4 row-span-1" header="Distribución de Estudiantes por Institución">
             <app-progress-spinner [condition]="false" [template]="byInstitutionChartT"></app-progress-spinner>
             <ng-template #byInstitutionChartT>
                 <app-pie-chart-for-institution></app-pie-chart-for-institution>
             </ng-template>
         </p-card>
-        <p-card class="col-span-4 row-span-1 row-start-2 h-min" header="Distribución de Estudiantes por Sexo">
+        <p-card class="col-span-4 row-span-1" header="Distribución de Estudiantes por Sexo">
             <app-progress-spinner [condition]="false" [template]="bySexChartT"></app-progress-spinner>
             <ng-template #bySexChartT>
                 <app-pie-chart-for-sex></app-pie-chart-for-sex>

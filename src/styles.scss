@@ -174,14 +174,6 @@ p-inputnumber [name="edition"] {
     width: 90px !important;
 }
 
-p-inputnumber [name="numberFigures"] {
-    width: 40px !important;
-}
-
-p-inputnumber [name="numberFigures"] .p-inputnumber-button {
-    width: 38px;
-}
-
 .p-fileupload span {
     white-space: nowrap !important;
 }
@@ -314,10 +306,6 @@ p-calendar .p-button:enabled:hover, .p-button:enabled:hover, .edit-btn:hover, .p
     color: #fff !important;
     font-weight: 500 !important;
     cursor: pointer;
-}
-
-[type="pie"] canvas {
-    margin: 0 auto;
 }
 
 .custom-spinner {
