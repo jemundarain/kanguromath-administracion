@@ -22,6 +22,8 @@ import { PieChartCombinatoricsComponent } from './pie-chart-combinatorics/pie-ch
 import { PieChartNumberTheoryComponent } from './pie-chart-number-theory/pie-chart-number-theory.component';
 import { CategoryComponent } from './category/category.component';
 import { SolutionComponent } from './solution/solution.component';
+import { OptionsComponent } from './options/options.component';
+import { KatexModule } from 'ng-katex';
 
 
 @NgModule({
@@ -37,6 +39,7 @@ import { SolutionComponent } from './solution/solution.component';
     NavbarComponent,
     HeaderComponent,
     UploadFileComponent,
+    OptionsComponent,
     PieChartForInstitutionComponent,
     PieChartForSexComponent,
     PieChartAlgebraComponent,
@@ -60,11 +63,13 @@ import { SolutionComponent } from './solution/solution.component';
     PieChartAlgebraComponent,
     PieChartGeometryComponent,
     PieChartCombinatoricsComponent,
-    PieChartNumberTheoryComponent
+    PieChartNumberTheoryComponent,
+    OptionsComponent,
   ],
   imports: [
     CommonModule,
     PrimeNgModule,
+    KatexModule,
     ImagekitioAngularModule.forRoot({
       publicKey: environment.publicKey,
       urlEndpoint: environment.urlEndpoint,

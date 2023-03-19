@@ -1,4 +1,4 @@
-import { Option } from "./option-model";
+import { Option } from "../../shared/option-model";
 import { Figure } from "./figure-model"
 
 export class Problem {

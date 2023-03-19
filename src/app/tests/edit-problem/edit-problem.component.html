@@ -1,17 +1,16 @@
-<!-- Encabezado -->
-<app-header [title]="'Editar Problema #'+problem.num_s" [breadcrumbs]="items"></app-header>
-<div class="flex flex-row">
-    <h5 class="block mb-1 my-auto text-[21px] font-normal text-[#26201F] tracking-tight mr-2">Fase:</h5><span class="text-[21px] text-[#26201F] tracking-tight font-semibold mr-8">Preliminar</span>
-    <h5 class="block mb-1 my-auto text-[21px] font-normal text-[#26201F] tracking-tight">Edición: <span class="text-[21px] text-[#26201F] tracking-tight font-semibold mr-8">{{test.edition}}</span></h5>
-</div>
-<h5 class="block mb-3 my-auto text-[21px] font-normal text-[#26201F] tracking-tight">Niveles: <span class="text-[21px] text-[#26201F] tracking-tight font-semibold mr-8">{{test.levels}}</span></h5>
-
 <app-progress-spinner [condition]="problem == null"></app-progress-spinner>
 <div [hidden]="problem == null">
+    <!-- Encabezado -->
+    <app-header [title]="'Editar Problema #'+problem.num_s" [breadcrumbs]="items"></app-header>
+    <div class="flex flex-row mb-3">
+        <h5 class="block mb-1 my-auto text-[21px] font-normal text-[#26201F] tracking-tight mr-2">Fase:</h5><span class="text-[21px] text-[#26201F] tracking-tight font-semibold mr-8">Preliminar</span>
+        <h5 class="block mb-1 my-auto text-[21px] font-normal text-[#26201F] tracking-tight mr-2">Edición: <span class="text-[21px] text-[#26201F] tracking-tight font-semibold mr-8">{{test.edition}}</span></h5>
+        <h5 class="block mb-1 my-auto text-[21px] font-normal text-[#26201F] tracking-tight">Niveles: <span class="text-[21px] text-[#26201F] tracking-tight font-semibold mr-8">{{test.levels}}</span></h5>
+    </div>
     <form (ngSubmit)="updateProblem()" #updateProblemForm="ngForm">
         <!-- Figuras -->
         <ng-container *ngIf="problem">
-            <div class="grid grid-cols-12 gap-6 mb-6">
+            <div class="grid grid-cols-12 gap-6">
                 <p-card class="col-span-10 h-min" header="Figuras">
                     <div class="flex flex-col gap-3">
                         <div class="flex flex-row gap-3">
@@ -33,7 +32,7 @@
             </div>
             
             <!-- Rutina y Resultado -->
-            <div class="grid grid-cols-12 gap-6 mb-6">
+            <div class="grid grid-cols-12 gap-6">
                 <p-card class="col-span-5" header="Rutina">
                     <div class="flex flex-col gap-3">
                         <textarea pInputTextarea [autoResize]="true" [(ngModel)]="problem.statement" name="rutina"></textarea>
@@ -45,194 +44,19 @@
                     </div>
                 </p-card>
             </div>
+
             <!-- Opciones -->
-            <div class="grid grid-cols-12 gap-2 mb-6">
-                <h5 class="text-2xl font-bold text-[#26201F] tracking-tight my-3">Opciones</h5>
+            <div class="grid grid-cols-12 gap-2">
+                <h5 class="text-2xl font-bold text-[#26201F] tracking-tight">Opciones</h5>
                 <div class="col-span-12 h-min">
                     <div class="grid grid-cols-12 gap-8 mb-6">
-                        <p-accordion class="col-span-10">
-                            <p-accordionTab header="Opción A">
-                                <div class="flex flex-row gap-3 mb-6">
-                                    <div class="p-2 pt-1 shadow-sm border-slate-600 border-2 w-fit h-10 rounded-full text-center">
-                                        <h5 class="font-['CMU_Serif'] text-2xl my-auto font-semibold text-slate-600">A</h5>
-                                    </div>       
-                                    <div class="flex flex-col gap-3 mr-8">
-                                        <p-radioButton name="optionA" value="rutina" label="Rutina" [(ngModel)]="optionsTypes[0]"></p-radioButton>
-                                        <p-radioButton name="optionA" value="figura" label="Figura" [(ngModel)]="optionsTypes[0]"></p-radioButton>
-                                    </div>
-                                </div>
-                                <div *ngIf="optionsTypes[0] == 'rutina'; else figureA" class="flex flex-row gap-3">
-                                    <div class="flex flex-col">
-                                        <h5 class="text-xl font-semibold text-slate-600 tracking-tight">Rutina</h5>
-                                        <textarea pInputTextarea [rows]="2" [cols]="15" [autoResize]="true" [(ngModel)]="problem.options[0].answer" name="rutinaA"></textarea>
-                                    </div>
-                                    <div class="flex flex-col">
-                                        <h5 class="text-xl font-semibold text-slate-600 tracking-tight">Resultado</h5>
-                                        <ng-katex-html [html]="problem.options[0].answer"></ng-katex-html>
-                                    </div>
-                                </div>
-                                <ng-template #figureA>
-                                    <h5 class="text-xl font-semibold text-slate-600 tracking-tight mb-2">Resultado</h5>
-                                    <div class="flex flex-row justify-around">
-                                        <p-image *ngIf="!uploadings[0]"  [src]="problem.options[0].answer" [preview]="true" [alt]="problem.options[0].letter" width="auto"></p-image>
-                                        <app-progress-spinner [condition]="uploadings[0]"></app-progress-spinner>
-                                        <app-upload-file
-                                            class="flex flex-col justify-center"
-                                            (startUpload)="uploadings[0] = $event"
-                                            (endUpload)="addOptionFigure($event)"
-                                            [fileName]="generateRandomOptionFigureName('A')"
-                                            [folder]="problem.problem_id">
-                                        </app-upload-file>                                      
-                                    </div>
-                                </ng-template>
-                            </p-accordionTab>
-                            <p-accordionTab header="Opción B">
-                                <div class="flex flex-row gap-3 mb-6">
-                                    <div class="p-2 shadow-sm border-slate-600 border-2 w-12 h-fit rounded-full text-center">
-                                        <h5 class="text-xl my-auto font-semibold text-slate-600">B</h5>
-                                    </div>       
-                                    <div class="flex flex-col gap-3 mr-8">           
-                                        <p-radioButton name="optionB" value="rutina" label="Rutina" [(ngModel)]="optionsTypes[1]"></p-radioButton>
-                                        <p-radioButton name="optionB" value="figura" label="Figura" [(ngModel)]="optionsTypes[1]"></p-radioButton>
-                                    </div>
-                                </div>
-                                <div *ngIf="optionsTypes[1] == 'rutina'; else figureB" class="flex flex-row gap-3">
-                                    <div class="flex flex-col">
-                                        <h5 class="text-xl font-semibold text-slate-600 tracking-tight">Rutina</h5>
-                                        <textarea pInputTextarea [rows]="2" [cols]="15" [autoResize]="true" [(ngModel)]="problem.options[1].answer" name="rutinaB"></textarea>
-                                    </div>
-                                    <div class="flex flex-col">
-                                        <h5 class="text-xl font-semibold text-slate-600 tracking-tight">Resultado</h5>
-                                        <ng-katex-html [html]="problem.options[1].answer"></ng-katex-html>
-                                    </div>
-                                </div>
-                                <ng-template #figureB>
-                                    <h5 class="text-xl font-semibold text-slate-600 tracking-tight mb-2">Resultado</h5>
-                                    <div class="flex flex-row justify-around">
-                                        <p-image *ngIf="!uploadings[1]"  [src]="problem.options[1].answer" [preview]="true" [alt]="problem.options[0].letter" width="auto"></p-image>
-                                        <app-progress-spinner [condition]="uploadings[0]"></app-progress-spinner>
-                                        <app-upload-file
-                                            class="flex flex-col justify-center"
-                                            (startUpload)="uploadings[1] = $event"
-                                            (endUpload)="addOptionFigure($event)"
-                                            [fileName]="generateRandomOptionFigureName('A')"
-                                            [folder]="problem.problem_id">
-                                        </app-upload-file>                                      
-                                    </div>
-                                </ng-template>
-                            </p-accordionTab>
-                            <p-accordionTab header="Opción C">
-                                <div class="flex flex-row gap-3 mb-6">
-                                    <div class="p-2 shadow-sm border-slate-600 border-2 w-12 h-fit rounded-full text-center">
-                                        <h5 class="text-xl my-auto font-semibold text-slate-600">C</h5>
-                                    </div>       
-                                    <div class="flex flex-col gap-3 mr-8">           
-                                        <p-radioButton name="optionC" value="rutina" label="Rutina" [(ngModel)]="optionsTypes[2]"></p-radioButton>
-                                        <p-radioButton name="optionC" value="figura" label="Figura" [(ngModel)]="optionsTypes[2]"></p-radioButton>
-                                    </div>
-                                </div>
-                                <div *ngIf="optionsTypes[2] == 'rutina'; else figureC" class="flex flex-row gap-3">
-                                    <div class="flex flex-col">
-                                        <h5 class="text-xl font-semibold text-slate-600 tracking-tight">Rutina</h5>
-                                        <textarea pInputTextarea [rows]="2" [cols]="15" [autoResize]="true" [(ngModel)]="problem.options[2].answer" name="rutinaC"></textarea>
-                                    </div>
-                                    <div class="flex flex-col">
-                                        <h5 class="text-xl font-semibold text-slate-600 tracking-tight">Resultado</h5>
-                                        <ng-katex-html [html]="problem.options[2].answer"></ng-katex-html>
-                                    </div>
-                                </div>
-                                <ng-template #figureC>
-                                    <h5 class="text-xl font-semibold text-slate-600 tracking-tight mb-2">Resultado</h5>
-                                    <div class="flex flex-row justify-around">
-                                        <p-image *ngIf="!uploadings[2]"  [src]="problem.options[2].answer" [preview]="true" [alt]="problem.options[0].letter" width="auto"></p-image>
-                                        <app-progress-spinner [condition]="uploadings[0]"></app-progress-spinner>
-                                        <app-upload-file
-                                            class="flex flex-col justify-center"
-                                            (startUpload)="uploadings[2] = $event"
-                                            (endUpload)="addOptionFigure($event)"
-                                            [fileName]="generateRandomOptionFigureName('A')"
-                                            [folder]="problem.problem_id">
-                                        </app-upload-file>                                      
-                                    </div>
-                                </ng-template>
-                            </p-accordionTab>
-                            <p-accordionTab header="Opción D">
-                                <div class="flex flex-row gap-3 mb-6">
-                                    <div class="p-2 shadow-sm border-slate-600 border-2 w-12 h-fit rounded-full text-center">
-                                        <h5 class="text-xl my-auto font-semibold text-slate-600">D</h5>
-                                    </div>       
-                                    <div class="flex flex-col gap-3 mr-8">           
-                                        <p-radioButton name="optionD" value="rutina" label="Rutina" [(ngModel)]="optionsTypes[3]"></p-radioButton>
-                                        <p-radioButton name="optionD" value="figura" label="Figura" [(ngModel)]="optionsTypes[3]"></p-radioButton>
-                                    </div>
-                                </div>
-                                <div *ngIf="optionsTypes[3] == 'rutina'; else figureD" class="flex flex-row gap-3">
-                                    <div class="flex flex-col">
-                                        <h5 class="text-xl font-semibold text-slate-600 tracking-tight">Rutina</h5>
-                                        <textarea pInputTextarea [rows]="2" [cols]="15" [autoResize]="true" [(ngModel)]="problem.options[3].answer" name="rutinaD"></textarea>
-                                    </div>
-                                    <div class="flex flex-col">
-                                        <h5 class="text-xl font-semibold text-slate-600 tracking-tight">Resultado</h5>
-                                        <ng-katex-html [html]="problem.options[3].answer"></ng-katex-html>
-                                    </div>
-                                </div>
-                                <ng-template #figureD>
-                                    <h5 class="text-xl font-semibold text-slate-600 tracking-tight mb-2">Resultado</h5>
-                                    <div class="flex flex-row justify-around">
-                                        <p-image *ngIf="!uploadings[3]"  [src]="problem.options[3].answer" [preview]="true" [alt]="problem.options[0].letter" width="auto"></p-image>
-                                        <app-progress-spinner [condition]="uploadings[0]"></app-progress-spinner>
-                                        <app-upload-file
-                                            class="flex flex-col justify-center"
-                                            (startUpload)="uploadings[3] = $event"
-                                            (endUpload)="addOptionFigure($event)"
-                                            [fileName]="generateRandomOptionFigureName('A')"
-                                            [folder]="problem.problem_id">
-                                        </app-upload-file>                                      
-                                    </div>
-                                </ng-template>
-                            </p-accordionTab>
-                            <p-accordionTab header="Opción E">
-                                <div class="flex flex-row gap-3 mb-6">
-                                    <div class="p-2 shadow-sm border-slate-600 border-2 w-12 h-fit rounded-full text-center">
-                                        <h5 class="text-xl my-auto font-semibold text-slate-600">E</h5>
-                                    </div>       
-                                    <div class="flex flex-col gap-3 mr-8">           
-                                        <p-radioButton name="optionE" value="rutina" label="Rutina" [(ngModel)]="optionsTypes[4]"></p-radioButton>
-                                        <p-radioButton name="optionE" value="figura" label="Figura" [(ngModel)]="optionsTypes[4]"></p-radioButton>
-                                    </div>
-                                </div>
-                                <div *ngIf="optionsTypes[4] == 'rutina'; else figureE" class="flex flex-row gap-3">
-                                    <div class="flex flex-col">
-                                        <h5 class="text-xl font-semibold text-slate-600 tracking-tight">Rutina</h5>
-                                        <textarea pInputTextarea [rows]="2" [cols]="15" [autoResize]="true" [(ngModel)]="problem.options[4].answer" name="rutinaE"></textarea>
-                                    </div>
-                                    <div class="flex flex-col">
-                                        <h5 class="text-xl font-semibold text-slate-600 tracking-tight">Resultado</h5>
-                                        <ng-katex-html [html]="problem.options[4].answer"></ng-katex-html>
-                                    </div>
-                                </div>
-                                <ng-template #figureE>
-                                    <h5 class="text-xl font-semibold text-slate-600 tracking-tight mb-2">Resultado</h5>
-                                    <div class="flex flex-row justify-around">
-                                        <p-image *ngIf="!uploadings[4]"  [src]="problem.options[4].answer" [preview]="true" [alt]="problem.options[0].letter" width="auto"></p-image>
-                                        <app-progress-spinner [condition]="uploadings[0]"></app-progress-spinner>
-                                        <app-upload-file
-                                            class="flex flex-col justify-center"
-                                            (startUpload)="uploadings[4] = $event"
-                                            (endUpload)="addOptionFigure($event)"
-                                            [fileName]="generateRandomOptionFigureName('A')"
-                                            [folder]="problem.problem_id">
-                                        </app-upload-file>                                      
-                                    </div>
-                                </ng-template>
-                            </p-accordionTab>
-                        </p-accordion>
+                        <app-options (onChangeOptions)="problem.options = $event" [options]="problem.options" [problem_id]="problem.problem_id" class="col-span-10"></app-options>
                     </div>
                 </div>
             </div>
 
             <!-- Categoría y Solución -->
-            <div class="grid grid-cols-12 gap-6 mb-6">
+            <div class="grid grid-cols-12 gap-6 mb-3">
                 <p-card class="col-span-3" header="Categoría">
                     <div class="flex flex-col gap-3">
                         <app-category (onChangeCategory)="problem.category = $event" [category]="problem.category"></app-category>

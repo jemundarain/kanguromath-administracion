@@ -5,7 +5,6 @@ import { Test } from '../models/test-model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { switchMap } from 'rxjs';
 import { Problem } from '../models/problem-model';
-import { Option } from '../models/option-model';
 import { Figure } from '../models/figure-model';
 import { GlobalConstants } from 'src/app/common/global-constants';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
@@ -44,8 +43,6 @@ export class EditProblemComponent implements OnInit {
   test: Test;
   problem: Problem;
   routine: string;
-  optionsTypes:string[] = [];
-  uploadings: boolean[] = [];
   items: MenuItem[];
 
   figuresMap1 = {
@@ -85,9 +82,7 @@ export class EditProblemComponent implements OnInit {
       })
       this.problem.figures.length ? this.routine = 'con-figura' : this.routine = 'sin-figura';
       this.problem.options.sort((a,b) => (a.letter > b.letter) ? 1 : ((b.letter > a.letter) ? -1 : 0));
-      for(let i=0; i<this.problem.options.length; i++) {
-        this.problem.options[i].answer.includes('http')? this.optionsTypes[i] = 'figura': this.optionsTypes[i] = 'rutina';  
-      }
+
     });
   }
 
@@ -96,23 +91,6 @@ export class EditProblemComponent implements OnInit {
 
   addFigure() {
     this.problem.figures.push(new Figure('', '' , this.problem.figures.length + 1, '', 'intermedia'));
-  }
-
-  addOptionFigure(newOption: Option) {
-    GlobalConstants.generateRandomSuffix();
-    for(let i=0; i < this.problem.options.length; i++) {
-      if(this.problem.options[i].letter === newOption.letter) {
-        if(this.problem.options[i].ik_id) {
-          this.testService.deleteFigure(this.problem.options[i].ik_id);
-        }
-        this.problem.options[i] = newOption;
-        this.uploadings[i] = false;
-      }
-    }
-  }
-
-  generateRandomOptionFigureName(letter: string) {
-    return `${ letter }-${ GlobalConstants.getRandomSuffix() }`
   }
 
   updateProblem() {
@@ -144,7 +122,7 @@ export class EditProblemComponent implements OnInit {
         this.messageService.add({severity:'success', summary: 'Exitoso', detail: 'Problema editado'});
         setTimeout(() => {
           this.location.back()
-        }, 1420);
+        }, 1220);
       }
     });
   }

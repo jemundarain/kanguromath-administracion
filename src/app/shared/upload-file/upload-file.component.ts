@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { GlobalConstants } from 'src/app/common/global-constants';
 import { Figure } from 'src/app/tests/models/figure-model';
-import { Option } from 'src/app/tests/models/option-model';
+import { Option } from 'src/app/shared/option-model';
 import { TestService } from 'src/app/tests/services/test.service';
 import { PagesService } from '../../pages/services/pages.service';
 
