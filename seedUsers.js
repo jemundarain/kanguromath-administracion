@@ -21,8 +21,8 @@ async function seedDB() {
         // Make sure you run it against proper database and collection.
         collection.drop();
 
-        for (let i = 0; i < 17561; i++) { //17561
-            const registration_date = faker.date.between('2023-02-01T00:00:00.000Z', new Date());
+        for (let i = 0; i < 314; i++) { //17561
+            const registration_date = faker.date.between('2023-02-22T00:00:00.000Z', new Date());
             const sex = faker.helpers.arrayElement(['F', 'M']);
             var name, last_name, country, state, type, level, ci, type_institution, in_progress, t_remain_s;
             sex=='F'? name = faker.name.firstName('female') : name = faker.name.firstName('male');

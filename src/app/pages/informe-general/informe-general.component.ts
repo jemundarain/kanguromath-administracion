@@ -69,7 +69,7 @@ export class InformeGeneralComponent implements OnInit {
       switch (this.dateFilterForm?.form.value.dateOption) {
         case GlobalConstants.DATE_OPTIONS[0].code: //beginning
           //this.dateStart = dayjs(this.minDate).format('YYYY-MM-DD');
-          this.dateStart = '2023-02-01';
+          this.dateStart = '2023-02-15';
         break;
         case GlobalConstants.DATE_OPTIONS[1].code: //today
           this.dateStart = GlobalConstants.getDateBackString(0);
