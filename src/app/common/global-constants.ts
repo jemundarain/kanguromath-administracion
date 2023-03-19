@@ -41,6 +41,7 @@ export class GlobalConstants {
         {name: 'Geometría', code: 'geometria'},
         {name: 'Combinatoria', code: 'combinatoria'},
         {name: 'Teoría de Números', code: 'teoria-numeros'},
+        {name: 'Sin categoría', code: 'sin-categoria'},
     ]
 
     public static TRANSLATION = {
