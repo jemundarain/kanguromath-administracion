@@ -24,6 +24,7 @@ import { StepsModule } from 'primeng/steps';
 import { TableModule } from 'primeng/table';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
+import {TooltipModule} from 'primeng/tooltip';
 
 @NgModule({
   exports: [
@@ -50,7 +51,8 @@ import { ToastModule } from 'primeng/toast';
     SlideMenuModule,
     StepsModule,
     TableModule,
-    ToastModule
+    ToastModule,
+    TooltipModule
   ]
 })
 export class PrimeNgModule { }

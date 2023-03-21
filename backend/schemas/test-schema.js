@@ -4,6 +4,7 @@ const testSchema = mongoose.Schema({
     test_id: {type: String, required: true, unique: true},
     levels: {type: String, required: true},
     edition: {type: String, required: true},
+    state: {type: Boolean, required: true},
     problems: {type: [String], required: true}
 });
 

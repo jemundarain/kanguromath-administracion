@@ -76,15 +76,4 @@ export class SettingsComponent implements OnInit {
   showToast(action: string) {
     this.messageService.add({severity:'success', summary: 'Exitoso', detail: 'Aplicación ' + action });
   }
-
-  // transformationOne = [{ height: "200", width: "200" }];
-  // path = "/default-image.jpg";
-
-  // transformationTwo = [
-  //   { height: "200", width: "200" },
-  //   {
-  //     rotation: "90"
-  //   }
-  // ];
-  // lqip = { active: true, quality: 1 };
 }

@@ -53,7 +53,7 @@ app.get('/get_test_by_problem/:problem_id',(req, res) => {
 })
 
 app.post('/post_test/', (req, res) => {
-	const updatedTest = new TestModel({_id: req.body._id, test_id: req.body.test_id, levels: req.body.levels, edition: req.body.edition, problems: req.body.problems})
+	const updatedTest = new TestModel({_id: req.body._id, test_id: req.body.test_id, levels: req.body.levels, edition: req.body.edition, state: req.body.state, problems: req.body.problems})
 	TestModel.updateOne({_id: req.body._id}, updatedTest)
 	.then(() => {
 		res.status(200).json({

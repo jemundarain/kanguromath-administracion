@@ -14,7 +14,7 @@ export class NewTestComponent implements OnInit {
   minEdition: number = GlobalConstants.MIN_DATE_EDITION;
   maxEdition: number = GlobalConstants.MAX_DATE_EDITION;
 
-  test: Test = new Test('', '', '', GlobalConstants.MAX_DATE_EDITION.toString(), ['']);
+  test: Test = new Test('', '', '', GlobalConstants.MAX_DATE_EDITION.toString(), false, ['']);
 
   levels: RadioOption[];
   selectedLevelCode: string;
