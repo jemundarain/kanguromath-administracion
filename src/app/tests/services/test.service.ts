@@ -49,9 +49,15 @@ export class TestService {
             console.log(jsonData);
         })
     }
-
+    
     addProblem(problem: Problem) {
         this.http.post<{message: string}>(`${this.baseUrl}/admin_problems/post_problem`, problem).subscribe((jsonData) => {
+          console.log(jsonData);
+        })
+    }
+
+    addExistingProblem(test_id: string, problem_id: string) {
+        this.http.put<{message: string}>(`${this.baseUrl}/admin_problems/put_existing_problem`, {test_id, problem_id}).subscribe((jsonData) => {
           console.log(jsonData);
         })
     }
@@ -67,13 +73,17 @@ export class TestService {
             console.log(jsonData);
         })       
     }
-
+    
+    searchProblem(edition: string, term: string): Observable<[]> {
+        return this.http.get<[]>(`${this.baseUrl}/admin_problems/search_problems?edition=${edition}&term=${term}`);
+    }
+    
     authenticationImageKitIO() {
         this.http.get<any>(`${this.baseUrl}/admin_uploads/imagekit-auth`).subscribe((data) => {
             console.log(data);
         });
     }
-
+    
     updateFigure(newFigure: any) {
         this.http.put<any>(`${this.baseUrl}/admin_uploads/put_figure`, newFigure).subscribe((data) => {
             console.log(data);
@@ -91,6 +101,7 @@ export class TestService {
             console.log(data);
         });
     }
+
 
     // renameFigure(filePath: string, newFileName: string) {
     //     this.http.put<any>(`${this.baseUrl}/admin_uploads/imagekit-rename`, { filePath: filePath, newFileName: newFileName }).subscribe((data) => {

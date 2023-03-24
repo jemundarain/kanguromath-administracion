@@ -1,16 +1,66 @@
 <!-- Encabezado -->
-<app-header title="Problema Nuevo" [breadcrumbs]="items"></app-header>
+<app-header title="Agregar Problema" [breadcrumbs]="items"></app-header>
 
 <!-- Tipo de subida -->
-<div class="flex gap-2 mb-6">
-    <h5 class="text-[21px] font-normal text-[#26201F] tracking-tight">Agregar problema:</h5>
-    <p-selectButton [options]="options" [(ngModel)]="option"></p-selectButton>
-</div>
+<p-tabView>
+    <p-tabPanel header="Nuevo">
+        <form #addNewProblemForm="ngForm">
+            <h1>TRAERME EL COMPONENTE EDIT PROBLEM</h1>
+            <!-- <app-edit-problem></app-edit-problem> -->
+        </form>
+    </p-tabPanel>
+    <p-tabPanel header="Existente">
+        <form #addExistingProblemForm="ngForm">
 
-<form *ngIf="option == 'Nuevo'" #addNewProblemForm="ngForm">
-    <h1>TRAERME EL COMPONENTE EDIT PROBLEM</h1>
-    <!-- <app-edit-problem></app-edit-problem> -->
+            <app-problem-input
+                (onDebounce)="suggestions( $event )"
+                placeholder="Buscar país..."
+                class="mb-5" >
+            </app-problem-input>
+
+            <app-progress-spinner [condition]="!suggestedProblems && term" [template]="problemResults" class="mt-16"></app-progress-spinner>
+            <ng-template #problemResults>            
+            <ul *ngIf="suggestedProblems?.length" class="list-none list-inside text-slate-700 bg-white rounded-md shadow-md">
+                    <li (click)="seeProblem(problem)" *ngFor="let problem of suggestedProblems; let i = index" class="cursor-pointer hover:bg-[#fef9f0] pr-5 pl-5 pt-4 pb-4">
+                        <b>{{this.problem.num_s}}. </b>
+                        <ng-katex-html [html]="problem.statement"></ng-katex-html>
+                    </li>
+                </ul>
+            </ng-template>
+            <!-- <app-suggested-problem *ngFor="let problem of problems">{{problem.statement}}</app-suggested-problem> -->
+        </form>
+        <span class="m-7"></span>
+        <div *ngIf="problemSelected" [class]="problemSelected? 'bg-white rounded-md pt-6 pb-2 pl-8 pr-10 mb-6':''">
+            <app-problem [problem]="problemSelected" [preview]="true"></app-problem>
+        </div>
+        <button pButton
+                *ngIf="problemSelected"
+                type="button" 
+                class="btn float-right"
+                label="Añadir" 
+                icon="pi pi-plus" 
+                iconPos="left"
+                (click)="addProblem()">
+        </button>
+    </p-tabPanel>
+</p-tabView>
+
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"></p-confirmDialog>
+<p-toast position="bottom-center"></p-toast>
+
+
+<!-- <form #addExistingProblemForm="ngForm">
+    <span class="p-input-icon-left">
+        <i class="pi pi-search"></i>
+        <input type="text" pInputText [(ngModel)]="search" placeholder="Buscar" name="search">         
+    </span>
 </form>
 
-<form *ngIf="option == 'Existente'" #addExistingProblemForm="ngForm">
-</form>
+<app-progress-spinner [condition]="problem === undefined" [template]="problemT" class="mt-16"></app-progress-spinner>
+<ng-template #problemT>
+    <div class="grid grid-cols-12 mx-16 pb-10 mb-12" [class]="problem? 'bg-white rounded-bl rounded-br':''">
+        <div class="col-start-3 col-span-8 mx-5">
+            <app-problem [problem]="problem"></app-problem>
+        </div>
+    </div>
+</ng-template> -->

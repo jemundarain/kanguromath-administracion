@@ -1,0 +1,10 @@
+    <span class="p-input-icon-left">
+        <i class="pi pi-search"></i>
+        <input type="text"
+            pInputText
+            autocomplete="off"
+            (input)="keyPressed()"
+            [(ngModel)]="searchTerm"
+            placeholder="Buscar"
+            name="search"/>         
+    </span>

@@ -27,6 +27,36 @@ app.get('/get_all_problems_from_test/:test_id', async (req, res, next) => {
 	res.json(problems.sort((a,b) => a.num_s - b.num_s));
 })
 
+app.get('/search_problems',(req, res) => {
+	TestModel.aggregate([
+		{ $match: { 'edition': req.query.edition } },
+		{ $group: { _id: null, problems: { $push: "$problems" } } }
+	 ])
+	.then((data) => {
+		var problems_ids = Array.from(new Set([].concat(...data[0].problems)));
+		const regex = new RegExp(req.query.term.replace(/\s+/g, '.*'), 'i');
+		ProblemModel.find({ 'problem_id': { $in: problems_ids.filter(problem => regex.test(problem)) } })
+		.then((data) => {
+			res.json(data);
+		})
+		.catch(() => {
+			console.log('Error fetching entries')
+		})
+	})
+	.catch(() => {
+		console.log('Error fetching entries')
+	})
+})
+
+app.put('/put_existing_problem/', (req, res) => {
+	TestModel.updateOne({ 'test_id': req.query.test_id }, { $push: { 'problems': req.query.problem_id } })
+	.then(() => {
+		res.status(200).json({
+			message: 'Update completed'
+		})    
+	})
+})
+
 app.post('/post_problem/', (req, res) => {
 	var body = req.body;
 	var problem = new ProblemModel({

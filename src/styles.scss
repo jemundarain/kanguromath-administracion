@@ -391,3 +391,61 @@ header button {
 .p-card.p-component .p-card-body {
     margin-bottom: 24px !important;
 }
+
+.p-tabview .p-tabview-panels, .p-tabview-nav {
+    background: transparent !important;
+    border-width: 0px !important;
+}
+
+#p-tabpanel-0-label {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0.375rem;
+}
+
+#p-tabpanel-1-label {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0.375rem;
+}
+
+.p-tabview-nav .p-highlight .p-tabview-nav-link {
+    background-color: #f59e0b !important;
+}
+
+.p-tabview-nav .p-tabview-nav-link {
+    padding: 0.75rem 1rem !important;
+}
+
+.p-tabview-title {
+    font-weight: 500 !important;
+}
+
+.p-tabview .p-tabview-nav .p-tabview-nav-link {
+    color: #26201f !important;
+}
+
+.p-tabview-nav .p-highlight .p-tabview-nav-link {
+    color: #fff !important;
+}
+
+.p-tabview-nav-container {
+    width: fit-content !important;
+}
+
+.p-tabview-panels {
+    padding-left: 0px !important;
+}
+
+#p-tabpanel-1 ul li:nth-child(1) {
+    padding-top: 1.5rem !important;
+}
+
+#p-tabpanel-1 ul li:last-child {
+    padding-bottom: 1.5rem !important;
+}
+
+.p-tabview-nav li:not(.p-disabled):not(.p-highlight):hover .p-tabview-nav-link {
+    background: #f4f4f5 !important;
+    border-color: #d4d4d8 !important;
+}

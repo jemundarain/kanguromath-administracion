@@ -22,6 +22,7 @@ import { TestService } from '../services/test.service';
 export class ProblemComponent implements OnInit {
 
   @Input() problem: Problem;
+  @Input() preview: boolean = false;
   public body_problem: string;
   public right_img_url: string;
   public decode_statement: string;
