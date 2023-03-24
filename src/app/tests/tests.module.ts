@@ -17,7 +17,6 @@ import { ProblemComponent } from './problem/problem.component';
 import { FiguresTableComponent } from './figures-table/figures-table.component';
 import { SharedModule } from "../shared/shared.module";
 import { NewProblemComponent } from './new-problem/new-problem.component';
-import { SuggestedProblemComponent } from './suggested-problem/suggested-problem.component';
 import { ProblemInputComponent } from './problem-input/problem-input.component';
 
 @NgModule({
@@ -33,7 +32,6 @@ import { ProblemInputComponent } from './problem-input/problem-input.component';
         ProblemComponent,
         FiguresTableComponent,
         NewProblemComponent,
-        SuggestedProblemComponent,
         ProblemInputComponent
     ],
     imports: [
