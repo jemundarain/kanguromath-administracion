@@ -33,22 +33,11 @@ export class FiguresTableComponent implements OnInit {
   }
 
   deleteFigure(num_s: number) {
-    for(let i=0; i<this.figures.length; i++) {
-      if(this.figures[i].num_s == num_s)
-        this.testService.deleteFigure(this.figures[i].ik_id);
-    }
+    this.testService.deleteFigure(this.figures[num_s-1].ik_id);
     this.figures.splice(num_s-1, 1);
-    if(num_s < this.figures.length)
-      // var lastSegments, filePath, newFileName;
-      for(let i=num_s-1; i<this.figures.length; i++) {
-        // lastSegments = this.figures[num_s-1].url.split('/').slice(-2);
-        // filePath = lastSegments[0] + '/' + lastSegments[1];
-        // newFileName = num_s + '-' + lastSegments[1].split('-').slice(-1);
-        this.figures[i].num_s = this.figures[i].num_s - 1;
-        // console.log('filePath', '/'+filePath);
-        // console.log('newFileName', newFileName);
-        // this.testService.renameFigure('/'+filePath+'.png', newFileName);
-      }
+    for(let i=0; i<this.figures.length; i++) {
+      this.figures[i].num_s = i+1;
+    }
   }
 
   /*function string_to_slug(str) {
