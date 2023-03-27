@@ -66,7 +66,6 @@ export class EditProblemComponent implements OnInit {
         this.items = [
           {label: 'Pruebas'},
           {label: `Preliminar ${this.test?.edition} ${this.test.levels}`},
-          {label: 'Editar Problema'},
           {label: `Problema #${this.problem?.num_s}`}
         ];
       })
