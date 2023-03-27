@@ -50,8 +50,8 @@ export class TestService {
         })
     }
     
-    addProblem(problem: Problem) {
-        this.http.post<{message: string}>(`${this.baseUrl}/admin_problems/post_problem`, problem).subscribe((jsonData) => {
+    addNewProblem(problem: Problem, _id: string) {
+        this.http.post<{message: string}>(`${this.baseUrl}/admin_problems/post_problem/${_id}`, problem).subscribe((jsonData) => {
           console.log(jsonData);
         })
     }
@@ -61,7 +61,7 @@ export class TestService {
           console.log(jsonData);
         })
     }
-
+    
     updateProblem(problem: Problem) {
         this.http.put<{message: string}>(`${this.baseUrl}/admin_problems/put_problem`, problem).subscribe((jsonData) => {
           console.log(jsonData);

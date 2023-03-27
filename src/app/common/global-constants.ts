@@ -200,6 +200,18 @@ export class GlobalConstants {
         "#2e2925"
     ]
 
+    public static FIGURES_MAP1 = {
+        '=0': '',
+        '=1': 'Se detectó ',
+        'other': 'Se detectaron '
+    }
+    
+    public static FIGURES_MAP2 = {
+        '=0': 'No se detectaron figuras',
+        '=1': 'figura',
+        'other': 'figuras'
+    }
+
     public static TYPES_COLORS = [
         "#d93661",
         "#0777bf",

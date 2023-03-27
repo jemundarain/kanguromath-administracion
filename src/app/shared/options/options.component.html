@@ -16,7 +16,7 @@
             </div>
             <div class="flex flex-col">
                 <h5 class="text-xl font-semibold text-slate-600 tracking-tight">Resultado</h5>
-                <ng-katex-html [html]="options[0].answer"></ng-katex-html>
+                <ng-katex-html *ngIf="options[0].answer" [html]="options[0].answer"></ng-katex-html>
             </div>
         </div>
         <ng-template #figureA>
@@ -51,7 +51,7 @@
             </div>
             <div class="flex flex-col">
                 <h5 class="text-xl font-semibold text-slate-600 tracking-tight">Resultado</h5>
-                <ng-katex-html [html]="options[1].answer"></ng-katex-html>
+                <ng-katex-html *ngIf="options[1].answer" [html]="options[1].answer"></ng-katex-html>
             </div>
         </div>
         <ng-template #figureB>
@@ -86,7 +86,7 @@
             </div>
             <div class="flex flex-col">
                 <h5 class="text-xl font-semibold text-slate-600 tracking-tight">Resultado</h5>
-                <ng-katex-html [html]="options[2].answer"></ng-katex-html>
+                <ng-katex-html *ngIf="options[2].answer" [html]="options[2].answer"></ng-katex-html>
             </div>
         </div>
         <ng-template #figureC>
@@ -121,7 +121,7 @@
             </div>
             <div class="flex flex-col">
                 <h5 class="text-xl font-semibold text-slate-600 tracking-tight">Resultado</h5>
-                <ng-katex-html [html]="options[3].answer"></ng-katex-html>
+                <ng-katex-html *ngIf="options[3].answer" [html]="options[3].answer"></ng-katex-html>
             </div>
         </div>
         <ng-template #figureD>
@@ -156,7 +156,7 @@
             </div>
             <div class="flex flex-col">
                 <h5 class="text-xl font-semibold text-slate-600 tracking-tight">Resultado</h5>
-                <ng-katex-html [html]="options[4].answer"></ng-katex-html>
+                <ng-katex-html *ngIf="options[4].answer" [html]="options[4].answer"></ng-katex-html>
             </div>
         </div>
         <ng-template #figureE>

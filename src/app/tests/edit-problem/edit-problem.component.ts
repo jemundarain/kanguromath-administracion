@@ -44,18 +44,8 @@ export class EditProblemComponent implements OnInit {
   problem: Problem;
   routine: string;
   items: MenuItem[];
-
-  figuresMap1 = {
-    '=0': '',
-    '=1': 'Se detectó ',
-    'other': 'Se detectaron '
-  }
-
-  figuresMap2 = {
-    '=0': 'No se detectaron figuras',
-    '=1': 'figura',
-    'other': 'figuras'
-  }
+  figuresMap1 = GlobalConstants.FIGURES_MAP1;
+  figuresMap2 = GlobalConstants.FIGURES_MAP2;
 
   getUrlOption(letter: string) {
     for(let i=0; i < this.problem.options.length; i++) {
@@ -75,9 +65,9 @@ export class EditProblemComponent implements OnInit {
         this.test = test[0];
         this.items = [
           {label: 'Pruebas'},
-          {label: `Preliminar ${this.test.edition} ${this.test.levels}`},
+          {label: `Preliminar ${this.test?.edition} ${this.test.levels}`},
           {label: 'Editar Problema'},
-          {label: `Problema #${this.problem.num_s}`}
+          {label: `Problema #${this.problem?.num_s}`}
         ];
       })
       this.problem.figures.length ? this.routine = 'con-figura' : this.routine = 'sin-figura';
@@ -134,9 +124,5 @@ export class EditProblemComponent implements OnInit {
   uploadOption(event: any) {
     console.log(event);
   }
-
-  // deleteFigure() {
-  //   this.problem.figures.pop();
-  // }
 
 }

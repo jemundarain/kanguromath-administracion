@@ -1,12 +1,75 @@
 <!-- Encabezado -->
 <app-header title="Agregar Problema" [breadcrumbs]="items"></app-header>
-
 <!-- Tipo de subida -->
 <p-tabView>
     <p-tabPanel header="Nuevo">
         <form #addNewProblemForm="ngForm">
-            <h1>TRAERME EL COMPONENTE EDIT PROBLEM</h1>
-            <!-- <app-edit-problem></app-edit-problem> -->
+        <!-- Figuras -->
+        <ng-container>
+            <div class="grid grid-cols-12 gap-6">
+                <p-card class="col-span-10 h-min" header="Figuras">
+                    <div class="flex flex-col gap-3">
+                        <div class="flex flex-row gap-3">
+                            <span class="mt-2">{{newProblem.figures.length | i18nPlural:figuresMap1}}</span>
+                            <span class="leading-10" *ngIf="newProblem.figures?.length">{{newProblem.figures.length}}</span>
+                            <span class="mt-2">{{newProblem.figures.length | i18nPlural:figuresMap2}}</span>    
+                            <button pButton 
+                                    type="button" 
+                                    class="btn float-left"
+                                    label="Añadir figura" 
+                                    icon="pi pi-plus" 
+                                    iconPos="left"
+                                    (click)="addFigure()">
+                            </button>
+                        </div>
+                        <app-figures-table *ngIf="newProblem.figures?.length" [figures]="newProblem.figures" [problem_id]="newProblem.problem_id"></app-figures-table>
+                    </div>
+                </p-card>
+            </div>
+            
+            <!-- Rutina y Resultado -->
+            <div class="grid grid-cols-12 gap-6">
+                <p-card class="col-span-5" header="Rutina">
+                    <div class="flex flex-col gap-3">
+                        <textarea pInputTextarea [autoResize]="true" [(ngModel)]="newProblem.statement" name="rutina"></textarea>
+                    </div>
+                </p-card>
+                <p-card class="col-span-5 h-min" header="Resultado">
+                    <div class="flex flex-col gap-3">
+                        <ng-katex-html *ngIf="newProblem.statement" [html]="newProblem.statement"></ng-katex-html>
+                    </div>
+                </p-card>
+            </div>  
+
+            <!-- Opciones -->
+            <div class="grid grid-cols-12 gap-2">
+                <h5 class="text-2xl font-bold text-[#26201F] tracking-tight">Opciones</h5>
+                <div class="col-span-12 h-min">
+                    <div class="grid grid-cols-12 gap-8 mb-6">
+                        <app-options (onChangeOptions)="newProblem.options = $event" [options]="newProblem.options" [problem_id]="newProblem.problem_id" class="col-span-10"></app-options>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Categoría y Solución -->
+            <div class="grid grid-cols-12 gap-6 mb-3">
+                <p-card class="col-span-3" header="Categoría">
+                    <div class="flex flex-col gap-3">
+                        <app-category (onChangeCategory)="newProblem.category = $event" [category]="newProblem.category"></app-category>
+                    </div>
+                </p-card>
+                <p-card class="col-span-3 h-min" header="Solución">
+                    <div class="flex flex-col gap-3">
+                        <app-solution (onChangeSolution)="newProblem.solution = $event" [solution]="newProblem.solution"></app-solution>
+                    </div>
+                </p-card>
+            </div>
+            <div class="grid grid-cols-12">
+                <button pButton type="button" class="btn float-left" label="Volver" icon="pi pi-arrow-left" iconPos="left"></button>
+                <button pButton pRipple label="Añadir" class="btn w-32 p-3 col-span-2 col-start-10" type="submit" (click)="saveNewProblem()"></button>
+            </div> 
+        </ng-container>
+
         </form>
     </p-tabPanel>
     <p-tabPanel header="Existente">
@@ -22,7 +85,7 @@
             <ng-template #problemResults>            
             <ul *ngIf="suggestedProblems?.length" class="list-none list-inside text-slate-700 bg-white rounded-md shadow-md">
                     <li (click)="seeProblem(problem)" *ngFor="let problem of suggestedProblems; let i = index" class="cursor-pointer hover:bg-[#fef9f0] pr-5 pl-5 pt-4 pb-4">
-                        <b>{{this.problem.num_s}}. </b>
+                        <b>{{problem.num_s}}. </b>
                         <ng-katex-html [html]="problem.statement"></ng-katex-html>
                     </li>
                 </ul>

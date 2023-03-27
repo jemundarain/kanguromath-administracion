@@ -1,7 +1,9 @@
 var express = require('express');
 var app = express();
+const mongoose = require('mongoose');
+const { ObjectId } = mongoose.Types;
 const TestModel = require('../schemas/test-schema');
-const ProblemModel = require('../schemas/problem-schema');
+const ProblemModel = require('../schemas/problem-schema')
 
 app.get('/get_problem/:problem_id',(req, res) => {
 	ProblemModel.find({ 'problem_id': req.params.problem_id})
@@ -57,28 +59,34 @@ app.put('/put_existing_problem/', (req, res) => {
 	})
 })
 
-app.post('/post_problem/', (req, res) => {
+app.post('/post_problem/:_id', (req, res) => {
 	var body = req.body;
 	var problem = new ProblemModel({
+		_id: new ObjectId(),
 		problem_id: body.problem_id,
     	num_s: body.num_s,
     	statement: body.statement,
     	solution: body.solution,
     	category: body.category,
-    	options: body.options,
-    	figures: body.figures
+    	options: body.options.map(option => ({ ...option, _id:  new ObjectId() })),
+    	figures: body.figures.map(figure => ({ ...figure, _id:  new ObjectId() }))
 	});
-
+	
 	problem.save((err, newProblem) => {
 		if(err) {
+			console.log(err);
 			return res.status(400).json({
-				message: 'post_admin_user error',
+				message: 'post_problem error',
 				errors: err
 			})
+		} else {
+			TestModel.updateOne({ '_id': req.params._id }, { $push: { 'problems': body.problem_id } })
+			.then(() => {
+				res.status(201).json({
+					problem: newProblem
+				});
+			})
 		}
-		res.status(201).json({
-			problem: newProblem
-		});
 	});
 })
 

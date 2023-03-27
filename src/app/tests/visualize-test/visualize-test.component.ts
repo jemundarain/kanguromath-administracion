@@ -33,7 +33,7 @@ export class VisualizeTestComponent implements OnInit {
         this.testService.getProblemsByTestId(this.test.test_id).subscribe(problems => this.problems = problems)
         this.items = [
           {label: 'Pruebas'},
-          {label: `Preliminar ${this.test.edition} ${this.test.levels}`}
+          {label: `Preliminar ${this.test?.edition} ${this.test.levels}`}
         ];
       });
   };
