@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { Problem } from '../models/problem-model';
 import { PagesService } from '../../pages/services/pages.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
@@ -19,10 +19,10 @@ import { TestService } from '../services/test.service';
   `],
   providers: [ConfirmationService, MessageService]
 })
-export class ProblemComponent implements OnInit {
+export class ProblemComponent implements OnChanges {
 
   @Input() problem: Problem;
-  @Input() preview: boolean = false;
+  @Input() test_id: string;
   public body_problem: string;
   public right_img_url: string;
   public decode_statement: string;
@@ -35,10 +35,11 @@ export class ProblemComponent implements OnInit {
     private confirmationService: ConfirmationService
   ) { }
 
-  ngOnInit(): void {
+  ngOnChanges(): void {
     this.pagesService.getAppState().subscribe((global) => {
       this.app_enabled = global.app_enabled;
     })
+    this.right_img_url = '';
     this.decode_statement = this.problem.statement;
     let n=0;
     for(let i=0; i<this.problem.statement.length; i++) {
@@ -65,12 +66,13 @@ export class ProblemComponent implements OnInit {
   }
 
   deleteProblem(problem: Problem){
+    this.testService.deleteProblem(this.test_id, problem.problem_id);
     this.confirmationService.confirm({
       header: "Confirmación",
       message: `¿Está seguro que desea eliminar el problema #${problem.num_s}?`,
       accept: () => {
-        this.testService.deleteProblem(problem.problem_id);
-        this.messageService.add({ severity:'success', summary: 'Exitoso', detail: 'Prueba Eliminada' });
+        this.testService.deleteProblem(this.test_id, problem.problem_id);
+        this.messageService.add({ severity:'success', summary: 'Exitoso', detail: `Problema #${problem.num_s} Eliminado` });
       },
       reject: () => {}
     });

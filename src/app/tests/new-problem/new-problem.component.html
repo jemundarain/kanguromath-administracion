@@ -1,9 +1,14 @@
 <!-- Encabezado -->
-<app-header title="Agregar Problema" [breadcrumbs]="items"></app-header>
+<app-header [title]="'Agregar Problema #'+num_s" [breadcrumbs]="items"></app-header>
+<div class="flex flex-row mb-3">
+    <h5 class="block mb-1 my-auto text-[21px] font-normal text-[#26201F] tracking-tight mr-2">Fase:</h5><span class="text-[21px] text-[#26201F] tracking-tight font-semibold mr-8">Preliminar</span>
+    <h5 class="block mb-1 my-auto text-[21px] font-normal text-[#26201F] tracking-tight mr-2">Edición: <span class="text-[21px] text-[#26201F] tracking-tight font-semibold mr-8">{{test.edition}}</span></h5>
+    <h5 class="block mb-1 my-auto text-[21px] font-normal text-[#26201F] tracking-tight">Niveles: <span class="text-[21px] text-[#26201F] tracking-tight font-semibold mr-8">{{test.levels}}</span></h5>
+</div>
 <!-- Tipo de subida -->
 <p-tabView>
     <p-tabPanel header="Nuevo">
-        <form #addNewProblemForm="ngForm">
+        <form (ngSubmit)="saveNewProblem()" #addNewProblemForm="ngForm">
         <!-- Figuras -->
         <ng-container>
             <div class="grid grid-cols-12 gap-6">
@@ -26,12 +31,12 @@
                     </div>
                 </p-card>
             </div>
-            
             <!-- Rutina y Resultado -->
             <div class="grid grid-cols-12 gap-6">
                 <p-card class="col-span-5" header="Rutina">
                     <div class="flex flex-col gap-3">
-                        <textarea pInputTextarea [autoResize]="true" [(ngModel)]="newProblem.statement" name="rutina"></textarea>
+                        <textarea [class]="validateStatement()? '':'ng-invalid ng-dirty'" pInputTextarea [autoResize]="true" [(ngModel)]="newProblem.statement" [required]="true" name="statement"></textarea>
+                        <div *ngIf="validateStatement()" class="text-red-500 text-sm mt-1">Por favor, ingresa la rutina del problema</div>
                     </div>
                 </p-card>
                 <p-card class="col-span-5 h-min" header="Resultado">
@@ -46,7 +51,7 @@
                 <h5 class="text-2xl font-bold text-[#26201F] tracking-tight">Opciones</h5>
                 <div class="col-span-12 h-min">
                     <div class="grid grid-cols-12 gap-8 mb-6">
-                        <app-options (onChangeOptions)="newProblem.options = $event" [options]="newProblem.options" [problem_id]="newProblem.problem_id" class="col-span-10"></app-options>
+                        <app-options #appOptions (onChangeOptions)="newProblem.options = $event" [options]="newProblem.options" [problem_id]="newProblem.problem_id" class="col-span-10"></app-options>
                     </div>
                 </div>
             </div>
@@ -65,36 +70,38 @@
                 </p-card>
             </div>
             <div class="grid grid-cols-12">
-                <button pButton type="button" class="btn float-left" label="Volver" icon="pi pi-arrow-left" iconPos="left"></button>
-                <button pButton pRipple label="Añadir" class="btn w-32 p-3 col-span-2 col-start-10" type="submit" (click)="saveNewProblem()"></button>
+                <button pButton type="button" class="btn float-left" label="Volver" icon="pi pi-arrow-left" iconPos="left" (click)="back()"></button>
+                <button pButton pRipple label="Añadir" class="btn w-32 p-3 col-span-2 col-start-10" type="submit" [disabled]="disabledNewProblem()"></button>
             </div> 
         </ng-container>
-
+        
         </form>
     </p-tabPanel>
     <p-tabPanel header="Existente">
-        <form #addExistingProblemForm="ngForm">
+        <form #addExistingProblemForm="ngForm" class="flex flex-col mb-6">
 
             <app-problem-input
-                (onDebounce)="suggestions( $event )"
+            (onDebounce)="suggestions( $event )"
                 placeholder="Buscar país..."
-                class="mb-5" >
+                class="mb-3" >
             </app-problem-input>
 
-            <app-progress-spinner [condition]="!suggestedProblems && term" [template]="problemResults" class="mt-16"></app-progress-spinner>
+            <app-progress-spinner [condition]="!suggestedProblems && term" [template]="problemResults" class=""></app-progress-spinner>
             <ng-template #problemResults>            
-            <ul *ngIf="suggestedProblems?.length" class="list-none list-inside text-slate-700 bg-white rounded-md shadow-md">
+                <ul *ngIf="suggestedProblems?.length" class="list-none list-inside text-slate-700 bg-white rounded-md shadow-md">
                     <li (click)="seeProblem(problem)" *ngFor="let problem of suggestedProblems; let i = index" class="cursor-pointer hover:bg-[#fef9f0] pr-5 pl-5 pt-4 pb-4">
                         <b>{{problem.num_s}}. </b>
                         <ng-katex-html [html]="problem.statement"></ng-katex-html>
                     </li>
                 </ul>
+                <span *ngIf="this.suggestedProblems?.length === 0 && term && !problemSelected" class="bg-white rounded-md shadow-md pr-5 pl-5 pt-4 pb-4">No hay ningún problema con el término {{term}}</span>
             </ng-template>
         </form>
-        <span class="m-7"></span>
-        <div *ngIf="problemSelected" [class]="problemSelected? 'bg-white rounded-md pt-6 pb-2 pl-8 pr-10 mb-6':''">
-            <app-problem [problem]="problemSelected" [preview]="true"></app-problem>
+        <span class="m-3"></span>
+        <div *ngIf="problemSelected" class="bg-white rounded-md pt-6 pb-2 pl-8 pr-10 mb-16">
+            <app-problem [problem]="problemSelected"></app-problem>
         </div>
+        <button pButton type="button" class="btn float-left" label="Volver" icon="pi pi-arrow-left" iconPos="left" (click)="back()"></button>
         <button pButton
                 *ngIf="problemSelected"
                 type="button" 
@@ -107,22 +114,6 @@
     </p-tabPanel>
 </p-tabView>
 
-<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"></p-confirmDialog>
 <p-toast position="bottom-center"></p-toast>
 
 
-<!-- <form #addExistingProblemForm="ngForm">
-    <span class="p-input-icon-left">
-        <i class="pi pi-search"></i>
-        <input type="text" pInputText [(ngModel)]="search" placeholder="Buscar" name="search">         
-    </span>
-</form>
-
-<app-progress-spinner [condition]="problem === undefined" [template]="problemT" class="mt-16"></app-progress-spinner>
-<ng-template #problemT>
-    <div class="grid grid-cols-12 mx-16 pb-10 mb-12" [class]="problem? 'bg-white rounded-bl rounded-br':''">
-        <div class="col-start-3 col-span-8 mx-5">
-            <app-problem [problem]="problem"></app-problem>
-        </div>
-    </div>
-</ng-template> -->

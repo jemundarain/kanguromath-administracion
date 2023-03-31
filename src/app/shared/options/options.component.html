@@ -5,14 +5,15 @@
                 <h5 class="font-['CMU_Serif'] text-2xl my-auto font-semibold text-slate-600">A</h5>
             </div>       
             <div class="flex flex-col gap-3 mr-8">
-                <p-radioButton name="optionA" value="rutina" label="Rutina" [(ngModel)]="optionsTypes[0]"></p-radioButton>
-                <p-radioButton name="optionA" value="figura" label="Figura" [(ngModel)]="optionsTypes[0]"></p-radioButton>
+                <p-radioButton name="optionA" value="routine" label="Rutina" [(ngModel)]="optionsTypes[0]"></p-radioButton>
+                <p-radioButton name="optionA" value="figure" label="Figura" [(ngModel)]="optionsTypes[0]"></p-radioButton>
             </div>
         </div>
-        <div *ngIf="optionsTypes[0] == 'rutina'; else figureA" class="flex flex-row gap-3">
+        <div *ngIf="optionsTypes[0] == 'routine'; else figureA" class="flex flex-row gap-3">
             <div class="flex flex-col">
                 <h5 class="text-xl font-semibold text-slate-600 tracking-tight">Rutina</h5>
-                <textarea pInputTextarea [rows]="2" [cols]="15" [autoResize]="true" [(ngModel)]="options[0].answer" name="rutinaA"></textarea>
+                <textarea #routineA="ngModel" required pInputTextarea [rows]="2" [cols]="15" [autoResize]="true" [(ngModel)]="options[0].answer" name="routineA"></textarea>
+                <div *ngIf="routineA.invalid && routineA.touched" class="text-red-500 text-sm mt-1">Por favor, ingresa la opción <strong>A</strong></div>
             </div>
             <div class="flex flex-col">
                 <h5 class="text-xl font-semibold text-slate-600 tracking-tight">Resultado</h5>
@@ -40,14 +41,15 @@
                 <h5 class="text-xl my-auto font-semibold text-slate-600">B</h5>
             </div>       
             <div class="flex flex-col gap-3 mr-8">           
-                <p-radioButton name="optionB" value="rutina" label="Rutina" [(ngModel)]="optionsTypes[1]"></p-radioButton>
-                <p-radioButton name="optionB" value="figura" label="Figura" [(ngModel)]="optionsTypes[1]"></p-radioButton>
+                <p-radioButton name="optionB" value="routine" label="Rutina" [(ngModel)]="optionsTypes[1]"></p-radioButton>
+                <p-radioButton name="optionB" value="figure" label="Figura" [(ngModel)]="optionsTypes[1]"></p-radioButton>
             </div>
         </div>
-        <div *ngIf="optionsTypes[1] == 'rutina'; else figureB" class="flex flex-row gap-3">
+        <div *ngIf="optionsTypes[1] == 'routine'; else figureB" class="flex flex-row gap-3">
             <div class="flex flex-col">
                 <h5 class="text-xl font-semibold text-slate-600 tracking-tight">Rutina</h5>
-                <textarea pInputTextarea [rows]="2" [cols]="15" [autoResize]="true" [(ngModel)]="options[1].answer" name="rutinaB"></textarea>
+                <textarea #routineB="ngModel" required pInputTextarea [rows]="2" [cols]="15" [autoResize]="true" [(ngModel)]="options[1].answer" name="routineB"></textarea>
+                <div *ngIf="routineB.invalid && routineB.touched" class="text-red-500 text-sm mt-1">Por favor, ingresa la opción <strong>B</strong></div>
             </div>
             <div class="flex flex-col">
                 <h5 class="text-xl font-semibold text-slate-600 tracking-tight">Resultado</h5>
@@ -75,14 +77,15 @@
                 <h5 class="text-xl my-auto font-semibold text-slate-600">C</h5>
             </div>       
             <div class="flex flex-col gap-3 mr-8">           
-                <p-radioButton name="optionC" value="rutina" label="Rutina" [(ngModel)]="optionsTypes[2]"></p-radioButton>
-                <p-radioButton name="optionC" value="figura" label="Figura" [(ngModel)]="optionsTypes[2]"></p-radioButton>
+                <p-radioButton name="optionC" value="routine" label="Rutina" [(ngModel)]="optionsTypes[2]"></p-radioButton>
+                <p-radioButton name="optionC" value="figure" label="Figura" [(ngModel)]="optionsTypes[2]"></p-radioButton>
             </div>
         </div>
-        <div *ngIf="optionsTypes[2] == 'rutina'; else figureC" class="flex flex-row gap-3">
+        <div *ngIf="optionsTypes[2] == 'routine'; else figureC" class="flex flex-row gap-3">
             <div class="flex flex-col">
                 <h5 class="text-xl font-semibold text-slate-600 tracking-tight">Rutina</h5>
-                <textarea pInputTextarea [rows]="2" [cols]="15" [autoResize]="true" [(ngModel)]="options[2].answer" name="rutinaC"></textarea>
+                <textarea #routineC="ngModel" required pInputTextarea [rows]="2" [cols]="15" [autoResize]="true" [(ngModel)]="options[2].answer" name="routineC"></textarea>
+                <div *ngIf="routineC.invalid && routineC.touched" class="text-red-500 text-sm mt-1">Por favor, ingresa la opción <strong>C</strong></div>
             </div>
             <div class="flex flex-col">
                 <h5 class="text-xl font-semibold text-slate-600 tracking-tight">Resultado</h5>
@@ -110,14 +113,15 @@
                 <h5 class="text-xl my-auto font-semibold text-slate-600">D</h5>
             </div>       
             <div class="flex flex-col gap-3 mr-8">           
-                <p-radioButton name="optionD" value="rutina" label="Rutina" [(ngModel)]="optionsTypes[3]"></p-radioButton>
-                <p-radioButton name="optionD" value="figura" label="Figura" [(ngModel)]="optionsTypes[3]"></p-radioButton>
+                <p-radioButton name="optionD" value="routine" label="Rutina" [(ngModel)]="optionsTypes[3]"></p-radioButton>
+                <p-radioButton name="optionD" value="figure" label="Figura" [(ngModel)]="optionsTypes[3]"></p-radioButton>
             </div>
         </div>
-        <div *ngIf="optionsTypes[3] == 'rutina'; else figureD" class="flex flex-row gap-3">
+        <div *ngIf="optionsTypes[3] == 'routine'; else figureD" class="flex flex-row gap-3">
             <div class="flex flex-col">
                 <h5 class="text-xl font-semibold text-slate-600 tracking-tight">Rutina</h5>
-                <textarea pInputTextarea [rows]="2" [cols]="15" [autoResize]="true" [(ngModel)]="options[3].answer" name="rutinaD"></textarea>
+                <textarea #routineD="ngModel" required pInputTextarea [rows]="2" [cols]="15" [autoResize]="true" [(ngModel)]="options[3].answer" name="routineD"></textarea>
+                <div *ngIf="routineD.invalid && routineD.touched" class="text-red-500 text-sm mt-1">Por favor, ingresa la opción <strong>D</strong></div>
             </div>
             <div class="flex flex-col">
                 <h5 class="text-xl font-semibold text-slate-600 tracking-tight">Resultado</h5>
@@ -145,14 +149,15 @@
                 <h5 class="text-xl my-auto font-semibold text-slate-600">E</h5>
             </div>       
             <div class="flex flex-col gap-3 mr-8">           
-                <p-radioButton name="optionE" value="rutina" label="Rutina" [(ngModel)]="optionsTypes[4]"></p-radioButton>
-                <p-radioButton name="optionE" value="figura" label="Figura" [(ngModel)]="optionsTypes[4]"></p-radioButton>
+                <p-radioButton name="optionE" value="routine" label="Rutina" [(ngModel)]="optionsTypes[4]"></p-radioButton>
+                <p-radioButton name="optionE" value="figure" label="Figura" [(ngModel)]="optionsTypes[4]"></p-radioButton>
             </div>
         </div>
-        <div *ngIf="optionsTypes[4] == 'rutina'; else figureE" class="flex flex-row gap-3">
+        <div *ngIf="optionsTypes[4] == 'routine'; else figureE" class="flex flex-row gap-3">
             <div class="flex flex-col">
                 <h5 class="text-xl font-semibold text-slate-600 tracking-tight">Rutina</h5>
-                <textarea pInputTextarea [rows]="2" [cols]="15" [autoResize]="true" [(ngModel)]="options[4].answer" name="rutinaE"></textarea>
+                <textarea #routineE="ngModel" required pInputTextarea [rows]="2" [cols]="15" [autoResize]="true" [(ngModel)]="options[4].answer" name="routineE"></textarea>
+                <div *ngIf="routineE.invalid && routineE.touched" class="text-red-500 text-sm mt-1">Por favor, ingresa la opción <strong>E</strong></div>
             </div>
             <div class="flex flex-col">
                 <h5 class="text-xl font-semibold text-slate-600 tracking-tight">Resultado</h5>

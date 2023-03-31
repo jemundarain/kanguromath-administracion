@@ -1,7 +1,8 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { Option } from '../option-model';
 import { GlobalConstants } from 'src/app/common/global-constants';
 import { TestService } from 'src/app/tests/services/test.service';
+import { NgModel } from '@angular/forms';
 
 @Component({
   selector: 'app-options',
@@ -17,9 +18,15 @@ export class OptionsComponent implements OnInit {
   uploadings: boolean[] = [];
   optionsOut: Option[];
 
+  @ViewChild('routineA', { static: true }) routineA: NgModel;
+  @ViewChild('routineB', { static: true }) routineB: NgModel;
+  @ViewChild('routineC', { static: true }) routineC: NgModel;
+  @ViewChild('routineD', { static: true }) routineD: NgModel;
+  @ViewChild('routineE', { static: true }) routineE: NgModel;
+
   ngOnInit(): void {
     for(let i=0; i<this.options.length; i++) {
-      this.options[i].answer.includes('http')? this.optionsTypes[i] = 'figura': this.optionsTypes[i] = 'rutina';  
+      this.options[i].answer.includes('http')? this.optionsTypes[i] = 'figure': this.optionsTypes[i] = 'routine';  
     }
   }
 
@@ -44,5 +51,8 @@ export class OptionsComponent implements OnInit {
     return `${ letter }-${ GlobalConstants.getRandomSuffix() }`
   }
 
+  validateOption() {
+    return true;
+  }
 
 }

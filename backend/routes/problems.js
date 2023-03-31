@@ -32,6 +32,7 @@ app.get('/get_all_problems_from_test/:test_id', async (req, res, next) => {
 app.get('/search_problems',(req, res) => {
 	TestModel.aggregate([
 		{ $match: { 'edition': req.query.edition } },
+		{ $match: { 'levels': { $ne: req.query.levels } } },
 		{ $group: { _id: null, problems: { $push: "$problems" } } }
 	 ])
 	.then((data) => {
@@ -105,12 +106,29 @@ app.put('/put_problem/', (req, res) => {
 	})
 })
 
-app.delete('/delete_problem/:_id', (req, res) => {
-	ProblemModel.deleteOne({_id: req.params._id})
+app.delete('/delete_problem', (req, res) => {
+	TestModel.updateOne(
+		{ 'test_id': req.query.test_id },
+		{ $pull: { 'problems': req.query.problem_id } }
+	)
 	.then(() => {
-		res.status(200).json({
-			message: 'Delete successful'
-		})   
+		TestModel.findOne({ 'problems': req.query.problem_id })
+		.then((test) => {
+			if (!test) {
+				ProblemModel.deleteOne({ 'problem_id': req.query.problem_id })
+				.then(() => {
+					res.status(200).json({
+						message: 'Delete successful'
+					}) 
+				})
+				.catch((err) => {
+					console.log('Error delete_problem 1')
+				});
+			}
+		})
+	})
+	.catch(() => {
+		console.log('Error delete_problem 2')
 	})
 })
 

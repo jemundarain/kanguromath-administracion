@@ -3,13 +3,13 @@
     <p-image *ngIf="right_img_url" class="mt-4 right-img" [class]="right_img_url? 'col-span-3':'hidden'" [src]="this.right_img_url" [preview]="true" [alt]="problem.num_s.toString()" width="auto"></p-image>
 </div>
 <div class="flex flex-row justify-between flex-wrap mt-3 mb-6">
-    <div class="flex flex-row items-center" [class]="preview? '':'mb-1'" *ngFor="let option of problem.options">
+    <div class="flex flex-row items-center" [class]="test_id? 'mb-1':''" *ngFor="let option of problem.options">
         <div class="circleOption">{{option.letter}}</div>
         <span *ngIf="!isLink(option.answer); else imageAnswer" class="text-[20px] font-normal text-[#26201F] tracking-tight">{{option.answer}}</span>
         <ng-template #imageAnswer><p-image class="option-img" [src]="option.answer" [preview]="true" [alt]="option.answer" width="auto"></p-image>
         </ng-template>
     </div>
-    <div *ngIf="!preview" class="flex flex-row justify-between flex-wrap mt-3 mb-6">
+    <div *ngIf="test_id" class="flex flex-row justify-between flex-wrap mt-3 mb-6">
         <a *ngIf="!app_enabled" class="mr-4 mt-2" [routerLink]="['/pruebas/editar-problema', problem.problem_id]"><i class="pi pi-file-edit" style="font-size: 1.8rem !important"></i></a>
         <a *ngIf="!app_enabled" class="mr-4 mt-2" (click)="deleteProblem(problem)"><i class="pi pi-trash" style="font-size: 1.8rem !important"></i></a>
     </div>

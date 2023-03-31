@@ -68,14 +68,14 @@ export class TestService {
         })
     }
 
-    deleteProblem(_id: string) {
-        this.http.delete<{message: string}>(`${this.baseUrl}/admin_problems/delete_problem/${_id}`).subscribe((jsonData) => {
+    deleteProblem(test_id: string, problem_id: string) {
+        this.http.delete<{message: string}>(`${this.baseUrl}/admin_problems/delete_problem?test_id=${test_id}&problem_id=${problem_id}`).subscribe((jsonData) => {
             console.log(jsonData);
         })       
     }
     
-    searchProblem(edition: string, term: string): Observable<[]> {
-        return this.http.get<[]>(`${this.baseUrl}/admin_problems/search_problems?edition=${edition}&term=${term}`);
+    searchProblem(edition: string, term: string, levels: string): Observable<[]> {
+        return this.http.get<[]>(`${this.baseUrl}/admin_problems/search_problems?edition=${edition}&term=${term}&levels=${levels}`);
     }
     
     authenticationImageKitIO() {

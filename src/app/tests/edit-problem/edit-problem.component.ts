@@ -83,24 +83,24 @@ export class EditProblemComponent implements OnInit {
   }
 
   updateProblem() {
-    if(this.updateProblemForm?.value.optionA === 'rutina') {
-      this.problem.options[0].answer = this.updateProblemForm?.value.rutinaA
+    if(this.updateProblemForm?.value.optionA === 'routine') {
+      this.problem.options[0].answer = this.updateProblemForm?.value.routineA
     }
 
-    if(this.updateProblemForm?.value.optionB === 'rutina') {
-      this.problem.options[1].answer = this.updateProblemForm?.value.rutinaB
+    if(this.updateProblemForm?.value.optionB === 'routine') {
+      this.problem.options[1].answer = this.updateProblemForm?.value.routineB
     }
 
-    if(this.updateProblemForm?.value.optionC === 'rutina') {
-      this.problem.options[2].answer = this.updateProblemForm?.value.rutinaC
+    if(this.updateProblemForm?.value.optionC === 'routine') {
+      this.problem.options[2].answer = this.updateProblemForm?.value.routineC
     }
     
-    if(this.updateProblemForm?.value.optionD === 'rutina') {
-      this.problem.options[3].answer = this.updateProblemForm?.value.rutinaD
+    if(this.updateProblemForm?.value.optionD === 'routine') {
+      this.problem.options[3].answer = this.updateProblemForm?.value.routineD
     }
 
-    if(this.updateProblemForm?.value.optionE === 'rutina') {
-      this.problem.options[4].answer = this.updateProblemForm?.value.rutinaE
+    if(this.updateProblemForm?.value.optionE === 'routine') {
+      this.problem.options[4].answer = this.updateProblemForm?.value.routineE
     }
 
     this.confirmationService.confirm({

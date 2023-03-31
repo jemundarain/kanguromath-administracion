@@ -10,19 +10,22 @@ import { Test } from '../models/test-model';
 import { Option } from '../../shared/option-model';
 import { NgForm } from '@angular/forms';
 import { Figure } from '../models/figure-model';
+import { Location } from '@angular/common'
 import * as htmlToText from 'html-to-text';
+import { OptionsComponent } from 'src/app/shared/options/options.component';
 
 @Component({
   selector: 'app-new-problem-component',
   templateUrl: './new-problem.component.html',
-  providers: [ConfirmationService, MessageService]
+  providers: [MessageService]
 })
 export class NewProblemComponent implements OnInit {
 
   constructor(
     private testService: TestService,
     private activatedRoute: ActivatedRoute,
-    private router: Router
+    private messageService: MessageService,
+    private location: Location
   ) { }
   @ViewChild('addNewProblemForm', { static: true }) addNewProblemForm !: NgForm;
   @ViewChild('addExistingProblemForm', { static: true }) addExistingProblemForm !: NgForm;
@@ -33,10 +36,13 @@ export class NewProblemComponent implements OnInit {
   newProblem: Problem;
   problemSelected: Problem;
   suggestedProblems: Problem[];
+  num_s: number;
   error: boolean;
   term: string;
   figuresMap1 = GlobalConstants.FIGURES_MAP1;
   figuresMap2 = GlobalConstants.FIGURES_MAP2;
+
+  @ViewChild('appOptions', { static: true }) appOptions: OptionsComponent;
 
   ngOnInit(): void {
     this.options = GlobalConstants.NEW_PROBLEM_OPTIONS;
@@ -46,12 +52,12 @@ export class NewProblemComponent implements OnInit {
       )
       .subscribe( test => {
         this.test = test;
+        this.num_s = this.test.problems.length+1;
         this.newProblem = new Problem('', '', this.test.problems.length+1, '', '', 'sin-categoria', [ new Option("", "A","", ""), new Option("", "B", "", ""), new Option("", "C","", ""), new Option("", "D", "", ""), new Option("", "E", "", "") ], []);
         this.items = [
           {label: 'Pruebas'},
           {label: `Preliminar ${this.test.edition} ${this.test.levels}`},
-          {label: 'Problemas'},
-          {label: 'Problema nuevo'}
+          {label: `Problema #${this.num_s}`}
         ];
       });
 
@@ -73,7 +79,7 @@ export class NewProblemComponent implements OnInit {
     this.term = term;   
     if(term !== '') {
       this.activatedRoute.params.subscribe(params => {
-        this.testService.searchProblem( params['id']?.split('-')[1], term ).subscribe({
+        this.testService.searchProblem( params['id']?.split('-')[1], term, this.test.levels ).subscribe({
           next: (problems) => this.suggestedProblems = Array.from(new Set([].concat(...problems))),
           error: (err) => this.error = true
         })       
@@ -84,7 +90,7 @@ export class NewProblemComponent implements OnInit {
   }
 
   seeProblem(problem: Problem) {
-    this.problemSelected = {...problem};
+    this.problemSelected = problem;
     this.suggestedProblems = [];
   }
 
@@ -95,6 +101,24 @@ export class NewProblemComponent implements OnInit {
   saveNewProblem() {
     this.newProblem.problem_id = this.stringToSlug(this.newProblem.statement);
     this.testService.addNewProblem(this.newProblem, this.test._id);
+    this.messageService.add({severity:'success', summary: 'Exitoso', detail: 'Problema Agregado' });
+    setTimeout(() => {
+      this.location.back()
+    }, 1220);
+  }
+
+  validateStatement() {
+    return this.addNewProblemForm.controls['statement']?.invalid && this.addNewProblemForm.controls['statement']?.touched;
+  }
+
+  disabledNewProblem() {
+    return this.addNewProblemForm.invalid || 
+           !this.newProblem.options.every(option => option.answer.trim() !== '') ||
+           !this.newProblem.solution;
+  }
+
+  back() {
+    this.location.back()
   }
   
   stringToSlug(str: string): string {
