@@ -3,41 +3,48 @@
 <!-- Tipo de subida -->
 <div class="flex gap-2 mb-6">
     <h5 class="text-[21px] font-normal text-[#26201F] tracking-tight">Tipo de subida:</h5>
-    <p-selectButton [options]="options" [(ngModel)]="option"></p-selectButton>
 </div>
 
-<!-- Subida Automática -->
-<p-fileUpload *ngIf="option == 'Automática'"
-              mode="basic"
-              chooseLabel="Subir archivo"
-              name="demo[]"
-              url="./upload.php"
-              accept=".zip, .rar"
-              [maxFileSize]="500000"
-              (onUpload)="onBasicUpload()">
-</p-fileUpload>
+<p-tabView>
+    <p-tabPanel header="Automática">
+        <!-- Subida Automática -->
+        <p-fileUpload
+            mode="basic"
+            chooseLabel="Subir archivo"
+            name="demo[]"
+            url="./upload.php"
+            accept=".zip, .rar"
+            [maxFileSize]="500000"
+            (onUpload)="onBasicUpload()">
+        </p-fileUpload>
+    </p-tabPanel>
+    
+    <p-tabPanel header="Manual">
+        <!-- Subida Manual -->
+        <form #addTestForm="ngForm">
+            <div class="flex gap-2 mb-6">
+                <h5 class="text-[21px] font-normal text-[#26201F] tracking-tight">Edición:</h5>
+                <p-inputNumber [(ngModel)]="test.edition" name="edition" [showButtons]="true" [min]="minEdition" [max]="maxEdition" [format]="false"></p-inputNumber>    
+                <h5 class="text-[21px] font-normal text-[#26201F] tracking-tight ml-5">Año Escolar:</h5>
+                <p-dropdown [(ngModel)]="test.levels" 
+                            name="level" 
+                            class="col-span-2 my-auto mr-8" 
+                            [options]="levels"  
+                            optionLabel="name" 
+                            optionValue="code">
+                </p-dropdown>
+            </div>
+            <button pButton 
+                    type="button" 
+                    class="float-right"
+                    label="Siguiente" 
+                    icon="pi pi-arrow-right" 
+                    iconPos="right" 
+                    [disabled]="addTestForm.form.invalid"
+                    (click)="addManualTest()">
+            </button>
+        </form>
+    </p-tabPanel>
+</p-tabView>
 
-<!-- Subida Manual -->
-<form *ngIf="option == 'Manual'" #addTestForm="ngForm">
-    <div class="flex gap-2 mb-6">
-        <h5 class="text-[21px] font-normal text-[#26201F] tracking-tight">Edición:</h5>
-        <p-inputNumber [(ngModel)]="test.edition" name="edition" [showButtons]="true" [min]="minEdition" [max]="maxEdition" [format]="false"></p-inputNumber>    
-        <h5 class="text-[21px] font-normal text-[#26201F] tracking-tight ml-5">Año Escolar:</h5>
-        <p-dropdown [(ngModel)]="test.levels" 
-                    name="level" 
-                    class="col-span-2 my-auto mr-8" 
-                    [options]="levels"  
-                    optionLabel="name" 
-                    optionValue="code">
-        </p-dropdown>
-    </div>
-    <button pButton 
-            type="button" 
-            class="float-right"
-            label="Siguiente" 
-            icon="pi pi-arrow-right" 
-            iconPos="right" 
-            [disabled]="addTestForm.form.invalid"
-            (click)="addTest(test)">
-    </button>
-</form>
+<p-toast position="bottom-center"></p-toast>

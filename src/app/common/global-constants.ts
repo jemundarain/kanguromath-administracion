@@ -248,7 +248,17 @@ export class GlobalConstants {
                 min: 0
             }
         }
-    }; 
+    };
+
+    public static arrayDifference<T>(array1: T[], array2: T[]): T[] {
+        const difference: T[] = [];
+        for (const element of array1) {
+          if (!array2.includes(element)) {
+            difference.push(element);
+          }
+        }
+        return difference;
+    }
 
     public static getLabelsDistribution( distribution: Ranking[] ) {
         const arr = [];

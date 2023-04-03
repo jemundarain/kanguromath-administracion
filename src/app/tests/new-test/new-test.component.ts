@@ -1,33 +1,45 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { RadioOption } from '../../common/radio-option.interface';
 import { Test } from '../models/test-model';
-import {MenuItem} from 'primeng/api';
+import { MenuItem, MessageService } from 'primeng/api';
 import { GlobalConstants } from 'src/app/common/global-constants';
+import { TestService } from '../services/test.service';
+import { Location } from '@angular/common';
+import { Router } from '@angular/router';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-new-test',
-  templateUrl: './new-test.component.html'
+  templateUrl: './new-test.component.html',
+  providers: [MessageService]
 })
 export class NewTestComponent implements OnInit {
 
-  value1: number = 0;
   minEdition: number = GlobalConstants.MIN_DATE_EDITION;
   maxEdition: number = GlobalConstants.MAX_DATE_EDITION;
-
-  test: Test = new Test('', '', '', GlobalConstants.MAX_DATE_EDITION.toString(), false, ['']);
-
+  test: Test;
   levels: RadioOption[];
   selectedLevelCode: string;
-
   items: MenuItem[];
+  @ViewChild('addTestForm', { static: true }) addTestForm!: NgForm;
 
-  options: string[];
-  option: string = GlobalConstants.UPLOAD_OPTIONS[0];
+  constructor( private testService: TestService,
+               private location: Location,
+               private messageService: MessageService,
+               private router: Router ) { }
+
+  public filterLevels(levels: string[]): RadioOption[] {
+    const filteredLevels = GlobalConstants.LEVELS.filter(level => !levels.includes(level.code));
+    return filteredLevels;
+  }
 
   ngOnInit(): void {
-    this.options = GlobalConstants.UPLOAD_OPTIONS;
-    this.levels = GlobalConstants.LEVELS;
-
+    this.addTestForm.form.valueChanges.subscribe((data) => {
+      this.testService.getLevelsByEdition(data.edition).subscribe(levels => { 
+        this.levels = this.filterLevels(levels);
+      });
+    });
+    this.test = new Test('', '', '', GlobalConstants.MAX_DATE_EDITION.toString(), false, [''])
     this.items = [
       {label: 'Pruebas'},
       {label: 'Prueba nueva'}
@@ -37,25 +49,13 @@ export class NewTestComponent implements OnInit {
   onBasicUpload() {    
   }
 
-  addTest(test: Test) {
-
+  addManualTest() {
+    this.test.test_id = `preliminar-${this.test.edition}-${this.test.levels}`;
+    this.testService.addNewTest(this.test);
+    this.messageService.add({severity:'success', summary: 'Exitoso', detail: 'Prueba creada 🎉', life: 3250});
+    setTimeout(() => {
+      this.router.navigate([`/pruebas/ver/${this.test.test_id}`]);
+    }, 3250);
   }
-  // uploadedFiles: any[] = [];
-
-  // constructor(private messageService: MessageService) {}
-
-  // onUpload(event: any) {
-  //     for (const file of event.files) {
-  //         this.uploadedFiles.push(file);
-  //     }
-
-  //     this.messageService.add({ severity: 'info', summary: 'Success', detail: 'File Uploaded' });
-  // }
-
-  // onBasicUpload() {
-  //     this.messageService.add({ severity: 'info', summary: 'Success', detail: 'File Uploaded with Basic Mode' });
-  // }
-
-
 
 }

@@ -62,7 +62,7 @@ export class ListTestsComponent implements OnInit, OnDestroy {
       message: `¿Está seguro que desea eliminar la prueba preliminar ${test.edition} ${test.levels}?`,
       accept: () => {
         this.testService.deleteTest(test._id);
-        this.messageService.add({ severity:'success', summary: 'Exitoso', detail: 'Prueba Eliminada' });
+        this.messageService.add({ severity:'success', summary: 'Exitoso', detail: 'Prueba Eliminada 🗑' });
       },
       reject: () => {}
     });

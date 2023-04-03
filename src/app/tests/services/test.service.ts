@@ -25,6 +25,10 @@ export class TestService {
     getEditions(): Observable<string[]>{
         return this.http.get<string[]>(`${ this.baseUrl }/admin_tests/get_editions`)
     }
+
+    getLevelsByEdition(edition: string) {
+        return this.http.get<string[]>(`${ this.baseUrl }/admin_tests/${edition}/levels`)
+    }
     
     getProblemById(problem_id: string): Observable<Problem> {
         return this.http.get<Problem>(`${ this.baseUrl }/admin_problems/get_problem/${problem_id}`)
@@ -36,6 +40,12 @@ export class TestService {
 
     getTestByProblemId(problem_id: string): Observable<Test[]> {
         return this.http.get<Test[]>(`${ this.baseUrl }/admin_tests/get_test_by_problem/${problem_id}`)
+    }
+
+    addNewTest(test: Test) {
+        return this.http.post<{message: string}>(`${ this.baseUrl }/admin_tests/post_test/`, test).subscribe((jsonData) => {
+            console.log(jsonData);
+        });
     }
 
     updateTest(test: Test) {
