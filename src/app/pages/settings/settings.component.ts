@@ -74,6 +74,6 @@ export class SettingsComponent implements OnInit {
   }
 
   showToast(action: string) {
-    this.messageService.add({severity:'success', summary: 'Exitoso', detail: 'Aplicación ' + action });
+    this.messageService.add({severity:'success', summary: 'Exitoso', detail: 'Aplicación ' + action + ' ✅' });
   }
 }

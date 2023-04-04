@@ -101,7 +101,7 @@ export class NewProblemComponent implements OnInit {
   saveNewProblem() {
     this.newProblem.problem_id = this.stringToSlug(this.newProblem.statement);
     this.testService.addNewProblem(this.newProblem, this.test._id);
-    this.messageService.add({severity:'success', summary: 'Exitoso', detail: 'Problema Agregado' });
+    this.messageService.add({severity:'success', summary: 'Exitoso', detail: 'Problema agregado ✅' });
     setTimeout(() => {
       this.location.back()
     }, 1220);

@@ -72,7 +72,7 @@ export class ProblemComponent implements OnChanges {
       message: `¿Está seguro que desea eliminar el problema #${problem.num_s}?`,
       accept: () => {
         this.testService.deleteProblem(this.test_id, problem.problem_id);
-        this.messageService.add({ severity:'success', summary: 'Exitoso', detail: `Problema #${problem.num_s} Eliminado` });
+        this.messageService.add({ severity:'success', summary: 'Exitoso', detail: `Problema #${problem.num_s} eliminado 🗑` });
       },
       reject: () => {}
     });

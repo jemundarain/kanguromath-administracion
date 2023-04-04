@@ -108,7 +108,7 @@ export class EditProblemComponent implements OnInit {
       message: '¿Está seguro que desea editar este problema?',
       accept: () => {
         this.testService.updateProblem(this.problem);
-        this.messageService.add({severity:'success', summary: 'Exitoso', detail: 'Problema editado'});
+        this.messageService.add({severity:'success', summary: 'Exitoso', detail: 'Problema editado 📝'});
         setTimeout(() => {
           this.location.back()
         }, 1220);
