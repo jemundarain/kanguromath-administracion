@@ -11,7 +11,7 @@ import { PagesService } from 'src/app/pages/services/pages.service';
   templateUrl: './list-tests.component.html',
   providers: [ConfirmationService, MessageService]
 })
-export class ListTestsComponent implements OnInit, OnDestroy {
+export class ListTestsComponent implements OnInit {
 
   constructor(
     private testService: TestService,
@@ -49,9 +49,6 @@ export class ListTestsComponent implements OnInit, OnDestroy {
 
   }
   
-  ngOnDestroy(): void {
-  }
-
   appDisabledAlert() {
     this.messageService.add({ severity:'error', summary: 'Rechazado', detail: 'Es necesario deshabilitar la aplicación' });
   }

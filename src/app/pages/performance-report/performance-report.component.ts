@@ -126,7 +126,7 @@ export class PerformanceReportComponent implements OnInit {
         docResult.save(`InformeDesempeño-${dayjs().format('DD-MM-YYYY')}.pdf`);
       });
     }
-    this.messageService.add({ severity:'success', summary: 'Reporte descargado' });
+    this.messageService.add({ severity:'success', summary: 'Reporte descargado ✅' });
   }
 
 

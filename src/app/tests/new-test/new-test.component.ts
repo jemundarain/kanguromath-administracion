@@ -28,10 +28,29 @@ export class NewTestComponent implements OnInit {
                private messageService: MessageService,
                private router: Router ) { }
 
-  public filterLevels(levels: string[]): RadioOption[] {
-    const filteredLevels = GlobalConstants.LEVELS.filter(level => !levels.includes(level.code));
-    return filteredLevels;
+  filterLevels(levels: string[]): RadioOption[] {
+    return GlobalConstants.LEVELS.filter(level => {
+      for (let i = 0; i < levels.length; i++) {
+        if (levels[i] === '1ero-2do' && (level.code === '1ero' || level.code === '2do' || level.code === '2do-3ero')) {
+          return false;
+        }
+        if (levels[i] === '2do' && (level.code === '1ero-2do' || level.code === '2do' || level.code === '2do-3ero')) {
+          return false;
+        }
+        if (levels[i] === '5to' && (level.code === '4to-5to' || level.code === '5to')) {
+          return false;
+        }
+        if (levels[i].includes(level.code)) {
+          return false;
+        }
+        if (level.code.includes(levels[i])) {
+          return false;
+        }
+      }
+      return true;
+    });
   }
+                       
 
   ngOnInit(): void {
     this.addTestForm.form.valueChanges.subscribe((data) => {
@@ -55,7 +74,7 @@ export class NewTestComponent implements OnInit {
     this.messageService.add({severity:'success', summary: 'Exitoso', detail: 'Prueba creada 🎉', life: 3250});
     setTimeout(() => {
       this.router.navigate([`/pruebas/ver/${this.test.test_id}`]);
-    }, 3250);
+    }, 1220);
   }
 
 }

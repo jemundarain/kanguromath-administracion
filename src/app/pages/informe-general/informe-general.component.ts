@@ -145,6 +145,6 @@ export class InformeGeneralComponent implements OnInit {
         docResult.save(`InformeGeneral-${dayjs().format('DD-MM-YYYY')}.pdf`);
       });
     }
-    this.messageService.add({ severity:'success', summary: 'Reporte descargado' });
+    this.messageService.add({ severity:'success', summary: 'Reporte descargado ✅' });
   }
 }

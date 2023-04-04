@@ -9,8 +9,22 @@
 <p-tabView>
     <p-tabPanel header="Nuevo">
         <form (ngSubmit)="saveNewProblem()" #addNewProblemForm="ngForm">
-        <!-- Figuras -->
-        <ng-container>
+            <!-- Rutina y Resultado -->
+            <div class="grid grid-cols-12 gap-6">
+                <p-card class="col-span-5" header="Rutina">
+                    <div class="flex flex-col gap-3">
+                        <textarea [class]="validateStatement()? '':'ng-invalid ng-dirty'" pInputTextarea [autoResize]="true" [(ngModel)]="newProblem.statement" [required]="true" name="statement"></textarea>
+                        <div *ngIf="validateStatement()" class="text-red-500 text-sm mt-1">Por favor, ingresa la rutina del problema</div>
+                    </div>
+                </p-card>
+                <p-card class="col-span-5 h-min" header="Resultado">
+                    <div class="flex flex-col gap-3">
+                        <ng-katex-html *ngIf="newProblem.statement" [html]="newProblem.statement"></ng-katex-html>
+                    </div>
+                </p-card>
+            </div>
+            
+            <!-- Figuras -->
             <div class="grid grid-cols-12 gap-6">
                 <p-card class="col-span-10 h-min" header="Figuras">
                     <div class="flex flex-col gap-3">
@@ -31,20 +45,6 @@
                     </div>
                 </p-card>
             </div>
-            <!-- Rutina y Resultado -->
-            <div class="grid grid-cols-12 gap-6">
-                <p-card class="col-span-5" header="Rutina">
-                    <div class="flex flex-col gap-3">
-                        <textarea [class]="validateStatement()? '':'ng-invalid ng-dirty'" pInputTextarea [autoResize]="true" [(ngModel)]="newProblem.statement" [required]="true" name="statement"></textarea>
-                        <div *ngIf="validateStatement()" class="text-red-500 text-sm mt-1">Por favor, ingresa la rutina del problema</div>
-                    </div>
-                </p-card>
-                <p-card class="col-span-5 h-min" header="Resultado">
-                    <div class="flex flex-col gap-3">
-                        <ng-katex-html *ngIf="newProblem.statement" [html]="newProblem.statement"></ng-katex-html>
-                    </div>
-                </p-card>
-            </div>  
 
             <!-- Opciones -->
             <div class="grid grid-cols-12 gap-2">
@@ -73,7 +73,6 @@
                 <button pButton type="button" class="btn float-left" label="Volver" icon="pi pi-arrow-left" iconPos="left" (click)="back()"></button>
                 <button pButton pRipple label="Añadir" class="btn w-32 p-3 col-span-2 col-start-10" type="submit" [disabled]="disabledNewProblem()"></button>
             </div> 
-        </ng-container>
         
         </form>
     </p-tabPanel>
