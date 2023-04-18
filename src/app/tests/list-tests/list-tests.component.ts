@@ -60,6 +60,9 @@ export class ListTestsComponent implements OnInit {
       accept: () => {
         this.testService.deleteTest(test._id);
         this.messageService.add({ severity:'success', summary: 'Exitoso', detail: 'Prueba Eliminada 🗑' });
+        setTimeout(() => {
+          location.reload();
+        }, 1220);
       },
       reject: () => {}
     });
