@@ -58,7 +58,7 @@ export class NewTestComponent implements OnInit {
         this.levels = this.filterLevels(levels);
       });
     });
-    this.test = new Test('', '', '', GlobalConstants.MAX_DATE_EDITION.toString(), false, [''])
+    this.test = new Test('', '', '', GlobalConstants.MAX_DATE_EDITION.toString(), false, [])
     this.items = [
       {label: 'Pruebas'},
       {label: 'Prueba nueva'}

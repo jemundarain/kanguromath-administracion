@@ -60,15 +60,6 @@ export class NewProblemComponent implements OnInit {
           {label: `Problema #${this.num_s}`}
         ];
       });
-
-      // this.addExistingProblemForm.form.valueChanges.subscribe(({search}) => {
-      //   this.testService.searchProblem(search);
-      // })
-      
-      // this.addExistingProblemForm.form.valueChanges.subscribe(({search}) => {
-      //   this.testService.searchProblem(search);
-      // })
-
   }
 
   addFigure() {
@@ -96,10 +87,13 @@ export class NewProblemComponent implements OnInit {
 
   addProblem() {
     this.testService.addExistingProblem(this.test.test_id, this.problemSelected.problem_id);
+    this.messageService.add({severity:'success', summary: 'Exitoso', detail: 'Problema agregado ✅' });
+    setTimeout(() => {
+      this.location.back()
+    }, 1220);
   }
 
   saveNewProblem() {
-    // this.newProblem.problem_id = this.stringToSlug(this.newProblem.statement);
     this.newProblem.problem_id = `${this.test.test_id}-#${this.newProblem.num_s}`;
     this.testService.addNewProblem(this.newProblem, this.test._id);
     this.messageService.add({severity:'success', summary: 'Exitoso', detail: 'Problema agregado ✅' });

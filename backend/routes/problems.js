@@ -34,7 +34,7 @@ app.get('/search_problems',(req, res) => {
 		{ $match: { 'edition': req.query.edition } },
 		{ $match: { 'levels': { $ne: req.query.levels } } },
 		{ $group: { _id: null, problems: { $push: "$problems" } } }
-	 ])
+	])
 	.then((data) => {
 		var problems_ids = Array.from(new Set([].concat(...data[0].problems)));
 		const regex = new RegExp(req.query.term.replace(/\s+/g, '.*'), 'i');
@@ -43,16 +43,16 @@ app.get('/search_problems',(req, res) => {
 			res.json(data);
 		})
 		.catch(() => {
-			console.log('Error fetching entries')
+			console.log('Error fetching entries /search_problems1')
 		})
 	})
 	.catch(() => {
-		console.log('Error fetching entries')
+		res.json([]);
 	})
 })
 
 app.put('/put_existing_problem/', (req, res) => {
-	TestModel.updateOne({ 'test_id': req.query.test_id }, { $push: { 'problems': req.query.problem_id } })
+	TestModel.updateOne({ 'test_id': req.body.test_id }, { $push: { 'problems': req.body.problem_id } })
 	.then(() => {
 		res.status(200).json({
 			message: 'Update completed'

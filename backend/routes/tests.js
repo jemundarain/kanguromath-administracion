@@ -3,6 +3,7 @@ var app = express();
 const mongoose = require('mongoose');
 const { ObjectId } = mongoose.Types;
 const TestModel = require('../schemas/test-schema');
+const ProblemModel = require('../schemas/problem-schema')
 
 app.get('/list_tests',(req, res, next) => {
 	TestModel.find({})
@@ -110,12 +111,32 @@ app.put('/put_test/', (req, res) => {
 })
 
 app.delete('/delete_test/:_id', (req, res) => {
-	TestModel.deleteOne({_id: req.params._id})
-	.then(() => {
-		res.status(200).json({
-			message: 'Delete successful'
-		})   
-	})
-})
-
+	let prueba;
+	let problemasIds;
+	TestModel.findById(req.params._id)
+	  .then((test) => {
+		prueba = test;
+		problemasIds = test.problems;
+		return TestModel.deleteOne({ _id: req.params._id });
+	  })
+	  .then(() => {
+		return TestModel.distinct("problems", { _id: { $ne: req.params._id }, edition: prueba.edition })
+		  .then((result) => {
+			return ProblemModel.deleteMany({
+				problem_id: {
+					$in: problemasIds,
+					$nin: result
+				}
+			});
+		  });
+	  })
+	  .then(() => {
+		res.status(200).json({ message: 'Prueba eliminada correctamente' });
+	  })
+	  .catch((error) => {
+		console.error(error);
+		res.status(500).json({ message: 'Error al eliminar la Prueba' });
+	  });
+});
+  
 module.exports = app;
