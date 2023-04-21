@@ -24,6 +24,7 @@ import { CategoryComponent } from './category/category.component';
 import { SolutionComponent } from './solution/solution.component';
 import { OptionsComponent } from './options/options.component';
 import { KatexModule } from 'ng-katex';
+import { PieChartPerformanceGlobalComponent } from './pie-chart-performance-global/pie-chart-performance-global.component';
 
 
 @NgModule({
@@ -46,6 +47,7 @@ import { KatexModule } from 'ng-katex';
     PieChartGeometryComponent,
     PieChartCombinatoricsComponent,
     PieChartNumberTheoryComponent,
+    PieChartPerformanceGlobalComponent
   ],
   exports: [
     CategoryComponent,
@@ -64,6 +66,7 @@ import { KatexModule } from 'ng-katex';
     PieChartGeometryComponent,
     PieChartCombinatoricsComponent,
     PieChartNumberTheoryComponent,
+    PieChartPerformanceGlobalComponent,
     OptionsComponent,
   ],
   imports: [

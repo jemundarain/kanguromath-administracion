@@ -4,22 +4,22 @@ import { Ranking } from 'src/app/pages/interfaces/ranking.interfaces';
 import { PagesService } from 'src/app/pages/services/pages.service';
 
 @Component({
-  selector: 'app-pie-chart-algebra',
-  templateUrl: './pie-chart-algebra.component.html'
+  selector: 'app-pie-chart-performance-global',
+  templateUrl: './pie-chart-performance-global.component.html'
 })
-export class PieChartAlgebraComponent implements OnChanges {
+export class PieChartPerformanceGlobalComponent implements OnChanges {
 
-  constructor(private pagesService: PagesService) { }
-  
+  constructor( private pagesService: PagesService ) { }
+
   @Input() dateStart: string;
   @Input() dateEnd: string;
 
   data: any;
   distributionByPerformance: Ranking[];
-  
+
   ngOnChanges() {
     if(this.dateStart && this.dateEnd) {
-      this.pagesService.getAlgebraPerformanceDistribution(this.dateStart, this.dateEnd).subscribe(distributionByPerformance => {
+      this.pagesService.getGlobalPerformanceDistribution(this.dateStart, this.dateEnd).subscribe(distributionByPerformance => {
         this.distributionByPerformance = distributionByPerformance;
         this.data = {
           labels: GlobalConstants.getLabelsDistribution(this.distributionByPerformance),

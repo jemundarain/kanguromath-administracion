@@ -49,13 +49,25 @@ export class PagesService {
   }
 
   getAlgebraPerformanceDistribution(start: string, end: string) {
-    return this.http.get<Ranking[]>(`${ this.baseUrl }/performance_total/algebra?start=${ start }&end=${ end }`)
+    return this.http.get<Ranking[]>(`${ this.baseUrl }/performance/algebra?start=${ start }&end=${ end }`)
   }
   
-  getAlgebraPerformanceByDateRange(start: string, end: string) {
-    return this.http.get<number[][]>(`${ this.baseUrl }/performance/algebra?start=${ start }&end=${ end }`)
+  getCombinatoricsPerformanceDistribution(start: string, end: string) {
+    return this.http.get<Ranking[]>(`${ this.baseUrl }/performance/combinatoria?start=${ start }&end=${ end }`)
+  }
+  
+  getNumberTheoryPerformanceDistribution(start: string, end: string) {
+    return this.http.get<Ranking[]>(`${ this.baseUrl }/performance/teoria-numeros?start=${ start }&end=${ end }`)
   }
 
+  getGeometryPerformanceDistribution(start: string, end: string) {
+    return this.http.get<Ranking[]>(`${ this.baseUrl }/performance/geometria?start=${ start }&end=${ end }`)
+  }
+
+  getGlobalPerformanceDistribution(start: string, end: string) {
+    return this.http.get<Ranking[]>(`${ this.baseUrl }/performance/global?start=${ start }&end=${ end }`)
+  }
+  
   getLabelsDateRange(start: string, end: string) {
     var arr = [];
     var startD = dayjs(start);

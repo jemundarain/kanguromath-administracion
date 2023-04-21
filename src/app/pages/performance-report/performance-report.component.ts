@@ -81,7 +81,7 @@ export class PerformanceReportComponent implements OnInit {
       }
     
       //Line chart
-      this.pagesService.getAlgebraPerformanceByDateRange(this.dateStart, this.dateEnd).subscribe((data) => {
+      /*this.pagesService.getAlgebraPerformanceByDateRange(this.dateStart, this.dateEnd).subscribe((data) => {
         this.algebraData = {
           labels: this.pagesService.getLabelsDateRange(this.dateStart, this.dateEnd),
           datasets: [
@@ -101,7 +101,7 @@ export class PerformanceReportComponent implements OnInit {
             }
           ]
         }
-      });
+      });*/
     })
   }
 
