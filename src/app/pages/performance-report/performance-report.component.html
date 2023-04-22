@@ -39,8 +39,8 @@
         <div class="grid grid-cols-12 grid-rows-4 gap-6">
             <!-- Global -->
             <p-card class="col-span-4 row-span-2 row-start-2 justify-center h-min" header="Global">
-                <app-progress-spinner [condition]="false" [template]="numberTheoryChartT"></app-progress-spinner>
-                <ng-template #numberTheoryChartT>
+                <app-progress-spinner [condition]="false" [template]="globalChartT"></app-progress-spinner>
+                <ng-template #globalChartT>
                     <app-pie-chart-performance-global [dateStart]="dateStart" [dateEnd]="dateEnd"></app-pie-chart-performance-global>
                 </ng-template>
             </p-card>
