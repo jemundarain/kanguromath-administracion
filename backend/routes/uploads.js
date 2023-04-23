@@ -1,11 +1,23 @@
 var express = require('express');
 const TestModel = require('../schemas/test-schema');
 var ImageKit = require("imagekit");
-const fileUpload = require('express-fileupload');
 const JSZip = require('jszip');
+const multer = require('multer');
+const fs = require('fs');
+const { dirname, extname, join } = require('path');
 
 var app = express();
-app.use(fileUpload());
+
+const multerUpload = multer({
+  storage: multer.diskStorage({
+    dest: join(__dirname, '../../uploads'),
+    filename: (req, file, cb) => {
+      const fileExtension = extname(file.originalname);
+      const fileName = file.originalname.split(fileExtension)[0];
+      cb(null, `${fileName}${fileExtension}`);
+    }
+  })
+});
 
 var imagekit = new ImageKit({
   publicKey : 'public_VoBZkirixLnqfCe0fUaeGUj6XQs=',
@@ -25,24 +37,6 @@ app.delete('/imagekit-delete/:ik_id', (req, res) => {
 	});
 })
 
-// app.put('/imagekit-rename', (req, res) => {
-//   imagekit.renameFile({
-//     filePath: req.body.filePath,
-//     newFileName: req.body.newFileName,
-//     purgeCache: false
-//   }, function(error, result) {
-//     if(error) console.log(error);
-//     else console.log(result);
-//   });
-// })
-
-// app.delete('/delete_cache/:problem_id/:num_s', (req, res) => {
-//   imagekit.purgeCache(`https://ik.imagekit.io/661ijdspv/${req.params.problem_id}/${req.params.num_s}.png`, function(error, result) { 
-//     if(error) res.json(error);
-//     else res.json(result);
-//   });
-// }) 
-
 app.put('/put_figure/', (req, res) => {
   TestModel.updateOne(
     {'problem_id': req.body.newFigure.problem_id, 'figures.num_s': req.body.newFigure.num_s},
@@ -58,22 +52,40 @@ app.put('/put_figure/', (req, res) => {
   })
 });
 
-app.post('/post_testXXXXXX', (req, res) => {
-  if (!req.files || !req.files.zipfile) {
+app.post('/post_test', multerUpload.single('file'), (req, res) => {
+  const file = req.file;
+
+  if (!file) {
     return res.status(400).send('No file uploaded.');
   }
 
-  const zipfile = req.files.zipfile;
+  // Leer el archivo cargado con fs.readFileSync
+  const data = fs.readFileSync(file.path);
 
-  JSZip.loadAsync(zipfile.data)
-    .then((zip) => {
-      // do something with the unzipped files
-      console.log(zip.files);
-      res.send('File uploaded and unzipped successfully.');
+  // Descomprimir el archivo usando JSZip
+  JSZip.loadAsync(data)
+    .then(zip => {
+      // Recorrer cada archivo en el zip y escribirlo en el disco
+      Object.keys(zip.files).forEach(filename => {
+        const file = zip.file(filename);
+        const filepath = join(__dirname, '../../uploads', filename);
+        if (file && file.async) {
+          file.async('nodebuffer').then(content => {
+            // Crear el directorio si no existe
+            const dirPath = dirname(filepath);
+            if (!fs.existsSync(dirPath)) {
+              fs.mkdirSync(dirPath, { recursive: true });
+            }
+            fs.writeFileSync(filepath, content);
+          });
+        }
+      });
+      fs.unlinkSync(file.path);
+      res.status(200).send('Archivo descomprimido exitosamente');
     })
-    .catch((err) => {
-      console.error(err);
-      res.status(500).send('Failed to unzip file.');
+    .catch(error => {
+      console.log(error);
+      res.status(500).send('Error al descomprimir el archivo');
     });
 });
 

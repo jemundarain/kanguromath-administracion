@@ -28,6 +28,19 @@ export class NewTestComponent implements OnInit {
                private messageService: MessageService,
                private router: Router ) { }
 
+  ngOnInit(): void {
+    this.addTestForm.form.valueChanges.subscribe((data) => {
+      this.testService.getLevelsByEdition(data.edition).subscribe(levels => { 
+        this.levels = this.filterLevels(levels);
+      });
+    });
+    this.test = new Test('', '', '', GlobalConstants.MAX_DATE_EDITION.toString(), false, [])
+    this.items = [
+      {label: 'Pruebas'},
+      {label: 'Prueba nueva'}
+    ];
+  }
+
   filterLevels(levels: string[]): RadioOption[] {
     return GlobalConstants.LEVELS.filter(level => {
       for (let i = 0; i < levels.length; i++) {
@@ -49,23 +62,10 @@ export class NewTestComponent implements OnInit {
       }
       return true;
     });
-  }
-                       
+  }                      
 
-  ngOnInit(): void {
-    this.addTestForm.form.valueChanges.subscribe((data) => {
-      this.testService.getLevelsByEdition(data.edition).subscribe(levels => { 
-        this.levels = this.filterLevels(levels);
-      });
-    });
-    this.test = new Test('', '', '', GlobalConstants.MAX_DATE_EDITION.toString(), false, [])
-    this.items = [
-      {label: 'Pruebas'},
-      {label: 'Prueba nueva'}
-    ];
-  }
-
-  onBasicUpload() {    
+  onBasicUpload(ev: any) {    
+    console.log("ESTOY EN onBasicUpload -> EVENTO ", ev)
   }
 
   addManualTest() {

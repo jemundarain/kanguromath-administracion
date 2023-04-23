@@ -48,6 +48,12 @@ export class TestService {
         });
     }
 
+    uploadNewTest(test: Test) {
+        return this.http.post<{message: string}>(`${ this.baseUrl }/admin_uploads/post_test/`, test).subscribe((jsonData) => {
+            console.log(jsonData);
+        });
+    }
+
     updateTest(test: Test) {
         this.http.put<{message: string}>(`${this.baseUrl}/admin_tests/put_test/`, test).subscribe((jsonData) => {
           console.log(jsonData);

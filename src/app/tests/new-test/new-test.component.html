@@ -11,11 +11,11 @@
         <p-fileUpload
             mode="basic"
             chooseLabel="Subir archivo"
-            name="demo[]"
-            url="./upload.php"
+            name="file"
+            url="http://localhost:3000/admin_uploads/post_test"
             accept=".zip, .rar"
             [maxFileSize]="500000"
-            (onUpload)="onBasicUpload()">
+            (onUpload)="onBasicUpload($event)">
         </p-fileUpload>
     </p-tabPanel>
     
