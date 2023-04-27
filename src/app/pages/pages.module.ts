@@ -13,6 +13,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { ProfileComponent } from './profile/profile.component';
 import { PerformanceReportComponent } from './performance-report/performance-report.component';
+import { ListUsersComponent } from './list-users/list-users.component';
 
 @NgModule({
     declarations: [
@@ -21,7 +22,8 @@ import { PerformanceReportComponent } from './performance-report/performance-rep
         ErrorPageComponent,
         HomeComponent,
         ProfileComponent,
-        PerformanceReportComponent
+        PerformanceReportComponent,
+        ListUsersComponent
     ],
     exports: [
         InformeGeneralComponent,
