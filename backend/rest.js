@@ -11,7 +11,9 @@ app.use(bodyParser.json())
 
 // Importar rutas
 var appRoutes = require('./routes/app');
+var loginRoutes = require('./routes/login')
 var usersRoutes = require('./routes/users');
+var adminUsersRoutes = require('./routes/admin-users');
 var performanceRoutes = require('./routes/performance');
 var testsRoutes = require('./routes/tests');
 var problemsRoutes = require('./routes/problems');
@@ -37,8 +39,9 @@ app.use((req, res, next) => {
 })
 
 // Rutas
+app.use('/login', loginRoutes);
 app.use('/admin_users', usersRoutes);
-app.use('/admin_admin_users', usersRoutes);
+app.use('/admin_admin_users', adminUsersRoutes);
 app.use('/performance', performanceRoutes);
 app.use('/admin_tests', testsRoutes);
 app.use('/admin_problems', problemsRoutes);

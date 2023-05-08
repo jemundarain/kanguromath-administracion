@@ -22,6 +22,12 @@ const routes: Routes = [
     canActivate: [ AuthGuard ]
   },
   {
+    path: 'usuarios',
+    loadChildren: () => import('./admin-users/admin-users.module').then( m => m.AdminUsersModule ),
+    canLoad: [ AuthGuard ],
+    canActivate: [ AuthGuard ]
+  },
+  {
     path: '404',
     component: ErrorPageComponent
   },

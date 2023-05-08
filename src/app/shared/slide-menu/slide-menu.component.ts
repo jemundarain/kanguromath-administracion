@@ -50,6 +50,20 @@ export class SlideMenuComponent implements OnInit {
         }]
       },
       {
+        label: 'Usuarios',
+        icon: 'pi pi-user',
+        items: [{
+          label: 'Todas los Usuarios', 
+          icon: 'pi pi-file',
+          routerLink: 'usuarios/lista'
+        },
+        {
+          label: 'Usuario nuevo', 
+          icon: 'pi pi-plus',
+          routerLink: 'usuarios/agregar'
+        }]
+      },
+      {
         label: 'Ajustes',
         icon: 'pi pi-cog',
         routerLink: 'acm/ajustes'

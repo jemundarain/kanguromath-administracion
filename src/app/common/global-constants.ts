@@ -72,9 +72,9 @@ export class GlobalConstants {
         'Existente'
     ]
 
-    public static GENDERS = [
-        'F',
-        'M'
+    public static SEXS: RadioOption[] = [
+        {name: 'Femenino', code: 'F'},
+        {name: 'Masculino', code: 'M'},
     ]
 
     public static STATES = [
