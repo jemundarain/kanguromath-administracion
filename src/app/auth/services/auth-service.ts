@@ -2,42 +2,59 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Auth } from '../auth-model';
 import { environment } from '../../../environments/environment';
-import { tap } from "rxjs";
+import { map } from 'rxjs/operators';
+import jwt_decode from 'jwt-decode';
+import { Router } from "@angular/router";
+import { BehaviorSubject, Observable } from "rxjs";
 
 @Injectable({providedIn:"root"})
 export class AuthService{
 
     private baseUrl: string = environment.baseUrl;
-    private _auth: Auth | undefined;
+    private loggedIn = new BehaviorSubject<boolean>(false);
 
-    constructor(private http: HttpClient){}
-
-    get auth() {
-        return { ...this._auth}
+    constructor(private http: HttpClient, private router: Router){}
+    
+    setLoggedIn(value: boolean) {
+      this.loggedIn.next(value);
     }
 
-    signUp(){ 
-
+    get isLoggedIn() {
+      return this.loggedIn.asObservable();
     }
 
-    login() {
-        return this.http.get(`${ this.baseUrl }/usuarios-admin/`)
-            .pipe(
-                tap( auth => this._auth ),
-                tap( auth => this._auth ),
-            );
+    isTokenValid() {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        this.setLoggedIn(false); // Token expirado
+      } else {
+        try {
+          const decodedToken: { [key: string]: any } = jwt_decode(token);
+          const now = Date.now().valueOf() / 1000; // Fecha actual en segundos
+          if (typeof decodedToken['exp'] !== 'undefined' && decodedToken['exp'] < now) {
+            this.setLoggedIn(true); // Token expirado
+          }
+          this.setLoggedIn(true); // Token válido
+        } catch (error) {
+          this.setLoggedIn(false); // Token inválido
+        }
+      }
+    }
+
+    login(auth: Auth) {
+        return this.http.post(`${this.baseUrl}/login`, auth).pipe(
+          map((res: any) => {
+            localStorage.setItem('user', JSON.stringify(res.user));
+            localStorage.setItem('token', res.token);
+          })
+        );
     }
 
     logout() {
-
+      localStorage.removeItem('user');
+      localStorage.removeItem('token');
+      this.setLoggedIn(false);
+      this.router.navigate(['/auth/iniciar-sesion']);
     }
-    
-    signupUser(username: string, password: string){
 
-        const authData: Auth = {username: username, password: password};
-        
-        this.http.post(`${ this.baseUrl }/auth/registro/`, authData).subscribe(res => {
-            console.log(res);
-        })
-    }
 }

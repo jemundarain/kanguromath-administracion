@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import {MenuItem} from 'primeng/api';
+import { AuthService } from '../../auth/services/auth-service';
 
 @Component({
   selector: 'app-slide-menu',
@@ -13,10 +14,10 @@ import {MenuItem} from 'primeng/api';
 })
 export class SlideMenuComponent implements OnInit {
 
-  constructor() { }
-
   items: MenuItem[] = [];
 
+  constructor(private authService: AuthService) { }
+  
   ngOnInit(): void {
     this.items = [
       {
@@ -71,7 +72,7 @@ export class SlideMenuComponent implements OnInit {
       {
         label: 'Cerrar Sesión',
         icon: 'pi pi-sign-out',
-        routerLink: ''
+        command: () => { this.authService.logout(); }
       }
     ];
   }

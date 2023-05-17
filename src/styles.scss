@@ -141,7 +141,7 @@ input[type=file] {
 }
 
 .p-dropdown, .p-button, .p-inputnumber, p-calendar .p-button:enabled, .p-inputtext {
-    height: 36.5px;
+    height: 37px;
 }
 
 .p-card-content {
@@ -207,7 +207,7 @@ p-inputnumber [name="edition"] {
     border-radius: 6px;
 }
 
-#tests-table td {
+#tests-table td, #adminUsers-table td {
     text-align: center !important;
 }
 
@@ -272,6 +272,10 @@ p-toast div {
     border-radius: 6px !important;
 }
 
+.p-avatar img, p-avatar div {
+	cursor: pointer !important;
+}
+
 .p-confirm-dialog-message {
     font-size: 18px;
 }
@@ -306,6 +310,7 @@ p-calendar .p-button:enabled:hover, .p-button:enabled:hover, .edit-btn:hover, .p
     color: #fff !important;
     font-weight: 500 !important;
     cursor: pointer;
+    min-width: 120px !important;
 }
 
 .custom-spinner {

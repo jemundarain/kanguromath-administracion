@@ -1,11 +1,12 @@
 var express = require('express');
 const TestModel = require('../schemas/test-schema');
+const AdminUserModel = require('../schemas/adminUser-schema');
 var ImageKit = require("imagekit");
 const JSZip = require('jszip');
 const multer = require('multer');
 const fs = require('fs');
 const { dirname, extname, join } = require('path');
-
+var readline = require('linebyline');
 var app = express();
 
 const multerUpload = multer({
@@ -52,8 +53,25 @@ app.put('/put_figure/', (req, res) => {
   })
 });
 
-app.post('/post_test', multerUpload.single('file'), (req, res) => {
+app.put('/put_avatar/', (req, res) => {
+  AdminUserModel.updateOne(
+    {'username': req.body.newAvatar.username },
+    { $set: { 'figures.$.ik_id': req.body.newAvatar.ik_id }},
+    {new: true}
+  ).then((adminUser) => {
+    if (!adminUser) {
+        return res.status(404).send();
+    }
+    res.send(adminUser);
+  }).catch((err) => {
+    res.status(500).send(err);
+  })
+});
+
+app.post('/post_test/:test_id', multerUpload.single('file'), (req, res) => {
+  console.log(req.params.test_id);
   const file = req.file;
+  console.log(file);
 
   if (!file) {
     return res.status(400).send('No file uploaded.');
@@ -80,7 +98,43 @@ app.post('/post_test', multerUpload.single('file'), (req, res) => {
           });
         }
       });
-      fs.unlinkSync(file.path);
+      // console.log('FILE:', file);
+      rl = readline(join(__dirname, '../../uploads/tercero', 'tercero.tex'));
+
+      let rawLevel;
+      let rawSolutions;
+      let level = '';
+
+      rl.on('line', (line) => {
+
+        if (line.startsWith('% c. única:')) {
+          const segments = line.split(':');
+          rawSolutions = segments[segments.length - 1].trim();
+        }
+
+        if (line.startsWith('\\pro') && line.match(/\\pro{\d+}\s*(.*)/)) {
+          var [, num_s, statement] = line.match(/\\pro{\d+}\s*(.*)/);
+        }
+        
+        if (line.startsWith('\\profig') && line.match(/\\profig\{(\d+)\}\{.*?\}\{([\s\S]*?)\}/)) {
+          var [, num_s, statement] = line.match(/\\profig\{(\d+)\}\{.*?\}\{([\s\S]*?)\}/);
+        }
+
+        if (line.startsWith('\\resp')) {
+          let match;
+          let rawOptions = [];
+          const regex = /{([^}]*)}/g;
+          while ((match = regex.exec(line)) !== null) {
+            rawOptions.push(match[1]);
+          }
+          rawOptions = [];
+        }
+      });
+
+      // const test = {
+      //   test_id: 'preliminar-' . 
+      // }
+
       res.status(200).send('Archivo descomprimido exitosamente');
     })
     .catch(error => {

@@ -1,11 +1,13 @@
 var express = require('express');
 const AdminUserModel = require('../schemas/adminUser-schema');
+const mongoose = require('mongoose');
+const { ObjectId } = mongoose.Types;
 const bcrypt = require('bcryptjs');
 var mdAuthentication = require('../middlewares/authentication');
 
 var app = express();
 
-app.get('/list_admin_users', mdAuthentication.verifyToken, (req, res, next) => {
+app.get('/list_admin_users', (req, res, next) => {
     AdminUserModel.find({ username: { $ne: 'Jmundarain' } })
     .then((data) => {
 		res.json(data)
@@ -15,29 +17,31 @@ app.get('/list_admin_users', mdAuthentication.verifyToken, (req, res, next) => {
 	})
 });
 
-app.post('/post_admin_user', mdAuthentication.verifyToken, (req, res) => {
+app.post('/post_admin_user', (req, res) => {
 	var body = req.body;
-	var user = new AdminUserModel({
+	var adminUser = new AdminUserModel({
 		name: body.name,
 		last_name: body.last_name,
 		username: body.name[0].toUpperCase()+body.last_name.toLowerCase(),
-		avatar: body.avatar,
+		avatar: {...body.avatar, _id:  new ObjectId()},
 		email: body.email,
 		sex: body.sex,
 		date_birth: body.date_birth,
 		password: bcrypt.hashSync(body.password, 10)
 	});
-
-	user.save()
+	console.log(adminUser);
+	
+	adminUser.save()
 	.then((user) => {
 		res.status(201).json(user);
 	})
 	.catch((err) => {
+		console.log(err);
 		res.status(400).json(err);
 	})
 });
 
-app.put('/put_admin_user/:id', mdAuthentication.verifyToken, (req, res) => {
+app.put('/put_admin_user/:id', (req, res) => {
     var id = req.params.id;
     var body = req.body;
     AdminUserModel.findById(id)
@@ -66,7 +70,7 @@ app.put('/put_admin_user/:id', mdAuthentication.verifyToken, (req, res) => {
 	})
 });
 
-app.delete('/delete_admin_user/:id', mdAuthentication.verifyToken, (req, res) => {
+app.delete('/delete_admin_user/:id', (req, res) => {
     var id = req.params.id;
     AdminUserModel.findByIdAndRemove(id)
     .then((user) => {
@@ -80,7 +84,7 @@ app.delete('/delete_admin_user/:id', mdAuthentication.verifyToken, (req, res) =>
     });
 });
 
-app.get('/get_admin_user/:username', mdAuthentication.verifyToken, (req, res, next) => {
+app.get('/get_admin_user/:username', (req, res, next) => {
 	AdminUserModel.find({ 'username': req.params.username})
 	.then((data) => {
 		res.json(data[0]);

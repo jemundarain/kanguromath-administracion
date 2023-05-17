@@ -5,7 +5,6 @@ import { InformeGeneralComponent } from './informe-general/informe-general.compo
 import { PerformanceReportComponent } from './performance-report/performance-report.component';
 import { HomeComponent } from './home/home.component';
 import { SettingsComponent } from './settings/settings.component';
-import { ProfileComponent } from './profile/profile.component';
 
 const routes: Routes = [
     {
@@ -15,7 +14,6 @@ const routes: Routes = [
         { path: 'informe-general', component: InformeGeneralComponent },
         { path: 'informe-desempeno', component: PerformanceReportComponent },
         { path: 'ajustes', component: SettingsComponent },
-        { path: 'perfil', component: ProfileComponent },
         { path: '**', redirectTo: 'informe-general' }
       ]
     }

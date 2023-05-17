@@ -1,26 +1,32 @@
 <div class="min-h-95vh overflow-hidden">
     <div class="grid grid-cols-12 grid-rows-3 row-start-1 surface-card py-8 px-5 sm:px-8 -mt-20">
-        <div class="col-span-3 col-start-5 row-start-2 text-center mb-1 -mt-16">
+        <div class="col-span-3 col-start-4 row-start-2 text-center mb-1 -mt-16">
             <img class="mx-auto mb-2 shadow-md text-center" src="/assets/img/Kangaroo-eu.png" alt="logo">
             <img class="mx-auto w-80 mt-4 text-center" src="/assets/img/title.png" alt="title">
             <h2 class="mx-auto font-['Pangram'] text-[22px] text-center font-bold text-gray-700 tracking-tight">administración</h2>
         </div>
 
-        <form #loginForm="ngForm" (ngSubmit)="login()" class="col-span-3 col-start-5 row-start-3 -mt-10 p-fluid">
-            <label for="email" class="block mb-1 text-[21px] font-normal text-[#26201F] tracking-tight">Email</label>
-            <input pInputText id="email" name="email" type="text" placeholder="Email address">
-        
+                   
+        <form #loginForm="ngForm" (ngSubmit)="login()" [class]="!validateId() || !validatePassword()? '-mt-10':'-mt-16'" class="col-span-3 col-start-4 row-start-3 p-fluid">
+            <label for="id" class="block mb-1 text-[21px] font-normal text-[#26201F] tracking-tight">Usuario/Email</label>
+            <input pInputText id="id" name="id" type="text" [(ngModel)]="id" [required]="true" placeholder="Usuario">
+            <div *ngIf="validateId()" class="text-red-500 text-sm mt-1">Por favor, ingresa tu usuario</div>
+
             <label for="password" class="block mb-1 mt-5 text-[21px] font-normal text-[#26201F] tracking-tight">Contraseña</label>
-            <p-password id="password" name="password" autocomplete="off" [(ngModel)]="password" placeholder="Password" [feedback]="false" [toggleMask]="true" styleClass="mb-7"></p-password>
-        
-            <div class="flex flex-row">
-                <button pButton pRipple
-                        type="submit"
-                        label="Iniciar Sesión"
-                        class="btn justify-end mb-1 mx-auto"
-                        [disabled]="!loginForm.valid">
-                </button>
-            </div>
+            <p-password id="password" name="password" autocomplete="off" [(ngModel)]="password" placeholder="Password" [feedback]="false" [toggleMask]="true" [required]="true"></p-password>
+            <div *ngIf="validatePassword()" class="text-red-500 text-sm mt-1">Por favor, ingresa tu contraseña</div>
+
+            <app-progress-spinner [condition]="loading" [template]="problemResults"></app-progress-spinner>
+            <ng-template #problemResults> 
+                <div class="flex flex-row w-1/2 float-right mt-7">
+                    <button pButton pRipple
+                            type="submit"
+                            label="Iniciar Sesión"
+                            class="btn justify-end mb-1 mx-auto"
+                            [disabled]="!loginForm.valid">
+                    </button>
+                </div>
+            </ng-template>
         </form>
         
     </div>

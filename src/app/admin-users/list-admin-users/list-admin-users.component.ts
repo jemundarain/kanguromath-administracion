@@ -44,7 +44,7 @@ export class ListAdminUsersComponent implements OnInit {
       message: `¿Está seguro que desea eliminar el usuario ${adminUser.username}?`,
       accept: () => {
         this.adminUsersService.deletedAdminUser(adminUser._id);
-        this.messageService.add({ severity:'success', summary: 'Exitoso', detail: 'Usuario Eliminad 🗑' });
+        this.messageService.add({ severity:'success', summary: 'Exitoso', detail: 'Usuario Eliminado 🗑' });
         setTimeout(() => {
           location.reload();
         }, 1220);

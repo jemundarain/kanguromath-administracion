@@ -12,19 +12,16 @@ const routes: Routes = [
   {
     path: 'acm',
     loadChildren: () => import('./pages/pages.module').then( m => m.PagesModule ),
-    canLoad: [ AuthGuard ],
     canActivate: [ AuthGuard ]
   },
   {
     path: 'pruebas',
     loadChildren: () => import('./tests/tests.module').then( m => m.TestsModule ),
-    canLoad: [ AuthGuard ],
     canActivate: [ AuthGuard ]
   },
   {
     path: 'usuarios',
     loadChildren: () => import('./admin-users/admin-users.module').then( m => m.AdminUsersModule ),
-    canLoad: [ AuthGuard ],
     canActivate: [ AuthGuard ]
   },
   {

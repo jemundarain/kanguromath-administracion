@@ -1,4 +1,5 @@
-export interface Auth {
-    username: string;
-    password: string;
+export class Auth {
+
+    public constructor(public id: string, public password: string){}
+
 }

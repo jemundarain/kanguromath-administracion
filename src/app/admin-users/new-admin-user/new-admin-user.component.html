@@ -1,1 +1,72 @@
-<p>new-admin-user works!</p>
+<app-header title="Usuarios" [breadcrumbs]="items"></app-header>
+
+<app-progress-spinner [condition]="adminUser.username === null" [template]="newAdminUserForm"></app-progress-spinner>
+<ng-template #newAdminUserForm>
+    <form #newAdminUserForm="ngForm" (ngSubmit)="save()" class="flex flex-row mt-2">
+        <div class="w-2/3">
+            <div class="flex flex-row mb-6">
+                <label class="flex-none mr-3 my-auto text-[21px] font-normal text-[#26201F] tracking-tight w-fit">Nombre</label>
+                <input pInputText id="username" aria-describedby="username-help" [(ngModel)]="adminUser.name" (input)="generateUsername()" name="name"/>
+            </div>
+
+            <div class="flex flex-row mb-6">
+                <label class="flex-none mr-3 my-auto text-[21px] font-normal text-[#26201F] tracking-tight">Apellido</label>
+                <input pInputText id="username" aria-describedby="username-help" [(ngModel)]="adminUser.last_name" (input)="generateUsername()" name="last_name" />
+            </div>
+            
+            <div class="flex flex-row mb-6">
+                <label class="flex-none mr-3 my-auto text-[21px] font-normal text-[#26201F] tracking-tight">Usuario</label>
+                <input pInputText disabled id="username" aria-describedby="username-help" [(ngModel)]="adminUser.username" name="username" />
+            </div>
+
+            <div class="flex flex-row mb-6">
+                <label class="flex-none mr-3 my-auto text-[21px] font-normal text-[#26201F] tracking-tight">Sexo</label>
+                <div class="col-span-2 row-start-4">
+                    <p-radioButton *ngFor="let gender of sexs; let i = index"
+                                name="gender"
+                                [value]="gender.code"
+                                [label]="gender.name"
+                                [(ngModel)]="adminUser.sex"
+                                class="mr-4">
+                    </p-radioButton>
+                </div>
+            </div>
+
+            <div class="flex flex-row mb-6">
+                <label class="flex-none mr-3 my-auto text-[21px] font-normal text-[#26201F] tracking-tight">Email</label>
+                <input pInputText id="email" aria-describedby="username-help" [(ngModel)]="adminUser.email" name="email" />
+            </div>
+
+            <div class="flex flex-row mb-6">
+                <label class="flex-none mr-3 my-auto text-[21px] font-normal text-[#26201F] tracking-tight">Fecha de Nacimiento</label>
+                <p-calendar [(ngModel)]="date_birth" 
+                    class="w-40"
+                    name="date_birth"
+                    [showIcon]="true" 
+                    [minDate]="minDate" 
+                    [maxDate]="maxDate"
+                    [showIcon]="true"
+                    inputId="range" 
+                    inputStyleClass="btn"
+                ></p-calendar>           
+            </div>
+
+            <div class="flex flex-row mb-6">
+                <label class="flex-none mr-3 my-auto text-[21px] font-normal text-[#26201F] tracking-tight">Cambiar Contraseña</label>
+                <p-password [(ngModel)]="newPassword" [toggleMask]="true" [feedback]="false" name="password"></p-password>
+            </div>
+            <button pButton type="button" class="btn float-left" label="Volver" icon="pi pi-arrow-left" iconPos="left" (click)="back()"></button>
+            <button pButton pRipple label="Guardar" class="btn w-32 p-3 float-right" type="submit"></button>
+        </div>
+
+        <div class="w-1/3">
+            <p-image [src]="adminUser.avatar" [alt]="adminUser.username"></p-image>
+            <app-upload-file
+                (startUpload)="uploading = $event"
+                (endUpload)="addAvatar($event)"
+                [fileName]="getRandomAvatarName(adminUser.username)"
+                folder="usuarios">
+            </app-upload-file>         
+        </div>
+    </form>    
+</ng-template>

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { RadioOption } from '../../common/radio-option.interface';
 import { Test } from '../models/test-model';
 import { MenuItem, MessageService } from 'primeng/api';
@@ -7,6 +7,8 @@ import { TestService } from '../services/test.service';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
+
+import { FileUpload } from 'primeng/fileupload';
 
 @Component({
   selector: 'app-new-test',
@@ -21,7 +23,10 @@ export class NewTestComponent implements OnInit {
   levels: RadioOption[];
   selectedLevelCode: string;
   items: MenuItem[];
+  uploadUrl: string = 'http://localhost:3000/admin_uploads/post_test/';
   @ViewChild('addTestForm', { static: true }) addTestForm!: NgForm;
+  @ViewChild('uploadTestForm', { static: true }) uploadTestForm!: NgForm;
+  @ViewChild('uploadBtn') uploadBtn!: FileUpload;
 
   constructor( private testService: TestService,
                private location: Location,
@@ -75,6 +80,18 @@ export class NewTestComponent implements OnInit {
     setTimeout(() => {
       this.router.navigate([`/pruebas/ver/${this.test.test_id}`]);
     }, 1220);
+  }
+
+  uploadTest() {
+    this.test.test_id = `preliminar-${this.test.edition}-${this.test.levels}`;
+    this.uploadUrl += this.test.test_id;
+    console.log(this.uploadUrl);
+    this.uploadBtn.upload();
+    // this.testService.addNewTest(this.test);
+    // this.messageService.add({severity:'success', summary: 'Exitoso', detail: 'Prueba creada 🎉', life: 3250});
+    // setTimeout(() => {
+    //   this.router.navigate([`/pruebas/ver/${this.test.test_id}`]);
+    // }, 1220);
   }
 
 }
