@@ -31,11 +31,10 @@ export class UploadFileComponent implements OnInit {
       var newOption: Option = new Option( '', this.fileName.split('-')[0], res.url, res.fileId );
       this.endUpload.emit(newOption);
     } else {
-      var newfigure: Figure = new Figure( '', res.fileId, +res.name.split('-')[0], res.url, 'intermedia' );
+      let num_s = +res.name.split('-')[0];
+      var newfigure: Figure = new Figure( '', res.fileId, num_s, res.url, num_s===1? 'derecha':'intermedia' );
       this.endUpload.emit(newfigure);
     }
-    //this.testService.updateFigure(updateFigure);
-    //this.testService.deleteFigure(res.fileId);
   }
 
   handleUploadError(err: any) {

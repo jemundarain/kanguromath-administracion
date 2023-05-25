@@ -97,25 +97,28 @@ export class EditProblemComponent implements OnInit {
 
         if (thereFigures) {
           this.problem.figures.forEach((figure) => {
-            this.testService.moveFile(figure.url.split('/').slice(-1)[0], `preliminar/${this.problem._id}`).subscribe({
-              next: () => {},
-              error: (err) => { console.log(err);}
-            });
-            figure.url = GlobalConstants.concatenatePath(figure.url, `/preliminar/${this.problem._id}/`);
+            if (!figure.url.includes("preliminar")) {
+              this.testService.moveFile(figure.url.split('/').slice(-1)[0], `preliminar/${this.problem._id}`).subscribe({
+                next: () => {},
+                error: (err) => { console.log(err); }
+              });
+              figure.url = GlobalConstants.concatenatePath(figure.url, `/preliminar/${this.problem._id}/`);
+            }
           });
         }
 
         if (thereImagesInOptions) {
           this.problem.options.forEach((option) => {
-            if (GlobalConstants.isLink(option.answer)) {
+            if (GlobalConstants.isLink(option.answer) && !option.answer.includes("preliminar")) {
               this.testService.moveFile(option.answer.split('/').slice(-1)[0], `preliminar/${this.problem._id}`).subscribe({
                 next: () => {},
-                error: (err) => { console.log(err);}
+                error: (err) => { console.log(err); }
               });
               option.answer = GlobalConstants.concatenatePath(option.answer, `/preliminar/${this.problem._id}/`);
             }
           });
         }
+        console.log(this.problem);
         this.testService.updateProblem(this.test.test_id, this.num_s-1, this.problem);
         this.messageService.add({severity:'success', summary: 'Exitoso', detail: 'Problema editado 📝'});
         setTimeout(() => {

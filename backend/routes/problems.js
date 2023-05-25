@@ -17,15 +17,15 @@ app.get('/get_problem/:_id',(req, res) => {
 	.then((data) => {
 		res.json(data[0]);
 	})
-	.catch(() => {
-		console.log('Error fetching entries')
+	.catch((err) => {
+		res.status(500).json(err);
 	})
 })
 
 app.get('/get_all_problems_from_test/:test_id', async (req, res, next) => {
 	const problems_ids = await TestModel.findOne({ 'test_id': req.params.test_id })
 	  .then((data) => data?.problems || [])
-	  .catch(() => console.log('Error fetching /problemas/:test_id'));
+	  .catch((err) => res.status(500).json(err));
   
 	const problems = await ProblemModel.find({ _id: { $in: problems_ids } }).lean();
   
@@ -88,7 +88,6 @@ app.post('/post_problem/:test_id', async (req, res) => {
 	  await TestModel.updateOne({ 'test_id': req.params.test_id }, { $push: { 'problems': problem._id } });
 	  res.status(201).json(newProblem);
 	} catch (err) {
-	  console.log(err);
 	  res.status(400).json(err);
 	}
 });
@@ -100,8 +99,8 @@ app.put('/put_problem/', (req, res) => {
 	  statement: body.problem.statement,
 	  solution: body.problem.solution,
 	  category: body.problem.category,
-	  options: body.problem.options,
-	  figures: body.problem.figures
+	  options: body.problem.options.map(option => ({ ...option, _id: new ObjectId() })),
+	  figures: body.problem.figures.map(figure => ({ ...figure, _id: new ObjectId() }))
 	};
   
 	ProblemModel.findByIdAndUpdate(body.problem._id, updatedProblem)
@@ -158,13 +157,13 @@ app.delete('/delete_problem', (req, res) => {
 					}) 
 				})
 				.catch((err) => {
-					console.log(err);
+					res.status(500).json(err);
 				});
 			}
 		})
 	})
-	.catch(() => {
-		console.log('Error delete_problem 2')
+	.catch((err) => {
+		res.status(500).json(err);
 	})
 })
 

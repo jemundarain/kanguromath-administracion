@@ -63,10 +63,7 @@ export class NewProblemComponent implements OnInit {
   }
 
   addFigure() {
-    if(this.newProblem.figures.length === 0) 
-      this.newProblem.figures.push(new Figure('', '' , this.newProblem.figures.length + 1, '', 'derecha'));
-    else 
-      this.newProblem.figures.push(new Figure('', '' , this.newProblem.figures.length + 1, '', 'intermedia'));
+    this.newProblem.figures.push(new Figure('', '' , this.newProblem.figures.length + 1, '', this.newProblem.figures.length === 0? 'derecha':'intermedia'));
   }
 
   exitConfirmation(): Observable<boolean> {
