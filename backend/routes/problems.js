@@ -1,9 +1,16 @@
 var express = require('express');
 var app = express();
 const mongoose = require('mongoose');
+var ImageKit = require("imagekit");
 const { ObjectId } = mongoose.Types;
 const TestModel = require('../schemas/test-schema');
 const ProblemModel = require('../schemas/problem-schema')
+
+var imagekit = new ImageKit({
+	publicKey : 'public_VoBZkirixLnqfCe0fUaeGUj6XQs=',
+	privateKey : 'private_mBXoZE1JUrqhmxHZeApipeWtAXc=',
+	urlEndpoint : 'https://ik.imagekit.io/661ijdspv/'
+});
 
 app.get('/get_problem/:_id',(req, res) => {
 	ProblemModel.find({ '_id': req.params._id })
@@ -142,12 +149,16 @@ app.delete('/delete_problem', (req, res) => {
 			if (!test) {
 				ProblemModel.deleteOne({ '_id': problem_id })
 				.then(() => {
+					imagekit.deleteFolder(`preliminar/${problem_id}`, function(error, result) {
+						if(error) console.log(error);
+						else console.log(result);
+					});
 					res.status(200).json({
 						message: 'Delete successful'
 					}) 
 				})
 				.catch((err) => {
-					console.log('Error delete_problem 1')
+					console.log(err);
 				});
 			}
 		})
