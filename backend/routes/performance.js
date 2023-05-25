@@ -8,7 +8,7 @@ app.get('/algebra', async (req, res, next) => {
 	if(req.query.start && req.query.end) {
 		answers = await AnswerModel.find({ 'answer_time': {$gte: req.query.start, $lte: req.query.end }});
 		for(let i=0; i<answers.length; i++) {
-			problem = await ProblemModel.find({'problem_id': answers[i].problem});
+			problem = await ProblemModel.find({'_id': answers[i].problem});
 			if(problem[0] && problem[0].category === 'algebra') {
 				answers[i].option === problem[0].solution ? good++ : bad++;
 			}
@@ -30,7 +30,7 @@ app.get('/geometria', async (req, res, next) => {
 	if(req.query.start && req.query.end) {
 		answers = await AnswerModel.find({ 'answer_time': {$gte: req.query.start, $lte: req.query.end }});
 		for(let i=0; i<answers.length; i++) {
-			problem = await ProblemModel.find({'problem_id': answers[i].problem});
+			problem = await ProblemModel.find({'_id': answers[i].problem});
 			if(problem[0] && problem[0].category === 'geometria') {
 				answers[i].option === problem[0].solution ? good++ : bad++;
 			}
@@ -52,7 +52,7 @@ app.get('/combinatoria', async (req, res, next) => {
 	if(req.query.start && req.query.end) {
 		answers = await AnswerModel.find({ 'answer_time': {$gte: req.query.start, $lte: req.query.end }});
 		for(let i=0; i<answers.length; i++) {
-			problem = await ProblemModel.find({'problem_id': answers[i].problem});
+			problem = await ProblemModel.find({'_id': answers[i].problem});
 			if(problem[0] && problem[0].category === 'combinatoria') {
 				answers[i].option === problem[0].solution ? good++ : bad++;
 			}
@@ -74,7 +74,7 @@ app.get('/teoria-numeros', async (req, res, next) => {
 	if(req.query.start && req.query.end) {
 		answers = await AnswerModel.find({ 'answer_time': {$gte: req.query.start, $lte: req.query.end }});
 		for(let i=0; i<answers.length; i++) {
-			problem = await ProblemModel.find({'problem_id': answers[i].problem});
+			problem = await ProblemModel.find({'_id': answers[i].problem});
 			if(problem[0] && problem[0].category === 'teoria-numeros') {
 				answers[i].option === problem[0].solution ? good++ : bad++;
 			}
@@ -96,7 +96,7 @@ app.get('/global', async (req, res, next) => {
 	if(req.query.start && req.query.end) {
 		answers = await AnswerModel.find({ 'answer_time': {$gte: req.query?.start, $lte: req.query?.end }});
 		for(let i=0; i<answers.length; i++) {
-			problem = await ProblemModel.find({'problem_id': answers[i].problem});
+			problem = await ProblemModel.find({'_id': answers[i].problem});
 			if(problem[0]) {
 				answers[i].option === problem[0].solution ? good++ : bad++;
 			}

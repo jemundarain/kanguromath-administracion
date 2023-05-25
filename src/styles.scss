@@ -129,6 +129,10 @@ input[type=file] {
     @apply shadow-md;
 }
 
+.p-inputnumber input {
+    max-width: 80px;
+}
+
 .p-inputnumber-button {
     border-width: 0px !important;
     .pi::before {

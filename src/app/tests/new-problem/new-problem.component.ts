@@ -1,10 +1,11 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { GlobalConstants } from 'src/app/common/global-constants';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { Observable, of } from 'rxjs';
 import { Problem } from '../models/problem-model';
 import { Subject, switchMap } from 'rxjs';
-import { debounceTime } from 'rxjs/operators';
+import { debounceTime, tap } from 'rxjs/operators';
 import { TestService } from '../services/test.service';
 import { Test } from '../models/test-model';
 import { Option } from '../../shared/option-model';
@@ -17,13 +18,14 @@ import { OptionsComponent } from 'src/app/shared/options/options.component';
 @Component({
   selector: 'app-new-problem-component',
   templateUrl: './new-problem.component.html',
-  providers: [MessageService]
+  providers: [ConfirmationService, MessageService]
 })
 export class NewProblemComponent implements OnInit {
 
   constructor(
     private testService: TestService,
     private activatedRoute: ActivatedRoute,
+    private confirmationService: ConfirmationService,
     private messageService: MessageService,
     private location: Location
   ) { }
@@ -41,8 +43,6 @@ export class NewProblemComponent implements OnInit {
   term: string;
   figuresMap1 = GlobalConstants.FIGURES_MAP1;
   figuresMap2 = GlobalConstants.FIGURES_MAP2;
-
-  @ViewChild('appOptions', { static: true }) appOptions: OptionsComponent;
 
   ngOnInit(): void {
     this.options = GlobalConstants.NEW_PROBLEM_OPTIONS;
@@ -63,9 +63,41 @@ export class NewProblemComponent implements OnInit {
   }
 
   addFigure() {
-    this.newProblem.figures.push(new Figure('', '' , this.newProblem.figures.length + 1, '', 'intermedia'));
+    if(this.newProblem.figures.length === 0) 
+      this.newProblem.figures.push(new Figure('', '' , this.newProblem.figures.length + 1, '', 'derecha'));
+    else 
+      this.newProblem.figures.push(new Figure('', '' , this.newProblem.figures.length + 1, '', 'intermedia'));
   }
-  
+
+  exitConfirmation(): Observable<boolean> {
+    if (this.newProblem.statement === '' && this.newProblem.options.every((option) => option.answer === '') && this.newProblem.solution === '') {
+      this.newProblem.figures.forEach((figure) => {
+        this.testService.deleteFigure(figure.ik_id);
+      });
+      return of(true);
+    } else if (this.newProblem.statement && this.newProblem.options.every((option) => option.answer !== '')) {
+      return of(true);
+    } else {
+      return new Observable((observer) => {
+        this.confirmationService.confirm({
+          header: "Confirmación",
+          message: '¿Está seguro que desea salir sin guardar los cambios?',
+          accept: () => {
+            this.newProblem.figures.forEach((figure) => {
+              this.testService.deleteFigure(figure.ik_id);
+            });
+            observer.next(true);
+            observer.complete();
+          },
+          reject: () => {
+            observer.next(false);
+            observer.complete();
+          }
+        });
+      });
+    }
+  }  
+
   suggestions( term: string ) { 
     this.term = term;   
     if(term !== '') {
@@ -86,7 +118,7 @@ export class NewProblemComponent implements OnInit {
   }
 
   addProblem() {
-    this.testService.addExistingProblem(this.test.test_id, this.problemSelected.problem_id);
+    this.testService.addExistingProblem(this.test.test_id, this.problemSelected._id);
     this.messageService.add({severity:'success', summary: 'Exitoso', detail: 'Problema agregado ✅' });
     setTimeout(() => {
       this.location.back()
@@ -94,11 +126,49 @@ export class NewProblemComponent implements OnInit {
   }
 
   saveNewProblem() {
-    this.newProblem.problem_id = `${this.test.test_id}-#${this.newProblem.num_s}`;
-    this.testService.addNewProblem(this.newProblem, this.test._id);
-    this.messageService.add({severity:'success', summary: 'Exitoso', detail: 'Problema agregado ✅' });
+    this.testService.addNewProblem(this.newProblem, this.test.test_id).subscribe({
+      next: (newProblem) => {
+        const thereFigures = !!newProblem.figures.length;
+        const thereImagesInOptions = GlobalConstants.hasAtLeastOneOptionWithImageLink(newProblem.options);
+
+        if (thereFigures || thereImagesInOptions) {
+          this.testService.createFolder(newProblem._id, "preliminar");
+        }
+
+        if (thereFigures) {
+          newProblem.figures.forEach((figure) => {
+            this.testService.moveFile(figure.url.split('/').slice(-1)[0], `preliminar/${newProblem._id}`).subscribe({
+              next: () => {},
+              error: (err) => { console.log(err);}
+            });
+            figure.url = GlobalConstants.concatenatePath(figure.url, `/preliminar/${newProblem._id}/`);
+          });
+        }
+  
+        if (thereImagesInOptions) {
+          newProblem.options.forEach((option) => {
+            if (GlobalConstants.isLink(option.answer)) {
+              this.testService.moveFile(option.answer.split('/').slice(-1)[0], `preliminar/${newProblem._id}`).subscribe({
+                next: () => {},
+                error: (err) => { console.log(err);}
+              });
+              option.answer = GlobalConstants.concatenatePath(option.answer, `/preliminar/${newProblem._id}/`);
+            }
+          });
+        }
+
+        if (thereFigures || thereImagesInOptions) {
+          this.testService.updateProblem('', -1, newProblem);
+        }
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    });
+
+    this.messageService.add({ severity: 'success', summary: 'Exitoso', detail: 'Problema agregado ✅' });
     setTimeout(() => {
-      this.location.back()
+      this.location.back();
     }, 1220);
   }
 

@@ -1,4 +1,5 @@
 <p-accordion>
+    <!-- Opción A -->
     <p-accordionTab header="Opción A">
         <div class="flex flex-row gap-3 mb-6">
             <div class="p-2 pt-1 shadow-sm border-slate-600 border-2 w-fit h-10 rounded-full text-center">
@@ -23,7 +24,7 @@
         <ng-template #figureA>
             <h5 class="text-xl font-semibold text-slate-600 tracking-tight mb-2">Resultado</h5>
             <div class="flex flex-row justify-around">
-                <p-image *ngIf="!uploadings[0]"  [src]="options[0].answer" [preview]="true" [alt]="options[0].letter" width="auto"></p-image>
+                <p-image *ngIf="!uploadings[0]"  [src]="options[0].answer" [preview]="true" width="auto"></p-image>
                 <app-progress-spinner [condition]="uploadings[0]"></app-progress-spinner>
                 <app-upload-file
                     class="flex flex-col justify-center"
@@ -35,6 +36,8 @@
             </div>
         </ng-template>
     </p-accordionTab>
+
+    <!-- Opción B -->
     <p-accordionTab header="Opción B">
         <div class="flex flex-row gap-3 mb-6">
             <div class="p-2 shadow-sm border-slate-600 border-2 w-12 h-fit rounded-full text-center">
@@ -59,13 +62,13 @@
         <ng-template #figureB>
             <h5 class="text-xl font-semibold text-slate-600 tracking-tight mb-2">Resultado</h5>
             <div class="flex flex-row justify-around">
-                <p-image *ngIf="!uploadings[1]"  [src]="options[1].answer" [preview]="true" [alt]="options[0].letter" width="auto"></p-image>
+                <p-image *ngIf="!uploadings[1]"  [src]="options[1].answer" [preview]="true" width="auto"></p-image>
                 <app-progress-spinner [condition]="uploadings[0]"></app-progress-spinner>
                 <app-upload-file
                     class="flex flex-col justify-center"
                     (startUpload)="uploadings[1] = $event"
                     (endUpload)="addOptionFigure($event)"
-                    [fileName]="generateRandomOptionFigureName('A')"
+                    [fileName]="generateRandomOptionFigureName('B')"
                     [folder]="problem_id">
                 </app-upload-file>                                      
             </div>
@@ -95,13 +98,13 @@
         <ng-template #figureC>
             <h5 class="text-xl font-semibold text-slate-600 tracking-tight mb-2">Resultado</h5>
             <div class="flex flex-row justify-around">
-                <p-image *ngIf="!uploadings[2]"  [src]="options[2].answer" [preview]="true" [alt]="options[0].letter" width="auto"></p-image>
+                <p-image *ngIf="!uploadings[2]"  [src]="options[2].answer" [preview]="true" width="auto"></p-image>
                 <app-progress-spinner [condition]="uploadings[0]"></app-progress-spinner>
                 <app-upload-file
                     class="flex flex-col justify-center"
                     (startUpload)="uploadings[2] = $event"
                     (endUpload)="addOptionFigure($event)"
-                    [fileName]="generateRandomOptionFigureName('A')"
+                    [fileName]="generateRandomOptionFigureName('C')"
                     [folder]="problem_id">
                 </app-upload-file>                                      
             </div>
@@ -131,13 +134,13 @@
         <ng-template #figureD>
             <h5 class="text-xl font-semibold text-slate-600 tracking-tight mb-2">Resultado</h5>
             <div class="flex flex-row justify-around">
-                <p-image *ngIf="!uploadings[3]"  [src]="options[3].answer" [preview]="true" [alt]="options[0].letter" width="auto"></p-image>
+                <p-image *ngIf="!uploadings[3]"  [src]="options[3].answer" [preview]="true" width="auto"></p-image>
                 <app-progress-spinner [condition]="uploadings[0]"></app-progress-spinner>
                 <app-upload-file
                     class="flex flex-col justify-center"
                     (startUpload)="uploadings[3] = $event"
                     (endUpload)="addOptionFigure($event)"
-                    [fileName]="generateRandomOptionFigureName('A')"
+                    [fileName]="generateRandomOptionFigureName('D')"
                     [folder]="problem_id">
                 </app-upload-file>                                      
             </div>
@@ -167,13 +170,13 @@
         <ng-template #figureE>
             <h5 class="text-xl font-semibold text-slate-600 tracking-tight mb-2">Resultado</h5>
             <div class="flex flex-row justify-around">
-                <p-image *ngIf="!uploadings[4]"  [src]="options[4].answer" [preview]="true" [alt]="options[0].letter" width="auto"></p-image>
+                <p-image *ngIf="!uploadings[4]"  [src]="options[4].answer" [preview]="true"  width="auto"></p-image>
                 <app-progress-spinner [condition]="uploadings[0]"></app-progress-spinner>
                 <app-upload-file
                     class="flex flex-col justify-center"
                     (startUpload)="uploadings[4] = $event"
                     (endUpload)="addOptionFigure($event)"
-                    [fileName]="generateRandomOptionFigureName('A')"
+                    [fileName]="generateRandomOptionFigureName('E')"
                     [folder]="problem_id">
                 </app-upload-file>                                      
             </div>

@@ -1,13 +1,21 @@
 <app-progress-spinner [condition]="problem == null"></app-progress-spinner>
 <div [hidden]="problem == null">
     <!-- Encabezado -->
-    <app-header [title]="'Editar Problema #'+problem.num_s" [breadcrumbs]="items"></app-header>
+    <app-header [title]="'Editar Problema #'+num_s" [breadcrumbs]="items"></app-header>
     <div class="flex flex-row mb-3">
         <h5 class="block mb-1 my-auto text-[21px] font-normal text-[#26201F] tracking-tight mr-2">Fase:</h5><span class="text-[21px] text-[#26201F] tracking-tight font-semibold mr-8">Preliminar</span>
         <h5 class="block mb-1 my-auto text-[21px] font-normal text-[#26201F] tracking-tight mr-2">Edición: <span class="text-[21px] text-[#26201F] tracking-tight font-semibold mr-8">{{test.edition}}</span></h5>
         <h5 class="block mb-1 my-auto text-[21px] font-normal text-[#26201F] tracking-tight">Niveles: <span class="text-[21px] text-[#26201F] tracking-tight font-semibold mr-8">{{test.levels}}</span></h5>
     </div>
     <form (ngSubmit)="updateProblem()" #updateProblemForm="ngForm">
+        <!-- Número secuencial -->
+        <div class="grid grid-cols-12 gap-6">
+            <p-card class="col-span-2" header="Número">
+                <div class="flex flex-col gap-3">
+                    <p-inputNumber [(ngModel)]="num_s" name="num_s" mode="decimal" [min]="1" [max]="max" [showButtons]="true"></p-inputNumber>
+                </div>
+            </p-card>
+        </div>
         <!-- Figuras -->
         <ng-container *ngIf="problem">
             <div class="grid grid-cols-12 gap-6">
@@ -26,7 +34,7 @@
                                     (click)="addFigure()">
                             </button>
                         </div>
-                        <app-figures-table *ngIf="this.problem.figures.length" [figures]="problem.figures" [problem_id]="problem.problem_id"></app-figures-table>
+                        <app-figures-table *ngIf="this.problem.figures.length" [figures]="problem.figures" [_id]="problem.problem_id"></app-figures-table>
                     </div>
                 </p-card>
             </div>

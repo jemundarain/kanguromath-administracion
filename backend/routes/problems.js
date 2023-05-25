@@ -5,8 +5,8 @@ const { ObjectId } = mongoose.Types;
 const TestModel = require('../schemas/test-schema');
 const ProblemModel = require('../schemas/problem-schema')
 
-app.get('/get_problem/:problem_id',(req, res) => {
-	ProblemModel.find({ 'problem_id': req.params.problem_id})
+app.get('/get_problem/:_id',(req, res) => {
+	ProblemModel.find({ '_id': req.params._id })
 	.then((data) => {
 		res.json(data[0]);
 	})
@@ -16,43 +16,49 @@ app.get('/get_problem/:problem_id',(req, res) => {
 })
 
 app.get('/get_all_problems_from_test/:test_id', async (req, res, next) => {
-	var problems_id = [];
-	var problems = [];
-	await TestModel.find({ 'test_id': req.params.test_id })
-	.then((data) => {
-		problems_id = data[0].problems;
-	})
-	.catch(() => {
-		console.log('Error fetching /problemas/:test_id')
-	})
-	problems = await ProblemModel.find({ problem_id : { $in : problems_id } });
-	res.json(problems.sort((a,b) => a.num_s - b.num_s));
-})
-
-app.get('/search_problems',(req, res) => {
+	const problems_ids = await TestModel.findOne({ 'test_id': req.params.test_id })
+	  .then((data) => data?.problems || [])
+	  .catch(() => console.log('Error fetching /problemas/:test_id'));
+  
+	const problems = await ProblemModel.find({ _id: { $in: problems_ids } }).lean();
+  
+	const problemsMap = problems.reduce((map, problem) => {
+	  map[problem._id.toString()] = problem;
+	  return map;
+	}, {});
+  
+	res.json(problems_ids.map((id) => problemsMap[id.toString()]));
+  });
+	
+app.get('/search_problems', (req, res) => {
 	TestModel.aggregate([
-		{ $match: { 'edition': req.query.edition } },
-		{ $match: { 'levels': { $ne: req.query.levels } } },
-		{ $group: { _id: null, problems: { $push: "$problems" } } }
+	  { $match: { 'edition': req.query.edition } },
+	  { $match: { 'levels': { $ne: req.query.levels } } },
+	  { $group: { _id: null, problems: { $push: "$problems" } } }
 	])
 	.then((data) => {
-		var problems_ids = Array.from(new Set([].concat(...data[0].problems)));
-		const regex = new RegExp(req.query.term.replace(/\s+/g, '.*'), 'i');
-		ProblemModel.find({ 'problem_id': { $in: problems_ids.filter(problem => regex.test(problem)) } })
-		.then((data) => {
-			res.json(data);
-		})
-		.catch(() => {
-			console.log('Error fetching entries /search_problems1')
-		})
+	  var problems_ids = Array.from(new Set([].concat(...data[0].problems)));
+	  ProblemModel.find({
+		'_id': { $in: problems_ids },
+		'statement': { $regex: req.query.term, $options: 'i' }
+	  })
+	  .then((data) => {
+		res.json(data);
+	  })
+	  .catch(() => {
+		console.log('Error fetching entries /search_problems1');
+		res.json([]);
+	  });
 	})
 	.catch(() => {
-		res.json([]);
-	})
-})
+	  console.log('Error fetching entries /search_problems2');
+	  res.json([]);
+	});
+  });
+  
 
 app.put('/put_existing_problem/', (req, res) => {
-	TestModel.updateOne({ 'test_id': req.body.test_id }, { $push: { 'problems': req.body.problem_id } })
+	TestModel.updateOne({ 'test_id': req.body.test_id }, { $push: { 'problems': req.body._id } })
 	.then(() => {
 		res.status(200).json({
 			message: 'Update completed'
@@ -60,62 +66,81 @@ app.put('/put_existing_problem/', (req, res) => {
 	})
 })
 
-app.post('/post_problem/:_id', (req, res) => {
-	var body = req.body;
-	var problem = new ProblemModel({
+app.post('/post_problem/:test_id', async (req, res) => {
+	try {
+	  const body = req.body;
+	  const problem = new ProblemModel({
 		_id: new ObjectId(),
-		problem_id: body.problem_id,
-    	num_s: body.num_s,
-    	statement: body.statement,
-    	solution: body.solution,
-    	category: body.category,
-    	options: body.options.map(option => ({ ...option, _id:  new ObjectId() })),
-    	figures: body.figures.map(figure => ({ ...figure, _id:  new ObjectId() }))
-	});
-	
-	problem.save((err, newProblem) => {
-		if(err) {
-			console.log(err);
-			return res.status(400).json({
-				message: 'post_problem error',
-				errors: err
-			})
-		} else {
-			TestModel.updateOne({ '_id': req.params._id }, { $push: { 'problems': body.problem_id } })
-			.then(() => {
-				res.status(201).json({
-					problem: newProblem
-				});
-			})
-		}
-	});
-})
+		statement: body.statement,
+		solution: body.solution,
+		category: body.category,
+		options: body.options.map(option => ({ ...option, _id: new ObjectId() })),
+		figures: body.figures.map(figure => ({ ...figure, _id: new ObjectId() }))
+	  });
+	  const newProblem = await problem.save();
+	  await TestModel.updateOne({ 'test_id': req.params.test_id }, { $push: { 'problems': problem._id } });
+	  res.status(201).json(newProblem);
+	} catch (err) {
+	  console.log(err);
+	  res.status(400).json(err);
+	}
+});
+  
 
 app.put('/put_problem/', (req, res) => {
-	// x = req.body.figures;
-	// x.forEach(object => {
-	// 	delete object['_id'];
-	//   });
-	// console.log(x);
-	const updatedProblem = new ProblemModel({_id: req.body._id, problem_id: req.body.problem_id, num_s: req.body.num_s, statement: req.body.statement, solution: req.body.solution, category: req.body.category, options: req.body.options, figures: req.body.figures})
-	ProblemModel.updateOne({_id: req.body._id}, updatedProblem)
-	.then(() => {
-		res.status(200).json({
-			message: 'Update completed'
-		})    
-	})
-})
-
+	const body = req.body;
+	const updatedProblem = {
+	  statement: body.problem.statement,
+	  solution: body.problem.solution,
+	  category: body.problem.category,
+	  options: body.problem.options,
+	  figures: body.problem.figures
+	};
+  
+	ProblemModel.findByIdAndUpdate(body.problem._id, updatedProblem)
+	  .then(() => {
+		if(body.num_s !== -1) {
+			TestModel.findOne({ 'test_id': body.test_id })
+			.then(testModel => {
+				if (!testModel) {
+				return res.sendStatus(404);
+				}
+				const problems = testModel.problems;
+				const problemIndex = problems.findIndex(problem => problem === body.problem._id);
+				if (problemIndex === -1) {
+				return res.sendStatus(404);
+				}
+				problems.splice(problemIndex, 1);
+				problems.splice(body.num_s, 0, body.problem._id);
+				TestModel.updateOne({ 'test_id': body.test_id }, { problems: problems })
+				.then(() => {
+					res.status(201).json(updatedProblem);
+				})
+				.catch(err => {
+					res.status(500).json(err);
+				});
+			})
+			.catch(err => {
+				res.status(500).json(err);
+			});
+		}
+	  })
+	  .catch(err => {
+		res.status(500).json(err);
+	  });
+  });
+  
 app.delete('/delete_problem', (req, res) => {
+	var problem_id = req.query._id;
 	TestModel.updateOne(
 		{ 'test_id': req.query.test_id },
-		{ $pull: { 'problems': req.query.problem_id } }
+		{ $pull: { 'problems': problem_id } }
 	)
 	.then(() => {
-		TestModel.findOne({ 'problems': req.query.problem_id })
+		TestModel.findOne({ 'problems': problem_id })
 		.then((test) => {
 			if (!test) {
-				ProblemModel.deleteOne({ 'problem_id': req.query.problem_id })
+				ProblemModel.deleteOne({ '_id': problem_id })
 				.then(() => {
 					res.status(200).json({
 						message: 'Delete successful'

@@ -12,7 +12,7 @@ export class FiguresTableComponent implements OnInit {
   constructor( private testService: TestService) { }
 
   @Input() figures: Figure[] = [];
-  @Input() problem_id: string;
+  @Input() _id: string;
   uploadings: boolean[] = [];
 
   ngOnInit(): void {

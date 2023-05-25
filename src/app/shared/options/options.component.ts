@@ -25,6 +25,7 @@ export class OptionsComponent implements OnInit {
   @ViewChild('routineE', { static: true }) routineE: NgModel;
 
   ngOnInit(): void {
+    GlobalConstants.generateRandomSuffix();
     for(let i=0; i<this.options.length; i++) {
       this.options[i].answer.includes('http')? this.optionsTypes[i] = 'figure': this.optionsTypes[i] = 'routine';  
     }

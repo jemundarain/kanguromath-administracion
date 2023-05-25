@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { TestService } from '../services/test.service';
 import { Test } from '../models/test-model';
@@ -35,7 +35,6 @@ export class EditProblemComponent implements OnInit {
   constructor( private testService: TestService, 
                private activatedRoute: ActivatedRoute,
                private confirmationService: ConfirmationService,
-               private router: Router, 
                private messageService: MessageService,
                private location: Location ) { }
   
@@ -44,6 +43,8 @@ export class EditProblemComponent implements OnInit {
   problem: Problem;
   routine: string;
   items: MenuItem[];
+  num_s: number;
+  max: number;
   figuresMap1 = GlobalConstants.FIGURES_MAP1;
   figuresMap2 = GlobalConstants.FIGURES_MAP2;
 
@@ -58,24 +59,24 @@ export class EditProblemComponent implements OnInit {
   ngOnInit(): void {
     GlobalConstants.generateRandomSuffix();
     this.activatedRoute.params.pipe(
-      switchMap( ({ id }) => this.testService.getProblemById(id))
+      switchMap(({ id }) => {
+        return this.testService.getProblemById(id);
+      })
     ).subscribe( problem => {
       this.problem = problem;
-      this.testService.getTestByProblemId(this.problem.problem_id).subscribe( test => {
+      this.testService.getTestByProblemId(problem._id).subscribe( test => {
         this.test = test[0];
+        this.max = this.test.problems.length;
+        this.num_s = this.test.problems.indexOf(problem._id) + 1;
         this.items = [
           {label: 'Pruebas'},
           {label: `Preliminar ${this.test?.edition} ${this.test.levels}`},
-          {label: `Problema #${this.problem?.num_s}`}
+          {label: `Problema #${this.test.problems.indexOf(problem._id) + 1}`}
         ];
       })
       this.problem.figures.length ? this.routine = 'con-figura' : this.routine = 'sin-figura';
       this.problem.options.sort((a,b) => (a.letter > b.letter) ? 1 : ((b.letter > a.letter) ? -1 : 0));
-
     });
-  }
-
-  onSubmit(): void{
   }
 
   addFigure() {
@@ -83,31 +84,39 @@ export class EditProblemComponent implements OnInit {
   }
 
   updateProblem() {
-    if(this.updateProblemForm?.value.optionA === 'routine') {
-      this.problem.options[0].answer = this.updateProblemForm?.value.routineA
-    }
-
-    if(this.updateProblemForm?.value.optionB === 'routine') {
-      this.problem.options[1].answer = this.updateProblemForm?.value.routineB
-    }
-
-    if(this.updateProblemForm?.value.optionC === 'routine') {
-      this.problem.options[2].answer = this.updateProblemForm?.value.routineC
-    }
-    
-    if(this.updateProblemForm?.value.optionD === 'routine') {
-      this.problem.options[3].answer = this.updateProblemForm?.value.routineD
-    }
-
-    if(this.updateProblemForm?.value.optionE === 'routine') {
-      this.problem.options[4].answer = this.updateProblemForm?.value.routineE
-    }
-
     this.confirmationService.confirm({
       header: "Confirmación",
-      message: '¿Está seguro que desea editar este problema?',
+      message: '¿Estás seguro de que deseas editar este problema?',
       accept: () => {
-        this.testService.updateProblem(this.problem);
+        const thereFigures = !!this.problem.figures.length;
+        const thereImagesInOptions = GlobalConstants.hasAtLeastOneOptionWithImageLink(this.problem.options);
+
+        if (thereFigures || thereImagesInOptions) {
+          this.testService.createFolder(this.problem._id, "preliminar");
+        }
+
+        if (thereFigures) {
+          this.problem.figures.forEach((figure) => {
+            this.testService.moveFile(figure.url.split('/').slice(-1)[0], `preliminar/${this.problem._id}`).subscribe({
+              next: () => {},
+              error: (err) => { console.log(err);}
+            });
+            figure.url = GlobalConstants.concatenatePath(figure.url, `/preliminar/${this.problem._id}/`);
+          });
+        }
+
+        if (thereImagesInOptions) {
+          this.problem.options.forEach((option) => {
+            if (GlobalConstants.isLink(option.answer)) {
+              this.testService.moveFile(option.answer.split('/').slice(-1)[0], `preliminar/${this.problem._id}`).subscribe({
+                next: () => {},
+                error: (err) => { console.log(err);}
+              });
+              option.answer = GlobalConstants.concatenatePath(option.answer, `/preliminar/${this.problem._id}/`);
+            }
+          });
+        }
+        this.testService.updateProblem(this.test.test_id, this.num_s-1, this.problem);
         this.messageService.add({severity:'success', summary: 'Exitoso', detail: 'Problema editado 📝'});
         setTimeout(() => {
           this.location.back()
@@ -118,10 +127,6 @@ export class EditProblemComponent implements OnInit {
 
   back() {
     this.location.back()
-  }
-
-  uploadOption(event: any) {
-    console.log(event);
   }
 
 }

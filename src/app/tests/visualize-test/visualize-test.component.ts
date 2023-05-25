@@ -26,7 +26,7 @@ export class VisualizeTestComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.params
       .pipe(
-        switchMap( ({ id }) => this.testService.getTestById(id))
+        switchMap( ({ test_id }) => this.testService.getTestById(test_id))
       )
       .subscribe( test => {
         this.test = test;

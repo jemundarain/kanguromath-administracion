@@ -41,7 +41,7 @@
                                     (click)="addFigure()">
                             </button>
                         </div>
-                        <app-figures-table *ngIf="newProblem.figures?.length" [figures]="newProblem.figures" [problem_id]="newProblem.problem_id"></app-figures-table>
+                        <app-figures-table *ngIf="newProblem.figures?.length" [figures]="newProblem.figures" [_id]="newProblem._id"></app-figures-table>
                     </div>
                 </p-card>
             </div>
@@ -51,7 +51,7 @@
                 <h5 class="text-2xl font-bold text-[#26201F] tracking-tight">Opciones</h5>
                 <div class="col-span-12 h-min">
                     <div class="grid grid-cols-12 gap-8 mb-6">
-                        <app-options #appOptions (onChangeOptions)="newProblem.options = $event" [options]="newProblem.options" [problem_id]="newProblem.problem_id" class="col-span-10"></app-options>
+                        <app-options (onChangeOptions)="newProblem.options = $event" [options]="newProblem.options" [problem_id]="newProblem.problem_id" class="col-span-10"></app-options>
                     </div>
                 </div>
             </div>
@@ -89,16 +89,16 @@
             <ng-template #problemResults>            
                 <ul *ngIf="suggestedProblems?.length" class="list-none list-inside text-slate-700 bg-white rounded-md shadow-md">
                     <li (click)="seeProblem(problem)" *ngFor="let problem of suggestedProblems; let i = index" class="cursor-pointer hover:bg-[#fef9f0] pr-5 pl-5 pt-4 pb-4">
-                        <b>{{problem.num_s}}. </b>
+                        <b>{{i+1}}. </b>
                         <ng-katex-html [html]="problem.statement"></ng-katex-html>
                     </li>
                 </ul>
-                <span *ngIf="this.suggestedProblems?.length === 0 && term && !problemSelected" class="bg-white rounded-md shadow-md pr-5 pl-5 pt-4 pb-4">No hay ningún problema con el término {{term}}</span>
+                <span *ngIf="this.suggestedProblems?.length === 0 && term && !problemSelected" class="bg-white rounded-md shadow-md pr-5 pl-5 pt-4 pb-4">No hay ningún problema con el término "{{term}}"</span>
             </ng-template>
         </form>
         <span class="m-3"></span>
         <div *ngIf="problemSelected" class="bg-white rounded-md pt-6 pb-2 pl-8 pr-10 mb-16">
-            <app-problem [problem]="problemSelected"></app-problem>
+            <app-problem [problem]="problemSelected" [num_s]="num_s"></app-problem>
         </div>
         <button pButton type="button" class="btn float-left" label="Volver" icon="pi pi-arrow-left" iconPos="left" (click)="back()"></button>
         <button pButton
@@ -113,6 +113,7 @@
     </p-tabPanel>
 </p-tabView>
 
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"></p-confirmDialog>
 <p-toast position="bottom-center"></p-toast>
 
 

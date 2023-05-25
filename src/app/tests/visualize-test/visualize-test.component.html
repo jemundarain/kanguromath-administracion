@@ -36,8 +36,8 @@
     <app-progress-spinner [condition]="problems === undefined" [template]="problemT" class="mt-16"></app-progress-spinner>
     <ng-template #problemT>
         <div class="grid grid-cols-12 mx-16 pb-10 mb-12" [class]="problems.length != 0? 'bg-white rounded-bl rounded-br':''">
-            <div *ngFor="let problem of problems" class="col-start-3 col-span-8 mx-5">
-                <app-problem [problem]="problem" [test_id]="test.test_id"></app-problem>
+            <div *ngFor="let problem of problems; let i = index" class="col-start-3 col-span-8 mx-5">
+                <app-problem [num_s]="i+1" [problem]="problem" [test_id]="test.test_id"></app-problem>
             </div>
         </div>
     </ng-template>

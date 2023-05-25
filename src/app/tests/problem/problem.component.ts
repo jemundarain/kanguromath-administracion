@@ -23,6 +23,7 @@ export class ProblemComponent implements OnChanges {
 
   @Input() problem: Problem;
   @Input() test_id: string;
+  @Input() num_s: number;
   public body_problem: string;
   public right_img_url: string;
   public decode_statement: string;
@@ -48,10 +49,11 @@ export class ProblemComponent implements OnChanges {
         n++;
       }
     }
-    this.body_problem = `<b>${this.problem.num_s}.</b> ${this.decode_statement}`;
+    this.body_problem = `<b>${this.num_s}.</b> ${this.decode_statement}`;
     for(let i=this.problem.figures.length-1; i>=0; i--) {
-      if(this.problem.figures[i].position === 'derecha')
+      if(this.problem.figures[i].position === 'derecha') {
         this.right_img_url = this.problem.figures[i].url;
+      }
     }
   }
 
@@ -66,13 +68,15 @@ export class ProblemComponent implements OnChanges {
   }
 
   deleteProblem(problem: Problem){
-    this.testService.deleteProblem(this.test_id, problem.problem_id);
     this.confirmationService.confirm({
       header: "Confirmación",
-      message: `¿Está seguro que desea eliminar el problema #${problem.num_s}?`,
+      message: `¿Está seguro que desea eliminar el problema #${this.num_s}?`,
       accept: () => {
-        this.testService.deleteProblem(this.test_id, problem.problem_id);
-        this.messageService.add({ severity:'success', summary: 'Exitoso', detail: `Problema #${problem.num_s} eliminado 🗑` });
+        this.testService.deleteProblem(this.test_id, problem._id);
+        this.messageService.add({ severity:'success', summary: 'Exitoso', detail: `Problema #${this.num_s} eliminado 🗑` });
+        setTimeout(() => {
+          location.reload();
+        }, 1220);
       },
       reject: () => {}
     });

@@ -30,8 +30,8 @@ export class TestService {
         return this.http.get<string[]>(`${ this.baseUrl }/admin_tests/${edition}/levels`)
     }
     
-    getProblemById(problem_id: string): Observable<Problem> {
-        return this.http.get<Problem>(`${ this.baseUrl }/admin_problems/get_problem/${problem_id}`)
+    getProblemById(_id: string): Observable<Problem> {
+        return this.http.get<Problem>(`${ this.baseUrl }/admin_problems/get_problem/${_id}`)
     }
 
     getProblemsByTestId(test_id: string): Observable<Problem[]> {
@@ -66,26 +66,24 @@ export class TestService {
         })
     }
     
-    addNewProblem(problem: Problem, _id: string) {
-        this.http.post<{message: string}>(`${this.baseUrl}/admin_problems/post_problem/${_id}`, problem).subscribe((jsonData) => {
-          console.log(jsonData);
-        })
+    addNewProblem(problem: Problem, test_id: string) {
+        return this.http.post<Problem>(`${this.baseUrl}/admin_problems/post_problem/${test_id}`, problem);
     }
 
-    addExistingProblem(test_id: string, problem_id: string) {
-        this.http.put<{message: string}>(`${this.baseUrl}/admin_problems/put_existing_problem`, {test_id, problem_id}).subscribe((jsonData) => {
+    addExistingProblem(test_id: string, _id: string) {
+        this.http.put<{message: string}>(`${this.baseUrl}/admin_problems/put_existing_problem`, {test_id, _id}).subscribe((jsonData) => {
           console.log(jsonData);
         })
     }
     
-    updateProblem(problem: Problem) {
-        this.http.put<{message: string}>(`${this.baseUrl}/admin_problems/put_problem`, problem).subscribe((jsonData) => {
+    updateProblem(test_id: string, num_s: number, problem: Problem) {
+        return this.http.put<{message: string}>(`${this.baseUrl}/admin_problems/put_problem`, {test_id, num_s, problem}).subscribe((jsonData) => {
           console.log(jsonData);
         })
     }
 
-    deleteProblem(test_id: string, problem_id: string) {
-        this.http.delete<{message: string}>(`${this.baseUrl}/admin_problems/delete_problem?test_id=${test_id}&problem_id=${problem_id}`).subscribe((jsonData) => {
+    deleteProblem(test_id: string, _id: string) {
+        this.http.delete<{message: string}>(`${this.baseUrl}/admin_problems/delete_problem?test_id=${test_id}&_id=${_id}`).subscribe((jsonData) => {
             console.log(jsonData);
         })       
     }
@@ -116,6 +114,16 @@ export class TestService {
         this.http.delete<any>(`${this.baseUrl}/admin_uploads/upload-test/${ik_id}`).subscribe((data) => {
             console.log(data);
         });
+    }
+
+    createFolder(folderName: string, parentFolderPath: string) {
+        this.http.get<any>(`${this.baseUrl}/admin_uploads/create-folder?folder-name=${folderName}&parent-folder-path=${parentFolderPath}`).subscribe((data) => {
+            console.log(data);
+        });
+    }
+
+    moveFile(sourceFilePath: string, destinationPath: string) {
+        return this.http.post<any>(`${this.baseUrl}/admin_uploads/move-file`, {sourceFilePath, destinationPath});
     }
 
 

@@ -27,8 +27,7 @@ var imagekit = new ImageKit({
 });
 
 app.get('/imagekit-auth', (req, res) => {
-	var authenticationParameters = imagekit.getAuthenticationParameters();
-	res.json(authenticationParameters);
+	res.json(imagekit.getAuthenticationParameters());
 })
 
 app.delete('/imagekit-delete/:ik_id', (req, res) => {
@@ -37,6 +36,34 @@ app.delete('/imagekit-delete/:ik_id', (req, res) => {
 		else console.log(result);
 	});
 })
+
+app.get('/create-folder', (req, res) => {
+  const folderName = req.query['folder-name'] || '';
+  const parentFolderPath = req.query['parent-folder-path'] || '';
+  imagekit.createFolder({ folderName, parentFolderPath }, (err, result) => {
+    if (err) {
+      console.log(err);
+      res.status(500).json({ error: 'Error al crear la carpeta' });
+    } else {
+      console.log(result);
+      res.status(200).json({ message: 'Carpeta creada exitosamente' });
+    }
+  });
+});
+
+app.post('/move-file', (req, res) => {
+  imagekit.moveFile({
+    sourceFilePath: req.body.sourceFilePath || '',
+    destinationPath: req.body.destinationPath || '',
+  }, (err, moveRes) => {
+      if (err) {
+        return res.status(500).json(err);
+      } else {
+        return res.status(200).json(moveRes);
+      }
+    }
+  );
+});
 
 app.put('/put_figure/', (req, res) => {
   TestModel.updateOne(
@@ -69,7 +96,6 @@ app.put('/put_avatar/', (req, res) => {
 });
 
 app.post('/post_test/:test_id', multerUpload.single('file'), (req, res) => {
-  console.log(req.params.test_id);
   const file = req.file;
   console.log(file);
 

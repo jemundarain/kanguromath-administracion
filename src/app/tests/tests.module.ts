@@ -18,6 +18,8 @@ import { FiguresTableComponent } from './figures-table/figures-table.component';
 import { SharedModule } from "../shared/shared.module";
 import { NewProblemComponent } from './new-problem/new-problem.component';
 import { ProblemInputComponent } from './problem-input/problem-input.component';
+import { TestsGuard } from './guards/tests.guard';
+import { ConfirmationService } from 'primeng/api';
 
 @NgModule({
     declarations: [
@@ -42,6 +44,10 @@ import { ProblemInputComponent } from './problem-input/problem-input.component';
         HttpClientModule,
         KatexModule,
         SharedModule
+    ],
+    providers: [
+        TestsGuard,
+        ConfirmationService
     ]
 })
 export class TestsModule { }

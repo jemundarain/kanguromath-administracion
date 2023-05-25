@@ -1,4 +1,5 @@
 import { DateOption } from "../pages/interfaces/date-option.interfaces";
+import { Option } from "../shared/option-model";
 import { Ranking } from "../pages/interfaces/ranking.interfaces";
 import { RadioOption } from "./radio-option.interface";
 import * as dayjs from 'dayjs'
@@ -12,7 +13,7 @@ export class GlobalConstants {
         this.randomNumber = Math.floor(Math.random() * 1000);
     }
 
-    public static getRandomSuffix() : number {
+    public static getRandomSuffix(): number {
         return this.randomNumber;
     }
 
@@ -20,6 +21,24 @@ export class GlobalConstants {
         return `${ preffix }-${ GlobalConstants.getRandomSuffix() }`
     }
 
+    public static isLink(answer: string) {
+        var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
+          '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
+          '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+          '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
+          '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+          '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+        return !!pattern.test(answer);
+    }
+
+    public static concatenatePath(url: string, newPath: string): string {
+        const lastPath = url.split('/').pop();
+        return lastPath ? `${url.replace(/\/[^/]*$/, '')}${newPath}${lastPath}` : url;
+      }
+    
+    public static hasAtLeastOneOptionWithImageLink(options: Option[]) {
+        return options?.some(option => this.isLink(option.answer)) || false;
+    }
     
     public static SITE_TITLE: string = 'administrador-canguromath-app';
 

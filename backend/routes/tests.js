@@ -57,8 +57,8 @@ app.get('/get_tests_by_edition/:edition',(req, res, next) => {
 	})
 })
 
-app.get('/get_test/:id',(req, res, next) => {
-	TestModel.find({ 'test_id': req.params.id})
+app.get('/get_test/:test_id',(req, res, next) => {
+	TestModel.find({ 'test_id': req.params.test_id})
 	.then((data) => {
 		res.json(data[0]);
 	})
@@ -67,8 +67,8 @@ app.get('/get_test/:id',(req, res, next) => {
 	})
 })
 
-app.get('/get_test_by_problem/:problem_id',(req, res) => {
-	TestModel.find({ 'problems': {$elemMatch: {$eq: req.params.problem_id }}})
+app.get('/get_test_by_problem/:_id', (req, res) => {
+	TestModel.find({ 'problems': {$elemMatch: {$eq: decodeURIComponent(req.params._id) }}})
 	.then((data) => {
 		res.json(data);
 	})
@@ -123,7 +123,7 @@ app.delete('/delete_test/:_id', (req, res) => {
 		return TestModel.distinct("problems", { _id: { $ne: req.params._id }, edition: prueba.edition })
 		  .then((result) => {
 			return ProblemModel.deleteMany({
-				problem_id: {
+				_id: {
 					$in: problemasIds,
 					$nin: result
 				}
