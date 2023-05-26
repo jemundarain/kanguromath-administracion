@@ -1,11 +1,11 @@
-<app-progress-spinner [condition]="test == undefined" [template]="settingsT"></app-progress-spinner>
-<ng-template #settingsT>
+<!-- <app-progress-spinner [condition]="test == undefined" [template]="settingsT"></app-progress-spinner>
+<ng-template #settingsT> -->
     <!-- Encabezado -->
     <app-header title="Editar Prueba" [breadcrumbs]="items"></app-header>
     <form (ngSubmit)="updateTest()"
         #editTestForm="ngForm">
         <div class="flex gap-2 mb-6">
-            <h5 class="text-xl my-auto font-semibold text-slate-600 tracking-tight">Edición:</h5>
+            <h5 class="text-xl my-auto font-semibold text-slate-600 tracking-tight">Edición</h5>
             <p-inputNumber [(ngModel)]="test.edition" 
                         name="edition" 
                         [format]="false" 
@@ -13,7 +13,7 @@
                         [min]="minEdition"
                         [max]="maxEdition">
             </p-inputNumber>    
-            <h5 class="text-xl my-auto font-semibold text-slate-600 tracking-tight ml-5">Año Escolar:</h5>
+            <h5 class="text-xl my-auto font-semibold text-slate-600 tracking-tight ml-5">Año Escolar</h5>
             <p-dropdown  [(ngModel)]="test.levels"
                         name="levels"
                         class="col-span-2 my-auto"
@@ -21,16 +21,17 @@
                         optionLabel="name"
                         optionValue="code">
             </p-dropdown>
-            <h5 class="text-xl my-auto font-semibold text-slate-600 tracking-tight ml-5">Publicada:</h5>
-            <p-inputSwitch [(ngModel)]="test.state" class="mt-2 mr-8" name="state"></p-inputSwitch>
+            <h5 class="text-xl my-auto font-semibold text-slate-600 tracking-tight ml-5">Publicada</h5>
+            <p-inputSwitch [(ngModel)]="test.is_published" class="mt-2 mr-8" name="is_published" (onChange)="validatePublished($event)"></p-inputSwitch>
             <button pButton pRipple
+                    [disabled]="disabledEditTestSubmit()"
                     label="Guardar" 
                     class="btn col-span-2 col-start-5" 
                     type="submit">
             </button>
         </div>
     </form>
-</ng-template>
+<!-- </ng-template> -->
 
 <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"></p-confirmDialog>
 <p-toast position="bottom-center"></p-toast>

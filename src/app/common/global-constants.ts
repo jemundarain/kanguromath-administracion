@@ -31,6 +31,29 @@ export class GlobalConstants {
         return !!pattern.test(answer);
     }
 
+    public static filterLevels(levels: string[]): RadioOption[] {
+        return GlobalConstants.LEVELS.filter(level => {
+          for (let i = 0; i < levels.length; i++) {
+            if (levels[i] === '1ero-2do' && (level.code === '1ero' || level.code === '2do' || level.code === '2do-3ero')) {
+              return false;
+            }
+            if (levels[i] === '2do' && (level.code === '1ero-2do' || level.code === '2do' || level.code === '2do-3ero')) {
+              return false;
+            }
+            if (levels[i] === '5to' && (level.code === '4to-5to' || level.code === '5to')) {
+              return false;
+            }
+            if (levels[i].includes(level.code)) {
+              return false;
+            }
+            if (level.code.includes(levels[i])) {
+              return false;
+            }
+          }
+          return true;
+        });
+      }  
+
     public static concatenatePath(url: string, newPath: string): string {
         const lastPath = url.split('/').pop();
         return lastPath ? `${url.replace(/\/[^/]*$/, '')}${newPath}${lastPath}` : url;

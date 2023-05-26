@@ -78,37 +78,33 @@ app.get('/get_test_by_problem/:_id', (req, res) => {
 })
 
 app.post('/post_test/', (req, res) => {
-	const _id = new ObjectId();
-	const updatedTest = {
-	  _id: _id,
-	  test_id: req.body.test_id,
-	  levels: req.body.levels,
-	  edition: req.body.edition,
-	  state: req.body.state,
-	  problems: req.body.problems
-	};
-	TestModel.create(updatedTest)
+	const body = req.body;
+	TestModel.create({
+		_id: new ObjectId(),
+		test_id: body.test_id,
+		levels: body.levels,
+		edition: body.edition,
+		is_published: body.is_published,
+		problems: body.problems
+	})
 	.then(() => {
 		res.status(200).json({
 			message: 'Create completed'
 		});
 	})
 	.catch(err => {
-		res.status(500).json({
-			error: err
-		});
+		res.status(500).json(err);
 	});
 })
 
 app.put('/put_test/', (req, res) => {
-	const updatedTest = new TestModel({_id: req.body._id, test_id: req.body.test_id, levels: req.body.levels, edition: req.body.edition, problems: req.body.problems})
-	TestModel.updateOne({_id: req.body._id}, updatedTest)
-	.then(() => {
+	TestModel.updateOne({_id: req.body._id}, req.body)
+	  .then(() => {
 		res.status(200).json({
-			message: 'Update completed'
-		})    
-	})
-})
+		  message: 'Update completed'
+		});
+	  });
+});
 
 app.delete('/delete_test/:_id', (req, res) => {
 	let prueba;

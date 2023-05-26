@@ -2,7 +2,7 @@
 
 <!-- Edición combobox -->
 <div class="flex gap-2 mb-6">
-    <h5 class="text-[21px] font-normal text-[#26201F] tracking-tight">Edición:</h5>
+    <h5 class="text-[21px] font-normal text-[#26201F] tracking-tight">Edición</h5>
     <form #editionsForm="ngForm">
         <p-dropdown class="col-span-2 my-auto" [options]="editions" [(ngModel)]="edition" name="edition"></p-dropdown>
     </form>
@@ -13,11 +13,12 @@
 <app-progress-spinner [condition]="!tests" [template]="tableT"></app-progress-spinner>
 <ng-template #tableT>
     <div class="grid grid-cols-12 mb-6" *ngIf="tests.length">
-        <p-table [value]="tests" class="col-span-6" id="tests-table">
+        <p-table [value]="tests" class="col-span-7" id="tests-table">
             <ng-template pTemplate="header">
                 <tr>
                     <th>Año</th>
-                    <th>Estado</th>
+                    <th>Publicada</th>
+                    <th>Problemas</th>
                     <th>Ver</th>
                     <th>Editar</th>
                     <th>Eliminar</th>
@@ -26,7 +27,8 @@
             <ng-template pTemplate="body" let-test>
                 <tr>
                     <td>{{test.levels | levelsTittle }}</td>
-                    <td><i *ngIf="test.state" class="pi pi-check" pTooltip="Publicada" tooltipPosition="top"></i><i *ngIf="!test.state" class="pi pi-clock text-300" pTooltip="Pendiente" tooltipPosition="top"></i></td>
+                    <td><i *ngIf="test.is_published" class="pi pi-check" pTooltip="Publicada" tooltipPosition="top"></i><i *ngIf="!test.is_published" class="pi pi-times text-300" pTooltip="Pendiente" tooltipPosition="top"></i></td>
+                    <td>{{test.problems.length}}</td>
                     <td><a [routerLink]="['/pruebas/ver', test.test_id ]"><i class="pi pi-eye"></i></a></td>
                     <ng-container *ngIf="app_enabled; else editTest">
                         <td><a (click)="appDisabledAlert()"><i class="pi pi-file-edit disabled"></i></a></td>

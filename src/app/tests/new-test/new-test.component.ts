@@ -36,7 +36,7 @@ export class NewTestComponent implements OnInit {
   ngOnInit(): void {
     this.addTestForm.form.valueChanges.subscribe((data) => {
       this.testService.getLevelsByEdition(data.edition).subscribe(levels => { 
-        this.levels = this.filterLevels(levels);
+        this.levels = GlobalConstants.filterLevels(levels);
       });
     });
     this.test = new Test('', '', '', GlobalConstants.MAX_DATE_EDITION.toString(), false, [])
@@ -44,30 +44,7 @@ export class NewTestComponent implements OnInit {
       {label: 'Pruebas'},
       {label: 'Prueba nueva'}
     ];
-  }
-
-  filterLevels(levels: string[]): RadioOption[] {
-    return GlobalConstants.LEVELS.filter(level => {
-      for (let i = 0; i < levels.length; i++) {
-        if (levels[i] === '1ero-2do' && (level.code === '1ero' || level.code === '2do' || level.code === '2do-3ero')) {
-          return false;
-        }
-        if (levels[i] === '2do' && (level.code === '1ero-2do' || level.code === '2do' || level.code === '2do-3ero')) {
-          return false;
-        }
-        if (levels[i] === '5to' && (level.code === '4to-5to' || level.code === '5to')) {
-          return false;
-        }
-        if (levels[i].includes(level.code)) {
-          return false;
-        }
-        if (level.code.includes(levels[i])) {
-          return false;
-        }
-      }
-      return true;
-    });
-  }                      
+  }                    
 
   onBasicUpload(ev: any) {    
     console.log("ESTOY EN onBasicUpload -> EVENTO ", ev)
@@ -85,7 +62,6 @@ export class NewTestComponent implements OnInit {
   uploadTest() {
     this.test.test_id = `preliminar-${this.test.edition}-${this.test.levels}`;
     this.uploadUrl += this.test.test_id;
-    console.log(this.uploadUrl);
     this.uploadBtn.upload();
     // this.testService.addNewTest(this.test);
     // this.messageService.add({severity:'success', summary: 'Exitoso', detail: 'Prueba creada 🎉', life: 3250});

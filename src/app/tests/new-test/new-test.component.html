@@ -1,18 +1,19 @@
 <app-header title="Prueba Nueva" [breadcrumbs]="items"></app-header>
 
-<!-- Tipo de subida -->
-<div class="flex gap-2 mb-6">
-    <h5 class="text-[21px] font-normal text-[#26201F] tracking-tight">Tipo de subida:</h5>
-</div>
-
 <p-tabView>
     <p-tabPanel header="Automática">
         <!-- Subida Automática -->
         <form #uploadTestForm="ngForm">
             <div class="flex gap-2 mb-6">
-                <h5 class="text-[21px] font-normal text-[#26201F] tracking-tight">Edición:</h5>
-                <p-inputNumber [(ngModel)]="test.edition" name="edition" [showButtons]="true" [min]="minEdition" [max]="maxEdition" [format]="false"></p-inputNumber>    
-                <h5 class="text-[21px] font-normal text-[#26201F] tracking-tight ml-5">Año Escolar:</h5>
+                <h5 class="text-[21px] font-normal text-[#26201F] tracking-tight">Edición</h5>
+                <p-inputNumber [(ngModel)]="test.edition"
+                            name="edition"
+                            [format]="false"
+                            [showButtons]="true"
+                            [min]="minEdition"
+                            [max]="maxEdition">
+                </p-inputNumber>    
+                <h5 class="text-[21px] font-normal text-[#26201F] tracking-tight ml-5">Año Escolar</h5>
                 <p-dropdown [(ngModel)]="test.levels" 
                             name="level" 
                             class="col-span-2 my-auto mr-8" 
@@ -47,9 +48,9 @@
         <!-- Subida Manual -->
         <form #addTestForm="ngForm">
             <div class="flex gap-2 mb-6">
-                <h5 class="text-[21px] font-normal text-[#26201F] tracking-tight">Edición:</h5>
+                <h5 class="text-[21px] font-normal text-[#26201F] tracking-tight">Edición</h5>
                 <p-inputNumber [(ngModel)]="test.edition" name="edition" [showButtons]="true" [min]="minEdition" [max]="maxEdition" [format]="false"></p-inputNumber>    
-                <h5 class="text-[21px] font-normal text-[#26201F] tracking-tight ml-5">Año Escolar:</h5>
+                <h5 class="text-[21px] font-normal text-[#26201F] tracking-tight ml-5">Año Escolar</h5>
                 <p-dropdown [(ngModel)]="test.levels" 
                             name="level" 
                             class="col-span-2 my-auto mr-8" 

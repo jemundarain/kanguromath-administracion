@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnChanges, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { TestService } from '../services/test.service';
 import { RadioOption } from '../../common/radio-option.interface';
@@ -26,24 +26,17 @@ export class EditTestComponent implements OnInit {
   items: MenuItem[];
   test!: Test;
 
-  @ViewChild('editTestForm') editTestForm!: NgForm;
+  @ViewChild('editTestForm', { static: true }) editTestForm!: NgForm;
 
   constructor( private testService: TestService,
-               private router: Router,
                private activatedRoute: ActivatedRoute,
                private confirmationService: ConfirmationService,
                private location: Location,
                private messageService: MessageService) { }
 
   ngOnInit(): void {
-    this.levels = GlobalConstants.LEVELS;
-
-    
     this.activatedRoute.params
-    .pipe(
-      switchMap( ({ id }) => this.testService.getTestById(id))
-      )
-      .subscribe( test => {
+      .pipe( switchMap( ({ id }) => this.testService.getTestById(id))).subscribe( test => {
         this.test = test;
         this.items = [
           {label: 'Pruebas'},
@@ -51,6 +44,27 @@ export class EditTestComponent implements OnInit {
           {label: `Preliminar ${this.test.edition} ${this.test.levels}`}
         ];
       });
+
+    this.editTestForm.form.valueChanges.subscribe((data) => {
+      this.testService.getLevelsByEdition(data.edition).subscribe(levels => {
+        this.levels = GlobalConstants.filterLevels(levels);
+        GlobalConstants.LEVELS.filter(level => {
+          if(this.test.levels.includes(level.code)) {
+            this.levels.push(level);
+          }
+        })
+      });
+    });
+  }
+
+  validatePublished(e: any) {
+    if((this.test.is_published) && (this.test.problems.length < 30)) {
+      this.messageService.add({severity:'warn', summary: 'Rechazado', detail: 'No es posible publicar la prueba porque tiene menos de 30 problemas'});
+    }
+  }
+
+  disabledEditTestSubmit() {
+    return (this.test.is_published) && (this.test.problems.length < 30);
   }
   
   updateTest() {
@@ -58,9 +72,7 @@ export class EditTestComponent implements OnInit {
       header: "Confirmación",
       message: '¿Está seguro que desea editar esta prueba?',
       accept: () => {
-        console.log(this.editTestForm?.form.value.state);
-        const test = new Test(this.test._id, this.test.test_id, this.editTestForm?.form.value.levels, this.editTestForm?.form.value.edition, this.editTestForm?.form.value.state, this.test.problems);
-        this.testService.updateTest(test);
+        this.testService.updateTest(this.test);
         this.messageService.add({severity:'success', summary: 'Exitoso', detail: 'Prueba editada 📝'});
         setTimeout(() => {
           this.location.back()

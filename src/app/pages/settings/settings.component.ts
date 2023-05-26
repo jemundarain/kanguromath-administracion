@@ -25,8 +25,7 @@ export class SettingsComponent implements OnInit {
   
   constructor( private pagesService: PagesService,
                private confirmationService: ConfirmationService,
-               private messageService: MessageService,
-               private testService: TestService) { }
+               private messageService: MessageService) { }
 
   ngOnInit(): void {
     this.pagesService.getAppState().subscribe((global) => {
