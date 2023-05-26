@@ -59,29 +59,29 @@ export class InformeGeneralComponent implements OnInit {
     Chart.defaults.color = "#26201f";
     Chart.defaults.font.family = 'Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"';
     
-    /*Set Usuarios Registrados*/
+    /*Set Usuarios Registrados
     this.pagesService.getMinimumRegistrationDate().subscribe((data) => {
       this.minDate = new Date(data);
-    });
+    });*/
 
     this.dateFilterForm.form.valueChanges.subscribe((data) => {
       this.basicData = null;
       switch (this.dateFilterForm?.form.value.dateOption) {
-        case GlobalConstants.DATE_OPTIONS[0].code: //beginning
-          //this.dateStart = dayjs(this.minDate).format('YYYY-MM-DD');
-          this.dateStart = '2023-02-15';
-        break;
-        case GlobalConstants.DATE_OPTIONS[1].code: //today
+        case GlobalConstants.DATE_OPTIONS[0].code: //today
           this.dateStart = GlobalConstants.getDateBackString(0);
         break;
-        case GlobalConstants.DATE_OPTIONS[2].code: //yesterday
+        case GlobalConstants.DATE_OPTIONS[1].code: //yesterday
           this.dateStart = GlobalConstants.getDateBackString(1);
         break;
-        case GlobalConstants.DATE_OPTIONS[3].code: //last-7days
+        case GlobalConstants.DATE_OPTIONS[2].code: //last-7days
           this.dateStart = GlobalConstants.getDateBackString(6);
         break;
-        case GlobalConstants.DATE_OPTIONS[4].code: //last-30days
+        case GlobalConstants.DATE_OPTIONS[3].code: //last-30days
           this.dateStart = GlobalConstants.getDateBackString(29);
+        break;
+        case GlobalConstants.DATE_OPTIONS[4].code: //beginning
+        //this.dateStart = dayjs(this.minDate).format('YYYY-MM-DD');
+          this.dateStart = '2023-02-15';
         break;
         case GlobalConstants.DATE_OPTIONS[5].code: //customize
           if(data?.dates && data?.dates[0] && data?.dates[1]) {

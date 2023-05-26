@@ -96,11 +96,11 @@ export class GlobalConstants {
     }
 
     public static DATE_OPTIONS: DateOption[] = [
-        {name: 'Desde el comienzo', code: 'beginning'},
         {name: 'Hoy', code: 'today'},
         {name: 'Ayer', code: 'yesterday'},
         {name: 'Últimos 7 días', code: 'last-7days'},
         {name: 'Últimos 30 días', code: 'last-30days'},
+        {name: 'Desde el comienzo', code: 'beginning'},
         {name: 'Rango de fecha personalizado', code: 'customize'},
     ]
 
