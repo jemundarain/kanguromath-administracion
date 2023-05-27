@@ -7,7 +7,7 @@
     </div>
 
     <div id="navbar" class="flex flex-col relative h-fit pl-10 pt-6 pr-12" [class]="expanded ? 'transformed-state' : ''">
-        <app-navbar [expanded]="expanded" (onEmitExpanded)="changeExpanded($event)"></app-navbar>
+        <app-navbar></app-navbar>
         <router-outlet class="mt-7"></router-outlet>
     </div>
 </div>

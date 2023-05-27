@@ -49,10 +49,6 @@ export class NavbarComponent {
     });  
   }
   
-  emitExpanded() {
-    this.onEmitExpanded.emit(this.expanded);
-  }
-
   goToProfile() {
     this.router.navigate([`/usuarios/ver/${this.adminUser.username}`]);
   }

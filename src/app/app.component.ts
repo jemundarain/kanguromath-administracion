@@ -36,8 +36,4 @@ export class AppComponent {
     this.primengConfing.ripple = true;
     this.primengConfing.setTranslation(GlobalConstants.TRANSLATION);
   }
-
-  changeExpanded(arg: boolean) {
-    this.expanded = !arg;
-  }
 }
