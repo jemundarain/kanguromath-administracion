@@ -1,15 +1,13 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { ChartConfiguration, ChartDataset, DatasetChartOptions } from 'chart.js';
-import { DateOption } from '../interfaces/date-option.interfaces';
+import { NgForm } from '@angular/forms';
+
+import { RadioOption } from 'src/app/common/radio-option.interface';
 import { PagesService } from '../services/pages.service';
-import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { Subscription, switchMap } from 'rxjs';
-import { FormBuilder, FormGroup, Validators, NgForm } from '@angular/forms';
 import { GlobalConstants } from 'src/app/common/global-constants';
 import { Ranking } from '../interfaces/ranking.interfaces';
+
 import { Chart } from 'chart.js/auto';
 import * as dayjs from 'dayjs'
-
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import { MessageService } from 'primeng/api';
@@ -22,9 +20,7 @@ import { MessageService } from 'primeng/api';
 export class GeneralReportComponent implements OnInit {
 
   constructor( private pagesService: PagesService,
-               private messageService: MessageService,
-               private router: Router,
-               private activatedRoute: ActivatedRoute ) { }
+               private messageService: MessageService ) { }
   
   @ViewChild('dateFilterForm', { static: true }) dateFilterForm!: NgForm;
   @ViewChild('report') report!: ElementRef;
@@ -34,38 +30,42 @@ export class GeneralReportComponent implements OnInit {
 
   //Opciones de fecha
   dateOption: string;
-  dateOptions: DateOption[] = this.pagesService.setCurrentDatesInLabels(GlobalConstants.DATE_OPTIONS);
+  dateOptions: RadioOption[] = this.pagesService.setCurrentDatesInLabels(GlobalConstants.DATE_OPTIONS);
 
   //Calendario
   dates: Date[]
   minDate: Date;
   maxDate: Date = new Date();
+  dateStart: string;
+  dateEnd: string = dayjs().format('YYYY-MM-DD');
+  daysBack: number;
 
   //Line chart
-  basicData: any;
-  basicOptions = GlobalConstants.BASIC_OPTIONS;
-  labels: string[] = [];
+  lineChartData: any;
+  lineChartOptions = GlobalConstants.BASIC_OPTIONS;
+  labels: string[];
   data: number[];
   
   //Ranking por estados
   ranking: Ranking[];
-  dateStart: string;
-  dateEnd: string = dayjs().format('YYYY-MM-DD');
-
-  daysBack: number;
 
   ngOnInit(): void {
-    Chart.defaults.font.size = 18;
-    Chart.defaults.color = "#26201f";
-    Chart.defaults.font.family = 'Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"';
+    Chart.defaults.font.size = GlobalConstants.CHART_FONT_SIZE;
+    Chart.defaults.color = GlobalConstants.CHART_COLOR;
+    Chart.defaults.font.family = GlobalConstants.CHART_FONT_FAMILY;
     
-    /*Set Usuarios Registrados
+    //Fecha mínima
     this.pagesService.getMinimumRegistrationDate().subscribe((data) => {
       this.minDate = new Date(data);
-    });*/
+    });
+    
+    //Ranking
+    this.pagesService.getRanking().subscribe(ranking => {
+      this.ranking = ranking;
+    });
 
     this.dateFilterForm.form.valueChanges.subscribe((data) => {
-      this.basicData = null;
+      this.lineChartData = null;
       switch (this.dateFilterForm?.form.value.dateOption) {
         case GlobalConstants.DATE_OPTIONS[0].code: //today
           this.dateStart = GlobalConstants.getDateBackString(0);
@@ -80,8 +80,7 @@ export class GeneralReportComponent implements OnInit {
           this.dateStart = GlobalConstants.getDateBackString(29);
         break;
         case GlobalConstants.DATE_OPTIONS[4].code: //beginning
-        //this.dateStart = dayjs(this.minDate).format('YYYY-MM-DD');
-          this.dateStart = '2023-02-15';
+        this.dateStart = dayjs(this.minDate).format('YYYY-MM-DD');
         break;
         case GlobalConstants.DATE_OPTIONS[5].code: //customize
           if(data?.dates && data?.dates[0] && data?.dates[1]) {
@@ -94,14 +93,12 @@ export class GeneralReportComponent implements OnInit {
       }
 
       //Usuarios Registrados
-      if(this.numberUsers === undefined) {
-        this.pagesService.getNumberUsersByDateRangeTotal()
-          .subscribe( data => this.numberUsers = data );
-      }
+      this.pagesService.getNumberUsersByDateRangeTotal(this.dateStart, this.dateEnd)
+        .subscribe( numberUsers => this.numberUsers = numberUsers );
 
       //Line chart
       this.pagesService.getNumberUsersByDateRange(this.dateStart, this.dateEnd).subscribe((data) => {
-        this.basicData = {
+        this.lineChartData = {
           labels: this.pagesService.getLabelsDateRange(this.dateStart, this.dateEnd),
           datasets: [{
             label: 'Usuarios',
@@ -114,11 +111,6 @@ export class GeneralReportComponent implements OnInit {
         }
       });
     })
-
-    /*Ordenamiento de mayor a menor del ranking*/
-    this.pagesService.getRanking().subscribe(ranking => {
-      this.ranking = ranking.sort((a, b) => b.count-a.count);
-    });
   }
 
   public downloadInformeGeneral(): void {
@@ -137,9 +129,9 @@ export class GeneralReportComponent implements OnInit {
         const imgProps = (doc as any).getImageProperties(img);
         const pdfWidth = doc.internal.pageSize.getWidth() - 2 * bufferX;
         const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-        doc.setFont("Inter", 'bold');
+        doc.setFont('Inter', 'bold');
         doc.setFontSize(28);
-        doc.textWithLink(`Informe General ${dayjs().format('DD-MM-YYYY')}`, 300, 55, {url: '', underline: true, align: "center"});
+        doc.textWithLink(`Informe General ${dayjs().format('DD-MM-YYYY')}`, 300, 55, {url: '', underline: true, align: 'center'});
         doc.addImage(img, 'PNG', bufferX, bufferY, pdfWidth, pdfHeight, undefined, 'FAST');
         return doc;
       }).then((docResult) => {

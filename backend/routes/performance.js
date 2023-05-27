@@ -14,11 +14,11 @@ app.get('/algebra', async (req, res, next) => {
 			}
 		}
 		arr.push({
-			'_id': 'Respuestas Correctas',
+			'_id': 'correctas',
 			'count': good
 		});
 		arr.push({
-			'_id': 'Respuestas Incorrectas',
+			'_id': 'incorrectas',
 			'count': bad
 		});
 		res.json(arr);
@@ -36,11 +36,11 @@ app.get('/geometria', async (req, res, next) => {
 			}
 		}
 		arr.push({
-			'_id': 'Respuestas Correctas',
+			'_id': 'correctas',
 			'count': good
 		});
 		arr.push({
-			'_id': 'Respuestas Incorrectas',
+			'_id': 'incorrectas',
 			'count': bad
 		});
 		res.json(arr);
@@ -58,11 +58,11 @@ app.get('/combinatoria', async (req, res, next) => {
 			}
 		}
 		arr.push({
-			'_id': 'Respuestas Correctas',
+			'_id': 'correctas',
 			'count': good
 		});
 		arr.push({
-			'_id': 'Respuestas Incorrectas',
+			'_id': 'incorrectas',
 			'count': bad
 		});
 		res.json(arr);
@@ -80,11 +80,11 @@ app.get('/teoria-numeros', async (req, res, next) => {
 			}
 		}
 		arr.push({
-			'_id': 'Respuestas Correctas',
+			'_id': 'correctas',
 			'count': good
 		});
 		arr.push({
-			'_id': 'Respuestas Incorrectas',
+			'_id': 'incorrectas',
 			'count': bad
 		});
 		res.json(arr);
@@ -102,11 +102,11 @@ app.get('/global', async (req, res, next) => {
 			}
 		}
 		arr.push({
-			'_id': 'Respuestas Correctas',
+			'_id': 'correctas',
 			'count': good
 		});
 		arr.push({
-			'_id': 'Respuestas Incorrectas',
+			'_id': 'incorrectas',
 			'count': bad
 		});
 		res.json(arr);

@@ -22,7 +22,7 @@ export class PieChartPerformanceGlobalComponent implements OnChanges {
       this.pagesService.getGlobalPerformanceDistribution(this.dateStart, this.dateEnd).subscribe(distributionByPerformance => {
         this.distributionByPerformance = distributionByPerformance;
         this.data = {
-          labels: GlobalConstants.getLabelsDistribution(this.distributionByPerformance),
+          labels: GlobalConstants.getDistributionLabels(this.distributionByPerformance, GlobalConstants.PERFORMANCE_OPTIONS),
           datasets: [{
             data: GlobalConstants.convertDistributionToArray(this.distributionByPerformance),
             backgroundColor: ["#44896A", "#D93661"]

@@ -38,9 +38,9 @@
     <!-- Registros nuevos y Usuarios registrados -->
     <div class="grid grid-cols-12 gap-6 mb-6" [class]="dateFilterForm?.form?.value.dateOption != 'customize' ? '-mt-12' : ''">
         <p-card class="col-span-10 h-fit" header="Registros Nuevos">
-            <app-progress-spinner [condition]="basicData == null" [template]="lineChartT"></app-progress-spinner>
+            <app-progress-spinner [condition]="lineChartData == null" [template]="lineChartT"></app-progress-spinner>
             <ng-template #lineChartT>
-                <p-chart id="usersLineChart" type="line" [data]="basicData" [options]="basicOptions"></p-chart>
+                <p-chart id="usersLineChart" type="line" [data]="lineChartData" [options]="lineChartOptions"></p-chart>
             </ng-template>    
         </p-card>
         <p-card class="col-span-2 h-min leading-6" header="Usuarios Registrados">
@@ -51,32 +51,41 @@
         </p-card>
     </div>
 
-    <!-- Distribución por rol y Distribución por año escolar -->
+    <!-- Ranking y Distribuciones -->
     <div class="grid grid-cols-12 grid-rows-2 gap-6">
+        <!-- Ranking -->
         <p-card class="col-span-4 row-span-2 row-start-1 justify-center h-min" header="Ranking de Estudiantes por Estados">
             <app-progress-spinner [condition]="ranking === undefined" [template]="rankingListT"></app-progress-spinner>
             <ng-template #rankingListT>
                 <app-ranking-list [rankings]="ranking"></app-ranking-list>
             </ng-template>
         </p-card>
+
+        <!-- Distribución por Rol -->
         <p-card class="col-span-4 row-span-1" header="Distribución de Usuarios por Rol">
             <app-progress-spinner [condition]="false" [template]="byRolChartT"></app-progress-spinner>
             <ng-template #byRolChartT>
                 <app-pie-chart-for-rol></app-pie-chart-for-rol>
             </ng-template>
         </p-card>
+
+        <!-- Distribución por Nivel -->
         <p-card class="col-span-4 row-span-1" header="Distribución de Estudiantes por Nivel">
             <app-progress-spinner [condition]="false" [template]="byLevelChartT"></app-progress-spinner>
             <ng-template #byLevelChartT>
                 <app-pie-chart-for-level></app-pie-chart-for-level>
             </ng-template>
         </p-card>
+
+        <!-- Distribución por Institución -->
         <p-card class="col-span-4 row-span-1" header="Distribución de Estudiantes por Institución">
             <app-progress-spinner [condition]="false" [template]="byInstitutionChartT"></app-progress-spinner>
             <ng-template #byInstitutionChartT>
                 <app-pie-chart-for-institution></app-pie-chart-for-institution>
             </ng-template>
         </p-card>
+
+        <!-- Distribución por Sexo -->
         <p-card class="col-span-4 row-span-1" header="Distribución de Estudiantes por Sexo">
             <app-progress-spinner [condition]="false" [template]="bySexChartT"></app-progress-spinner>
             <ng-template #bySexChartT>

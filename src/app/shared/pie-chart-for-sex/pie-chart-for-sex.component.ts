@@ -18,7 +18,7 @@ export class PieChartForSexComponent implements OnInit {
     this.pagesService.getUsersDistributionBySex().subscribe(distributionBySex => {
       this.distributionBySex = distributionBySex.sort((a,b) => (a._id > b._id) ? 1 : ((b._id > a._id) ? -1 : 0));
       this.data = {
-        labels: GlobalConstants.getLabelsDistribution(this.distributionBySex),
+        labels: GlobalConstants.getDistributionLabels(this.distributionBySex, GlobalConstants.SEXS),
         datasets: [{
           data: GlobalConstants.convertDistributionToArray(this.distributionBySex),
           backgroundColor: ["#D93661", "#0777BF"]

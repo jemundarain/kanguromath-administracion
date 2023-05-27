@@ -18,13 +18,12 @@ export class PieChartForInstitutionComponent implements OnInit {
     this.pagesService.getUsersDistributionByInstitution().subscribe(distributionByInstitution => {
       this.distributionByInstitution = distributionByInstitution;
       this.data = {
-        labels: GlobalConstants.getLabelsDistribution(this.distributionByInstitution),
+        labels: GlobalConstants.getDistributionLabels(this.distributionByInstitution, GlobalConstants.INSTITUTIONS),
         datasets: [{
           data: GlobalConstants.convertDistributionToArray(this.distributionByInstitution),
-          backgroundColor: GlobalConstants.getDesorderArray(GlobalConstants.LEVELS_COLORS).slice(0, GlobalConstants.getLabelsDistribution(this.distributionByInstitution).length)
+          backgroundColor: GlobalConstants.getDesorderArray(GlobalConstants.LEVELS_COLORS).slice(0, GlobalConstants.getDistributionLabels(this.distributionByInstitution, GlobalConstants.INSTITUTIONS).length)
         }]
       };
     })
   }
-
 }

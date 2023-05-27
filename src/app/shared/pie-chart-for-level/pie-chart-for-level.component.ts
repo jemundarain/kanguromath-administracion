@@ -18,10 +18,10 @@ export class PieChartForLevelComponent implements OnInit {
     this.pagesService.getUsersDistributionByLevel().subscribe(distributionByLevel => {
       this.distributionByLevel = distributionByLevel;
       this.data = {
-        labels: GlobalConstants.getLabelsDistribution(this.distributionByLevel),
+        labels: GlobalConstants.getDistributionLabels(this.distributionByLevel, GlobalConstants.LEVELS),
         datasets: [{
           data: GlobalConstants.convertDistributionToArray(this.distributionByLevel),
-          backgroundColor: GlobalConstants.getDesorderArray(GlobalConstants.LEVELS_COLORS).slice(0, GlobalConstants.getLabelsDistribution(this.distributionByLevel).length)
+          backgroundColor: GlobalConstants.getDesorderArray(GlobalConstants.LEVELS_COLORS).slice(0, GlobalConstants.getDistributionLabels(this.distributionByLevel, GlobalConstants.LEVELS).length)
         }]
       };
     })

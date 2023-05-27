@@ -6,7 +6,7 @@ import html2canvas from 'html2canvas';
 import { MessageService } from 'primeng/api';
 import { GlobalConstants } from 'src/app/common/global-constants';
 import { NgForm } from '@angular/forms';
-import { DateOption } from '../interfaces/date-option.interfaces';
+import { RadioOption } from 'src/app/common/radio-option.interface';
 import { Chart } from 'chart.js/auto';
 import { PagesService } from '../services/pages.service';
 
@@ -25,7 +25,7 @@ export class PerformanceReportComponent implements OnInit {
 
   //Opciones de fecha
   dateOption: string;
-  dateOptions: DateOption[] = this.pagesService.setCurrentDatesInLabels(GlobalConstants.DATE_OPTIONS);
+  dateOptions: RadioOption[] = this.pagesService.setCurrentDatesInLabels(GlobalConstants.DATE_OPTIONS);
 
   //Calendario
   dates: Date[]
@@ -43,9 +43,9 @@ export class PerformanceReportComponent implements OnInit {
   labels: string[] = [];
 
   ngOnInit(): void {
-    Chart.defaults.font.size = 18;
-    Chart.defaults.color = "#26201f";
-    Chart.defaults.font.family = 'Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"';
+    Chart.defaults.font.size = GlobalConstants.CHART_FONT_SIZE;
+    Chart.defaults.color = GlobalConstants.CHART_COLOR;
+    Chart.defaults.font.family = GlobalConstants.CHART_FONT_FAMILY;
 
     this.dateFilterForm.form.valueChanges.subscribe((data) => {
       this.algebraData = null;

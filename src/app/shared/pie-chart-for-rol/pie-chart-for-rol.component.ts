@@ -17,10 +17,10 @@ export class PieChartForRolComponent implements OnInit {
     this.pagesService.getUsersDistributionByType().subscribe(distributionByType => {
       this.distributionByType = distributionByType.sort((a,b) => (a._id > b._id) ? 1 : ((b._id > a._id) ? -1 : 0));
       this.data = {
-        labels: GlobalConstants.getLabelsDistribution(this.distributionByType),
+        labels: GlobalConstants.getDistributionLabels(this.distributionByType, GlobalConstants.USER_ROLS),
         datasets: [{
           data: GlobalConstants.convertDistributionToArray(this.distributionByType),
-          backgroundColor: GlobalConstants.getDesorderArray(GlobalConstants.TYPES_COLORS).slice(0, GlobalConstants.getLabelsDistribution(this.distributionByType).length)
+          backgroundColor: GlobalConstants.getDesorderArray(GlobalConstants.TYPES_COLORS).slice(0, GlobalConstants.getDistributionLabels(this.distributionByType, GlobalConstants.USER_ROLS).length)
         }]
       };
     })

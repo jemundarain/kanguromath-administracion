@@ -63,7 +63,7 @@ app.get('/get_distribution', async (req, res, next) => {
 })
 
 app.get('/get_total',(req, res, next) => {
-	UserModel.find({}).count()
+	UserModel.find({ 'registration_date': {$gte: new Date(req.query.start), $lt: new Date(req.query.end)}}).count()
 	.then((data) => {
 		res.json(data)
 	})
@@ -72,7 +72,7 @@ app.get('/get_total',(req, res, next) => {
 	})
 })
 
-app.get('/get_minimum-date',(req, res, next) => {
+app.get('/get_minimum_date',(req, res, next) => {
 	UserModel.find({}, {'_id': 0, 'registration_date': 1}).sort({'registration_date': 1}).limit(1)
 	.then((data) => {
 		res.json(data[0].registration_date);
@@ -85,7 +85,7 @@ app.get('/get_minimum-date',(req, res, next) => {
 app.get('/get_ranking', (req, res, next) => {
 	UserModel.aggregate([{$match:{"type":"estudiante", "level": {"$ne": "universitario"}, "country": "venezuela"}}, {$group : { _id : '$state', count : {$sum : 1}}}])
 	.then((data) => {
-		res.json(data);
+		res.json(data.sort((a, b) => b.count-a.count));
 	})
 	.catch(() => {
 		console.log('Error fetching entries /users/ranking')

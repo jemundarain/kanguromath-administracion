@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { concat, forkJoin, map, merge, Observable, of, toArray } from 'rxjs';
+import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Ranking } from '../interfaces/ranking.interfaces';
 import { Global } from '../global-model'
 import * as dayjs from 'dayjs'
-import { DateOption } from '../interfaces/date-option.interfaces';
+import { RadioOption } from 'src/app/common/radio-option.interface';
 import { GlobalConstants } from 'src/app/common/global-constants';
 
 @Injectable({
@@ -16,8 +16,8 @@ export class PagesService {
   private baseUrl: string = environment.baseUrl;
   constructor(private http: HttpClient) {}
 
-  getNumberUsersByDateRangeTotal(): Observable<number> {
-    return this.http.get<number>(`${ this.baseUrl }/admin_users/get_total`)
+  getNumberUsersByDateRangeTotal(start: string, end: string): Observable<number> {
+    return this.http.get<number>(`${ this.baseUrl }/admin_users/get_total?start=${ start }&end=${ dayjs(end).add(1, 'day').clone().format('YYYY-MM-DD') }`);
   }
 
   getNumberUsersByDateRange(start: string, end: string): Observable<number[]> {
@@ -79,7 +79,6 @@ export class PagesService {
     return arr;
   }
   
-
   getAppState(): Observable<Global> {
     return this.http.get<Global>(`${ this.baseUrl }/settings/app-state`)
   }
@@ -94,7 +93,7 @@ export class PagesService {
     this.http.delete(`${ this.baseUrl }/imagekit-delete/${ file_id }`).subscribe()
   }
 
-  setCurrentDatesInLabels( dateOptions: DateOption[] ) {
+  setCurrentDatesInLabels( dateOptions: RadioOption[] ) {
     for(let i=0; i<dateOptions.length; i++) {
       switch (dateOptions[i].code) {      
         case 'last-7days':
