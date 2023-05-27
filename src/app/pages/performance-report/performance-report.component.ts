@@ -33,8 +33,7 @@ export class PerformanceReportComponent implements OnInit {
   maxDate: Date = new Date();
   dateStart: string;
   dateEnd: string = dayjs().format('YYYY-MM-DD');
-
-
+  
   //Line chart
   algebraData: any;
   geometryData: any;

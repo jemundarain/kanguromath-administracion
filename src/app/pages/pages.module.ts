@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { InformeGeneralComponent } from './informe-general/informe-general.component';
+import { GeneralReportComponent } from './general-report/general-report.component';
 import { SettingsComponent } from './settings/settings.component';
 import { ErrorPageComponent } from '../shared/error-page/error-page.component';
 
@@ -15,14 +15,14 @@ import { PerformanceReportComponent } from './performance-report/performance-rep
 
 @NgModule({
     declarations: [
-        InformeGeneralComponent,
+        GeneralReportComponent,
         SettingsComponent,
         ErrorPageComponent,
         HomeComponent,
         PerformanceReportComponent
     ],
     exports: [
-        InformeGeneralComponent,
+        GeneralReportComponent,
         SettingsComponent,
         ErrorPageComponent
     ],

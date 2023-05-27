@@ -16,8 +16,8 @@ export class PagesService {
   private baseUrl: string = environment.baseUrl;
   constructor(private http: HttpClient) {}
 
-  getNumberUsersByDateRangeTotal(start: string, end: string): Observable<number> {
-    return this.http.get<number>(`${ this.baseUrl }/admin_users/get_total?start=${ start }&end=${ dayjs(end).add(1, 'day').clone().format('YYYY-MM-DD') }`)
+  getNumberUsersByDateRangeTotal(): Observable<number> {
+    return this.http.get<number>(`${ this.baseUrl }/admin_users/get_total`)
   }
 
   getNumberUsersByDateRange(start: string, end: string): Observable<number[]> {

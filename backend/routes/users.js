@@ -63,7 +63,7 @@ app.get('/get_distribution', async (req, res, next) => {
 })
 
 app.get('/get_total',(req, res, next) => {
-	UserModel.find({ 'registration_date': {$gte: new Date(req.query.start), $lt: new Date(req.query.end)}}).count()
+	UserModel.find({}).count()
 	.then((data) => {
 		res.json(data)
 	})

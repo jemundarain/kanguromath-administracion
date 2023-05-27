@@ -21,11 +21,11 @@ async function seedDB() {
 
         // The drop() command destroys all data from a collection.
         // Make sure you run it against proper database and collection.
-        // collection_answers.drop();
+        collection_answers.drop();
         let usernames, problems;
         usernames = await collection_users.distinct('username');
-        problems = await collection_problems.distinct('problem_id')
-        for (let i = 0; i < 50; i++) {
+        problems = await collection_problems.distinct('_id')
+        for (let i = 0; i < 950; i++) {
             user = faker.helpers.arrayElement(usernames);
             problem = faker.helpers.arrayElement(problems);
             option = faker.helpers.arrayElement(['A', 'B', 'C', 'D', 'E']);

@@ -16,10 +16,10 @@ import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-informe-general',
-  templateUrl: './informe-general.component.html',
+  templateUrl: './general-report.component.html',
   providers: [ MessageService ]
 })
-export class InformeGeneralComponent implements OnInit {
+export class GeneralReportComponent implements OnInit {
 
   constructor( private pagesService: PagesService,
                private messageService: MessageService,
@@ -95,7 +95,7 @@ export class InformeGeneralComponent implements OnInit {
 
       //Usuarios Registrados
       if(this.numberUsers === undefined) {
-        this.pagesService.getNumberUsersByDateRangeTotal(this.dateStart, this.dateEnd)
+        this.pagesService.getNumberUsersByDateRangeTotal()
           .subscribe( data => this.numberUsers = data );
       }
 
