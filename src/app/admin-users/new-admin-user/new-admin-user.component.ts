@@ -27,6 +27,7 @@ export class NewAdminUserComponent implements OnInit {
     private messageService: MessageService
   ) { }
 
+  @ViewChild('newAdminUserForm', {static: true}) newAdminUserForm !: NgForm;
   uploadUrl: string;
   adminUser: AdminUser;
   username: string;
@@ -38,17 +39,13 @@ export class NewAdminUserComponent implements OnInit {
   newPassword: string;
   avatar: Avatar;
   uploading: boolean;
-  @ViewChild('newAdminUserForm', {static: true}) newAdminUserForm !: NgForm;
 
   ngOnInit(): void {
     this.minDate = dayjs().subtract(100, 'year').toDate();
     this.maxDate = dayjs().subtract(18, 'year').toDate();
     this.date_birth = dayjs(this.maxDate).toDate();
     if(this.activatedRoute.snapshot.url.join('/') !== 'agregar') {
-      this.activatedRoute.params
-        .pipe(
-          switchMap( ({ username }) => this.adminUsersService.getAdminUserByUsername(username))
-        )
+      this.activatedRoute.params.pipe(switchMap( ({ username }) => this.adminUsersService.getAdminUserByUsername(username)))
         .subscribe( adminUser => {
           this.adminUser = adminUser;
           this.date_birth = dayjs(adminUser.date_birth).toDate();

@@ -15,6 +15,7 @@ export class UploadFileComponent implements OnInit {
 
   @Input() fileName: string;
   @Input() folder: string;
+  @Input() typeNameFile: string;
   @Output() startUpload: EventEmitter<boolean> = new EventEmitter();
   @Output() endUpload: EventEmitter<any> = new EventEmitter();
 

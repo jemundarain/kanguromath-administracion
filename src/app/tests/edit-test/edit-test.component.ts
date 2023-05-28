@@ -1,14 +1,15 @@
-import { Component, OnChanges, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Location } from '@angular/common'
+import { ActivatedRoute} from '@angular/router';
+
 import { TestService } from '../services/test.service';
 import { RadioOption } from '../../common/radio-option.interface';
 import { Test } from '../models/test-model';
-import { Router } from '@angular/router';
-import { ActivatedRoute} from '@angular/router';
-import { switchMap } from 'rxjs';
 import { GlobalConstants } from 'src/app/common/global-constants';
+
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
-import { Location } from '@angular/common'
+import { switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-edit-test',
@@ -17,26 +18,25 @@ import { Location } from '@angular/common'
 })
 export class EditTestComponent implements OnInit {
 
-  edition: number = 0;
-  minEdition: number = GlobalConstants.MIN_DATE_EDITION;
-  maxEdition: number = GlobalConstants.MAX_DATE_EDITION;
-
-  levels: RadioOption[];
-  selectedLevelCode: string;
-  items: MenuItem[];
-  test!: Test;
-
-  @ViewChild('editTestForm', { static: true }) editTestForm!: NgForm;
-
   constructor( private testService: TestService,
                private activatedRoute: ActivatedRoute,
                private confirmationService: ConfirmationService,
                private location: Location,
                private messageService: MessageService) { }
 
-  ngOnInit(): void {
+  @ViewChild('editTestForm', { static: true }) editTestForm!: NgForm;
+  edition: number = 0;
+  minEdition: number = GlobalConstants.MIN_DATE_EDITION;
+  maxEdition: number = GlobalConstants.MAX_DATE_EDITION;
+  levels: RadioOption[];
+  selectedLevelCode: string;
+  items: MenuItem[];
+  test!: Test;
+  
+  ngOnInit() {
     this.activatedRoute.params
-      .pipe( switchMap( ({ id }) => this.testService.getTestById(id))).subscribe( test => {
+      .pipe( switchMap( ({ id }) => this.testService.getTestById(id)))
+      .subscribe( test => {
         this.test = test;
         this.items = [
           {label: 'Pruebas'},
@@ -46,14 +46,15 @@ export class EditTestComponent implements OnInit {
       });
 
     this.editTestForm.form.valueChanges.subscribe((data) => {
-      this.testService.getLevelsByEdition(data.edition).subscribe(levels => {
-        this.levels = GlobalConstants.filterLevels(levels);
-        GlobalConstants.LEVELS.filter(level => {
-          if(this.test.levels.includes(level.code)) {
-            this.levels.push(level);
-          }
-        })
-      });
+      this.testService.getLevelsByEdition(data.edition)
+        .subscribe(levels => {
+          this.levels = GlobalConstants.filterLevels(levels);
+          GlobalConstants.LEVELS.filter(level => {
+            if(this.test.levels.includes(level.code)) {
+              this.levels.push(level);
+            }
+          })
+        });
     });
   }
 

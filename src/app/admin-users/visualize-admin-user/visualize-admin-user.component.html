@@ -1,6 +1,6 @@
 <app-header title="Usuario" [breadcrumbs]="items"></app-header>
 
-<app-progress-spinner [condition]="!adminUser" [template]="newAdminUserForm"></app-progress-spinner>
+<app-progress-spinner [condition]="!adminUser.email" [template]="newAdminUserForm"></app-progress-spinner>
 <ng-template #newAdminUserForm>
     <div class="flex flex-row gap-10">
         <div class="w-2/3">

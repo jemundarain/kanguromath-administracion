@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common'
+
 import { AdminUsersService } from '../services/admin-users.service';
 import { AdminUser } from '../models/adminUser-model';
-import { MenuItem } from 'primeng/api';
-import { GlobalConstants } from 'src/app/common/global-constants';
+import { Avatar } from '../models/avatar-model';
+
 import dayjs from 'dayjs';
 import { switchMap } from 'rxjs/operators';
-import { Location } from '@angular/common'
-import { Avatar } from '../models/avatar-model';
+import { MenuItem } from 'primeng/api';
 
 @Component({
   selector: 'app-visualize-admin-user',
@@ -29,12 +30,10 @@ export class VisualizeAdminUserComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.params
-      .pipe(
-        switchMap( ({ username }) => this.adminUsersService.getAdminUserByUsername(username))
-      )
+      .pipe(switchMap( ({ username }) => this.adminUsersService.getAdminUserByUsername(username)))
       .subscribe( adminUser => {
         this.adminUser = adminUser;
-        this.date_birth = dayjs(adminUser.date_birth).format('DD/MM/YYYY');;
+        this.date_birth = dayjs(adminUser.date_birth).format('DD/MM/YYYY');
         this.items = [
           {label: 'Usuarios'},
           {label: `${ adminUser.name + ' ' + adminUser.last_name }`}

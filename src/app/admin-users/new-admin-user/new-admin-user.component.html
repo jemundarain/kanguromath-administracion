@@ -65,7 +65,8 @@
                 (startUpload)="uploading = $event"
                 (endUpload)="addAvatar($event)"
                 [fileName]="getRandomAvatarName(adminUser.username)"
-                folder="usuarios">
+                folder="usuarios"
+                typeNameFile="imagen">
             </app-upload-file>         
         </div>
     </form>    

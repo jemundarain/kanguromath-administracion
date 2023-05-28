@@ -22,7 +22,7 @@ export class TestService {
         return this.http.get<Test[]>(`${ this.baseUrl }/admin_tests/get_tests_by_edition/${edition}`)
     }
     
-    getEditions(): Observable<string[]>{
+    getEditions() {
         return this.http.get<string[]>(`${ this.baseUrl }/admin_tests/get_editions`)
     }
 

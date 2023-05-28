@@ -1,7 +1,7 @@
 <app-header title="Usuarios" [breadcrumbs]="items"></app-header>
 
 <!-- Table -->
-<app-progress-spinner [condition]="!adminUsers" [template]="tableAU"></app-progress-spinner>
+<app-progress-spinner [condition]="!onInitFinish" [template]="tableAU"></app-progress-spinner>
 <ng-template #tableAU>
     <div class="grid grid-cols-12 mb-6" *ngIf="adminUsers.length">
         <p-table [value]="adminUsers" class="col-span-9" id="adminUsers-table">
@@ -28,11 +28,6 @@
         </p-table>
     </div>
 </ng-template>
-<div class="flex flex-col mx-16">
-    <h4 class="inline-block text-3xl text-center font-semibold text-gray-700 tracking-tight rounded-bl rounded-br" *ngIf="!adminUsers.length">No tienes pruebas</h4>
-    <br>
-    <h4 class="inline-block text-3xl text-center font-semibold text-gray-700 tracking-tight rounded-bl rounded-br" *ngIf="!adminUsers.length">¡Agrega algunas! 👨‍🏫</h4>
-</div>
 
 <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"></p-confirmDialog>
 <p-toast position="bottom-center"></p-toast>

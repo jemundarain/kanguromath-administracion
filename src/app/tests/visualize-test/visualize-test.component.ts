@@ -22,12 +22,11 @@ export class VisualizeTestComponent implements OnInit {
   problemsId: string[];
   problems : Problem[];
   items: MenuItem[];
+  onInitFinish: boolean = false;
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.activatedRoute.params
-      .pipe(
-        switchMap( ({ test_id }) => this.testService.getTestById(test_id))
-      )
+      .pipe(switchMap( ({ test_id }) => this.testService.getTestById(test_id)))
       .subscribe( test => {
         this.test = test;
         this.testService.getProblemsByTestId(this.test.test_id).subscribe(problems => this.problems = problems)
@@ -36,6 +35,7 @@ export class VisualizeTestComponent implements OnInit {
           {label: `Preliminar ${this.test?.edition} ${this.test.levels}`}
         ];
       });
+    this.onInitFinish = true;
   };
 
   back() {

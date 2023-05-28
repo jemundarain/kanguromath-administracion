@@ -25,7 +25,8 @@
                         (startUpload)="uploadings[figure.num_s-1] = $event"
                         (endUpload)="addFigure($event)"
                         [fileName]="getRandomFigureName(figure.num_s)"
-                        [folder]="_id">
+                        [folder]="_id"
+                        typeNameFile="figura">
                     </app-upload-file>                                    
                 </td>
                 <td>
