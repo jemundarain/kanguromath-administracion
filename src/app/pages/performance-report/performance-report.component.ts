@@ -26,7 +26,6 @@ export class PerformanceReportComponent implements OnInit {
   //Opciones de fecha
   dateOption: string;
   dateOptions: RadioOption[] = this.pagesService.setCurrentDatesInLabels(GlobalConstants.DATE_OPTIONS);
-
   //Calendario
   dates: Date[]
   minDate: Date;
@@ -41,7 +40,7 @@ export class PerformanceReportComponent implements OnInit {
   numberTheoryData: any;
   basicOptions = GlobalConstants.BASIC_OPTIONS;
   labels: string[] = [];
-
+  
   ngOnInit(): void {
     Chart.defaults.font.size = GlobalConstants.CHART_FONT_SIZE;
     Chart.defaults.color = GlobalConstants.CHART_COLOR;

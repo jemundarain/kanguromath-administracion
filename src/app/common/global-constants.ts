@@ -48,8 +48,8 @@ export class GlobalConstants {
     public static DATE_OPTIONS: RadioOption[] = [
         { name: 'Hoy', code: 'today' },
         { name: 'Ayer', code: 'yesterday' },
-        { name: 'Últimos 7 días', code: 'last-7days' },
-        { name: 'Últimos 30 días', code: 'last-30days' },
+        { name: 'Últimos 7 días: desde FECHA_INICIO', code: 'last-7days' },
+        { name: 'Últimos 30 días: desde FECHA_INICIO', code: 'last-30days' },
         { name: 'Desde el comienzo', code: 'beginning' },
         { name: 'Rango de fecha personalizado', code: 'customize' },
     ]
@@ -322,7 +322,7 @@ export class GlobalConstants {
 
     public static getDateStringToLocale(backDays: number) {
         var date = dayjs().subtract(backDays, 'day');
-        return `desde ${this.capitalizeFirstLetters(this.translateMonth(date.format('MMMM')))} ${date.format('DD')}, ${date.format('YYYY')}`
+        return `${this.capitalizeFirstLetters(this.translateMonth(date.format('MMMM')))} ${date.format('DD')}, ${date.format('YYYY')}`
     }
     
     public static getDateBackString(backDays: number) {

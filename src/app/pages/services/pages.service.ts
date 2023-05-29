@@ -97,11 +97,11 @@ export class PagesService {
     for(let i=0; i<dateOptions.length; i++) {
       switch (dateOptions[i].code) {      
         case 'last-7days':
-          dateOptions[i].name += ': ' + GlobalConstants.getDateStringToLocale(6);
+          dateOptions[i].name = dateOptions[i].name.replace('FECHA_INICIO', GlobalConstants.getDateStringToLocale(6));
           break;
 
         case 'last-30days':
-          dateOptions[i].name += ': ' + GlobalConstants.getDateStringToLocale(31);
+          dateOptions[i].name = dateOptions[i].name.replace('FECHA_INICIO', GlobalConstants.getDateStringToLocale(31));
           break;
       
         default:
