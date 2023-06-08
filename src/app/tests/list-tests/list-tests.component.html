@@ -2,51 +2,50 @@
 
 <!-- Edición combobox -->
 <div class="flex gap-2 mb-6">
-    <h5 class="text-[21px] font-normal text-[#26201F] tracking-tight">Edición </h5>
+    <h5 *ngIf="tests?.length" class="text-[21px] font-normal text-[#26201F] tracking-tight">Edición </h5>
     <form #editionsForm="ngForm">
         <p-dropdown class="col-span-2 my-auto" [options]="editions" [(ngModel)]="edition" name="edition"></p-dropdown>
     </form>
 </div>
 
-<div *ngIf="onInitFinish && tests.length === 0" class="flex flex-col mx-16">
+<!-- <div *ngIf="editions" class="flex flex-col mx-16">
     <h4 class="inline-block text-3xl text-center font-semibold text-gray-700 tracking-tight rounded-bl rounded-br">No tienes pruebas</h4><br>
     <h4 class="inline-block text-3xl text-center font-semibold text-gray-700 tracking-tight rounded-bl rounded-br">¡Agrega algunas! 👨‍🏫</h4>
+</div> -->
+
+<!-- Table -->
+<p-progressSpinner *ngIf="!editions"  styleClass="custom-spinner" strokeWidth="4.2" fill="#fff" animationDuration="1.6s"></p-progressSpinner>
+<div class="grid grid-cols-12 mb-6" *ngIf="tests?.length">
+    <p-table [value]="tests" class="col-span-7" id="tests-table">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Año</th>
+                <th>Publicada</th>
+                <th>Problemas</th>
+                <th>Ver</th>
+                <th>Editar</th>
+                <th>Eliminar</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-test>
+            <tr>
+                <td>{{test.levels | levelsTittle }}</td>
+                <td><i *ngIf="test.is_published" class="pi pi-check" pTooltip="Publicada" tooltipPosition="top"></i><i *ngIf="!test.is_published" class="pi pi-times text-300" pTooltip="Pendiente" tooltipPosition="top"></i></td>
+                <td>{{test.problems.length}}</td>
+                <td><a [routerLink]="['/pruebas/ver', test.test_id ]"><i class="pi pi-eye"></i></a></td>
+                <ng-container *ngIf="app_enabled; else editTest">
+                    <td><a (click)="appDisabledAlert()"><i class="pi pi-file-edit disabled"></i></a></td>
+                    <td><a (click)="appDisabledAlert()"><i class="pi pi-trash disabled"></i></a></td>
+                </ng-container>
+                <ng-template #editTest>
+                    <td><a [routerLink]="['/pruebas/editar', test.test_id ]"><i class="pi pi-file-edit"></i></a></td>
+                    <td><a (click)="deleteTest(test)"><i class="pi pi-trash"></i></a></td>
+                </ng-template>
+            </tr>
+        </ng-template>
+    </p-table>
 </div>
 
-<app-progress-spinner [condition]="!onInitFinish" [template]="tableT"></app-progress-spinner>
-<!-- Table -->
-<ng-template #tableT>
-    <div class="grid grid-cols-12 mb-6" *ngIf="tests.length">
-        <p-table [value]="tests" class="col-span-7" id="tests-table">
-            <ng-template pTemplate="header">
-                <tr>
-                    <th>Año</th>
-                    <th>Publicada</th>
-                    <th>Problemas</th>
-                    <th>Ver</th>
-                    <th>Editar</th>
-                    <th>Eliminar</th>
-                </tr>
-            </ng-template>
-            <ng-template pTemplate="body" let-test>
-                <tr>
-                    <td>{{test.levels | levelsTittle }}</td>
-                    <td><i *ngIf="test.is_published" class="pi pi-check" pTooltip="Publicada" tooltipPosition="top"></i><i *ngIf="!test.is_published" class="pi pi-times text-300" pTooltip="Pendiente" tooltipPosition="top"></i></td>
-                    <td>{{test.problems.length}}</td>
-                    <td><a [routerLink]="['/pruebas/ver', test.test_id ]"><i class="pi pi-eye"></i></a></td>
-                    <ng-container *ngIf="app_enabled; else editTest">
-                        <td><a (click)="appDisabledAlert()"><i class="pi pi-file-edit disabled"></i></a></td>
-                        <td><a (click)="appDisabledAlert()"><i class="pi pi-trash disabled"></i></a></td>
-                    </ng-container>
-                    <ng-template #editTest>
-                        <td><a [routerLink]="['/pruebas/editar', test.test_id ]"><i class="pi pi-file-edit"></i></a></td>
-                        <td><a (click)="deleteTest(test)"><i class="pi pi-trash"></i></a></td>
-                    </ng-template>
-                </tr>
-            </ng-template>
-        </p-table>
-    </div>
-</ng-template>
 
 <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"></p-confirmDialog>
 <p-toast position="bottom-center"></p-toast>

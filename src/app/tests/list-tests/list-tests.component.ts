@@ -25,7 +25,6 @@ export class ListTestsComponent implements OnInit {
   editions: string[];
   edition: string;
   tests: Test[];
-  onInitFinish: boolean = false;
   items: MenuItem[];
   app_enabled: boolean;
 
@@ -49,7 +48,6 @@ export class ListTestsComponent implements OnInit {
       global => this.app_enabled = global.app_enabled
     )
 
-    this.onInitFinish = true;
   }
   
   appDisabledAlert() {
