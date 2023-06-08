@@ -39,42 +39,32 @@
         <div class="grid grid-cols-12 grid-rows-4 gap-6">
             <!-- Global -->
             <p-card class="col-span-4 row-span-2 row-start-2 justify-center h-min" header="Global">
-                <app-progress-spinner [condition]="false" [template]="globalChartT"></app-progress-spinner>
-                <ng-template #globalChartT>
-                    <app-pie-chart-performance-global [dateStart]="dateStart" [dateEnd]="dateEnd"></app-pie-chart-performance-global>
-                </ng-template>
+                <app-progress-spinner [condition]="!pieChartGlobal"></app-progress-spinner>
+                <app-pie-chart-performance-global (onLoadComplete)="pieChartGlobal = $event" [dateStart]="dateStart" [dateEnd]="dateEnd"></app-pie-chart-performance-global>
             </p-card>
 
             <!-- Álgebra -->
             <p-card class="col-span-4 row-span-2 h-fit" header="Álgebra">
-                <app-progress-spinner [condition]="false" [template]="algebraChartT"></app-progress-spinner>
-                <ng-template #algebraChartT>
-                    <app-pie-chart-algebra [dateStart]="dateStart" [dateEnd]="dateEnd"></app-pie-chart-algebra>
-                </ng-template>
+                <app-progress-spinner [condition]="!pieChartAlgebra"></app-progress-spinner>
+                <app-pie-chart-algebra (onLoadComplete)="pieChartAlgebra = $event" [dateStart]="dateStart" [dateEnd]="dateEnd"></app-pie-chart-algebra>
             </p-card>
 
             <!-- Geometría -->
             <p-card class="col-span-4 row-span-2 h-fit" header="Geometría">
-                <app-progress-spinner [condition]="false" [template]="geometryChartT"></app-progress-spinner>
-                <ng-template #geometryChartT>
-                    <app-pie-chart-geometry [dateStart]="dateStart" [dateEnd]="dateEnd"></app-pie-chart-geometry>
-                </ng-template>
+                <app-progress-spinner [condition]="!pieChartGeometry"></app-progress-spinner>
+                <app-pie-chart-geometry (onLoadComplete)="pieChartGeometry = $event" [dateStart]="dateStart" [dateEnd]="dateEnd"></app-pie-chart-geometry>
             </p-card>
         
             <!-- Combinatoria -->
             <p-card class="col-span-4 row-span-2 h-fit" header="Combinatoria">
-                <app-progress-spinner [condition]="false" [template]="combinatoricsChartT"></app-progress-spinner>
-                <ng-template #combinatoricsChartT>
-                    <app-pie-chart-combinatorics [dateStart]="dateStart" [dateEnd]="dateEnd"></app-pie-chart-combinatorics>
-                </ng-template>
+                <app-progress-spinner [condition]="!pieChartCombinatorics"></app-progress-spinner>
+                <app-pie-chart-combinatorics (onLoadComplete)="pieChartCombinatorics = $event" [dateStart]="dateStart" [dateEnd]="dateEnd"></app-pie-chart-combinatorics>
             </p-card>
                 
             <!-- Teoría de Números -->
             <p-card class="col-span-4 row-span-2 h-fit" header="Teoría de Números">
-                <app-progress-spinner [condition]="false" [template]="numberTheoryChartT"></app-progress-spinner>
-                <ng-template #numberTheoryChartT>
-                    <app-pie-chart-number-theory></app-pie-chart-number-theory>
-                </ng-template>
+                <app-progress-spinner [condition]="!pieChartNumberTheory"></app-progress-spinner>
+                <app-pie-chart-number-theory (onLoadComplete)="pieChartNumberTheory = $event" [dateStart]="dateStart" [dateEnd]="dateEnd"></app-pie-chart-number-theory>
             </p-card>
         </div>
     </div>

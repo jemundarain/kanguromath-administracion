@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Ranking } from 'src/app/pages/interfaces/ranking.interfaces';
 import { PagesService } from '../../pages/services/pages.service';
 import { GlobalConstants } from 'src/app/common/global-constants';
@@ -8,10 +8,12 @@ import { GlobalConstants } from 'src/app/common/global-constants';
   templateUrl: './pie-chart-for-rol.component.html'
 })
 export class PieChartForRolComponent implements OnInit {
+
   constructor(private pagesService: PagesService) { }
   
   data: any;
   distributionByType: Ranking[];
+  @Output() onLoadComplete: EventEmitter<boolean> = new EventEmitter();
   
   ngOnInit() {
     this.pagesService.getUsersDistributionByType().subscribe(distributionByType => {
@@ -23,6 +25,7 @@ export class PieChartForRolComponent implements OnInit {
           backgroundColor: GlobalConstants.getDesorderArray(GlobalConstants.TYPES_COLORS).slice(0, GlobalConstants.getDistributionLabels(this.distributionByType, GlobalConstants.USER_ROLS).length)
         }]
       };
+      this.onLoadComplete.emit(true);
     })
   }
 }

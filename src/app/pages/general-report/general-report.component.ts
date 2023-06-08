@@ -49,6 +49,12 @@ export class GeneralReportComponent implements OnInit {
   //Ranking por estados
   ranking: Ranking[];
 
+  //Chart Load
+  pieChartForRolLoad: boolean;
+  pieChartForLevelLoad: boolean;
+  pieChartForInstitutionLoad: boolean;
+  pieChartForSexLoad: boolean;
+
   ngOnInit(): void {
     Chart.defaults.font.size = GlobalConstants.CHART_FONT_SIZE;
     Chart.defaults.color = GlobalConstants.CHART_COLOR;

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { GlobalConstants } from 'src/app/common/global-constants';
 import { Ranking } from 'src/app/pages/interfaces/ranking.interfaces';
 import { PagesService } from 'src/app/pages/services/pages.service';
@@ -11,6 +11,7 @@ export class PieChartForInstitutionComponent implements OnInit {
 
   data: any;
   distributionByInstitution: Ranking[];
+  @Output() onLoadComplete: EventEmitter<boolean> = new EventEmitter();
 
   constructor(private pagesService: PagesService) { }
 
@@ -24,6 +25,7 @@ export class PieChartForInstitutionComponent implements OnInit {
           backgroundColor: GlobalConstants.getDesorderArray(GlobalConstants.LEVELS_COLORS).slice(0, GlobalConstants.getDistributionLabels(this.distributionByInstitution, GlobalConstants.INSTITUTIONS).length)
         }]
       };
+      this.onLoadComplete.emit(true);
     })
   }
 }
