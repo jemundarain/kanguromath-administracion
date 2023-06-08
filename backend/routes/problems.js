@@ -24,7 +24,7 @@ app.get('/get_problem/:_id',(req, res) => {
 
 app.get('/get_all_problems_from_test/:test_id', async (req, res, next) => {
 	const problems_ids = await TestModel.findOne({ 'test_id': req.params.test_id })
-	  .then((data) => data?.problems || [])
+	  .then((test) => test?.problems || [])
 	  .catch((err) => res.status(500).json(err));
   
 	const problems = await ProblemModel.find({ _id: { $in: problems_ids } }).lean();
@@ -34,8 +34,8 @@ app.get('/get_all_problems_from_test/:test_id', async (req, res, next) => {
 	  return map;
 	}, {});
   
-	res.json(problems_ids.map((id) => problemsMap[id.toString()]));
-  });
+	res.status(200).json(problems_ids.map((id) => problemsMap[id.toString()]));
+});
 	
 app.get('/search_problems', (req, res) => {
 	TestModel.aggregate([

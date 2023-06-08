@@ -58,12 +58,12 @@ app.get('/get_tests_by_edition/:edition',(req, res, next) => {
 })
 
 app.get('/get_test/:test_id',(req, res, next) => {
-	TestModel.find({ 'test_id': req.params.test_id})
-	.then((data) => {
-		res.json(data[0]);
+	TestModel.findOne({ 'test_id': req.params.test_id})
+	.then((test) => {
+		res.status(200).json(test);
 	})
-	.catch(() => {
-		console.log('Error fetching entries')
+	.catch((err) => {
+		res.status(400).json(err);
 	})
 })
 

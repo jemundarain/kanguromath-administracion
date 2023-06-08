@@ -1,7 +1,12 @@
 <app-header title="Ver Prueba" [breadcrumbs]="items"></app-header>
 
-<app-progress-spinner [condition]="!onInitFinish"></app-progress-spinner>
-<div *ngIf="test && onInitFinish" class="flex flex-row justify-between mx-16 mb-5">
+<div *ngIf="error" class="flex flex-col mx-16">
+    <h4 class="inline-block text-3xl text-center font-semibold text-gray-700 tracking-tight rounded-bl rounded-br">
+        Esta prueba no existe 😓
+    </h4><br>
+</div>
+
+<div *ngIf="test" class="flex flex-row justify-between mx-16 mb-5">
     <button pButton 
             type="button" 
             class="btn"
@@ -21,25 +26,39 @@
     </button>
 </div>
 
-<div *ngIf="test && onInitFinish" class="grid grid-cols-12 gap-4 pt-14 mx-16" [class]="test != undefined? 'bg-white rounded-tl rounded-tr':''">
-    <h3 class="font-['CMU_Serif'] inline-block text-center text-2xl font-bold text-gray-700 tracking-tight col-start-4 col-span-6">OLIMPÍADA JUVENIL DE MATEMÁTICA</h3>
-    <img src="../../../assets/img/canguro-gray.png" alt="canguro-gray" class="col-start-5 col-span-2 -mt-2 -ml-24">
-    <img src="../../../assets/img/canguro-gray.png" alt="canguro-gray" class="col-start-9 col-span-2 -mt-2 -ml-4">
-    <h3 class="font-['CMU_Serif'] inline-block text-center text-2xl font-bold text-gray-700 tracking-tight col-start-4 col-span-6 -mt-36">CANGURO MATEMÁTICO</h3>
-    <h3 class="font-['CMU_Serif'] inline-block text-center text-2xl font-bold text-gray-700 tracking-tight col-start-4 col-span-6 -mt-32">EDICIÓN {{ test.edition }}</h3>
-    <h3 class="font-['CMU_Serif'] inline-block text-center text-2xl font-bold text-gray-700 tracking-tight col-start-4 col-span-6 -mt-28">PRUEBA PRELIMINAR</h3>
-    <h3 class="font-['CMU_Serif'] inline-block text-center text-2xl font-bold text-gray-700 tracking-tight col-start-4 col-span-6 -mt-24"> {{ test.levels | levelsHeader }} </h3>
+<div *ngIf="test" class="grid grid-cols-12 gap-4 pt-14 mx-16" [class]="test? 'bg-white rounded-tl rounded-tr':''">
+    <h3 class="font-['CMU_Serif'] inline-block text-center text-2xl font-bold text-gray-700 tracking-tight col-start-4 col-span-6">
+        OLIMPÍADA JUVENIL DE MATEMÁTICA
+    </h3>
+    <img src="../../../assets/img/canguro-gray.png" class="col-start-5 col-span-2 -mt-2 -ml-24">
+    <img src="../../../assets/img/canguro-gray.png" class="col-start-9 col-span-2 -mt-2 -ml-4">
+    <h3 class="font-['CMU_Serif'] inline-block text-center text-2xl font-bold text-gray-700 tracking-tight col-start-4 col-span-6 -mt-36">
+        CANGURO MATEMÁTICO
+    </h3>
+    <h3 class="font-['CMU_Serif'] inline-block text-center text-2xl font-bold text-gray-700 tracking-tight col-start-4 col-span-6 -mt-32">
+        EDICIÓN {{ test.edition }}
+    </h3>
+    <h3 class="font-['CMU_Serif'] inline-block text-center text-2xl font-bold text-gray-700 tracking-tight col-start-4 col-span-6 -mt-28">
+        PRUEBA PRELIMINAR
+    </h3>
+    <h3 class="font-['CMU_Serif'] inline-block text-center text-2xl font-bold text-gray-700 tracking-tight col-start-4 col-span-6 -mt-24">
+        {{ test.levels | levelsHeader }}
+    </h3>
 </div>
 
-<app-progress-spinner [condition]="!onInitFinish"></app-progress-spinner>
-<div *ngIf="test && onInitFinish" class="grid grid-cols-12 mx-16 pb-10 mb-12" [class]="problems.length != 0? 'bg-white rounded-bl rounded-br':''">
+<app-progress-spinner [condition]="!problems.length"></app-progress-spinner>
+<div *ngIf="test" class="grid grid-cols-12 mx-16 pb-10 mb-12" [class]="problems.length? 'bg-white rounded-bl rounded-br':''">
     <div *ngFor="let problem of problems; let i = index" class="col-start-3 col-span-8 mx-5">
         <app-problem [num_s]="i+1" [problem]="problem" [test_id]="test.test_id"></app-problem>
     </div>
 </div>
-<div *ngIf="!problems.length&& onInitFinish" class="flex flex-col mx-16 -mt-24">
-    <h4 class="inline-block text-3xl text-center font-semibold text-gray-700 tracking-tight bg-white rounded-bl rounded-br"> Esta prueba no tiene problemas</h4><br>
-    <h4 class="inline-block text-3xl text-center font-semibold text-gray-700 tracking-tight bg-white rounded-bl rounded-br pb-12">¡Agrega algunos! 👨‍🏫</h4>
+<div *ngIf="testEmpty" class="flex flex-col mx-16 -mt-24">
+    <h4 class="inline-block text-3xl text-center font-semibold text-gray-700 tracking-tight bg-white">
+        Esta prueba no tiene problemas
+    </h4><br>
+    <h4 class="inline-block text-3xl text-center font-semibold text-gray-700 tracking-tight bg-white pb-12">
+        ¡Agrega algunos! 👨‍🏫
+    </h4>
 </div>
 
 <p-scrollTop [threshold]="420" styleClass="btn"></p-scrollTop>
