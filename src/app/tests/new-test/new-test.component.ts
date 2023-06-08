@@ -1,14 +1,17 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { RadioOption } from '../../common/radio-option.interface';
-import { Test } from '../models/test-model';
-import { MenuItem, MessageService } from 'primeng/api';
-import { GlobalConstants } from 'src/app/common/global-constants';
-import { TestService } from '../services/test.service';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 
+import { GlobalConstants } from 'src/app/common/global-constants';
+import { Problem } from '../models/problem-model';
+import { RadioOption } from '../../common/radio-option.interface';
+import { Test } from '../models/test-model';
+import { TestService } from '../services/test.service';
+
+import { MenuItem, MessageService } from 'primeng/api';
 import { FileUpload } from 'primeng/fileupload';
+import JSZip from 'jszip';
 
 @Component({
   selector: 'app-new-test',
@@ -17,6 +20,9 @@ import { FileUpload } from 'primeng/fileupload';
 })
 export class NewTestComponent implements OnInit {
 
+  @ViewChild('addTestForm', { static: true }) addTestForm!: NgForm;
+  @ViewChild('uploadTestForm', { static: true }) uploadTestForm!: NgForm;
+  @ViewChild('uploadBtn') uploadBtn!: FileUpload;
   minEdition: number = GlobalConstants.MIN_DATE_EDITION;
   maxEdition: number = GlobalConstants.MAX_DATE_EDITION;
   test: Test;
@@ -24,9 +30,8 @@ export class NewTestComponent implements OnInit {
   selectedLevelCode: string;
   items: MenuItem[];
   uploadUrl: string = 'http://localhost:3000/admin_uploads/post_test/';
-  @ViewChild('addTestForm', { static: true }) addTestForm!: NgForm;
-  @ViewChild('uploadTestForm', { static: true }) uploadTestForm!: NgForm;
-  @ViewChild('uploadBtn') uploadBtn!: FileUpload;
+
+  contenidoTexto: string;
 
   constructor( private testService: TestService,
                private location: Location,
@@ -46,28 +51,204 @@ export class NewTestComponent implements OnInit {
     ];
   }                    
 
-  onBasicUpload(ev: any) {    
-    console.log("ESTOY EN onBasicUpload -> EVENTO ", ev)
-  }
+  onUpload(event: any) {
+    this.test.test_id = `preliminar-${this.test.edition}-${this.test.levels}`;
+    this.testService.addNewTest(this.test).subscribe({
+      next: (successful) => {
+        const fileList: FileList = event.files;
+        if (fileList.length > 0) {
+          const file: File = fileList[0];
+          if (file.type === 'application/zip' || file.type === 'application/x-zip-compressed') {
+            const reader = new FileReader();
+            reader.onload = async (e: any) => {
+              const zipContent: ArrayBuffer = e.target.result;
+              const jszip = new JSZip();
+              const zip = await jszip.loadAsync(zipContent);
+              const fileTex = zip.file(/\.tex$/i)[0];              
 
+              if (fileTex) {
+                const testText: string = await fileTex.async('string');
+                const main_regex = /\\pro(fig)?\{[^{}]*\}[\s\S]*?\n(\\resp\{((?:[^{}]|(?:\{[^{}]*\}))*?)\}\{((?:[^{}]|(?:\{[^{}]*\}))*?)\}\{((?:[^{}]|(?:\{[^{}]*\}))*?)\}\{((?:[^{}]|(?:\{[^{}]*\}))*?)\}\{((?:[^{}]|(?:\{[^{}]*\}))*?)\}|%\{|\\end)/g;
+                const solutions_regex = /[ABCDE]{30}/g;
+                const paths_regex = /{([^{}]*\.(?:png|jpe?g))}/g;
+                const options_regex_resp = /\\resp\{((?:[^{}]|(?:\{[^{}]*\}))*?)\}\{((?:[^{}]|(?:\{[^{}]*\}))*?)\}\{((?:[^{}]|(?:\{[^{}]*\}))*?)\}\{((?:[^{}]|(?:\{[^{}]*\}))*?)\}\{((?:[^{}]|(?:\{[^{}]*\}))*?)\}/g;
+                const options_regex_medskip = /\\[A-E]\s([^\\]+)/g;
+                var rawSolutions: string[];
+                
+                var testTextClean = testText.replace(/\\includegraphics\[[^\]]+\]/g, '')
+                                            .replace(/\\begin{(?:pspicture|pspicture\*)}[\s\S]*?\\end{(?:pspicture|pspicture\*)}/g, '');
+                const rawProblems =  testTextClean.match(main_regex);
+                
+                const matchSolutions = solutions_regex.exec(testText);
+                if(matchSolutions) {
+                  rawSolutions = matchSolutions[0].split('');
+                }
+                
+                rawProblems?.forEach((rawProblem, index) => {
+                  // Figuras
+                  var rawPaths;
+                  if(rawProblem.includes('profig')) {
+                    const matches_paths = rawProblem.match(paths_regex);
+                    if(matches_paths) {
+                      rawPaths = matches_paths.map(match => match.slice(1, -1));
+                    }
+                  }
+                  
+                  // Enunciado
+                  var statement = rawProblem;
+                  statement = statement.replace(/\\pro(?:fig)?\{\d+(?:\.\d+)?\}\s*?\{\d+(?:\.\d+)?\}\s*/g, '')
+                                      .replace(/\\pro(?:fig)?\{\d+(?:\.\d+)?\}\s*/g, '')
+                                      .replace(/\\resp\{.*\}/g, '')
+                                      .replace(/^%.*$/gm, '')
+                                      .replace(/(\\quad|\s*\\medskip\s*|\\psset\{.*?\}|\\raisebox\{.*?\})/g, '')
+                                      .replace(/{([^{}]*\.(?:png|jpe?g))}/g, '')
+                                      .replace(/\{\s*\}/g, '');
+                  
+                  statement = statement.trim();
+                  if (statement.startsWith("{") && statement.endsWith("}")) {
+                    statement = statement.slice(1, -1);
+                  }
+                  var solution = rawSolutions[index];
+                  
+                  var rawOptions;
+                  if(!rawProblem.includes('\\resp') && rawProblem.includes('\\A') && rawProblem.includes('\\B') && rawProblem.includes('\\C') && rawProblem.includes('\\D') && rawProblem.includes('\\E')) {
+                    const matches_medskip = rawProblem.match(options_regex_medskip);
+                    if(matches_medskip)
+                    rawOptions = matches_medskip.map(match => match.split("\\")[1].trim());
+                  } else {
+                    const matches_resp = rawProblem.match(options_regex_resp);
+                    if(matches_resp) {
+                      rawOptions = matches_resp[0].replace('\\resp{', '').split("}{");
+                      rawOptions[rawOptions.length-1] = rawOptions[rawOptions.length-1].replace('}', '');
+                    }
+                  }
+                  
+                  var options = []
+                  if(rawOptions) {
+                    for(let i=0; i<5; i++) {
+                      options.push({
+                        _id: '',
+                        letter: String.fromCharCode(65 + i),
+                        answer: rawOptions[i],
+                        ik_id: ''
+                      })
+                    }
+                  }
+                  
+                  var figures = [];
+                  if(rawPaths) {
+                    for(let i=0; i<rawPaths.length; i++) {
+                      figures.push({
+                        _id: '',
+                        ik_id: '',
+                        num_s: i+1,
+                        url: rawPaths[i],
+                        position: i+1==1? 'derecha':'intermedia'
+                      })
+                    }
+                  }
+                  
+                  if(statement && options) {
+                    //Llamar a la API para asignar la categoría
+                    var problem = {
+                      _id: '',
+                      statement: statement,
+                      solution: solution,
+                      category: 'sin-categoria',
+                      options: options,
+                      figures: figures
+                    }
+
+                    this.testService.addNewProblem(problem, this.test.test_id).subscribe({
+                      next: (newProblem) => {
+                        /*const thereFigures = !!newProblem.figures.length;
+                        const thereImagesInOptions = GlobalConstants.hasAtLeastOneOptionWithImageLink(newProblem.options);
+                        
+                        if (thereFigures || thereImagesInOptions) {
+                            this.testService.createFolder(newProblem._id, "preliminar");
+                        }
+                          
+                        if (thereFigures) {
+                          newProblem.figures.forEach((figure) => {
+                            this.testService.moveFile(figure.url.split('/').slice(-1)[0], `preliminar/${newProblem._id}`).subscribe({
+                              next: () => {},
+                              error: (err) => { console.log(err);}
+                            });
+                            figure.url = GlobalConstants.concatenatePath(figure.url, `/preliminar/${newProblem._id}/`);
+                          });
+                        }
+                        
+                        if (thereImagesInOptions) {
+                          newProblem.options.forEach((option) => {
+                              if (GlobalConstants.isLink(option.answer)) {
+                              this.testService.moveFile(option.answer.split('/').slice(-1)[0], `preliminar/${newProblem._id}`).subscribe({
+                                next: () => {},
+                                error: (err) => { console.log(err);}
+                              });
+                              option.answer = GlobalConstants.concatenatePath(option.answer, `/preliminar/${newProblem._id}/`);
+                            }
+                          });
+                        }
+                        
+                        if (thereFigures || thereImagesInOptions) {
+                            this.testService.updateProblem('', -1, newProblem);
+                        }*/
+                      },
+                      error: (err) => {
+                        console.log(err);
+                      }
+                    });
+                    setTimeout(() => {
+                    }, 400);
+                  }
+                });
+                this.messageService.add({severity:'success', summary: 'Exitoso', detail: 'Prueba creada 🎉', life: 3250});
+                setTimeout(() => {
+                  this.router.navigate([`/pruebas/ver/${this.test.test_id}`]);
+                }, 1220);
+              } else {
+                console.log('El archivo .zip no contiene un archivo .tex');
+              }
+            };
+            reader.readAsArrayBuffer(file);
+          } else {
+            console.log('El archivo seleccionado no es un archivo .zip');
+          }
+        }
+        this.messageService.add({severity:'success', summary: 'Exitoso', detail: 'Prueba creada 🎉', life: 3250});
+        setTimeout(() => {
+          this.router.navigate([`/pruebas/ver/${this.test.test_id}`]);
+        }, 1220);
+      },
+      error: (err) => {
+        this.messageService.add({severity:'error', summary: 'Rechazado', detail: 'La prueba no fue creada 🙁', life: 3250});
+      }
+    });
+  }
+  
   addManualTest() {
     this.test.test_id = `preliminar-${this.test.edition}-${this.test.levels}`;
-    this.testService.addNewTest(this.test);
-    this.messageService.add({severity:'success', summary: 'Exitoso', detail: 'Prueba creada 🎉', life: 3250});
-    setTimeout(() => {
-      this.router.navigate([`/pruebas/ver/${this.test.test_id}`]);
-    }, 1220);
+    this.testService.addNewTest(this.test).subscribe({
+      next: (successful) => {
+        this.messageService.add({severity:'success', summary: 'Exitoso', detail: 'Prueba creada 🎉', life: 3250});
+        setTimeout(() => {
+          this.router.navigate([`/pruebas/ver/${this.test.test_id}`]);
+        }, 1220);
+      },
+      error: (err) => {
+        this.messageService.add({severity:'error', summary: 'Rechazado', detail: 'La prueba no fue creada 🙁', life: 3250});
+      }
+    });
   }
 
   uploadTest() {
     this.test.test_id = `preliminar-${this.test.edition}-${this.test.levels}`;
     this.uploadUrl += this.test.test_id;
-    this.uploadBtn.upload();
+    setTimeout(() => { this.uploadBtn.upload() }, 500)
     // this.testService.addNewTest(this.test);
     // this.messageService.add({severity:'success', summary: 'Exitoso', detail: 'Prueba creada 🎉', life: 3250});
     // setTimeout(() => {
     //   this.router.navigate([`/pruebas/ver/${this.test.test_id}`]);
     // }, 1220);
   }
-
 }

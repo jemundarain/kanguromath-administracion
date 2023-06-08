@@ -43,15 +43,11 @@ export class TestService {
     }
 
     addNewTest(test: Test) {
-        return this.http.post<{message: string}>(`${ this.baseUrl }/admin_tests/post_test/`, test).subscribe((jsonData) => {
-            console.log(jsonData);
-        });
+        return this.http.post<{successful: boolean}>(`${ this.baseUrl }/admin_tests/post_test/`, test);
     }
 
     uploadNewTest(test: Test) {
-        return this.http.post<{message: string}>(`${ this.baseUrl }/admin_uploads/post_test/`, test).subscribe((jsonData) => {
-            console.log(jsonData);
-        });
+        return this.http.post<{message: string}>(`${ this.baseUrl }/admin_uploads/post_test/`, test);
     }
 
     updateTest(test: Test) {

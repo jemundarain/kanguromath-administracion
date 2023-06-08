@@ -6,7 +6,6 @@ const JSZip = require('jszip');
 const multer = require('multer');
 const fs = require('fs');
 const { dirname, extname, join } = require('path');
-var readline = require('linebyline');
 var app = express();
 
 const multerUpload = multer({
@@ -95,27 +94,26 @@ app.put('/put_avatar/', (req, res) => {
   })
 });
 
-app.post('/post_test/:test_id', multerUpload.single('file'), (req, res) => {
+app.post('/post_test/:test_id', multerUpload.single('testFile'), (req, res) => {
   const file = req.file;
-  console.log(file);
+  let testPath;
 
   if (!file) {
     return res.status(400).send('No file uploaded.');
   }
 
-  // Leer el archivo cargado con fs.readFileSync
   const data = fs.readFileSync(file.path);
 
-  // Descomprimir el archivo usando JSZip
   JSZip.loadAsync(data)
     .then(zip => {
-      // Recorrer cada archivo en el zip y escribirlo en el disco
-      Object.keys(zip.files).forEach(filename => {
+      Object.keys(zip.files).forEach((filename) => {
         const file = zip.file(filename);
         const filepath = join(__dirname, '../../uploads', filename);
+        if (filepath.includes('.tex')) {
+          testPath = filepath;
+        }
         if (file && file.async) {
           file.async('nodebuffer').then(content => {
-            // Crear el directorio si no existe
             const dirPath = dirname(filepath);
             if (!fs.existsSync(dirPath)) {
               fs.mkdirSync(dirPath, { recursive: true });
@@ -124,49 +122,112 @@ app.post('/post_test/:test_id', multerUpload.single('file'), (req, res) => {
           });
         }
       });
-      // console.log('FILE:', file);
-      rl = readline(join(__dirname, '../../uploads/tercero', 'tercero.tex'));
+      var problems = []; 
+      setTimeout(() => {
+        fs.readFile(testPath, 'utf8', (err, testText) => {
+          if (err) {
+            console.error(err);
+            res.status(500).send('Error al leer el archivo');
+          } 
+          const main_regex = /\\pro(fig)?\{[^{}]*\}[\s\S]*?\n(\\resp\{((?:[^{}]|(?:\{[^{}]*\}))*?)\}\{((?:[^{}]|(?:\{[^{}]*\}))*?)\}\{((?:[^{}]|(?:\{[^{}]*\}))*?)\}\{((?:[^{}]|(?:\{[^{}]*\}))*?)\}\{((?:[^{}]|(?:\{[^{}]*\}))*?)\}|%\{|\\end)/g;
+          const solutions_regex = /[ABCDE]{30}/g;
+          const num_s_regex = /{([^{}]+)}/;
+          // const pro_regex = /\\pro{(\d+)}\s*(.*)/g;
+          // const profig_regex = /\\profig\{[^{}]*\}[\s\S]*?\n/g;.
+          // const keys_regex = /{([^{}]+)}/g;
+          const paths_regex = /{([^{}]*\.(?:png|jpe?g))}/g;
+          const options_regex_resp = /\\resp\{((?:[^{}]|(?:\{[^{}]*\}))*?)\}\{((?:[^{}]|(?:\{[^{}]*\}))*?)\}\{((?:[^{}]|(?:\{[^{}]*\}))*?)\}\{((?:[^{}]|(?:\{[^{}]*\}))*?)\}\{((?:[^{}]|(?:\{[^{}]*\}))*?)\}/g;
+          const options_regex_medskip = /\\[A-E]\s([^\\]+)/g;
+          var rawSolutions;
 
-      let rawLevel;
-      let rawSolutions;
-      let level = '';
+          var testTextClean = testText.replace(/\\includegraphics\[[^\]]+\]/g, '')
+                                        //.replace(/\\(begin|end)\{(?:pspicture|pspicture\*|postscript|TeXtoEPS|pdfpicture)\}[\s\S]*?\\(end|begin)\{(?:pspicture|postscript|TeXtoEPS|pdfpicture)\}|\\(?:psline|psframe|pscircle|psdots|pstext|psset|SpecialCoor|uput|degrees|psarc|qdisk|qline|qbezier|qlcurve|qccurve|pstVerb|newpath|moveto|lineto|arc|closepath|stroke|fill|gsave|grestore|show|quad|includegraphics|medskip|smallskip|it|raisebox)\b/g, '')
+                                      .replace(/\\begin{(?:pspicture|pspicture\*)}[\s\S]*?\\end{(?:pspicture|pspicture\*)}/g);
+          const rawProblems =  testTextClean.match(main_regex);
 
-      rl.on('line', (line) => {
+          const matchSolutions = solutions_regex.exec(testText);
+          var rawSolutions = matchSolutions[0].split('');
+          
+          rawProblems.forEach((rawProblem, index) => {
+            // Número secuencial
+            var match_regex = rawProblem.match(num_s_regex);
+            var num_s = match_regex[1];
 
-        if (line.startsWith('% c. única:')) {
-          const segments = line.split(':');
-          rawSolutions = segments[segments.length - 1].trim();
-        }
+            // Figuras
+            var rawPaths;
+            if(rawProblem.includes('profig')) {
+              const matches_paths = rawProblem.match(paths_regex);
+              if(matches_paths) {
+                rawPaths = matches_paths.map(match => match.slice(1, -1));
+              }
+            }
 
-        if (line.startsWith('\\pro') && line.match(/\\pro{\d+}\s*(.*)/)) {
-          var [, num_s, statement] = line.match(/\\pro{\d+}\s*(.*)/);
-        }
-        
-        if (line.startsWith('\\profig') && line.match(/\\profig\{(\d+)\}\{.*?\}\{([\s\S]*?)\}/)) {
-          var [, num_s, statement] = line.match(/\\profig\{(\d+)\}\{.*?\}\{([\s\S]*?)\}/);
-        }
+            // Enunciado
+            var statement = rawProblem;
+            statement = statement.replace(/\\pro(?:fig)?\{\d+(?:\.\d+)?\}\s*/g, '')
+                                 .replace(/\\resp\{.*\}/g, '')
+                                 .replace(/^%.*$/gm)
+                                 .replace(/{([^{}]*\.(?:png|jpe?g))}/g);
 
-        if (line.startsWith('\\resp')) {
-          let match;
-          let rawOptions = [];
-          const regex = /{([^}]*)}/g;
-          while ((match = regex.exec(line)) !== null) {
-            rawOptions.push(match[1]);
-          }
-          rawOptions = [];
-        }
-      });
+            var solution = rawSolutions[index];
 
-      // const test = {
-      //   test_id: 'preliminar-' . 
-      // }
+            var rawOptions;
+            if(!rawProblem.includes('\\resp') && rawProblem.includes('\\A') && rawProblem.includes('\\B') && rawProblem.includes('\\C') && rawProblem.includes('\\D') && rawProblem.includes('\\E')) {
+              const matches_medskip = rawProblem.match(options_regex_medskip);
+              if(matches_medskip)
+                rawOptions = matches_medskip.map(match => match.split("\\")[1].trim());
+            } else {
+              const matches_resp = rawProblem.match(options_regex_resp);
+              if(matches_resp) {
+                rawOptions = matches_resp[0].replace('\\resp{', '').split("}{");
+              }
+            }
 
-      res.status(200).send('Archivo descomprimido exitosamente');
+            var options = []
+            if(rawOptions) {
+              for(let i=0; i<5; i++) {
+                options.push({
+                  _id: '',
+                  letter: String.fromCharCode(65 + i),
+                  answer: rawOptions[i],
+                  ik_id: ''
+                })
+              }
+            }
+
+            var figures = [];
+            if(rawPaths) {
+              for(let i=0; i<rawPaths.length; i++) {
+                figures.push({
+                  _id: '',
+                  ik_id: '',
+                  num_s: i+1,
+                  url: rawPaths[i],
+                  position: i+1==1? 'derecha':'intermedia'
+                })
+              }
+            }
+
+            var problem = {
+              _id: '',
+              statement: statement,
+              solution: solution,
+              category: 'sin-categoria',
+              options: options,
+              figures: figures
+            }
+            
+            problems.push(problem);
+          });
+        });
+      }, 500)
+      return res.status(200).json(problems);
     })
-    .catch(error => {
-      console.log(error);
-      res.status(500).send('Error al descomprimir el archivo');
+    .catch(err => {
+      console.log(err);
+      res.status(500).send(err);
     });
 });
+
 
 module.exports = app;

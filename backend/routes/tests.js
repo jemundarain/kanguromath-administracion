@@ -50,7 +50,7 @@ app.get('/:edition/levels', (req, res) => {
 app.get('/get_tests_by_edition/:edition',(req, res, next) => {
 	TestModel.find({ 'edition': req.params.edition})
 	.then((data) => {
-		res.json(data);
+		res.status(200).json(data);
 	})
 	.catch(() => {
 		console.log('Error fetching entries')
@@ -88,9 +88,7 @@ app.post('/post_test/', (req, res) => {
 		problems: body.problems
 	})
 	.then(() => {
-		res.status(200).json({
-			message: 'Create completed'
-		});
+		res.status(200).json({successful: true});
 	})
 	.catch(err => {
 		res.status(500).json(err);

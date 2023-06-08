@@ -26,11 +26,11 @@
                 #uploadBtn
                 mode="basic"
                 chooseLabel="Subir archivo"
-                name="file"
+                name="testFile"
                 [url]="uploadUrl"
                 accept=".zip, .rar"
                 [maxFileSize]="500000"
-                (onUpload)="onBasicUpload($event)">
+                (onUpload)="onUpload($event)">
             </p-fileUpload>
             <button pButton 
                     type="button" 

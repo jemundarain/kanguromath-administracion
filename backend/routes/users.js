@@ -44,23 +44,30 @@ app.post('/post_user/', (req, res) => {
 });
 
 app.get('/get_distribution', async (req, res, next) => {
-	var startD = dayjs(req.query.start);
-	var endD = dayjs(req.query.end);
-	var arr = [];
-	while(startD.format('YYYY-MM-DD') != endD.add(1, 'day').format('YYYY-MM-DD')) {
-		endD_aux = startD.add(1, 'day');
-		await UserModel.find({ 'registration_date': {$gte: startD.format('YYYY-MM-DD'), $lte: endD_aux.format('YYYY-MM-DD') }}).count()
-		.then((data) => {
-			arr.push(data)
-		})
-		.catch(() => {
-			console.log('Error fetching entries /usuarios')
-		})
-		startD = startD.add(1, 'day');
-		setTimeout(() => {}, 50);
-	}
-	res.json(arr);
-})
+    try {
+        var startD = dayjs(req.query.start);
+        const endD = dayjs(req.query.end);
+
+        const promises = [];
+
+        while (startD.format('YYYY-MM-DD') !== endD.add(1, 'day').format('YYYY-MM-DD')) {
+            const endD_aux = startD.add(1, 'day');
+            const promise = UserModel.find({ 'registration_date': { $gte: startD.format('YYYY-MM-DD'), $lte: endD_aux.format('YYYY-MM-DD') } }).count();
+            promises.push(promise);
+
+            startD = startD.add(1, 'day');
+        }
+
+        const results = await Promise.all(promises);
+        const arr = results.map((data) => data || 0);
+
+        res.json(arr);
+    } catch (error) {
+        console.log('Error fetching entries /usuarios', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
 
 app.get('/get_total',(req, res, next) => {
 	UserModel.find({ 'registration_date': {$gte: new Date(req.query.start), $lt: new Date(req.query.end)}}).count()

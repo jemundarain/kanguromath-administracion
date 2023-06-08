@@ -34,7 +34,7 @@
                                     (click)="addFigure()">
                             </button>
                         </div>
-                        <app-figures-table *ngIf="this.problem.figures.length" [figures]="problem.figures" [_id]="problem.problem_id"></app-figures-table>
+                        <app-figures-table *ngIf="this.problem.figures.length" [figures]="problem.figures" [_id]="problem._id"></app-figures-table>
                     </div>
                 </p-card>
             </div>
@@ -58,7 +58,7 @@
                 <h5 class="text-2xl font-bold text-[#26201F] tracking-tight">Opciones</h5>
                 <div class="col-span-12 h-min">
                     <div class="grid grid-cols-12 gap-8 mb-6">
-                        <app-options (onChangeOptions)="problem.options = $event" [options]="problem.options" [problem_id]="problem.problem_id" class="col-span-10"></app-options>
+                        <app-options (onChangeOptions)="problem.options = $event" [options]="problem.options" [problem_id]="problem._id" class="col-span-10"></app-options>
                     </div>
                 </div>
             </div>

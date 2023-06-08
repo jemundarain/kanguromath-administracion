@@ -53,7 +53,7 @@ export class NewProblemComponent implements OnInit {
       .subscribe( test => {
         this.test = test;
         this.num_s = this.test.problems.length+1;
-        this.newProblem = new Problem('', '', this.test.problems.length+1, '', '', 'sin-categoria', [ new Option("", "A","", ""), new Option("", "B", "", ""), new Option("", "C","", ""), new Option("", "D", "", ""), new Option("", "E", "", "") ], []);
+        this.newProblem = new Problem('', '', '', 'sin-categoria', [ new Option("", "A","", ""), new Option("", "B", "", ""), new Option("", "C","", ""), new Option("", "D", "", ""), new Option("", "E", "", "") ], []);
         this.items = [
           {label: 'Pruebas'},
           {label: `Preliminar ${this.test.edition} ${this.test.levels}`},
