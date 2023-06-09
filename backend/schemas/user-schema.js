@@ -49,7 +49,7 @@ const userSchema = mongoose.Schema({
     password: {type: String, required: true},
     type_institution: {type: String, enum: validTypeInstitutions},
     achieves: [new mongoose.Schema({
-        achievement: {type: String, required: true},
+        achievement: { type: mongoose.Schema.Types.ObjectId, ref: 'Achievement' },
         percentage: {type: Number, required: true}
     })],
     submit: [new mongoose.Schema({

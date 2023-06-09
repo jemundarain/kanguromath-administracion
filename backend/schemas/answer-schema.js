@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 
 const answerSchema = mongoose.Schema({
-    user: {type: String, required: true},
-    problem: {type: String, required: true},
+    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    problem: { type: mongoose.Schema.Types.ObjectId, ref: 'Problem' },
     option: {type: String, required: true},
     answer_time: {type: Date}
 });
