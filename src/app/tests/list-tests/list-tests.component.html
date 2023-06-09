@@ -14,8 +14,7 @@
 </div> -->
 
 <!-- Table -->
-<p-progressSpinner *ngIf="!editions"  styleClass="custom-spinner" strokeWidth="4.2" fill="#fff" animationDuration="1.6s"></p-progressSpinner>
-<div class="grid grid-cols-12 mb-6" *ngIf="tests?.length">
+<div class="grid grid-cols-12 mb-6">
     <p-table [value]="tests" class="col-span-7" id="tests-table">
         <ng-template pTemplate="header">
             <tr>
@@ -45,7 +44,7 @@
         </ng-template>
     </p-table>
 </div>
-
+<app-progress-spinner [condition]="!editions"></app-progress-spinner>
 
 <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"></p-confirmDialog>
 <p-toast position="bottom-center"></p-toast>
