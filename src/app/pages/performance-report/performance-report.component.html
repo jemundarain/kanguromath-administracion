@@ -10,7 +10,7 @@
     <form #dateFilterForm="ngForm" class="col-span-4 col-start-10 row-span-2">
         <p-dropdown [(ngModel)]="dateOption"
                     name="dateOption"
-                    class="p-button-raised grid row-start-1 -ml-16"
+                    class="p-button-raised grid row-start-1 -ml-16 mt-1"
                     [class]="dateFilterForm?.form?.value.dateOption != 'customize' ? 'float-right' : ''"
                     styleClass="btn" 
                     icon="pi pi-calendar" 

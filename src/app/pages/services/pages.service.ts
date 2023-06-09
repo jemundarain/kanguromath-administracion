@@ -37,7 +37,7 @@ export class PagesService {
   }
 
   getUsersDistributionByLevel() {
-    return this.http.get<Ranking[]>(`${ this.baseUrl }/admin_users/get_distribution_by_level`)
+    return this.http.get<Ranking[]>(`${ this.baseUrl }/admin_users/get_distribution_by_level`);
   }
 
   getUsersDistributionBySex() {

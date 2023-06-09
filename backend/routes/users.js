@@ -112,10 +112,10 @@ app.get('/get_distribution_by_type', (req, res, next) => {
 app.get('/get_distribution_by_level', (req, res, next) => {
 	UserModel.aggregate([ {$group : { _id : '$level', count : {$sum : 1}}} ])
 	.then((data) => {
-		res.json(data.sort((a,b) => (a._id > b._id) ? 1 : ((b._id > a._id) ? -1 : 0)));
+		res.status(200).json(data.sort((a,b) => (a._id > b._id) ? 1 : ((b._id > a._id) ? -1 : 0)));
 	})
-	.catch(() => {
-		console.log('Error fetching users/distribution-by-level')
+	.catch((err) => {
+		res.status(500).json(err);
 	})
 })
 

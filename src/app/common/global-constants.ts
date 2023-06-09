@@ -22,6 +22,15 @@ export class GlobalConstants {
         { name: '5to', code: '5to' }
     ]
 
+    public static DISTRIBUTION_LEVELS: RadioOption[] = [
+        { name: '1ero', code: '1ero' },
+        { name: '2do', code: '2do' },
+        { name: '3ero', code: '3ero' },
+        { name: '4to', code: '4to' },
+        { name: '5to', code: '5to' },
+        { name: 'Universitario', code: 'universitario' }
+    ]
+
     public static CATEGORIES: RadioOption[] = [
         { name: 'Álgebra', code: 'algebra' },
         { name: 'Geometría', code: 'geometria' },
