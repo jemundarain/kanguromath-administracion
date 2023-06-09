@@ -85,16 +85,14 @@
                 class="mb-3" >
             </app-problem-input>
 
-            <app-progress-spinner [condition]="!suggestedProblems && term" [template]="problemResults" class=""></app-progress-spinner>
-            <ng-template #problemResults>            
-                <ul *ngIf="suggestedProblems?.length" class="list-none list-inside text-slate-700 bg-white rounded-md shadow-md">
-                    <li (click)="seeProblem(problem)" *ngFor="let problem of suggestedProblems; let i = index" class="cursor-pointer hover:bg-[#fef9f0] pr-5 pl-5 pt-4 pb-4">
-                        <b>{{i+1}}. </b>
-                        <ng-katex-html [html]="problem.statement"></ng-katex-html>
-                    </li>
-                </ul>
-                <span *ngIf="this.suggestedProblems?.length === 0 && term && !problemSelected" class="bg-white rounded-md shadow-md pr-5 pl-5 pt-4 pb-4">No hay ningún problema con el término "{{term}}"</span>
-            </ng-template>
+            <app-progress-spinner [condition]="!suggestedProblems && term" class=""></app-progress-spinner>
+            <ul *ngIf="suggestedProblems?.length" class="list-none list-inside text-slate-700 bg-white rounded-md shadow-md">
+                <li (click)="seeProblem(problem)" *ngFor="let problem of suggestedProblems; let i = index" class="cursor-pointer hover:bg-[#fef9f0] pr-5 pl-5 pt-4 pb-4">
+                    <b>{{i+1}}. </b>
+                    <ng-katex-html [html]="problem.statement"></ng-katex-html>
+                </li>
+            </ul>
+            <span *ngIf="this.suggestedProblems?.length === 0 && term && !problemSelected" class="bg-white rounded-md shadow-md pr-5 pl-5 pt-4 pb-4">No hay ningún problema con el término "{{term}}"</span>
         </form>
         <span class="m-3"></span>
         <div *ngIf="problemSelected" class="bg-white rounded-md pt-6 pb-2 pl-8 pr-10 mb-16">

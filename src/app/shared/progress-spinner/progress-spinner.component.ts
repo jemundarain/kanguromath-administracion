@@ -10,7 +10,6 @@ export class ProgressSpinnerComponent implements OnInit {
   constructor() { }
 
   @Input() condition: any;
-  @Input() template: any;
 
   ngOnInit(): void {
   }

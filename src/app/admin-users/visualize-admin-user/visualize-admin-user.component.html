@@ -1,47 +1,45 @@
 <app-header title="Usuario" [breadcrumbs]="items"></app-header>
 
-<app-progress-spinner [condition]="!adminUser.email" [template]="newAdminUserForm"></app-progress-spinner>
-<ng-template #newAdminUserForm>
-    <div class="flex flex-row gap-10">
-        <div class="w-2/3">
-            <div class="flex flex-row mb-6">
-                <label class="flex-none mr-3 my-auto text-[21px] font-normal text-[#26201F] tracking-tight w-fit">Nombre</label>
-                <span class="my-auto text-2xl font-semibold text-[#26201F] tracking-tight w-fit">{{ adminUser.name }}</span>
-            </div>
+<app-progress-spinner [condition]="!adminUser.email"template></app-progress-spinner>
+<div class="flex flex-row gap-10">
+    <div class="w-2/3">
+        <div class="flex flex-row mb-6">
+            <label class="flex-none mr-3 my-auto text-[21px] font-normal text-[#26201F] tracking-tight w-fit">Nombre</label>
+            <span class="my-auto text-2xl font-semibold text-[#26201F] tracking-tight w-fit">{{ adminUser.name }}</span>
+        </div>
 
-            <div class="flex flex-row mb-6">
-                <label class="flex-none mr-3 my-auto text-[21px] font-normal text-[#26201F] tracking-tight">Apellido</label>
-                <span class="my-auto text-2xl font-semibold text-[#26201F] tracking-tight w-fit">{{ adminUser.last_name }}</span>
-            </div>
-            
-            <div class="flex flex-row mb-6">
-                <label class="flex-none mr-3 my-auto text-[21px] font-normal text-[#26201F] tracking-tight">Usuario</label>
-                <span class="my-auto text-2xl font-semibold text-[#26201F] tracking-tight w-fit">{{ adminUser.username }}</span>
-            </div>
-
-            <div class="flex flex-row mb-6">
-                <label class="flex-none mr-3 my-auto text-[21px] font-normal text-[#26201F] tracking-tight">Sexo</label>
-                <div class="col-span-2 row-start-4">
-                    <span class="my-auto text-2xl font-semibold text-[#26201F] tracking-tight w-fit">{{ adminUser.sex=='M'? 'Masculino':'Femenino' }}</span>
-                </div>
-            </div>
-
-            <div class="flex flex-row mb-6">
-                <label class="flex-none mr-3 my-auto text-[21px] font-normal text-[#26201F] tracking-tight">Email</label>
-                <span class="my-auto text-2xl font-semibold text-[#26201F] tracking-tight w-fit">{{ adminUser.email }}</span>
-            </div>
-
-            <div class="flex flex-row mb-6">
-                <label class="flex-none mr-3 my-auto text-[21px] font-normal text-[#26201F] tracking-tight">Fecha de Nacimiento</label>
-                <span class="my-auto text-2xl font-semibold text-[#26201F] tracking-tight w-fit">{{ date_birth }}</span>
-            </div>
-
-            <button pButton type="button" class="btn float-left" label="Volver" icon="pi pi-arrow-left" iconPos="left" (click)="back()"></button>
-            <button pButton pRipple label="Editar" [routerLink]="['/usuarios/editar', adminUser.username ]" class="btn w-32 p-3 float-right"></button>
+        <div class="flex flex-row mb-6">
+            <label class="flex-none mr-3 my-auto text-[21px] font-normal text-[#26201F] tracking-tight">Apellido</label>
+            <span class="my-auto text-2xl font-semibold text-[#26201F] tracking-tight w-fit">{{ adminUser.last_name }}</span>
         </div>
         
-        <div class="w-1/3">
-            <p-image [src]="adminUser.avatar.url? 'adminUser.avatar.url':'https://ik.imagekit.io/661ijdspv/usuarios/default.png'"></p-image>
+        <div class="flex flex-row mb-6">
+            <label class="flex-none mr-3 my-auto text-[21px] font-normal text-[#26201F] tracking-tight">Usuario</label>
+            <span class="my-auto text-2xl font-semibold text-[#26201F] tracking-tight w-fit">{{ adminUser.username }}</span>
         </div>
+
+        <div class="flex flex-row mb-6">
+            <label class="flex-none mr-3 my-auto text-[21px] font-normal text-[#26201F] tracking-tight">Sexo</label>
+            <div class="col-span-2 row-start-4">
+                <span class="my-auto text-2xl font-semibold text-[#26201F] tracking-tight w-fit">{{ adminUser.sex=='M'? 'Masculino':'Femenino' }}</span>
+            </div>
+        </div>
+
+        <div class="flex flex-row mb-6">
+            <label class="flex-none mr-3 my-auto text-[21px] font-normal text-[#26201F] tracking-tight">Email</label>
+            <span class="my-auto text-2xl font-semibold text-[#26201F] tracking-tight w-fit">{{ adminUser.email }}</span>
+        </div>
+
+        <div class="flex flex-row mb-6">
+            <label class="flex-none mr-3 my-auto text-[21px] font-normal text-[#26201F] tracking-tight">Fecha de Nacimiento</label>
+            <span class="my-auto text-2xl font-semibold text-[#26201F] tracking-tight w-fit">{{ date_birth }}</span>
+        </div>
+
+        <button pButton type="button" class="btn float-left" label="Volver" icon="pi pi-arrow-left" iconPos="left" (click)="back()"></button>
+        <button pButton pRipple label="Editar" [routerLink]="['/usuarios/editar', adminUser.username ]" class="btn w-32 p-3 float-right"></button>
     </div>
-</ng-template>
+    
+    <div class="w-1/3">
+        <p-image [src]="adminUser.avatar.url? 'adminUser.avatar.url':'https://ik.imagekit.io/661ijdspv/usuarios/default.png'"></p-image>
+    </div>
+</div>

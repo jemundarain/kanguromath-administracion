@@ -38,16 +38,12 @@
     <!-- Registros nuevos y Usuarios registrados -->
     <div class="grid grid-cols-12 gap-6 mb-6" [class]="dateFilterForm?.form?.value.dateOption != 'customize' ? '-mt-12' : ''">
         <p-card class="col-span-10 h-fit" header="Registros Nuevos">
-            <app-progress-spinner [condition]="lineChartData == null" [template]="lineChartT"></app-progress-spinner>
-            <ng-template #lineChartT>
-                <p-chart id="usersLineChart" type="line" [data]="lineChartData" [options]="lineChartOptions"></p-chart>
-            </ng-template>    
+            <app-progress-spinner [condition]="lineChartData == null"></app-progress-spinner>
+            <p-chart id="usersLineChart" type="line" [data]="lineChartData" [options]="lineChartOptions"></p-chart>
         </p-card>
         <p-card class="col-span-2 h-min leading-6" header="Usuarios Registrados">
-            <app-progress-spinner [condition]="numberUsers == null" [template]="numberUsersT"></app-progress-spinner>
-            <ng-template #numberUsersT>
-                <p class="text-4xl font-semibold text-slate-700">{{ numberUsers }}</p>
-            </ng-template>
+            <app-progress-spinner [condition]="numberUsers == null"></app-progress-spinner>
+            <p class="text-4xl font-semibold text-slate-700">{{ numberUsers }}</p>
         </p-card>
     </div>
 

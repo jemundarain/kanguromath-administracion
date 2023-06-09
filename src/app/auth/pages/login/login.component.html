@@ -16,17 +16,15 @@
             <p-password id="password" name="password" autocomplete="off" [(ngModel)]="password" placeholder="Password" [feedback]="false" [toggleMask]="true" [required]="true"></p-password>
             <div *ngIf="validatePassword()" class="text-red-500 text-sm mt-1">Por favor, ingresa tu contraseña</div>
 
-            <app-progress-spinner [condition]="loading" [template]="problemResults"></app-progress-spinner>
-            <ng-template #problemResults> 
-                <div class="flex flex-row w-1/2 float-right mt-7">
-                    <button pButton pRipple
-                            type="submit"
-                            label="Iniciar Sesión"
-                            class="btn justify-end mb-1 mx-auto"
-                            [disabled]="!loginForm.valid">
-                    </button>
-                </div>
-            </ng-template>
+            <app-progress-spinner [condition]="loading"></app-progress-spinner>
+            <div class="flex flex-row w-1/2 float-right mt-7">
+                <button pButton pRipple
+                        type="submit"
+                        label="Iniciar Sesión"
+                        class="btn justify-end mb-1 mx-auto"
+                        [disabled]="!loginForm.valid">
+                </button>
+            </div>
         </form>
         
     </div>
