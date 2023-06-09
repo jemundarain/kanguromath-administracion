@@ -32,7 +32,8 @@ export class VisualizeTestComponent implements OnInit {
         this.test = test;
         this.testService.getProblemsByTestId(this.test.test_id).subscribe({
           next: (problems) => {
-            problems? this.problems = problems : this.testEmpty = true;
+            console.log(problems);
+            problems.length? this.problems = problems : this.testEmpty = true;
           },
           error: () => {
             this.error = true;

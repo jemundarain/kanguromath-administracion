@@ -1,17 +1,18 @@
 var express = require('express');
-var app = express();
 const mongoose = require('mongoose');
 const { ObjectId } = mongoose.Types;
 const TestModel = require('../schemas/test-schema');
 const ProblemModel = require('../schemas/problem-schema')
 
+var app = express();
+
 app.get('/list_tests',(req, res, next) => {
 	TestModel.find({})
-	.then((data) => {
-		res.json(data);
+	.then((tests) => {
+		res.status(200).json(tests);
 	})
-	.catch(() => {
-		console.log('Error fetching entries')
+	.catch((err) => {
+		res.status(500).json(err);
 	})
 })
 
@@ -25,35 +26,23 @@ app.get('/get_editions',(req, res, next) => {
 	})
 })
 
-app.get('/get_leves_available/:edition',(req, res, next) => {
-	TestModel.distinct('edition')
-	.then((data) => {
-		res.json(data);
-	})
-	.catch(() => {
-		console.log('Error fetching entries')
-	})
-})
-
 app.get('/:edition/levels', (req, res) => {
 	TestModel.find({ edition: req.params.edition }, 'levels')
 	.then(tests => {
-		const levels = tests.map(test => test.levels).flat(); 
-		res.status(200).json(levels);
+		res.status(200).json(tests.map(test => test.levels).flat());
 	})
-	.catch(error => {
-		console.error(error);
-		res.status(500).json({ error: 'Internal server error' });
+	.catch(err => {
+		res.status(500).json(err);
 	});
 });
 
 app.get('/get_tests_by_edition/:edition',(req, res, next) => {
 	TestModel.find({ 'edition': req.params.edition})
-	.then((data) => {
-		res.status(200).json(data);
+	.then((tests) => {
+		res.status(200).json(tests);
 	})
-	.catch(() => {
-		console.log('Error fetching entries')
+	.catch((err) => {
+		res.status(500).json(err);
 	})
 })
 
@@ -68,12 +57,12 @@ app.get('/get_test/:test_id',(req, res, next) => {
 })
 
 app.get('/get_test_by_problem/:_id', (req, res) => {
-	TestModel.find({ 'problems': {$elemMatch: {$eq: decodeURIComponent(req.params._id) }}})
-	.then((data) => {
-		res.json(data);
+	TestModel.find({ 'problems': {$elemMatch: {$eq: new ObjectId(req.params._id) }}})
+	.then((test) => {
+		res.status(200).json(test);
 	})
 	.catch(() => {
-		console.log('Error fetching entries')
+		res.status(400).json(err);
 	})
 })
 
@@ -97,39 +86,43 @@ app.post('/post_test/', (req, res) => {
 
 app.put('/put_test/', (req, res) => {
 	TestModel.updateOne({_id: req.body._id}, req.body)
-	  .then(() => {
-		res.status(200).json({
-		  message: 'Update completed'
-		});
-	  });
+	.then(() => {
+		res.status(200).json({successful: true});
+	})
+	.catch(err => {
+		res.status(500).json(err);
+	});
 });
 
 app.delete('/delete_test/:_id', (req, res) => {
-	let prueba;
-	let problemasIds;
-	TestModel.findById(req.params._id)
+	const testId = req.params._id;
+  
+	TestModel.findById(testId)
 	  .then((test) => {
-		prueba = test;
-		problemasIds = test.problems;
-		return TestModel.deleteOne({ _id: req.params._id });
-	  })
-	  .then(() => {
-		return TestModel.distinct("problems", { _id: { $ne: req.params._id }, edition: prueba.edition })
-		  .then((result) => {
-			return ProblemModel.deleteMany({
-				_id: {
-					$in: problemasIds,
-					$nin: result
-				}
-			});
+		const edition = test.edition;
+		const problemsIds = test.problems.map((problemId) => problemId.toString());
+  
+		return TestModel.deleteOne({ _id: testId })
+		  .then(() => TestModel.find({ _id: { $ne: testId }, edition }))
+		  .then((tests) => {
+			const usedProblemIds = tests.reduce(
+			  (acc, curr) => acc.concat(curr.problems.map((problemId) => problemId.toString())),
+			  []
+			);
+  
+			const deletePromises = problemsIds
+			  .filter((problemId) => !usedProblemIds.includes(problemId))
+			  .map((problemId) => ProblemModel.deleteOne({ _id: problemId }));
+  
+			return Promise.all(deletePromises);
 		  });
 	  })
 	  .then(() => {
-		res.status(200).json({successful: true});
+		res.status(200).json({ successful: true });
 	  })
 	  .catch((err) => {
 		res.status(500).json(err);
 	  });
-});
-  
+  });
+    
 module.exports = app;

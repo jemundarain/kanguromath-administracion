@@ -1,19 +1,18 @@
-import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
-import { GlobalConstants } from 'src/app/common/global-constants';
-import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
+import { NgForm } from '@angular/forms';
+import { Location } from '@angular/common'
 import { Observable, of } from 'rxjs';
+import { switchMap } from 'rxjs';
+import * as htmlToText from 'html-to-text';
+
+import { GlobalConstants } from 'src/app/common/global-constants';
 import { Problem } from '../models/problem-model';
-import { Subject, switchMap } from 'rxjs';
-import { debounceTime, tap } from 'rxjs/operators';
 import { TestService } from '../services/test.service';
 import { Test } from '../models/test-model';
 import { Option } from '../../shared/option-model';
-import { NgForm } from '@angular/forms';
 import { Figure } from '../models/figure-model';
-import { Location } from '@angular/common'
-import * as htmlToText from 'html-to-text';
-import { OptionsComponent } from 'src/app/shared/options/options.component';
 
 @Component({
   selector: 'app-new-problem-component',
@@ -22,13 +21,6 @@ import { OptionsComponent } from 'src/app/shared/options/options.component';
 })
 export class NewProblemComponent implements OnInit {
 
-  constructor(
-    private testService: TestService,
-    private activatedRoute: ActivatedRoute,
-    private confirmationService: ConfirmationService,
-    private messageService: MessageService,
-    private location: Location
-  ) { }
   @ViewChild('addNewProblemForm', { static: true }) addNewProblemForm !: NgForm;
   @ViewChild('addExistingProblemForm', { static: true }) addExistingProblemForm !: NgForm;
   items: MenuItem[];
@@ -38,11 +30,19 @@ export class NewProblemComponent implements OnInit {
   newProblem: Problem;
   problemSelected: Problem;
   suggestedProblems: Problem[];
+  figuresMap1 = GlobalConstants.FIGURES_MAP1;
+  figuresMap2 = GlobalConstants.FIGURES_MAP2;
   num_s: number;
   error: boolean;
   term: string;
-  figuresMap1 = GlobalConstants.FIGURES_MAP1;
-  figuresMap2 = GlobalConstants.FIGURES_MAP2;
+  
+  constructor(
+    private testService: TestService,
+    private activatedRoute: ActivatedRoute,
+    private confirmationService: ConfirmationService,
+    private messageService: MessageService,
+    private location: Location
+  ) { }
 
   ngOnInit(): void {
     this.options = GlobalConstants.NEW_PROBLEM_OPTIONS;

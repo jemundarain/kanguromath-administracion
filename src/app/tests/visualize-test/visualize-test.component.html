@@ -1,7 +1,7 @@
 <app-header title="Ver Prueba" [breadcrumbs]="items"></app-header>
 
 <div *ngIf="error" class="flex flex-col mx-16">
-    <h4 class="inline-block text-3xl text-center font-semibold text-gray-700 tracking-tight rounded-bl rounded-br">
+    <h4 class="inline-block text-3xl text-center font-semibold text-gray-700 tracking-tight rounded">
         Esta prueba no existe 😓
     </h4><br>
 </div>
@@ -26,7 +26,7 @@
     </button>
 </div>
 
-<div *ngIf="test" class="grid grid-cols-12 gap-4 pt-14 mx-16" [class]="test? 'bg-white rounded-tl rounded-tr':''">
+<div *ngIf="test" class="grid grid-cols-12 gap-4 pt-14 mx-16" [class]="test? 'bg-white rounded':''">
     <h3 class="font-['CMU_Serif'] inline-block text-center text-2xl font-bold text-gray-700 tracking-tight col-start-4 col-span-6">
         OLIMPÍADA JUVENIL DE MATEMÁTICA
     </h3>
@@ -46,8 +46,8 @@
     </h3>
 </div>
 
-<app-progress-spinner [condition]="!problems.length"></app-progress-spinner>
-<div *ngIf="test" class="grid grid-cols-12 mx-16 pb-10 mb-12" [class]="problems.length? 'bg-white rounded-bl rounded-br':''">
+<app-progress-spinner [condition]="!problems.length && !testEmpty"></app-progress-spinner>
+<div *ngIf="test" class="grid grid-cols-12 mx-16 pb-10 mb-12" [class]="problems.length? 'bg-white rounded':''">
     <div *ngFor="let problem of problems; let i = index" class="col-start-3 col-span-8 mx-5">
         <app-problem [num_s]="i+1" [problem]="problem" [test_id]="test.test_id"></app-problem>
     </div>

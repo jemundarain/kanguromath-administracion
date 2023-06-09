@@ -1,10 +1,11 @@
 var express = require('express');
-var app = express();
 const mongoose = require('mongoose');
-var ImageKit = require("imagekit");
 const { ObjectId } = mongoose.Types;
 const TestModel = require('../schemas/test-schema');
 const ProblemModel = require('../schemas/problem-schema')
+var ImageKit = require('imagekit');
+
+var app = express();
 
 var imagekit = new ImageKit({
 	publicKey : 'public_VoBZkirixLnqfCe0fUaeGUj6XQs=',
@@ -13,55 +14,56 @@ var imagekit = new ImageKit({
 });
 
 app.get('/get_problem/:_id',(req, res) => {
-	ProblemModel.find({ '_id': req.params._id })
-	.then((data) => {
-		res.json(data[0]);
-	})
-	.catch((err) => {
+	ProblemModel.findOne({ '_id': req.params._id })
+	  .then((problem) => {
+		res.status(200).json(problem);
+	  })
+	  .catch((err) => {
 		res.status(500).json(err);
-	})
+	  })
 })
 
-app.get('/get_all_problems_from_test/:test_id', async (req, res, next) => {
-	const problems_ids = await TestModel.findOne({ 'test_id': req.params.test_id })
-	  .then((test) => test?.problems || [])
-	  .catch((err) => res.status(500).json(err));
-  
-	const problems = await ProblemModel.find({ _id: { $in: problems_ids } }).lean();
-  
-	const problemsMap = problems.reduce((map, problem) => {
-	  map[problem._id.toString()] = problem;
-	  return map;
-	}, {});
-  
-	res.status(200).json(problems_ids.map((id) => problemsMap[id.toString()]));
-});
+app.get('/get_all_problems_from_test/:test_id', (req, res) => {
+	TestModel.findOne({ 'test_id': req.params.test_id })
+	  .then((test) => {
+		if(test && test.problems) {
+			const problems_ids = test.problems;
+			return ProblemModel.find({ _id: { $in: problems_ids } }).lean()
+			.then((problems) => {
+				const problemsMap = problems.reduce((map, problem) => {
+				map[problem._id.toString()] = problem;
+				return map;
+				}, {});
+				res.status(200).json(problems_ids.map((id) => problemsMap[id.toString()]));
+			});
+		}
+		res.status(200).json([]);
+	  })
+	  .catch((err) => {
+		res.status(500).json(err);
+	  });
+});   
 	
 app.get('/search_problems', (req, res) => {
 	TestModel.aggregate([
-	  { $match: { 'edition': req.query.edition } },
-	  { $match: { 'levels': { $ne: req.query.levels } } },
-	  { $group: { _id: null, problems: { $push: "$problems" } } }
+	  { $match: { 'edition': req.query.edition, 'levels': { $ne: req.query.levels } } },
+	  { $group: { _id: null, problems: { $push: '$problems' } } }
 	])
-	.then((data) => {
-	  var problems_ids = Array.from(new Set([].concat(...data[0].problems)));
-	  ProblemModel.find({
-		'_id': { $in: problems_ids },
-		'statement': { $regex: req.query.term, $options: 'i' }
-	  })
 	  .then((data) => {
-		res.json(data);
+		const problemsIds = Array.from(new Set([].concat(...data[0].problems)));
+		return ProblemModel.find({
+		  '_id': { $in: problemsIds },
+		  'statement': { $regex: req.query.term, $options: 'i' }
+		});
+	  })
+	  .then((result) => {
+		res.status(200).json(result);
 	  })
 	  .catch(() => {
-		console.log('Error fetching entries /search_problems1');
-		res.json([]);
+		res.status(500).json([]);
 	  });
-	})
-	.catch(() => {
-	  console.log('Error fetching entries /search_problems2');
-	  res.json([]);
-	});
   });
+  
   
 
 app.put('/put_existing_problem/', (req, res) => {
