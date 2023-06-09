@@ -5,7 +5,6 @@ import { GlobalConstants } from 'src/app/common/global-constants';
   name: 'stateTitle'
 })
 export class StateTitlePipe implements PipeTransform {
-
   transform(state: string): string {
     for(let i=0; i<GlobalConstants.STATES.length; i++) {
       if(state == GlobalConstants.STATES[i].code) {
@@ -14,5 +13,4 @@ export class StateTitlePipe implements PipeTransform {
     }
     return state
   }
-
 }

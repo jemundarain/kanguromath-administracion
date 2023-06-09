@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { GlobalConstants } from 'src/app/common/global-constants';
 import { Ranking } from 'src/app/pages/interfaces/ranking.interfaces';
 import { PagesService } from 'src/app/pages/services/pages.service';
@@ -8,16 +8,16 @@ import { PagesService } from 'src/app/pages/services/pages.service';
   templateUrl: './pie-chart-performance-global.component.html'
 })
 export class PieChartPerformanceGlobalComponent implements OnChanges {
-
-  constructor( private pagesService: PagesService ) { }
-
+  
   data: any;
   distributionByPerformance: Ranking[];
-  
   @Input() dateStart: string;
   @Input() dateEnd: string;
   @Output() onLoadComplete: EventEmitter<boolean> = new EventEmitter();
-
+  
+  constructor(
+    private pagesService: PagesService
+  ) {}
 
   ngOnChanges() {
     if(this.dateStart && this.dateEnd) {
@@ -34,5 +34,4 @@ export class PieChartPerformanceGlobalComponent implements OnChanges {
       this.onLoadComplete.emit(true);
     }
   }
-
 }

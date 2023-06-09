@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import {MenuItem} from 'primeng/api';
+import { MenuItem } from 'primeng/api';
 import { AuthService } from '../../auth/services/auth-service';
 
 @Component({
@@ -76,5 +76,4 @@ export class SlideMenuComponent implements OnInit {
       }
     ];
   }
-
 }

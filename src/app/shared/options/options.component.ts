@@ -1,8 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { NgModel } from '@angular/forms';
+
 import { Option } from '../option-model';
 import { GlobalConstants } from 'src/app/common/global-constants';
 import { TestService } from 'src/app/tests/services/test.service';
-import { NgModel } from '@angular/forms';
 
 @Component({
   selector: 'app-options',
@@ -10,13 +11,16 @@ import { NgModel } from '@angular/forms';
 })
 export class OptionsComponent implements OnInit {
 
-  constructor( private testService: TestService, ) { }
+  constructor(
+    private testService: TestService
+  ) { }
+
   @Input() options: Option[];
   @Input() problem_id: string;
-  @Output() onChangeOptions: EventEmitter<Option[]> = new EventEmitter();
   optionsTypes:string[] = [];
   uploadings: boolean[] = [];
   optionsOut: Option[];
+  @Output() onChangeOptions: EventEmitter<Option[]> = new EventEmitter();
 
   @ViewChild('routineA', { static: true }) routineA: NgModel;
   @ViewChild('routineB', { static: true }) routineB: NgModel;
@@ -55,5 +59,4 @@ export class OptionsComponent implements OnInit {
   validateOption() {
     return true;
   }
-
 }

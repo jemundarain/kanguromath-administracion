@@ -1,14 +1,15 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { TestService } from '../services/test.service';
-import { Test } from '../models/test-model';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Location } from '@angular/common'
+import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { switchMap } from 'rxjs';
+
+import { Test } from '../models/test-model';
 import { Problem } from '../models/problem-model';
 import { Figure } from '../models/figure-model';
 import { GlobalConstants } from 'src/app/common/global-constants';
-import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
-import { Location } from '@angular/common'
 
 @Component({
   selector: 'app-edit-problem',
@@ -32,11 +33,13 @@ import { Location } from '@angular/common'
 })
 export class EditProblemComponent implements OnInit {
 
-  constructor( private testService: TestService, 
-               private activatedRoute: ActivatedRoute,
-               private confirmationService: ConfirmationService,
-               private messageService: MessageService,
-               private location: Location ) { }
+  constructor(
+    private testService: TestService, 
+    private activatedRoute: ActivatedRoute,
+    private confirmationService: ConfirmationService,
+    private messageService: MessageService,
+    private location: Location
+  ) {}
   
   @ViewChild('updateProblemForm', { static: true }) updateProblemForm !: NgForm;
   test: Test;
@@ -47,14 +50,6 @@ export class EditProblemComponent implements OnInit {
   max: number;
   figuresMap1 = GlobalConstants.FIGURES_MAP1;
   figuresMap2 = GlobalConstants.FIGURES_MAP2;
-
-  getUrlOption(letter: string) {
-    for(let i=0; i < this.problem.options.length; i++) {
-      if(this.problem.options[i].letter == letter)
-        return this.problem.options[i].answer;
-    }
-    return letter;
-  }
 
   ngOnInit(): void {
     GlobalConstants.generateRandomSuffix();
@@ -81,6 +76,14 @@ export class EditProblemComponent implements OnInit {
 
   addFigure() {
     this.problem.figures.push(new Figure('', '' , this.problem.figures.length + 1, '', 'intermedia'));
+  }
+
+  getUrlOption(letter: string) {
+    for(let i=0; i < this.problem.options.length; i++) {
+      if(this.problem.options[i].letter == letter)
+        return this.problem.options[i].answer;
+    }
+    return letter;
   }
 
   updateProblem() {
@@ -131,5 +134,4 @@ export class EditProblemComponent implements OnInit {
   back() {
     this.location.back()
   }
-
 }

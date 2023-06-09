@@ -12,6 +12,7 @@ import { Problem } from '../models/problem-model';
   templateUrl: './visualize-test.component.html'
 })
 export class VisualizeTestComponent implements OnInit {
+  
   test: Test;
   problems: Problem[] = [];
   items: MenuItem[];

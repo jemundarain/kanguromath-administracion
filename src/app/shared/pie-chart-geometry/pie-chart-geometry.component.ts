@@ -9,14 +9,15 @@ import { PagesService } from 'src/app/pages/services/pages.service';
 })
 export class PieChartGeometryComponent implements OnChanges {
 
-  constructor(private pagesService: PagesService) { }
-
   data: any;
   distributionByPerformance: Ranking[];
-
   @Input() dateStart: string;
   @Input() dateEnd: string;
   @Output() onLoadComplete: EventEmitter<boolean> = new EventEmitter();
+
+  constructor(
+    private pagesService: PagesService
+  ) {}
 
   ngOnChanges() {
     if(this.dateStart && this.dateEnd) {
@@ -33,5 +34,4 @@ export class PieChartGeometryComponent implements OnChanges {
       })
     }
   }
-
 }

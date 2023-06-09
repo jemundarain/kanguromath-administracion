@@ -1,4 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+
 import { GlobalConstants } from 'src/app/common/global-constants';
 import { Ranking } from 'src/app/pages/interfaces/ranking.interfaces';
 import { PagesService } from 'src/app/pages/services/pages.service';
@@ -13,7 +14,9 @@ export class PieChartForInstitutionComponent implements OnInit {
   distributionByInstitution: Ranking[];
   @Output() onLoadComplete: EventEmitter<boolean> = new EventEmitter();
 
-  constructor(private pagesService: PagesService) { }
+  constructor(
+    private pagesService: PagesService
+  ) { }
 
   ngOnInit() {
     this.pagesService.getUsersDistributionByInstitution().subscribe(distributionByInstitution => {

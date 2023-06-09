@@ -182,41 +182,4 @@ export class NewProblemComponent implements OnInit {
   back() {
     this.location.back()
   }
-  
-  stringToSlug(str: string): string {
-    str = str.replace(/\\(begin|end)\{(?:pspicture|postscript|TeXtoEPS|pdfpicture)\}[\s\S]*?\\(end|begin)\{(?:pspicture|postscript|TeXtoEPS|pdfpicture)\}|\\(?:psline|psframe|pscircle|psdots|pstext|psset|SpecialCoor|uput|degrees|psarc|qdisk|qline|qbezier|qlcurve|qccurve|pstVerb|newpath|moveto|lineto|arc|closepath|stroke|fill|gsave|grestore|show|quad|includegraphics|medskip|smallskip|it|raisebox)\b/g, '')
-             .replace(/\\[a-zA-Z]+{[^}]*}/g, '')
-             .replace(/^\s+|\s+$/g, '') // trim
-             .replace(/\{\*.*\*\}/g, '') // Eliminar mis etiquetas para las imagenes intermedias
-             .replace(/\{.*\}/g, '') // remove LaTeX tags
-             .replace(/\[.*\]/g, '') // remove LaTeX tags
-             .replace(/\{/g, '') // remove LaTeX tags
-             .replace(/\}/g, '') // remove LaTeX tags
-             .replace(/\?/g, '') // remove LaTeX tags
-             .replace(/\\/g, '') // remove LaTeX tags
-             .replace(/\$.*?\$/g, '')
-             .replace(/-+$/, '')
-             .replace(/\./g, '')
-             .replace(/\s+/g, '-') // collapse whitespace and replace by -
-             .toLowerCase();
-    str = htmlToText.convert(str);
-
-    // remove accents, swap ñ for n, etc
-    var from = "àáäâèéëêìíïîòóöôùúüûñç·/_,:;¿`";
-    var to   = "aaaaeeeeiiiioooouuuunc--------";
-    for (var i=0, l=from.length ; i<l ; i++) {
-      str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
-    }
-
-    str = str.replace(/-+/g, '-')  //Simplificar guiones consecutivos duplicados
-
-    if(str[str.length-1] === '-') {
-      str = str.slice(0,-1);
-    }
-
-    if(str[0] === '-') {
-      str = str.slice(1);
-    }
-    return str;
-  }
 }

@@ -9,7 +9,6 @@ interface CanComponentDeactivate {
 @Injectable()
 export class TestsGuard implements CanDeactivate<any> {
   constructor() {}
-
   canDeactivate(component: CanComponentDeactivate): Observable<boolean> | boolean {
     if (typeof component.exitConfirmation === 'function') {
       return component.exitConfirmation();

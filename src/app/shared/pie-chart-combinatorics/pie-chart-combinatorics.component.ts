@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+
 import { GlobalConstants } from 'src/app/common/global-constants';
 import { Ranking } from 'src/app/pages/interfaces/ranking.interfaces';
 import { PagesService } from 'src/app/pages/services/pages.service';
@@ -8,15 +9,16 @@ import { PagesService } from 'src/app/pages/services/pages.service';
   templateUrl: './pie-chart-combinatorics.component.html'
 })
 export class PieChartCombinatoricsComponent implements OnChanges {
-
-  constructor(private pagesService: PagesService) { }
   
   data: any;
   distributionByPerformance: Ranking[];
-
   @Input() dateStart: string;
   @Input() dateEnd: string;
   @Output() onLoadComplete: EventEmitter<boolean> = new EventEmitter();
+
+  constructor(
+    private pagesService: PagesService
+  ) { }
 
   ngOnChanges() {
     if(this.dateStart && this.dateEnd) {
@@ -33,5 +35,4 @@ export class PieChartCombinatoricsComponent implements OnChanges {
       })
     }
   }
-
 }

@@ -1,4 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+
 import { Ranking } from 'src/app/pages/interfaces/ranking.interfaces';
 import { PagesService } from '../../pages/services/pages.service';
 import { GlobalConstants } from 'src/app/common/global-constants';
@@ -9,12 +10,14 @@ import { GlobalConstants } from 'src/app/common/global-constants';
 })
 export class PieChartForRolComponent implements OnInit {
 
-  constructor(private pagesService: PagesService) { }
-  
   data: any;
   distributionByType: Ranking[];
   @Output() onLoadComplete: EventEmitter<boolean> = new EventEmitter();
   
+  constructor(
+    private pagesService: PagesService
+  ) {}
+
   ngOnInit() {
     this.pagesService.getUsersDistributionByType().subscribe(distributionByType => {
       this.distributionByType = distributionByType.sort((a,b) => (a._id > b._id) ? 1 : ((b._id > a._id) ? -1 : 0));

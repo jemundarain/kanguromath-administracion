@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+
 import { GlobalConstants } from 'src/app/common/global-constants';
 import { Figure } from '../models/figure-model';
 import { TestService } from '../services/test.service';
@@ -9,11 +10,13 @@ import { TestService } from '../services/test.service';
 })
 export class FiguresTableComponent implements OnInit {
 
-  constructor( private testService: TestService) { }
-
   @Input() figures: Figure[] = [];
   @Input() _id: string;
   uploadings: boolean[] = [];
+  
+  constructor(
+    private testService: TestService
+  ) { }
 
   ngOnInit(): void {
     GlobalConstants.generateRandomSuffix();
@@ -39,5 +42,4 @@ export class FiguresTableComponent implements OnInit {
       this.figures[i].num_s = i+1;
     }
   }
-
 }

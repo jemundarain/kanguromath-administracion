@@ -7,11 +7,12 @@ import { GlobalConstants } from 'src/app/common/global-constants';
 })
 export class CategoryComponent implements OnInit {
   
-  constructor() { }
   @Input() category: string;
-  categoryOut: string;
   @Output() onChangeCategory: EventEmitter<string> = new EventEmitter();
+  categoryOut: string;
   categories = GlobalConstants.CATEGORIES;
+
+  constructor() { }
 
   ngOnInit(): void {
     this.categoryOut = this.category;

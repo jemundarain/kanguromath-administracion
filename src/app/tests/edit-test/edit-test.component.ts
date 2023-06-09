@@ -2,14 +2,13 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Location } from '@angular/common'
 import { ActivatedRoute} from '@angular/router';
+import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
+import { switchMap } from 'rxjs';
 
 import { TestService } from '../services/test.service';
 import { RadioOption } from '../../common/radio-option.interface';
 import { Test } from '../models/test-model';
 import { GlobalConstants } from 'src/app/common/global-constants';
-
-import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
-import { switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-edit-test',
@@ -17,12 +16,6 @@ import { switchMap } from 'rxjs';
   providers: [ConfirmationService, MessageService]
 })
 export class EditTestComponent implements OnInit {
-
-  constructor( private testService: TestService,
-               private activatedRoute: ActivatedRoute,
-               private confirmationService: ConfirmationService,
-               private location: Location,
-               private messageService: MessageService) { }
 
   @ViewChild('editTestForm', { static: true }) editTestForm!: NgForm;
   edition: number = 0;
@@ -32,6 +25,14 @@ export class EditTestComponent implements OnInit {
   selectedLevelCode: string;
   items: MenuItem[];
   test!: Test;
+
+  constructor(
+    private testService: TestService,
+    private activatedRoute: ActivatedRoute,
+    private confirmationService: ConfirmationService,
+    private location: Location,
+    private messageService: MessageService
+  ) { }
   
   ngOnInit() {
     this.activatedRoute.params

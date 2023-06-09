@@ -3,6 +3,7 @@ import { Problem } from '../models/problem-model';
 import { PagesService } from '../../pages/services/pages.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { TestService } from '../services/test.service';
+import { GlobalConstants } from 'src/app/common/global-constants';
 
 @Component({
   selector: 'app-problem',
@@ -58,13 +59,7 @@ export class ProblemComponent implements OnChanges {
   }
 
   isLink(answer: string) {
-    var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
-      '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
-      '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
-      '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
-      '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
-      '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
-    return !!pattern.test(answer);
+    return GlobalConstants.isLink(answer);
   }
 
   deleteProblem(problem: Problem){

@@ -1,16 +1,14 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
+
 import { Ranking } from 'src/app/pages/interfaces/ranking.interfaces';
 
 @Component({
   selector: 'app-ranking-list',
   templateUrl: './ranking-list.component.html'
 })
-export class RankingListComponent implements OnInit {
+export class RankingListComponent {
 
-  constructor() { }
   @Input() rankings: Ranking[];
 
-  ngOnInit(): void {
-  }
-
+  constructor() { }
 }

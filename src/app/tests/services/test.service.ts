@@ -119,18 +119,4 @@ export class TestService {
     moveFile(sourceFilePath: string, destinationPath: string) {
         return this.http.post<any>(`${this.baseUrl}/admin_uploads/move-file`, {sourceFilePath, destinationPath});
     }
-
-
-    // renameFigure(filePath: string, newFileName: string) {
-    //     this.http.put<any>(`${this.baseUrl}/admin_uploads/imagekit-rename`, { filePath: filePath, newFileName: newFileName }).subscribe((data) => {
-    //         console.log(data);
-    //     })
-    // }
-
-    // deleteCache(problem_id: string, num_s: number) {
-    //     this.http.delete<any>(`${this.baseUrl}/admin_uploads/delete_cache/${problem_id}/${num_s}`).subscribe((data) => {
-    //         console.log(data);
-    //     });
-    // }
-
 }
