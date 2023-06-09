@@ -8,13 +8,23 @@
     </form>
 </div>
 
-<!-- <div *ngIf="editions" class="flex flex-col mx-16">
-    <h4 class="inline-block text-3xl text-center font-semibold text-gray-700 tracking-tight rounded-bl rounded-br">No tienes pruebas</h4><br>
-    <h4 class="inline-block text-3xl text-center font-semibold text-gray-700 tracking-tight rounded-bl rounded-br">¡Agrega algunas! 👨‍🏫</h4>
-</div> -->
+<div *ngIf="testsEmpty" class="flex flex-col mx-16">
+    <h4 class="inline-block text-3xl text-center font-semibold text-gray-700 tracking-tight rounded-bl rounded-br">
+        No tienes pruebas
+    </h4><br>
+    <h4 class="inline-block text-3xl text-center font-semibold text-gray-700 tracking-tight rounded-bl rounded-br">
+        ¡Agrega algunas! 👨‍🏫
+    </h4>
+</div>
+
+<div *ngIf="error" class="flex flex-col mx-16">
+    <h4 class="inline-block text-3xl text-center font-semibold text-gray-700 tracking-tight rounded-bl rounded-br">
+        Tenemos problemas, inténtalo más tarde 😓
+    </h4><br>
+</div>
 
 <!-- Table -->
-<div class="grid grid-cols-12 mb-6">
+<div *ngIf="!error" class="grid grid-cols-12 mb-6">
     <p-table [value]="tests" class="col-span-7" id="tests-table">
         <ng-template pTemplate="header">
             <tr>
@@ -44,7 +54,7 @@
         </ng-template>
     </p-table>
 </div>
-<app-progress-spinner [condition]="!editions"></app-progress-spinner>
+<app-progress-spinner [condition]="!tests && !error"></app-progress-spinner>
 
 <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"></p-confirmDialog>
 <p-toast position="bottom-center"></p-toast>

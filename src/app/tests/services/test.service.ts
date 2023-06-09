@@ -23,7 +23,7 @@ export class TestService {
     }
     
     getEditions() {
-        return this.http.get<string[]>(`${ this.baseUrl }/admin_tests/get_editions`)
+        return this.http.get<string[]>(`${ this.baseUrl }/admin_tests/get_editions`);
     }
 
     getLevelsByEdition(edition: string) {
@@ -57,9 +57,7 @@ export class TestService {
     }
 
     deleteTest(_id: string) {
-        this.http.delete<{message: string}>(`${this.baseUrl}/admin_tests/delete_test/${_id}`).subscribe((jsonData) => {
-            console.log(jsonData);
-        })
+        return this.http.delete<{successful: boolean}>(`${this.baseUrl}/admin_tests/delete_test/${_id}`);
     }
     
     addNewProblem(problem: Problem, test_id: string) {

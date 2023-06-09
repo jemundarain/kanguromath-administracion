@@ -80,7 +80,7 @@ export class PagesService {
   }
   
   getAppState(): Observable<Global> {
-    return this.http.get<Global>(`${ this.baseUrl }/settings/app-state`)
+    return this.http.get<Global>(`${ this.baseUrl }/settings/app-state`);
   }
 
   updateAppState(global: Global) {

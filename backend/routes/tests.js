@@ -17,11 +17,11 @@ app.get('/list_tests',(req, res, next) => {
 
 app.get('/get_editions',(req, res, next) => {
 	TestModel.distinct('edition')
-	.then((data) => {
-		res.json(data);
+	.then((editions) => {
+		res.status(200).json(editions);
 	})
-	.catch(() => {
-		console.log('Error fetching entries')
+	.catch((err) => {
+		res.status(500).json(err);
 	})
 })
 
@@ -125,11 +125,10 @@ app.delete('/delete_test/:_id', (req, res) => {
 		  });
 	  })
 	  .then(() => {
-		res.status(200).json({ message: 'Prueba eliminada correctamente' });
+		res.status(200).json({successful: true});
 	  })
-	  .catch((error) => {
-		console.error(error);
-		res.status(500).json({ message: 'Error al eliminar la Prueba' });
+	  .catch((err) => {
+		res.status(500).json(err);
 	  });
 });
   
