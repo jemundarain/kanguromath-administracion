@@ -36,15 +36,16 @@ app.get('/:edition/levels', (req, res) => {
 	});
 });
 
-app.get('/get_tests_by_edition/:edition',(req, res, next) => {
-	TestModel.find({ 'edition': req.params.edition})
-	.then((tests) => {
+app.get('/get_tests_by_edition/:edition', (req, res) => {
+	TestModel.find({ 'edition': req.params.edition })
+	  .sort({ 'levels': 1 })
+	  .then((tests) => {
 		res.status(200).json(tests);
-	})
-	.catch((err) => {
+	  })
+	  .catch((err) => {
 		res.status(500).json(err);
-	})
-})
+	  });
+});  
 
 app.get('/get_test/:test_id',(req, res, next) => {
 	TestModel.findOne({ 'test_id': req.params.test_id})
