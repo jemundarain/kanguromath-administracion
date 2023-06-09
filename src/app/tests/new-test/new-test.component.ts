@@ -1,17 +1,14 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
-
-import { GlobalConstants } from 'src/app/common/global-constants';
-import { Problem } from '../models/problem-model';
-import { RadioOption } from '../../common/radio-option.interface';
-import { Test } from '../models/test-model';
-import { TestService } from '../services/test.service';
-
 import { MenuItem, MessageService } from 'primeng/api';
 import { FileUpload } from 'primeng/fileupload';
 import JSZip from 'jszip';
+
+import { GlobalConstants } from 'src/app/common/global-constants';
+import { RadioOption } from '../../common/radio-option.interface';
+import { Test } from '../models/test-model';
+import { TestService } from '../services/test.service';
 
 @Component({
   selector: 'app-new-test',
@@ -21,7 +18,6 @@ import JSZip from 'jszip';
 export class NewTestComponent implements OnInit {
 
   @ViewChild('addTestForm', { static: true }) addTestForm!: NgForm;
-  @ViewChild('uploadTestForm', { static: true }) uploadTestForm!: NgForm;
   @ViewChild('uploadBtn') uploadBtn!: FileUpload;
   minEdition: number = GlobalConstants.MIN_DATE_EDITION;
   maxEdition: number = GlobalConstants.MAX_DATE_EDITION;
@@ -31,12 +27,11 @@ export class NewTestComponent implements OnInit {
   items: MenuItem[];
   uploadUrl: string = 'http://localhost:3000/admin_uploads/post_test/';
 
-  contenidoTexto: string;
-
-  constructor( private testService: TestService,
-               private location: Location,
-               private messageService: MessageService,
-               private router: Router ) { }
+  constructor(
+    private testService: TestService,
+    private messageService: MessageService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.addTestForm.form.valueChanges.subscribe((data) => {
@@ -51,8 +46,7 @@ export class NewTestComponent implements OnInit {
     ];
   }                    
 
-  onUpload(event: any) {
-    this.test.test_id = `preliminar-${this.test.edition}-${this.test.levels}`;
+  onTestUpload(event: any) {
     this.testService.addNewTest(this.test).subscribe({
       next: (successful) => {
         const fileList: FileList = event.files;
@@ -225,30 +219,24 @@ export class NewTestComponent implements OnInit {
       }
     });
   }
-  
-  addManualTest() {
-    this.test.test_id = `preliminar-${this.test.edition}-${this.test.levels}`;
-    this.testService.addNewTest(this.test).subscribe({
-      next: (successful) => {
-        this.messageService.add({severity:'success', summary: 'Exitoso', detail: 'Prueba creada 🎉', life: 3250});
-        setTimeout(() => {
-          this.router.navigate([`/pruebas/ver/${this.test.test_id}`]);
-        }, 1220);
-      },
-      error: (err) => {
-        this.messageService.add({severity:'error', summary: 'Rechazado', detail: 'La prueba no fue creada 🙁', life: 3250});
-      }
-    });
-  }
 
-  uploadTest() {
+  addTest() {
     this.test.test_id = `preliminar-${this.test.edition}-${this.test.levels}`;
-    this.uploadUrl += this.test.test_id;
-    setTimeout(() => { this.uploadBtn.upload() }, 500)
-    // this.testService.addNewTest(this.test);
-    // this.messageService.add({severity:'success', summary: 'Exitoso', detail: 'Prueba creada 🎉', life: 3250});
-    // setTimeout(() => {
-    //   this.router.navigate([`/pruebas/ver/${this.test.test_id}`]);
-    // }, 1220);
+    if (this.uploadBtn && this.uploadBtn.files && this.uploadBtn.files.length > 0) {
+      this.uploadUrl += this.test.test_id;
+      setTimeout(() => { this.uploadBtn.upload() }, 500)
+    } else {
+      this.testService.addNewTest(this.test).subscribe({
+        next: (successful) => {
+          this.messageService.add({severity:'success', summary: 'Exitoso', detail: 'Prueba creada 🎉', life: 3250});
+          setTimeout(() => {
+            this.router.navigate([`/pruebas/ver/${this.test.test_id}`]);
+          }, 1220);
+        },
+        error: (err) => {
+          this.messageService.add({severity:'error', summary: 'Rechazado', detail: 'La prueba no fue creada 🙁', life: 3250});
+        }
+      });
+    }
   }
 }
