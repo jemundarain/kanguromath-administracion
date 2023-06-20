@@ -121,7 +121,6 @@ export class EditProblemComponent implements OnInit {
             }
           });
         }
-        console.log(this.problem);
         this.testService.updateProblem(this.test.test_id, this.num_s-1, this.problem);
         this.messageService.add({severity:'success', summary: 'Exitoso', detail: 'Problema editado 📝'});
         setTimeout(() => {

@@ -27,17 +27,23 @@ export class VisualizeAdminUserComponent implements OnInit {
   items: MenuItem[];
   date_birth: string;
   newPassword: string;
+  error = false;
 
   ngOnInit(): void {
     this.activatedRoute.params
       .pipe(switchMap( ({ username }) => this.adminUsersService.getAdminUserByUsername(username)))
-      .subscribe( adminUser => {
-        this.adminUser = adminUser;
-        this.date_birth = dayjs(adminUser.date_birth).format('DD/MM/YYYY');
-        this.items = [
-          {label: 'Usuarios'},
-          {label: `${ adminUser.name + ' ' + adminUser.last_name }`}
-        ];
+      .subscribe({
+        next: (adminUser) => {
+          this.adminUser = adminUser;
+          this.date_birth = dayjs(adminUser.date_birth).format('DD/MM/YYYY');
+          this.items = [
+            {label: 'Usuarios'},
+            {label: `${ adminUser.name + ' ' + adminUser.last_name }`}
+          ];
+        },
+        error: (err) => {
+          this.error = true;
+        }
       });
   };
 

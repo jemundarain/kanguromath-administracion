@@ -25,7 +25,7 @@ async function seedDB() {
         let usernames, problems;
         usernames = await collection_users.distinct('username');
         problems = await collection_problems.distinct('_id')
-        for (let i = 0; i < 950; i++) {
+        for (let i = 0; i < 31415; i++) {
             user = faker.helpers.arrayElement(usernames);
             problem = faker.helpers.arrayElement(problems);
             option = faker.helpers.arrayElement(['A', 'B', 'C', 'D', 'E']);

@@ -9,7 +9,7 @@ import { GlobalConstants } from 'src/app/common/global-constants';
 import { RadioOption } from '../../common/radio-option.interface';
 import { Test } from '../models/test-model';
 import { TestService } from '../services/test.service';
-
+import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-new-test',
   templateUrl: './new-test.component.html',
@@ -25,7 +25,7 @@ export class NewTestComponent implements OnInit {
   levels: RadioOption[];
   selectedLevelCode: string;
   items: MenuItem[];
-  uploadUrl: string = 'http://localhost:3000/admin_uploads/post_test/';
+  uploadUrl: string = `${environment.baseUrl}/admin_uploads/upload_test/`;
 
   constructor(
     private testService: TestService,
@@ -59,7 +59,6 @@ export class NewTestComponent implements OnInit {
               const jszip = new JSZip();
               const zip = await jszip.loadAsync(zipContent);
               const fileTex = zip.file(/\.tex$/i)[0];              
-
               if (fileTex) {
                 const testText: string = await fileTex.async('string');
                 const main_regex = /\\pro(fig)?\{[^{}]*\}[\s\S]*?\n(\\resp\{((?:[^{}]|(?:\{[^{}]*\}))*?)\}\{((?:[^{}]|(?:\{[^{}]*\}))*?)\}\{((?:[^{}]|(?:\{[^{}]*\}))*?)\}\{((?:[^{}]|(?:\{[^{}]*\}))*?)\}\{((?:[^{}]|(?:\{[^{}]*\}))*?)\}|%\{|\\end)/g;
@@ -155,20 +154,23 @@ export class NewTestComponent implements OnInit {
 
                     this.testService.addNewProblem(problem, this.test.test_id).subscribe({
                       next: (newProblem) => {
-                        /*const thereFigures = !!newProblem.figures.length;
+                        const thereFigures = !!newProblem.figures.length;
                         const thereImagesInOptions = GlobalConstants.hasAtLeastOneOptionWithImageLink(newProblem.options);
                         
                         if (thereFigures || thereImagesInOptions) {
-                            this.testService.createFolder(newProblem._id, "preliminar");
+                            this.testService.createFolder(newProblem._id, 'preliminar');
                         }
                           
                         if (thereFigures) {
-                          newProblem.figures.forEach((figure) => {
-                            this.testService.moveFile(figure.url.split('/').slice(-1)[0], `preliminar/${newProblem._id}`).subscribe({
-                              next: () => {},
-                              error: (err) => { console.log(err);}
+                          newProblem.figures.forEach((figure, index) => {
+                            console.log(figure);
+                            GlobalConstants.generateRandomSuffix();
+                            this.testService.uploadImage(`uploads/${fileTex.name.split('/')[0]}/${figure.url}`, `preliminar/${newProblem._id}/`, GlobalConstants.getRandomName((index+1).toString())).subscribe({
+                              next: (res) => {
+                                figure.url = res.url;
+                              },
+                              error: (err) => { }
                             });
-                            figure.url = GlobalConstants.concatenatePath(figure.url, `/preliminar/${newProblem._id}/`);
                           });
                         }
                         
@@ -177,7 +179,7 @@ export class NewTestComponent implements OnInit {
                               if (GlobalConstants.isLink(option.answer)) {
                               this.testService.moveFile(option.answer.split('/').slice(-1)[0], `preliminar/${newProblem._id}`).subscribe({
                                 next: () => {},
-                                error: (err) => { console.log(err);}
+                                error: (err) => { }
                               });
                               option.answer = GlobalConstants.concatenatePath(option.answer, `/preliminar/${newProblem._id}/`);
                             }
@@ -186,33 +188,31 @@ export class NewTestComponent implements OnInit {
                         
                         if (thereFigures || thereImagesInOptions) {
                             this.testService.updateProblem('', -1, newProblem);
-                        }*/
+                        }
                       },
-                      error: (err) => {
-                        console.log(err);
-                      }
+                      error: (err) => { }
                     });
                     setTimeout(() => {
                     }, 400);
                   }
                 });
-                this.messageService.add({severity:'success', summary: 'Exitoso', detail: 'Prueba creada 🎉', life: 3250});
-                setTimeout(() => {
-                  this.router.navigate([`/pruebas/ver/${this.test.test_id}`]);
-                }, 1220);
+                // this.messageService.add({severity:'success', summary: 'Exitoso', detail: 'Prueba creada 🎉', life: 3250});
+                // setTimeout(() => {
+                //   this.router.navigate([`/pruebas/ver/${this.test.test_id}`]);
+                // }, 1220);
               } else {
-                console.log('El archivo .zip no contiene un archivo .tex');
+                // console.log('El archivo .zip no contiene un archivo .tex');
               }
             };
             reader.readAsArrayBuffer(file);
           } else {
-            console.log('El archivo seleccionado no es un archivo .zip');
+            // console.log('El archivo seleccionado no es un archivo .zip');
           }
         }
-        this.messageService.add({severity:'success', summary: 'Exitoso', detail: 'Prueba creada 🎉', life: 3250});
-        setTimeout(() => {
-          this.router.navigate([`/pruebas/ver/${this.test.test_id}`]);
-        }, 1220);
+        // this.messageService.add({severity:'success', summary: 'Exitoso', detail: 'Prueba creada 🎉', life: 3250});
+        // setTimeout(() => {
+        //   this.router.navigate([`/pruebas/ver/${this.test.test_id}`]);
+        // }, 1220);
       },
       error: (err) => {
         this.messageService.add({severity:'error', summary: 'Rechazado', detail: 'La prueba no fue creada 🙁', life: 3250});
@@ -223,7 +223,6 @@ export class NewTestComponent implements OnInit {
   addTest() {
     this.test.test_id = `preliminar-${this.test.edition}-${this.test.levels}`;
     if (this.uploadBtn && this.uploadBtn.files && this.uploadBtn.files.length > 0) {
-      this.uploadUrl += this.test.test_id;
       setTimeout(() => { this.uploadBtn.upload() }, 500)
     } else {
       this.testService.addNewTest(this.test).subscribe({

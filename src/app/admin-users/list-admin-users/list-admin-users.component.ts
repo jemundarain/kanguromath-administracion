@@ -20,7 +20,7 @@ export class ListAdminUsersComponent implements OnInit {
 
   adminUsers: AdminUser[];
   items: MenuItem[];
-  onInitFinish: boolean = false;
+  error = false;
   app_enabled: boolean;
 
   ngOnInit(): void {
@@ -30,9 +30,14 @@ export class ListAdminUsersComponent implements OnInit {
     ];
 
     this.adminUsersService.getAdminUsers()
-      .subscribe( adminUsers => this.adminUsers = adminUsers);
-
-    this.onInitFinish = true;
+      .subscribe({
+        next: (adminUsers) => {
+          this.adminUsers = adminUsers;
+        },
+        error: (err) => {
+          this.error = true;
+        }
+      });
   }
   
   appDisabledAlert() {

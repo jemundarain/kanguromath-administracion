@@ -6,6 +6,7 @@ import { AuthRoutingModule } from './auth-routing.module';
 import { HomeComponent } from './pages/home/home.component';
 import { PrimeNgModule } from '../prime-ng/prime-ng.module';
 import { SharedModule } from '../shared/shared.module';
+import { MessageService } from 'primeng/api';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,9 @@ import { SharedModule } from '../shared/shared.module';
     AuthRoutingModule,
     PrimeNgModule,
     SharedModule
+  ],
+  providers: [
+    MessageService
   ]
 })
 export class AuthModule { }

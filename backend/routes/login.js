@@ -22,7 +22,7 @@ app.post('/', (req, res) => {
     AdminUserSchema.findOne(query)
     .then((user) => {
         if (!user || !bcrypt.compareSync(body.password, user.password)) {
-            return res.status(400).send('Credenciales incorrectas');
+            return res.status(400).json({successful: false});
         }
         var token = jwt.sign({ user }, SEED, { expiresIn: 28800 });
         res.status(200).json({

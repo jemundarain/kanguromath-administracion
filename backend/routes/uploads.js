@@ -26,7 +26,23 @@ var imagekit = new ImageKit({
 });
 
 app.get('/imagekit-auth', (req, res) => {
-	res.json(imagekit.getAuthenticationParameters());
+	res.status(200).json(imagekit.getAuthenticationParameters());
+})
+
+app.post('/upload-image/', (req, res) => {
+  const body = req.body;
+  fs.readFile(body.pathFile, function(err, data) {
+    if (err) throw err;
+    imagekit.upload({
+      file : data,
+      fileName : body.nameFile,
+      folder: body.folderFile,
+      useUniqueFileName: false
+    }, function(err, result) {
+      if(err) res.status(400).json(err);
+      else res.status(200).json(result);
+    });
+  });
 })
 
 app.delete('/imagekit-delete/:ik_id', (req, res) => {
@@ -41,11 +57,9 @@ app.get('/create-folder', (req, res) => {
   const parentFolderPath = req.query['parent-folder-path'] || '';
   imagekit.createFolder({ folderName, parentFolderPath }, (err, result) => {
     if (err) {
-      console.log(err);
-      res.status(500).json({ error: 'Error al crear la carpeta' });
+      res.status(500).json({ successful: false });
     } else {
-      console.log(result);
-      res.status(200).json({ message: 'Carpeta creada exitosamente' });
+      res.status(200).json({ successful: true });
     }
   });
 });
@@ -56,7 +70,7 @@ app.post('/move-file', (req, res) => {
     destinationPath: req.body.destinationPath || '',
   }, (err, moveRes) => {
       if (err) {
-        return res.status(500).json(err);
+        return res.status(500).json({ successful: false });
       } else {
         return res.status(200).json(moveRes);
       }
@@ -94,12 +108,11 @@ app.put('/put_avatar/', (req, res) => {
   })
 });
 
-app.post('/post_test/:test_id', multerUpload.single('testFile'), (req, res) => {
+app.post('/upload_test', multerUpload.single('testFile'), (req, res) => {
   const file = req.file;
-  let testPath;
 
   if (!file) {
-    return res.status(400).send('No file uploaded.');
+    return res.status(400).send({ successful: false });
   }
 
   const data = fs.readFileSync(file.path);
@@ -109,9 +122,6 @@ app.post('/post_test/:test_id', multerUpload.single('testFile'), (req, res) => {
       Object.keys(zip.files).forEach((filename) => {
         const file = zip.file(filename);
         const filepath = join(__dirname, '../../uploads', filename);
-        if (filepath.includes('.tex')) {
-          testPath = filepath;
-        }
         if (file && file.async) {
           file.async('nodebuffer').then(content => {
             const dirPath = dirname(filepath);
@@ -122,109 +132,9 @@ app.post('/post_test/:test_id', multerUpload.single('testFile'), (req, res) => {
           });
         }
       });
-      var problems = []; 
-      setTimeout(() => {
-        fs.readFile(testPath, 'utf8', (err, testText) => {
-          if (err) {
-            console.error(err);
-            res.status(500).send('Error al leer el archivo');
-          } 
-          const main_regex = /\\pro(fig)?\{[^{}]*\}[\s\S]*?\n(\\resp\{((?:[^{}]|(?:\{[^{}]*\}))*?)\}\{((?:[^{}]|(?:\{[^{}]*\}))*?)\}\{((?:[^{}]|(?:\{[^{}]*\}))*?)\}\{((?:[^{}]|(?:\{[^{}]*\}))*?)\}\{((?:[^{}]|(?:\{[^{}]*\}))*?)\}|%\{|\\end)/g;
-          const solutions_regex = /[ABCDE]{30}/g;
-          const num_s_regex = /{([^{}]+)}/;
-          // const pro_regex = /\\pro{(\d+)}\s*(.*)/g;
-          // const profig_regex = /\\profig\{[^{}]*\}[\s\S]*?\n/g;.
-          // const keys_regex = /{([^{}]+)}/g;
-          const paths_regex = /{([^{}]*\.(?:png|jpe?g))}/g;
-          const options_regex_resp = /\\resp\{((?:[^{}]|(?:\{[^{}]*\}))*?)\}\{((?:[^{}]|(?:\{[^{}]*\}))*?)\}\{((?:[^{}]|(?:\{[^{}]*\}))*?)\}\{((?:[^{}]|(?:\{[^{}]*\}))*?)\}\{((?:[^{}]|(?:\{[^{}]*\}))*?)\}/g;
-          const options_regex_medskip = /\\[A-E]\s([^\\]+)/g;
-          var rawSolutions;
-
-          var testTextClean = testText.replace(/\\includegraphics\[[^\]]+\]/g, '')
-                                        //.replace(/\\(begin|end)\{(?:pspicture|pspicture\*|postscript|TeXtoEPS|pdfpicture)\}[\s\S]*?\\(end|begin)\{(?:pspicture|postscript|TeXtoEPS|pdfpicture)\}|\\(?:psline|psframe|pscircle|psdots|pstext|psset|SpecialCoor|uput|degrees|psarc|qdisk|qline|qbezier|qlcurve|qccurve|pstVerb|newpath|moveto|lineto|arc|closepath|stroke|fill|gsave|grestore|show|quad|includegraphics|medskip|smallskip|it|raisebox)\b/g, '')
-                                      .replace(/\\begin{(?:pspicture|pspicture\*)}[\s\S]*?\\end{(?:pspicture|pspicture\*)}/g);
-          const rawProblems =  testTextClean.match(main_regex);
-
-          const matchSolutions = solutions_regex.exec(testText);
-          var rawSolutions = matchSolutions[0].split('');
-          
-          rawProblems.forEach((rawProblem, index) => {
-            // Número secuencial
-            var match_regex = rawProblem.match(num_s_regex);
-            var num_s = match_regex[1];
-
-            // Figuras
-            var rawPaths;
-            if(rawProblem.includes('profig')) {
-              const matches_paths = rawProblem.match(paths_regex);
-              if(matches_paths) {
-                rawPaths = matches_paths.map(match => match.slice(1, -1));
-              }
-            }
-
-            // Enunciado
-            var statement = rawProblem;
-            statement = statement.replace(/\\pro(?:fig)?\{\d+(?:\.\d+)?\}\s*/g, '')
-                                 .replace(/\\resp\{.*\}/g, '')
-                                 .replace(/^%.*$/gm)
-                                 .replace(/{([^{}]*\.(?:png|jpe?g))}/g);
-
-            var solution = rawSolutions[index];
-
-            var rawOptions;
-            if(!rawProblem.includes('\\resp') && rawProblem.includes('\\A') && rawProblem.includes('\\B') && rawProblem.includes('\\C') && rawProblem.includes('\\D') && rawProblem.includes('\\E')) {
-              const matches_medskip = rawProblem.match(options_regex_medskip);
-              if(matches_medskip)
-                rawOptions = matches_medskip.map(match => match.split("\\")[1].trim());
-            } else {
-              const matches_resp = rawProblem.match(options_regex_resp);
-              if(matches_resp) {
-                rawOptions = matches_resp[0].replace('\\resp{', '').split("}{");
-              }
-            }
-
-            var options = []
-            if(rawOptions) {
-              for(let i=0; i<5; i++) {
-                options.push({
-                  _id: '',
-                  letter: String.fromCharCode(65 + i),
-                  answer: rawOptions[i],
-                  ik_id: ''
-                })
-              }
-            }
-
-            var figures = [];
-            if(rawPaths) {
-              for(let i=0; i<rawPaths.length; i++) {
-                figures.push({
-                  _id: '',
-                  ik_id: '',
-                  num_s: i+1,
-                  url: rawPaths[i],
-                  position: i+1==1? 'derecha':'intermedia'
-                })
-              }
-            }
-
-            var problem = {
-              _id: '',
-              statement: statement,
-              solution: solution,
-              category: 'sin-categoria',
-              options: options,
-              figures: figures
-            }
-            
-            problems.push(problem);
-          });
-        });
-      }, 500)
-      return res.status(200).json(problems);
+      res.status(200).send({ successful: false });
     })
     .catch(err => {
-      console.log(err);
       res.status(500).send(err);
     });
 });

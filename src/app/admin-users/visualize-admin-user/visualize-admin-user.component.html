@@ -1,7 +1,12 @@
 <app-header title="Usuario" [breadcrumbs]="items"></app-header>
 
-<app-progress-spinner [condition]="!adminUser.email"template></app-progress-spinner>
-<div class="flex flex-row gap-10">
+<div *ngIf="error" class="flex flex-col mx-16">
+    <h4 class="inline-block text-3xl text-center font-semibold text-gray-700 tracking-tight rounded-bl rounded-br">
+        Tenemos problemas, inténtalo más tarde 😓
+    </h4><br>
+</div>
+
+<div *ngIf="adminUser.username" class="flex flex-row gap-10">
     <div class="w-2/3">
         <div class="flex flex-row mb-6">
             <label class="flex-none mr-3 my-auto text-[21px] font-normal text-[#26201F] tracking-tight w-fit">Nombre</label>
@@ -43,3 +48,4 @@
         <p-image [src]="adminUser.avatar.url? 'adminUser.avatar.url':'https://ik.imagekit.io/661ijdspv/usuarios/default.png'"></p-image>
     </div>
 </div>
+<app-progress-spinner [condition]="!adminUser.username && !error"></app-progress-spinner>

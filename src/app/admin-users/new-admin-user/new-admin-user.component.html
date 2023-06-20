@@ -1,16 +1,23 @@
 <app-header title="Usuarios" [breadcrumbs]="items"></app-header>
 
-<app-progress-spinner [condition]="adminUser.username === null"></app-progress-spinner>
-<form #newAdminUserForm="ngForm" (ngSubmit)="save()" class="flex flex-row mt-2">
+<div *ngIf="error" class="flex flex-col mx-16">
+    <h4 class="inline-block text-3xl text-center font-semibold text-gray-700 tracking-tight rounded-bl rounded-br">
+        Tenemos problemas, inténtalo más tarde 😓
+    </h4><br>
+</div>
+
+<form #newAdminUserForm="ngForm" (ngSubmit)="saveAdminUser()" class="flex flex-row mt-2">
     <div class="w-2/3">
         <div class="flex flex-row mb-6">
             <label class="flex-none mr-3 my-auto text-[21px] font-normal text-[#26201F] tracking-tight w-fit">Nombre</label>
-            <input pInputText id="username" aria-describedby="username-help" [(ngModel)]="adminUser.name" (input)="generateUsername()" name="name"/>
+            <input pInputText id="username" [class]="validateName()? '':'ng-invalid ng-dirty'" aria-describedby="username-help" [(ngModel)]="adminUser.name" [required]="true" (input)="generateUsername()" name="name"/>
+            <div *ngIf="validateName()" class="text-red-500 text-sm ml-3 mt-2">Por favor, ingresa el nombre</div>
         </div>
 
         <div class="flex flex-row mb-6">
             <label class="flex-none mr-3 my-auto text-[21px] font-normal text-[#26201F] tracking-tight">Apellido</label>
-            <input pInputText id="username" aria-describedby="username-help" [(ngModel)]="adminUser.last_name" (input)="generateUsername()" name="last_name" />
+            <input pInputText id="username" [class]="validateLastName()? '':'ng-invalid ng-dirty'" aria-describedby="username-help" [(ngModel)]="adminUser.last_name" [required]="true" (input)="generateUsername()" name="last_name" />
+            <div *ngIf="validateLastName()" class="text-red-500 text-sm ml-3 mt-2">Por favor, ingresa el apellido</div>
         </div>
         
         <div class="flex flex-row mb-6">
@@ -33,7 +40,8 @@
 
         <div class="flex flex-row mb-6">
             <label class="flex-none mr-3 my-auto text-[21px] font-normal text-[#26201F] tracking-tight">Email</label>
-            <input pInputText id="email" aria-describedby="username-help" [(ngModel)]="adminUser.email" name="email" />
+            <input pInputText id="email" [class]="validateEmail()? '':'ng-invalid ng-dirty'" aria-describedby="username-help" [(ngModel)]="adminUser.email" [required]="true" name="email" />
+            <div *ngIf="validateEmail()" class="text-red-500 text-sm ml-3 mt-2">Por favor, ingresa el email</div>
         </div>
 
         <div class="flex flex-row mb-6">
@@ -52,14 +60,15 @@
 
         <div class="flex flex-row mb-6">
             <label class="flex-none mr-3 my-auto text-[21px] font-normal text-[#26201F] tracking-tight">Cambiar Contraseña</label>
-            <p-password [(ngModel)]="newPassword" [toggleMask]="true" [feedback]="false" name="password"></p-password>
+            <p-password [(ngModel)]="newPassword" [toggleMask]="true" [feedback]="false" name="password" [required]="true"></p-password>
+            <div *ngIf="validatePassword()" class="text-red-500 text-sm ml-3 mt-2">Por favor, ingresa la contraseña</div>
         </div>
         <button pButton type="button" class="btn float-left" label="Volver" icon="pi pi-arrow-left" iconPos="left" (click)="back()"></button>
-        <button pButton pRipple label="Guardar" class="btn w-32 p-3 float-right" type="submit"></button>
+        <button pButton pRipple label="Guardar" class="btn w-32 p-3 float-right" type="submit" [disabled]="!newAdminUserForm.valid"></button>
     </div>
 
     <div class="w-1/3">
-        <p-image [src]="adminUser.avatar" [alt]="adminUser.username"></p-image>
+        <p-image [src]="adminUser.avatar.url"></p-image>
         <app-upload-file
             (startUpload)="uploading = $event"
             (endUpload)="addAvatar($event)"
@@ -68,4 +77,8 @@
             typeNameFile="imagen">
         </app-upload-file>         
     </div>
-</form>    
+</form>
+<app-progress-spinner [condition]="!adminUser && !error"></app-progress-spinner>
+
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"></p-confirmDialog>
+<p-toast position="bottom-center"></p-toast>

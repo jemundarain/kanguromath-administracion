@@ -46,14 +46,14 @@ export class TestService {
         return this.http.post<{successful: boolean}>(`${ this.baseUrl }/admin_tests/post_test/`, test);
     }
 
-    uploadNewTest(test: Test) {
-        return this.http.post<{message: string}>(`${ this.baseUrl }/admin_uploads/post_test/`, test);
-    }
-
     updateTest(test: Test) {
         this.http.put<{message: string}>(`${this.baseUrl}/admin_tests/put_test/`, test).subscribe((jsonData) => {
           console.log(jsonData);
         })
+    }
+
+    uploadImage(pathFile: string, folderFile: string, nameFile: string) {
+        return this.http.post<any>(`${this.baseUrl}/admin_uploads/upload-image`, {pathFile, folderFile, nameFile});
     }
 
     deleteTest(_id: string) {

@@ -21,15 +21,11 @@ export class AdminUsersService {
   }
 
   addNewAdminUser(adminUser: AdminUser) {
-    return this.http.post<AdminUser>(`${ this.baseUrl }/admin_admin_users/post_admin_user/`, adminUser).subscribe((jsonData) => {
-      console.log(jsonData);
-    })
+    return this.http.post<AdminUser>(`${ this.baseUrl }/admin_admin_users/post_admin_user/`, adminUser);
   }
 
   updateAdminUser(adminUser: AdminUser) {
-    return this.http.put<AdminUser>(`${ this.baseUrl }/admin_admin_users/put_admin_user/${adminUser.username}`, adminUser).subscribe((jsonData) => {
-      console.log(jsonData);
-    })
+    return this.http.put<AdminUser>(`${ this.baseUrl }/admin_admin_users/put_admin_user/${adminUser._id}`, adminUser);
   }
 
   deletedAdminUser(_id: string) {

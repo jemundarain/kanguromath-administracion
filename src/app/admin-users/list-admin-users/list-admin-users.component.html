@@ -1,8 +1,13 @@
 <app-header title="Usuarios" [breadcrumbs]="items"></app-header>
 
+<div *ngIf="error" class="flex flex-col mx-16">
+    <h4 class="inline-block text-3xl text-center font-semibold text-gray-700 tracking-tight rounded-bl rounded-br">
+        Tenemos problemas, inténtalo más tarde 😓
+    </h4><br>
+</div>
+
 <!-- Table -->
-<app-progress-spinner [condition]="!onInitFinish"></app-progress-spinner>
-<div class="grid grid-cols-12 mb-6" *ngIf="adminUsers.length">
+<div *ngIf="!error" class="grid grid-cols-12 mb-6">
     <p-table [value]="adminUsers" class="col-span-9" id="adminUsers-table">
         <ng-template pTemplate="header">
             <tr>
@@ -26,6 +31,7 @@
         </ng-template>
     </p-table>
 </div>
+<app-progress-spinner [condition]="!adminUsers && !error"></app-progress-spinner>
 
 <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"></p-confirmDialog>
 <p-toast position="bottom-center"></p-toast>

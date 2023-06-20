@@ -39,7 +39,7 @@
     <div class="grid grid-cols-12 gap-6 mb-6" [class]="dateFilterForm?.form?.value.dateOption != 'customize' ? '-mt-12' : ''">
         <p-card class="col-span-10 h-fit" header="Registros Nuevos">
             <app-progress-spinner [condition]="lineChartData == null"></app-progress-spinner>
-            <p-chart id="usersLineChart" type="line" [data]="lineChartData" [options]="lineChartOptions"></p-chart>
+            <p-chart *ngIf="lineChartData" id="usersLineChart" type="line" [data]="lineChartData" [options]="lineChartOptions"></p-chart>
         </p-card>
         <p-card class="col-span-2 h-min leading-6" header="Usuarios Registrados">
             <app-progress-spinner [condition]="numberUsers == null"></app-progress-spinner>
@@ -50,7 +50,7 @@
     <!-- Ranking y Distribuciones -->
     <div class="grid grid-cols-12 grid-rows-2 gap-6">
         <!-- Ranking -->
-        <p-card class="col-span-4 row-span-2 row-start-1 justify-center h-min" header="Ranking de Estudiantes por Estados">
+        <p-card class="col-span-4 row-span-2 row-start-1 justify-center h-min" header="Ranking de Estudiantes por Estado">
             <app-progress-spinner [condition]="ranking === undefined"></app-progress-spinner>
             <app-ranking-list [rankings]="ranking"></app-ranking-list>
         </p-card>
@@ -68,7 +68,7 @@
         </p-card>
 
         <!-- Distribución por Institución -->
-        <p-card class="col-span-4 row-span-1" header="Distribución de Estudiantes por Institución">
+        <p-card class="col-span-4 row-span-1" header="Distribución de Estudiantes por Tipo de Institución">
             <app-progress-spinner [condition]="!pieChartForInstitutionLoad"></app-progress-spinner>
             <app-pie-chart-for-institution (onLoadComplete)="pieChartForInstitutionLoad = $event"></app-pie-chart-for-institution>
         </p-card>
