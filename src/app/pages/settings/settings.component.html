@@ -1,10 +1,6 @@
 <app-header title="Ajustes" [breadcrumbs]="items"></app-header>
 
-<div *ngIf="error" class="flex flex-col mx-16">
-    <h4 class="inline-block text-3xl text-center font-semibold text-gray-700 tracking-tight rounded-bl rounded-br">
-        Tenemos problemas, inténtalo más tarde 😓
-    </h4><br>
-</div>
+<app-error-message [condition]="error"></app-error-message>
 
 <div class="flex gap-2 mb-6">
     <h5 *ngIf="global" class="block mb-1 my-auto text-[21px] font-normal text-[#26201F] tracking-tight">Estado de la aplicación</h5>

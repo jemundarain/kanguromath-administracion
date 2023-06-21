@@ -17,11 +17,7 @@
     </h4>
 </div>
 
-<div *ngIf="error" class="flex flex-col mx-16">
-    <h4 class="inline-block text-3xl text-center font-semibold text-gray-700 tracking-tight rounded-bl rounded-br">
-        Tenemos problemas, inténtalo más tarde 😓
-    </h4><br>
-</div>
+<app-error-message [condition]="error"></app-error-message>
 
 <!-- Table -->
 <div *ngIf="!error && editions.length" class="grid grid-cols-12 mb-6">

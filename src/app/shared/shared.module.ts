@@ -25,6 +25,7 @@ import { SolutionComponent } from './solution/solution.component';
 import { OptionsComponent } from './options/options.component';
 import { KatexModule } from 'ng-katex';
 import { PieChartPerformanceGlobalComponent } from './pie-chart-performance-global/pie-chart-performance-global.component';
+import { ErrorMessageComponent } from './error-message/error-message.component';
 
 
 @NgModule({
@@ -47,7 +48,8 @@ import { PieChartPerformanceGlobalComponent } from './pie-chart-performance-glob
     PieChartGeometryComponent,
     PieChartCombinatoricsComponent,
     PieChartNumberTheoryComponent,
-    PieChartPerformanceGlobalComponent
+    PieChartPerformanceGlobalComponent,
+    ErrorMessageComponent
   ],
   exports: [
     CategoryComponent,
@@ -68,6 +70,7 @@ import { PieChartPerformanceGlobalComponent } from './pie-chart-performance-glob
     PieChartNumberTheoryComponent,
     PieChartPerformanceGlobalComponent,
     OptionsComponent,
+    ErrorMessageComponent
   ],
   imports: [
     CommonModule,
