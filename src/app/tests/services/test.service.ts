@@ -5,7 +5,8 @@ import { concat, map, Observable, toArray } from 'rxjs';
 import { Test } from '../models/test-model';
 import { Problem } from '../models/problem-model';
 import { environment } from 'src/environments/environment';
-import { ImageInfo } from '../interfaces/image-info.interface';
+import { Figure } from '../models/figure-model';
+import { Option } from '../../shared/option-model';
 
 @Injectable({providedIn:'root'})
 export class TestService {
@@ -92,10 +93,12 @@ export class TestService {
         });
     }
     
-    updateFigure(newFigure: any) {
-        this.http.put<any>(`${this.baseUrl}/admin_uploads/put_figure`, newFigure).subscribe((data) => {
-            console.log(data);
-        });
+    updateFigure(problem_id: string, figure: Figure) {
+        return this.http.put<any>(`${this.baseUrl}/admin_uploads/put_figure`, {problem_id, figure});
+    }
+
+    updateFigureOption(problem_id: string, option: Option) {
+        return this.http.put<any>(`${this.baseUrl}/admin_uploads/put_option_figure`, {problem_id, option});
     }
 
     deleteFigure(ik_id: string) {
@@ -111,9 +114,7 @@ export class TestService {
     }
 
     createFolder(folderName: string, parentFolderPath: string) {
-        this.http.get<any>(`${this.baseUrl}/admin_uploads/create-folder?folder-name=${folderName}&parent-folder-path=${parentFolderPath}`).subscribe((data) => {
-            console.log(data);
-        });
+        return this.http.get<any>(`${this.baseUrl}/admin_uploads/create-folder?folder-name=${folderName}&parent-folder-path=${parentFolderPath}`);
     }
 
     moveFile(sourceFilePath: string, destinationPath: string) {

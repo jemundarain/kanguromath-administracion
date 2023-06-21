@@ -209,6 +209,11 @@ export class GlobalConstants {
         return !!pattern.test(answer);
     }
 
+    public static isPath(answer: string) {
+        var pattern = new RegExp('^.+\.(png|jpe?g)$','g');
+        return !!pattern.test(answer);
+    }
+
     public static filterLevels(levels: string[]) {
         return GlobalConstants.LEVELS.filter(level => {
           for (let i = 0; i < levels.length; i++) {
@@ -239,6 +244,10 @@ export class GlobalConstants {
     
     public static hasAtLeastOneOptionWithImageLink(options: Option[]) {
         return options?.some(option => this.isLink(option.answer)) || false;
+    }
+
+    public static hasAtLeastOneOptionWithImagePath(options: Option[]) {
+        return options?.some(option => this.isPath(option.answer)) || false;
     }
     
     public static getDistributionLabels(distribution: Ranking[], constants: RadioOption[]) {

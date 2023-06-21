@@ -1,5 +1,5 @@
 var express = require('express');
-const TestModel = require('../schemas/test-schema');
+const ProblemModel = require('../schemas/problem-schema');
 const AdminUserModel = require('../schemas/adminUser-schema');
 var ImageKit = require("imagekit");
 const JSZip = require('jszip');
@@ -79,17 +79,34 @@ app.post('/move-file', (req, res) => {
 });
 
 app.put('/put_figure/', (req, res) => {
-  TestModel.updateOne(
-    {'problem_id': req.body.newFigure.problem_id, 'figures.num_s': req.body.newFigure.num_s},
-    { $set: { 'figures.$.ik_id': req.body.newFigure.ik_id }},
+  const body = req.body;
+  ProblemModel.updateOne(
+    {'_id': body.problem_id, 'figures.num_s': body.figure.num_s},
+    { $set: { 'figures.$.ik_id': body.figure.ik_id, 'figures.$.url': body.figure.url }},
     {new: true}
-  ).then((test) => {
-    if (!test) {
-        return res.status(404).send();
+  ).then((problemUpdate) => {
+    if (!problemUpdate) {
+      return res.status(404);
     }
-    res.send(test);
-  }).catch((error) => {
-    res.status(500).send(error);
+    res.status(200).json(problemUpdate);
+  }).catch((err) => {
+    res.status(500).json(err);
+  })
+});
+
+app.put('/put_option_figure/', (req, res) => {
+  const body = req.body;
+  ProblemModel.updateOne(
+    { '_id': body.problem_id, 'options.letter': body.option.letter },
+    { $set: { 'options.$.ik_id': body.option.ik_id, 'options.$.answer': body.option.answer }},
+    { new: true }
+  ).then((problemUpdate) => {
+    if (!problemUpdate) {
+      return res.status(404);
+    }
+    res.status(200).json(problemUpdate);
+  }).catch((err) => {
+    res.status(500).json(err);
   })
 });
 

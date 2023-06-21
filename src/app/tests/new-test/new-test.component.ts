@@ -113,6 +113,12 @@ export class NewTestComponent implements OnInit {
                     if(matches_resp) {
                       rawOptions = matches_resp[0].replace('\\resp{', '').split("}{");
                       rawOptions[rawOptions.length-1] = rawOptions[rawOptions.length-1].replace('}', '');
+                      for (let i = 0; i < rawOptions.length; i++) {
+                        let option = rawOptions[i];
+                        if (option.startsWith("{") && option.endsWith("}")) {
+                          rawOptions[i] = option.slice(1, -1);
+                        }
+                      }                  
                     }
                   }
                   
@@ -155,64 +161,71 @@ export class NewTestComponent implements OnInit {
                     this.testService.addNewProblem(problem, this.test.test_id).subscribe({
                       next: (newProblem) => {
                         const thereFigures = !!newProblem.figures.length;
-                        const thereImagesInOptions = GlobalConstants.hasAtLeastOneOptionWithImageLink(newProblem.options);
-                        
+                        const thereImagesInOptions = GlobalConstants.hasAtLeastOneOptionWithImagePath(newProblem.options);
                         if (thereFigures || thereImagesInOptions) {
-                            this.testService.createFolder(newProblem._id, 'preliminar');
-                        }
-                          
-                        if (thereFigures) {
-                          newProblem.figures.forEach((figure, index) => {
-                            console.log(figure);
-                            GlobalConstants.generateRandomSuffix();
-                            this.testService.uploadImage(`uploads/${fileTex.name.split('/')[0]}/${figure.url}`, `preliminar/${newProblem._id}/`, GlobalConstants.getRandomName((index+1).toString())).subscribe({
-                              next: (res) => {
-                                figure.url = res.url;
-                              },
-                              error: (err) => { }
-                            });
+                          this.testService.createFolder(newProblem._id, 'preliminar').subscribe({
+                            next: () => {
+                              if (thereFigures) {
+                                for(let i=0; i<newProblem.figures.length; i++) {
+                                  GlobalConstants.generateRandomSuffix();
+                                  this.testService.uploadImage(`uploads/${fileTex.name.split('/')[0]}/${newProblem.figures[i].url}`, `preliminar/${newProblem._id}/`, GlobalConstants.getRandomName((i+1).toString())).subscribe({
+                                    next: (res) => {
+                                      newProblem.figures[i].url = res.url;
+                                      newProblem.figures[i].ik_id = res.fileId;
+                                      this.testService.updateFigure(newProblem._id, newProblem.figures[i]).subscribe({
+                                        next: (problemUpdate) => { },
+                                        error: () => { }
+                                      });
+                                    },
+                                    error: (err) => { }
+                                  });
+                                }
+                              }
+                              
+                              if (thereImagesInOptions) {
+                                for(let i=0; i<newProblem.options.length; i++) {
+                                  if (GlobalConstants.isPath(newProblem.options[i].answer)) {
+                                    this.testService.uploadImage(`uploads/${fileTex.name.split('/')[0]}/${newProblem.options[i].answer}`, `preliminar/${newProblem._id}/`, GlobalConstants.getRandomName(newProblem.options[i].letter)).subscribe({
+                                      next: (res) => {
+                                        newProblem.options[i].answer = res.url;
+                                        newProblem.options[i].ik_id = res.fileId;
+                                        this.testService.updateFigureOption(newProblem._id, newProblem.options[i]).subscribe({
+                                          next: (problemUpdate) => {},
+                                          error: () => { }
+                                        });
+                                      },
+                                      error: (err) => { }
+                                    });
+                                  }
+                                }
+                              }
+                              
+                              if (thereFigures || thereImagesInOptions) {
+                                this.testService.updateProblem('', -1, newProblem);
+                              }
+
+                            },
+                            error: () => { }
                           });
-                        }
-                        
-                        if (thereImagesInOptions) {
-                          newProblem.options.forEach((option) => {
-                              if (GlobalConstants.isLink(option.answer)) {
-                              this.testService.moveFile(option.answer.split('/').slice(-1)[0], `preliminar/${newProblem._id}`).subscribe({
-                                next: () => {},
-                                error: (err) => { }
-                              });
-                              option.answer = GlobalConstants.concatenatePath(option.answer, `/preliminar/${newProblem._id}/`);
-                            }
-                          });
-                        }
-                        
-                        if (thereFigures || thereImagesInOptions) {
-                            this.testService.updateProblem('', -1, newProblem);
                         }
                       },
                       error: (err) => { }
                     });
-                    setTimeout(() => {
-                    }, 400);
                   }
                 });
-                // this.messageService.add({severity:'success', summary: 'Exitoso', detail: 'Prueba creada 🎉', life: 3250});
-                // setTimeout(() => {
-                //   this.router.navigate([`/pruebas/ver/${this.test.test_id}`]);
-                // }, 1220);
               } else {
-                // console.log('El archivo .zip no contiene un archivo .tex');
+                this.messageService.add({severity:'error', summary: 'Rechazado', detail: 'El formato de la prueba no es válido 🙁', life: 3250});
               }
             };
             reader.readAsArrayBuffer(file);
           } else {
-            // console.log('El archivo seleccionado no es un archivo .zip');
+            this.messageService.add({severity:'error', summary: 'Rechazado', detail: 'El archivo seleccionado no es .zip 🙁', life: 3250});
           }
         }
-        // this.messageService.add({severity:'success', summary: 'Exitoso', detail: 'Prueba creada 🎉', life: 3250});
-        // setTimeout(() => {
-        //   this.router.navigate([`/pruebas/ver/${this.test.test_id}`]);
-        // }, 1220);
+        this.messageService.add({severity:'success', summary: 'Exitoso', detail: 'Prueba creada 🎉', life: 3250});
+        setTimeout(() => {
+          this.router.navigate([`/pruebas/ver/${this.test.test_id}`]);
+        }, 2420);
       },
       error: (err) => {
         this.messageService.add({severity:'error', summary: 'Rechazado', detail: 'La prueba no fue creada 🙁', life: 3250});
