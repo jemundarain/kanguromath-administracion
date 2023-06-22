@@ -10,6 +10,8 @@ import { Avatar } from '../models/avatar-model';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { switchMap } from 'rxjs';
 import dayjs from 'dayjs';
+import { AuthService } from '../../auth/services/auth-service';
+import { Auth } from 'src/app/auth/auth-model';
 
 @Component({
   selector: 'app-new-admin-user',
@@ -17,15 +19,6 @@ import dayjs from 'dayjs';
   providers: [ConfirmationService, MessageService]
 })
 export class NewAdminUserComponent implements OnInit {
-
-  constructor(
-    private router: Router,
-    private activatedRoute: ActivatedRoute,
-    private adminUsersService: AdminUsersService,
-    private location: Location,
-    private confirmationService: ConfirmationService,
-    private messageService: MessageService
-  ) { }
 
   @ViewChild('newAdminUserForm', {static: true}) newAdminUserForm !: NgForm;
   uploadUrl: string;
@@ -38,10 +31,20 @@ export class NewAdminUserComponent implements OnInit {
   date_birth: Date;
   newPassword: string;
   error = false;
-  avatar: Avatar;
   uploading: boolean;
 
+  constructor(
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private adminUsersService: AdminUsersService,
+    private location: Location,
+    private confirmationService: ConfirmationService,
+    private messageService: MessageService,
+    private authService: AuthService
+  ) { }
+
   ngOnInit(): void {
+    GlobalConstants.generateRandomSuffix();
     this.minDate = dayjs().subtract(100, 'year').toDate();
     this.maxDate = dayjs().subtract(18, 'year').toDate();
     this.date_birth = dayjs(this.maxDate).toDate();
@@ -74,11 +77,10 @@ export class NewAdminUserComponent implements OnInit {
   }
   
   addAvatar(newAvatar: any) {
-    GlobalConstants.generateRandomSuffix();
-    if(this.avatar.ik_id) {
-      this.adminUsersService.deleteAvatar(this.avatar.ik_id);
+    if(this.adminUser.avatar.ik_id) {
+      this.adminUsersService.deleteAvatar(this.adminUser.avatar.ik_id);
     }
-    this.avatar = newAvatar;
+    this.adminUser.avatar = newAvatar;
     this.uploading = false;
   }
 
@@ -107,6 +109,14 @@ export class NewAdminUserComponent implements OnInit {
         accept: () => {
           this.adminUsersService.updateAdminUser(this.adminUser).subscribe({
             next: () => {
+              this.authService.login(new Auth(this.adminUser.username, this.adminUser.password)).subscribe({
+                next: (res) => {
+                  console.log(res);
+                },
+                error: (err) => {
+                  console.log(err);
+                }
+              });
               this.messageService.add({severity:'success', summary: 'Exitoso', detail: 'Usuario editado 📝', life: 3250});
               setTimeout(() => {
                 this.location.back()

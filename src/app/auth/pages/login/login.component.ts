@@ -9,7 +9,7 @@ import { MessageService } from 'primeng/api';
   selector: 'app-login',
   templateUrl: './login.component.html'
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
   
   constructor(
     private authService: AuthService,
@@ -18,11 +18,9 @@ export class LoginComponent implements OnInit {
   ) {}
 
   @ViewChild('loginForm', { static: true }) loginForm!: NgForm;
-
   loading: boolean = false;
   id: string;
   password: string;
-  ngOnInit(): void {}
 
   login() {
     this.loading = true;

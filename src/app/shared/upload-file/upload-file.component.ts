@@ -4,6 +4,7 @@ import { Figure } from 'src/app/tests/models/figure-model';
 import { Option } from 'src/app/shared/option-model';
 import { TestService } from 'src/app/tests/services/test.service';
 import { PagesService } from '../../pages/services/pages.service';
+import { Avatar } from 'src/app/admin-users/models/avatar-model';
 
 @Component({
   selector: 'app-upload-file',
@@ -31,10 +32,11 @@ export class UploadFileComponent implements OnInit {
     if(this.isLetterOption(this.fileName.split('-')[0])) {
       var newOption: Option = new Option( '', this.fileName.split('-')[0], res.url, res.fileId );
       this.endUpload.emit(newOption);
-    } else {
+    } else if(!isNaN(Number(this.fileName.split('-')[0]))) {
       let num_s = +res.name.split('-')[0];
-      var newfigure: Figure = new Figure( '', res.fileId, num_s, res.url, num_s===1? 'derecha':'intermedia' );
-      this.endUpload.emit(newfigure);
+      this.endUpload.emit(new Figure( '', res.fileId, num_s, res.url, num_s===1? 'derecha':'intermedia' ));
+    } else { 
+      this.endUpload.emit(new Avatar( '', res.fileId, res.url ));
     }
   }
 

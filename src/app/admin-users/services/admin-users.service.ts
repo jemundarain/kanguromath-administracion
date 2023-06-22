@@ -25,7 +25,7 @@ export class AdminUsersService {
   }
 
   updateAdminUser(adminUser: AdminUser) {
-    return this.http.put<AdminUser>(`${ this.baseUrl }/admin_admin_users/put_admin_user/${adminUser._id}`, adminUser);
+    return this.http.put<AdminUser>(`${ this.baseUrl }/admin_admin_users/put_admin_user/`, adminUser);
   }
 
   deletedAdminUser(_id: string) {

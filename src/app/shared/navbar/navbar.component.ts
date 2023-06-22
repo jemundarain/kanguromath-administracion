@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { AuthService } from '../../auth/services/auth-service';
@@ -9,10 +9,8 @@ import { AdminUser } from 'src/app/admin-users/models/adminUser-model';
   templateUrl: './navbar.component.html',
   styles: []
 })
-export class NavbarComponent {
+export class NavbarComponent implements OnInit {
 
-  @Input() expanded: boolean;
-  @Output() onEmitExpanded: EventEmitter<boolean> = new EventEmitter();
   loggedIn: boolean;
   adminUser: AdminUser;
 

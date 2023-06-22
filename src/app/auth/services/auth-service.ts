@@ -42,12 +42,13 @@ export class AuthService{
     }
 
     login(auth: Auth) {
-        return this.http.post(`${this.baseUrl}/login`, auth).pipe(
-          map((res: any) => {
-            localStorage.setItem('user', JSON.stringify(res.user));
-            localStorage.setItem('token', res.token);
-          })
-        );
+      return this.http.post(`${this.baseUrl}/login`, auth).pipe(
+        map((res: any) => {
+          localStorage.setItem('user', JSON.stringify(res.user));
+          localStorage.setItem('token', res.token);
+          this.setLoggedIn(true);
+        })
+      );
     }
 
     logout() {

@@ -3,7 +3,7 @@
 <app-error-message [condition]="error"></app-error-message>
 
 <form #newAdminUserForm="ngForm" (ngSubmit)="saveAdminUser()" class="flex flex-row mt-2">
-    <div class="w-2/3">
+    <div class="w-2/3 pr-8">
         <div class="flex flex-row mb-6">
             <label class="flex-none mr-3 my-auto text-[21px] font-normal text-[#26201F] tracking-tight w-fit">Nombre</label>
             <input pInputText id="username" [class]="validateName()? '':'ng-invalid ng-dirty'" aria-describedby="username-help" [(ngModel)]="adminUser.name" [required]="true" (input)="generateUsername()" name="name"/>
@@ -56,21 +56,22 @@
 
         <div class="flex flex-row mb-6">
             <label class="flex-none mr-3 my-auto text-[21px] font-normal text-[#26201F] tracking-tight">Cambiar Contraseña</label>
-            <p-password [(ngModel)]="newPassword" [toggleMask]="true" [feedback]="false" name="password" [required]="true"></p-password>
+            <p-password [(ngModel)]="newPassword" [toggleMask]="true" [feedback]="false" name="password"></p-password>
             <div *ngIf="validatePassword()" class="text-red-500 text-sm ml-3 mt-2">Por favor, ingresa la contraseña</div>
         </div>
         <button pButton type="button" class="btn float-left" label="Volver" icon="pi pi-arrow-left" iconPos="left" (click)="back()"></button>
         <button pButton pRipple label="Guardar" class="btn w-32 p-3 float-right" type="submit" [disabled]="!newAdminUserForm.valid"></button>
     </div>
 
-    <div class="w-1/3">
-        <p-image [src]="adminUser.avatar.url"></p-image>
+    <div class="w-1/3 flex flex-col gap-y-2">
+        <app-progress-spinner [condition]="uploading"></app-progress-spinner>
+        <p-image [src]="adminUser.avatar.url" *ngIf="!uploading"></p-image>
         <app-upload-file
             (startUpload)="uploading = $event"
             (endUpload)="addAvatar($event)"
             [fileName]="getRandomAvatarName(adminUser.username)"
             folder="usuarios"
-            typeNameFile="imagen">
+            typeNameFile="foto">
         </app-upload-file>         
     </div>
 </form>
