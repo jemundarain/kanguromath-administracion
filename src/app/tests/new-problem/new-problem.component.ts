@@ -3,9 +3,7 @@ import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { ActivatedRoute } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { Location } from '@angular/common'
-import { Observable, of } from 'rxjs';
-import { switchMap } from 'rxjs';
-import * as htmlToText from 'html-to-text';
+import { Observable, of, switchMap } from 'rxjs';
 
 import { GlobalConstants } from 'src/app/common/global-constants';
 import { Problem } from '../models/problem-model';

@@ -20,7 +20,7 @@ const rutas: Routes = [
       { path: 'ver/:test_id', component: VisualizeTestComponent },
       { path: 'editar/:id', component: EditTestComponent },
       { path: 'agregar-problema/:id', component: NewProblemComponent, canDeactivate: [ TestsGuard ] },
-      { path: 'editar-problema/:id', component: EditProblemComponent },
+      { path: 'editar-problema/:id', component: EditProblemComponent, canDeactivate: [ TestsGuard ] },
       { path: '**', redirectTo: 'lista' }
     ]
   }

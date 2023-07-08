@@ -10,7 +10,6 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 // Importar rutas
-var appRoutes = require('./routes/app');
 var loginRoutes = require('./routes/login')
 var usersRoutes = require('./routes/users');
 var adminUsersRoutes = require('./routes/admin-users');

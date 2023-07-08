@@ -37,7 +37,6 @@ export class ListTestsComponent implements OnInit {
 
     this.testService.getEditions().subscribe({
       next: (editions) => {
-        console.log(editions);
         editions.length? this.editions = editions : this.testsEmpty = true;
       },
       error: (err) => {

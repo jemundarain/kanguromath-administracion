@@ -157,7 +157,7 @@ export class NewTestComponent implements OnInit {
                       options: options,
                       figures: figures
                     }
-
+                    setTimeout(() => {}, 4000);
                     this.testService.addNewProblem(problem, this.test.test_id).subscribe({
                       next: (newProblem) => {
                         const thereFigures = !!newProblem.figures.length;
@@ -168,34 +168,38 @@ export class NewTestComponent implements OnInit {
                               if (thereFigures) {
                                 for(let i=0; i<newProblem.figures.length; i++) {
                                   GlobalConstants.generateRandomSuffix();
-                                  this.testService.uploadImage(`uploads/${fileTex.name.split('/')[0]}/${newProblem.figures[i].url}`, `preliminar/${newProblem._id}/`, GlobalConstants.getRandomName((i+1).toString())).subscribe({
-                                    next: (res) => {
-                                      newProblem.figures[i].url = res.url;
-                                      newProblem.figures[i].ik_id = res.fileId;
-                                      this.testService.updateFigure(newProblem._id, newProblem.figures[i]).subscribe({
-                                        next: (problemUpdate) => { },
-                                        error: () => { }
-                                      });
-                                    },
-                                    error: (err) => { }
-                                  });
+                                  setTimeout(() => {
+                                    this.testService.uploadImage(`uploads/${fileTex.name.split('/')[0]}/${newProblem.figures[i].url}`, `preliminar/${newProblem._id}/`, GlobalConstants.getRandomName((i+1).toString())).subscribe({
+                                      next: (res) => {
+                                        newProblem.figures[i].url = res.url;
+                                        newProblem.figures[i].ik_id = res.fileId;
+                                        this.testService.updateFigure(newProblem._id, newProblem.figures[i]).subscribe({
+                                          next: (problemUpdate) => { },
+                                          error: () => { }
+                                        });
+                                      },
+                                      error: (err) => { }
+                                    });
+                                  }, 4000);
                                 }
                               }
                               
                               if (thereImagesInOptions) {
                                 for(let i=0; i<newProblem.options.length; i++) {
                                   if (GlobalConstants.isPath(newProblem.options[i].answer)) {
-                                    this.testService.uploadImage(`uploads/${fileTex.name.split('/')[0]}/${newProblem.options[i].answer}`, `preliminar/${newProblem._id}/`, GlobalConstants.getRandomName(newProblem.options[i].letter)).subscribe({
-                                      next: (res) => {
-                                        newProblem.options[i].answer = res.url;
-                                        newProblem.options[i].ik_id = res.fileId;
-                                        this.testService.updateFigureOption(newProblem._id, newProblem.options[i]).subscribe({
-                                          next: (problemUpdate) => {},
-                                          error: () => { }
-                                        });
-                                      },
-                                      error: (err) => { }
-                                    });
+                                    setTimeout(() => {
+                                      this.testService.uploadImage(`uploads/${fileTex.name.split('/')[0]}/${newProblem.options[i].answer}`, `preliminar/${newProblem._id}/`, GlobalConstants.getRandomName(newProblem.options[i].letter)).subscribe({
+                                        next: (res) => {
+                                          newProblem.options[i].answer = res.url;
+                                          newProblem.options[i].ik_id = res.fileId;
+                                          this.testService.updateFigureOption(newProblem._id, newProblem.options[i]).subscribe({
+                                            next: (problemUpdate) => {},
+                                            error: () => { }
+                                          });
+                                        },
+                                        error: (err) => { }
+                                      });
+                                    }, 4000);
                                   }
                                 }
                               }

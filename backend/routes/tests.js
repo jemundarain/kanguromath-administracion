@@ -3,8 +3,15 @@ const mongoose = require('mongoose');
 const { ObjectId } = mongoose.Types;
 const TestModel = require('../schemas/test-schema');
 const ProblemModel = require('../schemas/problem-schema')
+var ImageKit = require("imagekit");
 
 var app = express();
+
+var imagekit = new ImageKit({
+	publicKey : 'public_VoBZkirixLnqfCe0fUaeGUj6XQs=',
+	privateKey : 'private_mBXoZE1JUrqhmxHZeApipeWtAXc=',
+	urlEndpoint : 'https://ik.imagekit.io/661ijdspv/'
+});
 
 app.get('/list_tests',(req, res, next) => {
 	TestModel.find({})
@@ -103,8 +110,8 @@ app.delete('/delete_test/:_id', (req, res) => {
 		const edition = test.edition;
 		const problemsIds = test.problems.map((problemId) => problemId.toString());
   
-		return TestModel.deleteOne({ _id: testId })
-		  .then(() => TestModel.find({ _id: { $ne: testId }, edition }))
+		TestModel.deleteOne({ _id: testId })
+		  .then(() => TestModel.find({ edition }))
 		  .then((tests) => {
 			const usedProblemIds = tests.reduce(
 			  (acc, curr) => acc.concat(curr.problems.map((problemId) => problemId.toString())),
@@ -115,15 +122,23 @@ app.delete('/delete_test/:_id', (req, res) => {
 			  .filter((problemId) => !usedProblemIds.includes(problemId))
 			  .map((problemId) => ProblemModel.deleteOne({ _id: problemId }));
   
-			return Promise.all(deletePromises);
+			Promise.all(deletePromises)
+			.then(() => {
+				const deleteIds = problemsIds.filter((problemId) => !usedProblemIds.includes(problemId))
+				deleteIds.forEach((problemId) => {
+					imagekit.deleteFolder(`preliminar/${problemId}`, function(error, result) {
+						if(error) console.log(error);
+						else console.log(result);
+					});
+				});				  
+				res.status(200).json({ successful: true });
+			})
+			.catch((err) => {
+				console.log(err);
+				res.status(500).json(err);
+			});
 		  });
 	  })
-	  .then(() => {
-		res.status(200).json({ successful: true });
-	  })
-	  .catch((err) => {
-		res.status(500).json(err);
-	  });
   });
     
 module.exports = app;

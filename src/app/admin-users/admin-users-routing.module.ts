@@ -6,6 +6,7 @@ import { ListAdminUsersComponent } from './list-admin-users/list-admin-users.com
 import { NewAdminUserComponent } from './new-admin-user/new-admin-user.component';
 import { VisualizeAdminUserComponent } from './visualize-admin-user/visualize-admin-user.component';
 import { AuthGuard } from '../auth/guards/auth.guard';
+import { AdminUsersGuard } from './guards/admin-users.guard';
 
 const rutas: Routes = [
   {
@@ -14,9 +15,9 @@ const rutas: Routes = [
     canActivate: [ AuthGuard ],
     children: [
       { path: 'lista', component: ListAdminUsersComponent },
-      { path: 'agregar', component: NewAdminUserComponent },
+      { path: 'agregar', component: NewAdminUserComponent, canDeactivate: [ AdminUsersGuard ] },
       { path: 'ver/:username', component: VisualizeAdminUserComponent },
-      { path: 'editar/:username', component: NewAdminUserComponent },
+      { path: 'editar/:username', component: NewAdminUserComponent, canDeactivate: [ AdminUsersGuard ] },
       { path: '**', redirectTo: 'lista' }
     ]
   }

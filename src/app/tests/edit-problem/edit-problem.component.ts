@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { TestService } from '../services/test.service';
 import { Location } from '@angular/common'
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
-import { switchMap } from 'rxjs';
+import { Observable, of, switchMap } from 'rxjs';
 
 import { Test } from '../models/test-model';
 import { Problem } from '../models/problem-model';
@@ -129,6 +129,23 @@ export class EditProblemComponent implements OnInit {
       }
     });
   }
+
+  exitConfirmation(): Observable<boolean> {
+    return new Observable((observer) => {
+      this.confirmationService.confirm({
+        header: "Confirmación",
+        message: '¿Está seguro que desea salir sin guardar los cambios?',
+        accept: () => {
+          observer.next(true);
+          observer.complete();
+        },
+        reject: () => {
+          observer.next(false);
+          observer.complete();
+        }
+      });
+    });
+  }  
 
   back() {
     this.location.back()

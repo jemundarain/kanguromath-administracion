@@ -39,13 +39,16 @@ const userSchema = mongoose.Schema({
     username: {type: String, required: true, unique: true},
     email: {type: String, required: true, unique: true},
     sex: {type: String, required: true, enum: validSexs},
+    avatar: new mongoose.Schema({
+        ik_id: {type: String},
+        url: {type: String}
+    }),
     date_birth: {type: Date, required: true},
     country: {type: String},
     state: {type: String, enum: validStates},
     streak_days: {type: Number, required: true},
     type: {type: String, required: true, enum: validTypes},
     level: {type: String, enum: validLevels},
-    ci: {type: String},
     password: {type: String, required: true},
     type_institution: {type: String, enum: validTypeInstitutions},
     achieves: [new mongoose.Schema({
@@ -57,6 +60,7 @@ const userSchema = mongoose.Schema({
         mode: {type: String, required: true, enum: validMode},
         in_progress: {type: Boolean, required: true},
         t_remain_s: {type: Number},
+        score: {type: Number}
     })],
     reminder_hour: {type: Date},
 });

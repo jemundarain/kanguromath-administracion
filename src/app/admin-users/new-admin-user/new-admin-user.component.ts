@@ -8,7 +8,7 @@ import { AdminUser } from '../models/adminUser-model';
 import { GlobalConstants } from 'src/app/common/global-constants';
 import { Avatar } from '../models/avatar-model';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
-import { switchMap } from 'rxjs';
+import { Observable, of, switchMap } from 'rxjs';
 import dayjs from 'dayjs';
 import { AuthService } from '../../auth/services/auth-service';
 import { Auth } from 'src/app/auth/auth-model';
@@ -143,6 +143,28 @@ export class NewAdminUserComponent implements OnInit {
       });
     }
   }
+
+  exitConfirmation(): Observable<boolean> {
+    if (this.adminUser.name === '' && this.adminUser.last_name === '' && this.adminUser.sex === '' && this.adminUser.email === '' ) {
+      return of(true);
+    } else {
+      return new Observable((observer) => {
+        this.confirmationService.confirm({
+          header: "Confirmación",
+          message: '¿Está seguro que desea salir sin guardar los cambios?',
+          accept: () => {
+            this.adminUser.avatar.ik_id? this.adminUsersService.deleteAvatar(this.adminUser.avatar.ik_id) : '';
+            observer.next(true);
+            observer.complete();
+          },
+          reject: () => {
+            observer.next(false);
+            observer.complete();
+          }
+        });
+      });
+    }
+  } 
 
   back() {
     this.location.back()
