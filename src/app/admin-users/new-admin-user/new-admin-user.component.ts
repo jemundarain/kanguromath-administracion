@@ -103,29 +103,16 @@ export class NewAdminUserComponent implements OnInit {
   saveAdminUser() {
     this.adminUser.password = this.newPassword;
     if(this.adminUser._id) {
-      this.confirmationService.confirm({
-        header: "Confirmación",
-        message: `¿Está seguro que desea editar el usuario ${this.adminUser.username}?`,
-        accept: () => {
-          this.adminUsersService.updateAdminUser(this.adminUser).subscribe({
-            next: () => {
-              this.authService.login(new Auth(this.adminUser.username, this.adminUser.password)).subscribe({
-                next: (res) => {
-                  console.log(res);
-                },
-                error: (err) => {
-                  console.log(err);
-                }
-              });
-              this.messageService.add({severity:'success', summary: 'Exitoso', detail: 'Usuario editado 📝', life: 3250});
-              setTimeout(() => {
-                this.location.back()
-              }, 1220);
-            },
-            error: (err) => {
-              this.messageService.add({severity:'error', summary: 'Rechazado', detail: 'El usuario no fue editado 🙁', life: 3250});
-            }
-          });
+      this.adminUsersService.updateAdminUser(this.adminUser).subscribe({
+        next: () => {
+          localStorage.setItem('user', JSON.stringify(this.adminUser));
+          this.messageService.add({severity:'success', summary: 'Exitoso', detail: 'Usuario editado 📝', life: 3250});
+          setTimeout(() => {
+            window.location.reload();
+          }, 1220);
+        },
+        error: (err) => {
+          this.messageService.add({severity:'error', summary: 'Rechazado', detail: 'El usuario no fue editado 🙁', life: 3250});
         }
       });
     } else {
@@ -145,7 +132,7 @@ export class NewAdminUserComponent implements OnInit {
   }
 
   exitConfirmation(): Observable<boolean> {
-    if (this.adminUser.name === '' && this.adminUser.last_name === '' && this.adminUser.sex === '' && this.adminUser.email === '' ) {
+    if (this.adminUser.name === '' && this.adminUser.last_name === '' && this.adminUser.sex === '' && this.adminUser.email === '' && this.adminUser.avatar.url === '' ) {
       return of(true);
     } else {
       return new Observable((observer) => {
@@ -153,7 +140,9 @@ export class NewAdminUserComponent implements OnInit {
           header: "Confirmación",
           message: '¿Está seguro que desea salir sin guardar los cambios?',
           accept: () => {
-            this.adminUser.avatar.ik_id? this.adminUsersService.deleteAvatar(this.adminUser.avatar.ik_id) : '';
+            if(this.activatedRoute.snapshot.url.join('/') === 'agregar') {
+              this.adminUsersService.deleteAvatar(this.adminUser.avatar.ik_id);
+            }
             observer.next(true);
             observer.complete();
           },
@@ -164,7 +153,7 @@ export class NewAdminUserComponent implements OnInit {
         });
       });
     }
-  } 
+  }
 
   back() {
     this.location.back()
