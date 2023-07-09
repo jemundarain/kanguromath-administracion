@@ -113,11 +113,17 @@ export class NewProblemComponent implements OnInit {
   }
 
   addProblem() {
-    this.testService.addExistingProblem(this.test.test_id, this.problemSelected._id);
-    this.messageService.add({severity:'success', summary: 'Exitoso', detail: 'Problema agregado ✅' });
-    setTimeout(() => {
-      this.location.back()
-    }, 1220);
+    this.testService.addExistingProblem(this.test.test_id, this.problemSelected._id).subscribe({
+      next: (res) => {
+        this.messageService.add({severity:'success', summary: 'Exitoso', detail: 'Problema agregado ✅' });
+        setTimeout(() => {
+          this.location.back()
+        }, 1220);
+      },
+      error: (err) => {
+        this.messageService.add({ severity: 'error', summary: 'Rechazado', detail: 'El problema no fue agregado 🙁', life: 3250 });
+      }
+    });
   }
 
   saveNewProblem() {

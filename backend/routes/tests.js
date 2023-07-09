@@ -76,21 +76,23 @@ app.get('/get_test_by_problem/:_id', (req, res) => {
 
 app.post('/post_test/', (req, res) => {
 	const body = req.body;
+	const testId = new ObjectId();
+  
 	TestModel.create({
-		_id: new ObjectId(),
-		test_id: body.test_id,
-		levels: body.levels,
-		edition: body.edition,
-		is_published: body.is_published,
-		problems: body.problems
+	  _id: testId,
+	  test_id: body.test_id,
+	  levels: body.levels,
+	  edition: body.edition,
+	  is_published: body.is_published,
+	  problems: body.problems
 	})
 	.then(() => {
-		res.status(200).json({successful: true});
+		res.status(200).json({ successful: true, test_id: testId });
 	})
 	.catch(err => {
-		res.status(500).json(err);
+		res.status(500).json({ successful: false, errors: err });
 	});
-})
+});  
 
 app.put('/put_test/', (req, res) => {
 	TestModel.updateOne({_id: req.body._id}, req.body)

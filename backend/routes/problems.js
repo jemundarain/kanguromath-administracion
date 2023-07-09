@@ -49,30 +49,29 @@ app.get('/search_problems', (req, res) => {
 	  { $match: { 'edition': req.query.edition, 'levels': { $ne: req.query.levels } } },
 	  { $group: { _id: null, problems: { $push: '$problems' } } }
 	])
-	  .then((data) => {
+	.then((data) => {
 		const problemsIds = Array.from(new Set([].concat(...data[0].problems)));
 		return ProblemModel.find({
-		  '_id': { $in: problemsIds },
-		  'statement': { $regex: req.query.term, $options: 'i' }
+			'_id': { $in: problemsIds },
+			'statement': { $regex: req.query.term, $options: 'i' }
 		});
-	  })
-	  .then((result) => {
+	})
+	.then((result) => {
 		res.status(200).json(result);
-	  })
-	  .catch(() => {
+	})
+	.catch(() => {
 		res.status(500).json([]);
-	  });
-  });
+	});
+});
   
-  
-
 app.put('/put_existing_problem/', (req, res) => {
 	TestModel.updateOne({ 'test_id': req.body.test_id }, { $push: { 'problems': req.body._id } })
 	.then(() => {
-		res.status(200).json({
-			message: 'Update completed'
-		})    
+		res.status(200).json({ successful: true })    
 	})
+	.catch((err) => {
+		res.status(500).json({ successful: false, errors: err });
+	});
 })
 
 app.post('/post_problem/:test_id', async (req, res) => {

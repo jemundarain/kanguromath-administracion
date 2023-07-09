@@ -44,7 +44,7 @@ export class TestService {
     }
 
     addNewTest(test: Test) {
-        return this.http.post<{successful: boolean}>(`${ this.baseUrl }/admin_tests/post_test/`, test);
+        return this.http.post<{successful: boolean, test_id: string}>(`${ this.baseUrl }/admin_tests/post_test/`, test);
     }
 
     updateTest(test: Test) {
@@ -66,9 +66,7 @@ export class TestService {
     }
 
     addExistingProblem(test_id: string, _id: string) {
-        this.http.put<{message: string}>(`${this.baseUrl}/admin_problems/put_existing_problem`, {test_id, _id}).subscribe((jsonData) => {
-          console.log(jsonData);
-        })
+        return this.http.put<any>(`${this.baseUrl}/admin_problems/put_existing_problem`, {test_id, _id});
     }
     
     updateProblem(test_id: string, num_s: number, problem: Problem) {
