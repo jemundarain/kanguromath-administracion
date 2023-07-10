@@ -16,6 +16,7 @@
                 </div>
             </p-card>
         </div>
+        
         <!-- Figuras -->
         <ng-container *ngIf="problem">
             <div class="grid grid-cols-12 gap-6">
@@ -44,6 +45,7 @@
                 <p-card class="col-span-5" header="Rutina">
                     <div class="flex flex-col gap-3">
                         <textarea pInputTextarea [autoResize]="true" [(ngModel)]="problem.statement" name="routine"></textarea>
+                        <div class="mt-2 text-sm text-gray-500">Puede incluir las imágenes intermedias usando su número secuencial de esta forma: <span class="font-bold">{{'{*1*}'}}</span></div>
                     </div>
                 </p-card>
                 <p-card class="col-span-5 h-min" header="Resultado">
@@ -58,7 +60,7 @@
                 <h5 class="text-2xl font-bold text-[#26201F] tracking-tight">Opciones</h5>
                 <div class="col-span-12 h-min">
                     <div class="grid grid-cols-12 gap-8 mb-6">
-                        <app-options (onChangeOptions)="problem.options = $event" [options]="problem.options" [problem_id]="problem._id" class="col-span-10"></app-options>
+                        <app-options (onChangeOptions)="problem.options = $event" [options]="problem.options" [folder]="'preliminar/'+problem._id" class="col-span-10"></app-options>
                     </div>
                 </div>
             </div>

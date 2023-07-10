@@ -46,7 +46,7 @@ export class ProblemComponent implements OnChanges {
     let n=0;
     for(let i=0; i<this.problem.statement.length; i++) {
       if(this.problem.statement[i] == '{' && this.problem.statement[i+1] == '*' && (this.problem.statement[i+4] == '}' || this.problem.statement[i+5] == '}')) {
-        this.decode_statement = this.decode_statement.replace(`{*${n+1}*}`, `<img src="${this.problem.figures[n].url}">`)
+        this.decode_statement = this.decode_statement.replace(`{*${n+1}*}`, `<img src="${this.problem.figures[n].url}" style="display: inline;">`)
         n++;
       }
     }

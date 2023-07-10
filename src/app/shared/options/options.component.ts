@@ -16,7 +16,7 @@ export class OptionsComponent implements OnInit {
   ) { }
 
   @Input() options: Option[];
-  @Input() problem_id: string;
+  @Input() folder: string;
   optionsTypes:string[] = [];
   uploadings: boolean[] = [];
   optionsOut: Option[];

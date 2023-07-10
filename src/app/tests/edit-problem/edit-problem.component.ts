@@ -87,47 +87,41 @@ export class EditProblemComponent implements OnInit {
   }
 
   updateProblem() {
-    this.confirmationService.confirm({
-      header: "Confirmación",
-      message: '¿Estás seguro de que deseas editar este problema?',
-      accept: () => {
-        const thereFigures = !!this.problem.figures.length;
-        const thereImagesInOptions = GlobalConstants.hasAtLeastOneOptionWithImageLink(this.problem.options);
+    const thereFigures = !!this.problem.figures.length;
+    const thereImagesInOptions = GlobalConstants.hasAtLeastOneOptionWithImageLink(this.problem.options);
 
-        if (thereFigures || thereImagesInOptions) {
-          this.testService.createFolder(this.problem._id, "preliminar");
-        }
+    if (thereFigures || thereImagesInOptions) {
+      this.testService.createFolder(this.problem._id, "preliminar");
+    }
 
-        if (thereFigures) {
-          this.problem.figures.forEach((figure) => {
-            if (!figure.url.includes("preliminar")) {
-              this.testService.moveFile(figure.url.split('/').slice(-1)[0], `preliminar/${this.problem._id}`).subscribe({
-                next: () => {},
-                error: (err) => { console.log(err); }
-              });
-              figure.url = GlobalConstants.concatenatePath(figure.url, `/preliminar/${this.problem._id}/`);
-            }
+    if (thereFigures) {
+      this.problem.figures.forEach((figure) => {
+        if (!figure.url.includes("preliminar")) {
+          this.testService.moveFile(figure.url.split('/').slice(-1)[0], `preliminar/${this.problem._id}`).subscribe({
+            next: () => {},
+            error: (err) => { console.log(err); }
           });
+          figure.url = GlobalConstants.concatenatePath(figure.url, `/preliminar/${this.problem._id}/`);
         }
+      });
+    }
 
-        if (thereImagesInOptions) {
-          this.problem.options.forEach((option) => {
-            if (GlobalConstants.isLink(option.answer) && !option.answer.includes("preliminar")) {
-              this.testService.moveFile(option.answer.split('/').slice(-1)[0], `preliminar/${this.problem._id}`).subscribe({
-                next: () => {},
-                error: (err) => { console.log(err); }
-              });
-              option.answer = GlobalConstants.concatenatePath(option.answer, `/preliminar/${this.problem._id}/`);
-            }
+    if (thereImagesInOptions) {
+      this.problem.options.forEach((option) => {
+        if (GlobalConstants.isLink(option.answer) && !option.answer.includes("preliminar")) {
+          this.testService.moveFile(option.answer.split('/').slice(-1)[0], `preliminar/${this.problem._id}`).subscribe({
+            next: () => {},
+            error: (err) => { console.log(err); }
           });
+          option.answer = GlobalConstants.concatenatePath(option.answer, `/preliminar/${this.problem._id}/`);
         }
-        this.testService.updateProblem(this.test.test_id, this.num_s-1, this.problem);
-        this.messageService.add({severity:'success', summary: 'Exitoso', detail: 'Problema editado 📝'});
-        setTimeout(() => {
-          this.location.back()
-        }, 1220);
-      }
-    });
+      });
+    }
+    this.testService.updateProblem(this.test.test_id, this.num_s-1, this.problem);
+    this.messageService.add({severity:'success', summary: 'Exitoso', detail: 'Problema editado 📝'});
+    setTimeout(() => {
+      this.location.back()
+    }, 1220);
   }
 
   exitConfirmation(): Observable<boolean> {
@@ -136,6 +130,7 @@ export class EditProblemComponent implements OnInit {
         header: "Confirmación",
         message: '¿Está seguro que desea salir sin guardar los cambios?',
         accept: () => {
+          console.log(this.problem.figures);
           observer.next(true);
           observer.complete();
         },

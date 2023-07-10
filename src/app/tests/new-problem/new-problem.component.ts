@@ -65,12 +65,13 @@ export class NewProblemComponent implements OnInit {
   }
 
   exitConfirmation(): Observable<boolean> {
-    if (this.newProblem.statement === '' && this.newProblem.options.every((option) => option.answer === '') && this.newProblem.solution === '') {
+    if (this.newProblem.statement === '' || this.newProblem.options.every((option) => option.answer === '') || this.newProblem.solution === '') {
       this.newProblem.figures.forEach((figure) => {
         this.testService.deleteFigure(figure.ik_id);
       });
-      return of(true);
-    } else if (this.newProblem.statement && this.newProblem.options.every((option) => option.answer !== '')) {
+      this.newProblem.options.forEach((option) => {
+        this.testService.deleteFigure(option.ik_id);
+      });
       return of(true);
     } else {
       return new Observable((observer) => {
@@ -80,6 +81,9 @@ export class NewProblemComponent implements OnInit {
           accept: () => {
             this.newProblem.figures.forEach((figure) => {
               this.testService.deleteFigure(figure.ik_id);
+            });
+            this.newProblem.options.forEach((option) => {
+              this.testService.deleteFigure(option.ik_id);
             });
             observer.next(true);
             observer.complete();
