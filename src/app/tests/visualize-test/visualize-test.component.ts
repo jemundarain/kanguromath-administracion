@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { switchMap } from 'rxjs';
-import { MenuItem } from 'primeng/api';
+import { MenuItem, MessageService } from 'primeng/api';
 
 import { Test } from '../models/test-model';
 import { TestService } from '../services/test.service';
@@ -18,10 +18,12 @@ export class VisualizeTestComponent implements OnInit {
   items: MenuItem[];
   error = false;
   testEmpty = false;
-
+  // showSpinner: boolean = true;
+  
   constructor(
     private testService: TestService,
     private activatedRoute: ActivatedRoute,
+    private messageService: MessageService,
     private router: Router
   ) {}
 
@@ -56,5 +58,9 @@ export class VisualizeTestComponent implements OnInit {
 
   addProblem(test: Test) {
     this.router.navigateByUrl(`pruebas/agregar-problema/${test}`);
+  }
+
+  showError( error: string) {
+    this.messageService.add({ severity:'error', summary: 'Error', detail: `${error}`, life: 3250 });
   }
 }

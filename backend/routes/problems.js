@@ -95,8 +95,10 @@ app.post('/post_problem/:test_id', async (req, res) => {
   
 
 app.put('/put_problem/', (req, res) => {
+	console.log(req.body);
 	const body = req.body;
 	const updatedProblem = {
+		_id: new ObjectId(body.problem._id),
 	  statement: body.problem.statement,
 	  solution: body.problem.solution,
 	  category: body.problem.category,
@@ -107,15 +109,16 @@ app.put('/put_problem/', (req, res) => {
 	ProblemModel.findByIdAndUpdate(body.problem._id, updatedProblem)
 	  .then(() => {
 		if(body.num_s !== -1) {
-			TestModel.findOne({ 'test_id': body.test_id })
+			TestModel.findOne({ '_id': body.test_id })
 			.then(testModel => {
 				if (!testModel) {
-				return res.sendStatus(404);
+					return res.sendStatus(404);
 				}
 				const problems = testModel.problems;
-				const problemIndex = problems.findIndex(problem => problem === body.problem._id);
+				const problemIds = problems.map((objectId) => objectId.toString());
+				const problemIndex = problemIds.findIndex(problem => problem === body.problem._id);
 				if (problemIndex === -1) {
-				return res.sendStatus(404);
+					return res.sendStatus(404);
 				}
 				problems.splice(problemIndex, 1);
 				problems.splice(body.num_s, 0, body.problem._id);
@@ -135,7 +138,7 @@ app.put('/put_problem/', (req, res) => {
 	  .catch(err => {
 		res.status(500).json(err);
 	  });
-  });
+});
   
 app.delete('/delete_problem', (req, res) => {
 	var problem_id = req.query._id;

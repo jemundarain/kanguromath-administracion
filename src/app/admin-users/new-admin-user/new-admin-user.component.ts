@@ -12,6 +12,7 @@ import { Observable, of, switchMap } from 'rxjs';
 import dayjs from 'dayjs';
 import { AuthService } from '../../auth/services/auth-service';
 import { Auth } from 'src/app/auth/auth-model';
+import { TestService } from 'src/app/tests/services/test.service';
 
 @Component({
   selector: 'app-new-admin-user',
@@ -32,15 +33,15 @@ export class NewAdminUserComponent implements OnInit {
   newPassword: string;
   error = false;
   uploading: boolean;
+  auxAvatar: Avatar;
 
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private adminUsersService: AdminUsersService,
     private location: Location,
-    private confirmationService: ConfirmationService,
     private messageService: MessageService,
-    private authService: AuthService
+    private testService: TestService,
   ) { }
 
   ngOnInit(): void {
@@ -53,6 +54,7 @@ export class NewAdminUserComponent implements OnInit {
         .subscribe({
           next: (adminUser) => {
             this.adminUser = adminUser;
+            this.auxAvatar = this.adminUser.avatar;
             this.date_birth = dayjs(adminUser.date_birth).toDate();
             this.items = [
               {label: 'Usuarios'},
@@ -132,27 +134,20 @@ export class NewAdminUserComponent implements OnInit {
   }
 
   exitConfirmation(): Observable<boolean> {
-    if (this.adminUser.name === '' && this.adminUser.last_name === '' && this.adminUser.sex === '' && this.adminUser.email === '' && this.adminUser.avatar.url === '' ) {
-      return of(true);
-    } else {
-      return new Observable((observer) => {
-        this.confirmationService.confirm({
-          header: "Confirmación",
-          message: '¿Está seguro que desea salir sin guardar los cambios?',
-          accept: () => {
-            if(this.activatedRoute.snapshot.url.join('/') === 'agregar') {
+    return new Observable((observer) => {
+      this.testService.getListFiles('usuarios').subscribe({
+        next: (res) => {
+          for(const avatar of res) {
+            if((avatar.name.split('-')[0] === this.adminUser.username) && (this.auxAvatar.url !== avatar.url)) {
               this.adminUsersService.deleteAvatar(this.adminUser.avatar.ik_id);
             }
-            observer.next(true);
-            observer.complete();
-          },
-          reject: () => {
-            observer.next(false);
-            observer.complete();
           }
-        });
+          observer.next(true);
+          observer.complete();
+        },
+        error: (err) => { }
       });
-    }
+    });
   }
 
   back() {

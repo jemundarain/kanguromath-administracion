@@ -9,6 +9,7 @@ import { Observable, of, switchMap } from 'rxjs';
 import { Test } from '../models/test-model';
 import { Problem } from '../models/problem-model';
 import { Figure } from '../models/figure-model';
+import { Option } from 'src/app/shared/option-model';
 import { GlobalConstants } from 'src/app/common/global-constants';
 
 @Component({
@@ -50,6 +51,8 @@ export class EditProblemComponent implements OnInit {
   max: number;
   figuresMap1 = GlobalConstants.FIGURES_MAP1;
   figuresMap2 = GlobalConstants.FIGURES_MAP2;
+  auxFigure: Figure[];
+  auxOptions: Option[];
 
   ngOnInit(): void {
     GlobalConstants.generateRandomSuffix();
@@ -58,7 +61,25 @@ export class EditProblemComponent implements OnInit {
         return this.testService.getProblemById(id);
       })
     ).subscribe( problem => {
+      var errStatement = '';
+      if(!GlobalConstants.isRenderizableWithKaTeX(problem.statement).res) {
+        var errOperator = GlobalConstants.isRenderizableWithKaTeX(problem.statement).operator || '';
+        var regex = new RegExp(errOperator, 'g');
+        errOperator? errStatement = problem.statement.replace(regex, ''): '';
+      }
       this.problem = problem;
+      if(errStatement) {
+        this.problem.statement = errStatement;
+      }
+      for(let i=0; i<problem.options.length; i++) {
+        if(!GlobalConstants.isRenderizableWithKaTeX(problem.options[i].answer).res) {
+          var errOperator = GlobalConstants.isRenderizableWithKaTeX(problem.options[i].answer).operator || '';
+          var regex = new RegExp(errOperator, 'g');
+          errOperator? problem.options[i].answer = problem.options[i].answer.replace(regex, ''): '';
+        }
+      }
+      this.auxFigure = this.problem.figures;
+      this.auxOptions = this.problem.options;
       this.testService.getTestByProblemId(problem._id).subscribe( test => {
         this.test = test[0];
         this.max = this.test.problems.length;
@@ -117,7 +138,7 @@ export class EditProblemComponent implements OnInit {
         }
       });
     }
-    this.testService.updateProblem(this.test.test_id, this.num_s-1, this.problem);
+    this.testService.updateProblem(this.test._id, this.num_s-1, this.problem);
     this.messageService.add({severity:'success', summary: 'Exitoso', detail: 'Problema editado 📝'});
     setTimeout(() => {
       this.location.back()
@@ -126,17 +147,50 @@ export class EditProblemComponent implements OnInit {
 
   exitConfirmation(): Observable<boolean> {
     return new Observable((observer) => {
-      this.confirmationService.confirm({
-        header: "Confirmación",
-        message: '¿Está seguro que desea salir sin guardar los cambios?',
-        accept: () => {
-          console.log(this.problem.figures);
+      this.testService.getListFiles('preliminar/'+this.problem._id).subscribe({
+        next: (res) => {
+          for(const image of res) {
+            if(!isNaN(Number(image.name.split('-')[0]))) {
+              if(this.auxFigure[Number(image.name.split('-')[0])-1] !== image.url) {
+                this.testService.deleteFigure(this.problem.figures[Number(image.name.split('-')[0])-1].ik_id);
+              }
+            } else {
+              switch (image.name.split('-')[0]) {
+                case 'A':
+                  if(this.auxOptions[0].answer !== image.url) {
+                    this.testService.deleteFigure(this.problem.options[0].ik_id);
+                  }
+                break;
+                case 'B':
+                  if(this.auxOptions[1].answer !== image.url) {
+                    this.testService.deleteFigure(this.problem.options[1].ik_id);
+                  }
+                break;
+                case 'C':
+                  if(this.auxOptions[2].answer !== image.url) {
+                    this.testService.deleteFigure(this.problem.options[2].ik_id);
+                  }
+                break;
+                case 'D':
+                  if(this.auxOptions[3].answer !== image.url) {
+                    this.testService.deleteFigure(this.problem.options[3].ik_id);
+                  }
+                break;
+                case 'E':
+                  if(this.auxOptions[4].answer !== image.url) {
+                    this.testService.deleteFigure(this.problem.options[4].ik_id);
+                  }
+                break;
+              
+                default:
+                  break;
+              }
+            }
+          }
           observer.next(true);
           observer.complete();
         },
-        reject: () => {
-          observer.next(false);
-          observer.complete();
+        error: (err) => {
         }
       });
     });

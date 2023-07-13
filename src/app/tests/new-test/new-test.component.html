@@ -30,6 +30,8 @@
         [maxFileSize]="500000"
         (onUpload)="onTestUpload($event)">
     </p-fileUpload>
+    <div class="mt-2 text-md text-gray-500"><span class="font-bold">* </span>La prueba debe estar en un archivo <span class="font-bold">.zip </span> junto con las imágenes en formato <span class="font-bold">.png</span>, <span class="font-bold">.jpg</span> o <span class="font-bold">.jpeg</span></div>
+    <div class="mt-2 text-md text-gray-500"><span class="font-bold">* </span>Los problemas dentro del archivo <span class="font-bold">.tex </span> de la prueba deben estar delimitados por los comentarios <span class="font-bold">%inicio</span> y <span class="font-bold">%fin</span></div>
     <button pButton 
             type="button" 
             class="float-right"

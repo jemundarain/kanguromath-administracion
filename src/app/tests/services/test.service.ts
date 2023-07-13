@@ -71,7 +71,7 @@ export class TestService {
     
     updateProblem(test_id: string, num_s: number, problem: Problem) {
         return this.http.put<{message: string}>(`${this.baseUrl}/admin_problems/put_problem`, {test_id, num_s, problem}).subscribe((jsonData) => {
-          console.log(jsonData);
+          console.log('machete', jsonData);
         })
     }
 
@@ -117,5 +117,9 @@ export class TestService {
 
     moveFile(sourceFilePath: string, destinationPath: string) {
         return this.http.post<any>(`${this.baseUrl}/admin_uploads/move-file`, {sourceFilePath, destinationPath});
+    }
+
+    getListFiles(path: string) {
+        return this.http.get<any>(`${this.baseUrl}/admin_uploads/list-files?path=${path}`);
     }
 }

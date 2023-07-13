@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { Problem } from '../models/problem-model';
 import { PagesService } from '../../pages/services/pages.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
@@ -20,22 +20,36 @@ import { GlobalConstants } from 'src/app/common/global-constants';
   `],
   providers: [ConfirmationService, MessageService]
 })
-export class ProblemComponent implements OnChanges {
+export class ProblemComponent implements OnChanges, OnInit {
 
   @Input() problem: Problem;
   @Input() test_id: string;
   @Input() num_s: number;
+  @Output() onError: EventEmitter<string> = new EventEmitter();
   public body_problem: string;
   public right_img_url: string;
   public decode_statement: string;
   public app_enabled: boolean;
-  
+
   constructor(
     private pagesService: PagesService,
     private testService: TestService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService
   ) { }
+
+  ngOnInit(): void {
+    let error = false;
+    for(let i =0; i<this.problem.options.length; i++) {
+      if(!GlobalConstants.isRenderizableWithKaTeX(this.problem.options[i].answer).res){
+        this.problem.options[i].answer = GlobalConstants.isRenderizableWithKaTeX(this.problem.options[i].answer).err;
+        if(!error) {
+          this.onError.emit(`Comando inválido en el problema #${this.num_s}`);
+          error = true;
+        } 
+      }
+    }
+  }
 
   ngOnChanges(): void {
     this.pagesService.getAppState().subscribe((global) => {
@@ -50,7 +64,14 @@ export class ProblemComponent implements OnChanges {
         n++;
       }
     }
-    this.body_problem = `<b>${this.num_s}.</b> ${this.decode_statement}`;
+
+    if(GlobalConstants.isRenderizableWithKaTeX(this.decode_statement).res){
+      this.body_problem = `<b>${this.num_s}.</b> ${this.decode_statement}`;
+    } else {
+      this.body_problem = `<b>${this.num_s}.</b> ${GlobalConstants.isRenderizableWithKaTeX(this.decode_statement).err}`;
+      this.onError.emit(`Comando inválido en el problema #${this.num_s}`);
+    }
+
     for(let i=this.problem.figures.length-1; i>=0; i--) {
       if(this.problem.figures[i].position === 'derecha') {
         this.right_img_url = this.problem.figures[i].url;

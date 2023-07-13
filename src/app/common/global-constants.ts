@@ -1,7 +1,8 @@
 import { Option } from '../shared/option-model';
 import { Ranking } from '../pages/interfaces/ranking.interfaces';
 import { RadioOption } from './radio-option.interface';
-import * as dayjs from 'dayjs'
+import * as dayjs from 'dayjs';
+import katex from 'katex';
 
 export class GlobalConstants {
     public static SITE_TITLE: string = 'administrador-canguromath-app';
@@ -197,6 +198,39 @@ export class GlobalConstants {
 
     public static getRandomName(preffix: string) {
         return `${ preffix }-${ GlobalConstants.getRandomSuffix() }`
+    }
+
+    public static isRenderizableWithKaTeX(content: string) {
+        try {
+          katex.renderToString(content.replace(/\$/g, ''));
+          return {res: true, err: ''};
+        } catch (err:any) {
+          const regex = /Undefined control sequence: (\\[a-zA-Z]+)/;
+          const match = regex.exec(err);
+          if (match && match.length > 1) {
+            return {
+                res: false,
+                err: `
+                    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                        <strong class="font-bold">Comando inválido: ${match[1]}</strong>
+                        <span class="block sm:inline">Para más información de los comandos soportados, visita la <a style="text-decoration:underline;" href="https://katex.org/docs/supported.html">Documentación de KaTeX<a/></span>
+                    </div>
+                    `,
+                operator: `\\${match[0].split(': ')[1]}`
+            };
+          } else {
+            return {
+                res: false,
+                err: `
+                    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                        <strong class="font-bold">Error desconocido en la rutina de diagramación</strong>
+                        <span class="block sm:inline">Para más información de los comandos soportados, visita la <a style="text-decoration:underline;" href="https://katex.org/docs/supported.html">Documentación de KaTeX<a/></span>
+                    </div>
+                    `,
+                operator: ''
+            };
+          }
+        }
     }
 
     public static isLink(answer: string) {

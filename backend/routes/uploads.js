@@ -32,18 +32,29 @@ app.get('/imagekit-auth', (req, res) => {
 app.post('/upload-image/', (req, res) => {
   const body = req.body;
   fs.readFile(body.pathFile, function(err, data) {
-    if (err) throw err;
+    if (err) {
+      if (err.code === 'ENOENT') {
+        return res.status(404).json({ error: 'File not found' });
+      } else {
+        return res.status(500).json({ error: 'Internal server error' });
+      }
+    }
+
     imagekit.upload({
-      file : data,
-      fileName : body.nameFile,
+      file: data,
+      fileName: body.nameFile,
       folder: body.folderFile,
       useUniqueFileName: false
     }, function(err, result) {
-      if(err) res.status(400).json(err);
-      else res.status(200).json(result);
+      if (err) {
+        return res.status(400).json(err);
+      } else {
+        return res.status(200).json(result);
+      }
     });
   });
-})
+});
+
 
 app.delete('/imagekit-delete/:ik_id', (req, res) => {
 	imagekit.deleteFile(req.params.ik_id, function(error, result) {
@@ -61,6 +72,18 @@ app.get('/create-folder', (req, res) => {
     } else {
       res.status(200).json({ successful: true });
     }
+  });
+});
+
+app.get('/list-files', (req, res) => {
+  imagekit.listFiles({
+    path: req.query['path']
+  }, (err, response) => {
+    if (err) {
+      return res.status(500).json({ successful: false });
+    } else {
+      return res.status(200).json(response);
+    }  
   });
 });
 
