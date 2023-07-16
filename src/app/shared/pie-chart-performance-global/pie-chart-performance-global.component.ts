@@ -30,8 +30,8 @@ export class PieChartPerformanceGlobalComponent implements OnChanges {
             backgroundColor: ["#44896A", "#D93661"]
           }]
         };
+        this.onLoadComplete.emit(true);
       })
-      this.onLoadComplete.emit(true);
     }
   }
 }

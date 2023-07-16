@@ -65,14 +65,22 @@ app.get('/search_problems', (req, res) => {
 });
   
 app.put('/put_existing_problem/', (req, res) => {
-	TestModel.updateOne({ 'test_id': req.body.test_id }, { $push: { 'problems': req.body._id } })
-	.then(() => {
-		res.status(200).json({ successful: true })    
-	})
-	.catch((err) => {
-		res.status(500).json({ successful: false, errors: err });
-	});
-})
+	const { test_id, _id } = req.body;
+  
+	if (!test_id || !_id) {
+	  return res.status(400).json({ successful: false, error: 'Missing required fields' });
+	}
+  
+	TestModel.updateOne({ test_id: test_id }, { $push: { problems: _id } })
+	  .then(() => {
+		res.status(200).json({ successful: true });
+	  })
+	  .catch((error) => {
+		console.error('Error updating test:', error);
+		res.status(500).json({ successful: false, error: 'Failed to update test' });
+	  });
+  });
+  
 
 app.post('/post_problem/:test_id', async (req, res) => {
 	try {

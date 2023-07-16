@@ -14,7 +14,7 @@ export class LevelsHeaderPipe implements PipeTransform {
         return 'PRIMER Y SEGUNDO AÑO'
         break;
       case '2do':
-        return 'PRIMER Y SEGUNDO AÑO'
+        return 'SEGUNDO AÑO'
         break;
       case '3ero':
         return 'TERCER AÑO'

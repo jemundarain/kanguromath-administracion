@@ -22,7 +22,7 @@ export class PieChartCombinatoricsComponent implements OnChanges {
 
   ngOnChanges() {
     if(this.dateStart && this.dateEnd) {
-      this.pagesService.getAlgebraPerformanceDistribution(this.dateStart, this.dateEnd).subscribe(distributionByPerformance => {
+      this.pagesService.getCombinatoricsPerformanceDistribution(this.dateStart, this.dateEnd).subscribe(distributionByPerformance => {
         this.distributionByPerformance = distributionByPerformance;
         this.data = {
           labels: GlobalConstants.getDistributionLabels(this.distributionByPerformance, GlobalConstants.PERFORMANCE_OPTIONS),
