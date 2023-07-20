@@ -18,7 +18,6 @@ export class VisualizeTestComponent implements OnInit {
   items: MenuItem[];
   error = false;
   testEmpty = false;
-  // showSpinner: boolean = true;
   
   constructor(
     private testService: TestService,

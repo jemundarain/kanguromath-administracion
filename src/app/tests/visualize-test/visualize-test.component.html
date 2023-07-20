@@ -15,15 +15,25 @@
             iconPos="left"
             (click)="back()">
     </button>
-    <button pButton
-            *ngIf="problems.length < 30"
-            type="button" 
-            class="btn pr-32"
-            label="Añadir Problema" 
-            icon="pi pi-plus" 
-            iconPos="left"
-            [routerLink]="['/pruebas/agregar-problema', test.test_id]">
-    </button>
+    <div class="flex flex-row gap-5">
+        <button pButton
+                type="button" 
+                class="btn pr-32"
+                label="Editar prueba" 
+                icon="pi pi-file-edit" 
+                iconPos="left"
+                [routerLink]="['/pruebas/editar', test.test_id ]">
+        </button>
+        <button pButton
+                *ngIf="problems.length < 30"
+                type="button" 
+                class="btn pr-32"
+                label="Añadir Problema" 
+                icon="pi pi-plus" 
+                iconPos="left"
+                [routerLink]="['/pruebas/agregar-problema', test.test_id]">
+        </button>
+    </div>
 </div>
 
 <div *ngIf="test" class="grid grid-cols-12 gap-4 pt-14 mx-16" [class]="test? 'bg-white rounded':''">

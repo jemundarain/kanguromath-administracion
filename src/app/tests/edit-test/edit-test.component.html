@@ -1,5 +1,6 @@
 <!-- Encabezado -->
 <app-header title="Editar Prueba" [breadcrumbs]="items"></app-header>
+
 <form (ngSubmit)="updateTest()" #editTestForm="ngForm">
     <div class="flex gap-2 mb-6">
         <h5 class="text-xl my-auto font-semibold text-slate-600 tracking-tight">Edición </h5>
@@ -19,7 +20,7 @@
                     optionValue="code">
         </p-dropdown>
         <h5 class="text-xl my-auto font-semibold text-slate-600 tracking-tight ml-5">Publicada </h5>
-        <p-inputSwitch [(ngModel)]="test.is_published" class="mt-2 mr-8" name="is_published" (onChange)="validatePublished($event)"></p-inputSwitch>
+        <p-inputSwitch [(ngModel)]="test.is_published" class="mt-2 mr-8" name="is_published"></p-inputSwitch>
         <button pButton pRipple
                 [disabled]="disabledEditTestSubmit()"
                 label="Guardar" 
@@ -28,6 +29,13 @@
         </button>
     </div>
 </form>
-
+<button pButton 
+        type="button" 
+        class="btn"
+        label="Volver" 
+        icon="pi pi-arrow-left" 
+        iconPos="left"
+        (click)="back()">
+</button>
 <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"></p-confirmDialog>
 <p-toast position="bottom-center"></p-toast>

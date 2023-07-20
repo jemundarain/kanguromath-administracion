@@ -9,6 +9,14 @@ import { Test } from '../models/test-model';
 @Component({
   selector: 'app-list-tests',
   templateUrl: './list-tests.component.html',
+  styles: [`
+    .pi.pi-check {
+      color: green !important;
+    }
+    .pi.pi-times {
+      color: red !important;
+    }
+  `],
   providers: [ConfirmationService, MessageService]
 })
 export class ListTestsComponent implements OnInit {
