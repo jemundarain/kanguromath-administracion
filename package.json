@@ -33,7 +33,6 @@
     "html2canvas": "^1.4.1",
     "imagekit": "^4.1.2",
     "imagekitio-angular": "^2.0.0",
-    "jschardet": "^3.0.0",
     "jsonwebtoken": "^9.0.0",
     "jspdf": "^2.5.1",
     "jszip": "^3.10.1",

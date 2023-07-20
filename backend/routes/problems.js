@@ -50,10 +50,14 @@ app.get('/search_problems', (req, res) => {
 	  { $group: { _id: null, problems: { $push: '$problems' } } }
 	])
 	.then((data) => {
+		const escapeRegex = (text) => {
+			return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
+		};
+		const searchTerm = escapeRegex(req.query.term);
 		const problemsIds = Array.from(new Set([].concat(...data[0].problems)));
 		return ProblemModel.find({
 			'_id': { $in: problemsIds },
-			'statement': { $regex: req.query.term, $options: 'i' }
+			'statement': { $regex: searchTerm, $options: 'i' }
 		});
 	})
 	.then((result) => {

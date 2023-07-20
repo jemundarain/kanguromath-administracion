@@ -49,8 +49,8 @@ export class NewTestComponent implements OnInit {
 
   getMiddleFiveWords(term: string) {
     const palabras = term.trim().split(' ');
-    const indiceInicio = Math.max(0, Math.floor((palabras.length - 5) / 2));
-    return palabras.slice(indiceInicio, indiceInicio + 5).join(' ');
+    const indiceInicio = Math.max(0, Math.floor((palabras.length - 8) / 2));
+    return palabras.slice(indiceInicio, indiceInicio + 8).join(' ');
   }
 
   extractRawProblems(texto: string): string[] {
@@ -162,16 +162,19 @@ export class NewTestComponent implements OnInit {
                     var solution = rawSolutions[index];
 
                     const otherLevels = await firstValueFrom(this.testService.getLevelsByEdition(this.test.edition));
-                    // var resAddExistingProblem = { successful: false };
-                    // if(otherLevels.length > 1){
-                    //   const res: any[] = await firstValueFrom(this.testService.searchProblem(this.test.edition, this.getMiddleFiveWords(statement), this.test.levels));
-                    //   if (res.length == 1 && res[0].solution == solution ) {
-                        //Añadir un problema existente, no funciona. Si encuentra un problema duplicado lo ignora
-                    //    resAddExistingProblem = await firstValueFrom(this.testService.addExistingProblem(resNewTest.test_id, res[0]._id));
-                    //   }
-                    // }
+                    var duplicateProblem = false;
+                    if(otherLevels.length > 1){
+                      const res: any[] = await firstValueFrom(this.testService.searchProblem(this.test.edition, this.getMiddleFiveWords(statement), this.test.levels));
+                      if (res.length == 1 && res[0].solution == solution ) {
+                        console.log('->', this.getMiddleFiveWords(statement));
+                        this.messageService.add({ severity: 'warn', summary: 'Problema duplicado', detail: `Problema #${index+1} duplicado`, life: 3250 });
+                        duplicateProblem = true;
+                        // Añadir un problema existente, no funciona. Si encuentra un problema duplicado lo ignora
+                        //  resAddExistingProblem = await firstValueFrom(this.testService.addExistingProblem(resNewTest.test_id, res[0]._id));
+                      }
+                    }
 
-                    // if(!resAddExistingProblem.successful) {
+                    if(!duplicateProblem) {
                       var rawOptions: string[] = [];
                       if(!rawProblem.includes('\\resp') && rawProblem.includes('\\medskip') && rawProblem.includes('\\A') && rawProblem.includes('\\B') && rawProblem.includes('\\C') && rawProblem.includes('\\D') && rawProblem.includes('\\E')) {
                         const matches_paths_resp = rawProblem.slice(rawProblem.indexOf("\\medskip")).match(paths_regex) || [];
@@ -278,7 +281,7 @@ export class NewTestComponent implements OnInit {
                           }
                         }
                       }
-                    // }
+                    }
                   });
                   this.messageService.add({ severity: 'success', summary: 'Exitoso', detail: 'Prueba creada 🎉', life: 3250 });
                   setTimeout(() => {
