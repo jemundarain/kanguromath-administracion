@@ -277,7 +277,10 @@ export class NewTestComponent implements OnInit {
                             await Promise.all(uploadPromises);
                           }
                           if (thereFigures || thereImagesInOptions) {
-                            this.testService.updateProblem('', -1, newProblem);
+                            this.testService.updateProblem('', -1, newProblem).subscribe({
+                              next: (res) => {},
+                              error: (err) => {}
+                            });
                           }
                         }
                       }

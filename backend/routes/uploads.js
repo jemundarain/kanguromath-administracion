@@ -133,21 +133,6 @@ app.put('/put_option_figure/', (req, res) => {
   })
 });
 
-app.put('/put_avatar/', (req, res) => {
-  AdminUserModel.updateOne(
-    {'username': req.body.newAvatar.username },
-    { $set: { 'figures.$.ik_id': req.body.newAvatar.ik_id }},
-    {new: true}
-  ).then((adminUser) => {
-    if (!adminUser) {
-        return res.status(404).send();
-    }
-    res.send(adminUser);
-  }).catch((err) => {
-    res.status(500).send(err);
-  })
-});
-
 app.post('/upload_test', multerUpload.single('testFile'), (req, res) => {
   const file = req.file;
 

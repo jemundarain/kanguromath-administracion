@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { concat, map, Observable, toArray } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 import { Test } from '../models/test-model';
 import { Problem } from '../models/problem-model';
@@ -15,12 +14,12 @@ export class TestService {
     
     constructor(private http: HttpClient){}
     
-    getTestById(test_id: string): Observable<Test> {
-        return this.http.get<Test>(`${ this.baseUrl }/admin_tests/get_test/${test_id}`)
+    getTestById(test_id: string) {
+        return this.http.get<Test>(`${ this.baseUrl }/admin_tests/get_test/${test_id}`);
     }
     
-    getTestsByEdition(edition: string): Observable<Test[]>{
-        return this.http.get<Test[]>(`${ this.baseUrl }/admin_tests/get_tests_by_edition/${edition}`)
+    getTestsByEdition(edition: string) {
+        return this.http.get<Test[]>(`${ this.baseUrl }/admin_tests/get_tests_by_edition/${edition}`);
     }
     
     getEditions() {
@@ -28,19 +27,19 @@ export class TestService {
     }
 
     getLevelsByEdition(edition: string) {
-        return this.http.get<string[]>(`${ this.baseUrl }/admin_tests/${edition}/levels`)
+        return this.http.get<string[]>(`${ this.baseUrl }/admin_tests/${edition}/levels`);
     }
     
-    getProblemById(_id: string): Observable<Problem> {
-        return this.http.get<Problem>(`${ this.baseUrl }/admin_problems/get_problem/${_id}`)
+    getProblemById(_id: string) {
+        return this.http.get<Problem>(`${ this.baseUrl }/admin_problems/get_problem/${_id}`);
     }
 
-    getProblemsByTestId(test_id: string): Observable<Problem[]> {
-        return this.http.get<Problem[]>(`${ this.baseUrl }/admin_problems/get_all_problems_from_test/${test_id}`)
+    getProblemsByTestId(test_id: string) {
+        return this.http.get<Problem[]>(`${ this.baseUrl }/admin_problems/get_all_problems_from_test/${test_id}`);
     }
 
-    getTestByProblemId(problem_id: string): Observable<Test[]> {
-        return this.http.get<Test[]>(`${ this.baseUrl }/admin_tests/get_test_by_problem/${problem_id}`)
+    getTestByProblemId(problem_id: string) {
+        return this.http.get<Test[]>(`${ this.baseUrl }/admin_tests/get_test_by_problem/${problem_id}`);
     }
 
     addNewTest(test: Test) {
@@ -48,9 +47,7 @@ export class TestService {
     }
 
     updateTest(test: Test) {
-        this.http.put<{message: string}>(`${this.baseUrl}/admin_tests/put_test/`, test).subscribe((jsonData) => {
-          console.log(jsonData);
-        })
+        return this.http.put<{message: string}>(`${this.baseUrl}/admin_tests/put_test/`, test);
     }
 
     uploadImage(pathFile: string, folderFile: string, nameFile: string) {
@@ -70,18 +67,14 @@ export class TestService {
     }
     
     updateProblem(test_id: string, num_s: number, problem: Problem) {
-        return this.http.put<{message: string}>(`${this.baseUrl}/admin_problems/put_problem`, {test_id, num_s, problem}).subscribe((jsonData) => {
-          console.log('machete', jsonData);
-        })
+        return this.http.put<{message: string}>(`${this.baseUrl}/admin_problems/put_problem`, {test_id, num_s, problem});
     }
 
     deleteProblem(test_id: string, _id: string) {
-        this.http.delete<{message: string}>(`${this.baseUrl}/admin_problems/delete_problem?test_id=${test_id}&_id=${_id}`).subscribe((jsonData) => {
-            console.log(jsonData);
-        })       
+        return this.http.delete<{message: string}>(`${this.baseUrl}/admin_problems/delete_problem?test_id=${test_id}&_id=${_id}`);  
     }
     
-    searchProblem(edition: string, term: string, levels: string): Observable<[]> {
+    searchProblem(edition: string, term: string, levels: string) {
         return this.http.get<[]>(`${this.baseUrl}/admin_problems/search_problems?edition=${edition}&term=${term}&levels=${levels}`);
     }
     

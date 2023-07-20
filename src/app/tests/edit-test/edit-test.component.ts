@@ -74,11 +74,17 @@ export class EditTestComponent implements OnInit {
       header: "Confirmación",
       message: '¿Está seguro que desea editar esta prueba?',
       accept: () => {
-        this.testService.updateTest(this.test);
-        this.messageService.add({severity:'success', summary: 'Exitoso', detail: 'Prueba editada 📝'});
-        setTimeout(() => {
-          this.location.back()
-        }, 1220);
+        this.testService.updateTest(this.test).subscribe({
+          next: (res) => {
+            this.messageService.add({severity:'success', summary: 'Exitoso', detail: 'Prueba editada 📝'});
+            setTimeout(() => {
+              this.location.back()
+            }, 1220);
+          },
+          error: (err) => {
+            this.messageService.add({severity:'error', summary: 'Exitoso', detail: 'La prueba no fue editada 🙁'});
+          }
+        });
       }
     });
   }

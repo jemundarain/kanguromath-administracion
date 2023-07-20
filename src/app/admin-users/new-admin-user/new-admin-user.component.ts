@@ -80,10 +80,17 @@ export class NewAdminUserComponent implements OnInit {
   
   addAvatar(newAvatar: any) {
     if(this.adminUser.avatar.ik_id) {
-      this.adminUsersService.deleteAvatar(this.adminUser.avatar.ik_id);
+      this.adminUsersService.deleteAvatar(this.adminUser.avatar.ik_id).subscribe({
+        next: (res) => {
+          this.adminUser.avatar = newAvatar;
+          this.uploading = false;
+        },
+        error: (err) => { }
+      });
+    } else {
+      this.adminUser.avatar = newAvatar;
+      this.uploading = false;
     }
-    this.adminUser.avatar = newAvatar;
-    this.uploading = false;
   }
 
   validateName() {
@@ -139,11 +146,18 @@ export class NewAdminUserComponent implements OnInit {
         next: (res) => {
           for(const avatar of res) {
             if((avatar.name.split('-')[0] === this.adminUser.username) && (this.auxAvatar.url !== avatar.url)) {
-              this.adminUsersService.deleteAvatar(this.adminUser.avatar.ik_id);
+              this.adminUsersService.deleteAvatar(this.adminUser.avatar.ik_id).subscribe({
+                next: (res) => {
+                  observer.next(true);
+                  observer.complete();
+                },
+                error: (err) => {
+                  observer.next(false);
+                  observer.complete();
+                } 
+              });
             }
           }
-          observer.next(true);
-          observer.complete();
         },
         error: (err) => { }
       });

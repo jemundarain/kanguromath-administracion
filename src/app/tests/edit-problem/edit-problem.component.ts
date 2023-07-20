@@ -138,11 +138,18 @@ export class EditProblemComponent implements OnInit {
         }
       });
     }
-    this.testService.updateProblem(this.test._id, this.num_s-1, this.problem);
-    this.messageService.add({severity:'success', summary: 'Exitoso', detail: 'Problema editado 📝'});
-    setTimeout(() => {
-      this.location.back()
-    }, 1220);
+    this.testService.updateProblem(this.test._id, this.num_s-1, this.problem).subscribe({
+      next: (res) => {
+        this.messageService.add({severity:'success', summary: 'Exitoso', detail: 'Problema editado 📝'});
+        setTimeout(() => {
+          this.location.back()
+        }, 1220);
+      },
+      error: (err) => {
+        this.messageService.add({severity:'success', summary: 'Exitoso', detail: 'El problema no fue editado 🙁'});
+      }
+    });
+    
   }
 
   exitConfirmation(): Observable<boolean> {

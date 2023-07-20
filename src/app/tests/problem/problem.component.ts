@@ -88,11 +88,17 @@ export class ProblemComponent implements OnChanges, OnInit {
       header: "Confirmación",
       message: `¿Está seguro que desea eliminar el problema #${this.num_s}?`,
       accept: () => {
-        this.testService.deleteProblem(this.test_id, problem._id);
-        this.messageService.add({ severity:'success', summary: 'Exitoso', detail: `Problema #${this.num_s} eliminado 🗑` });
-        setTimeout(() => {
-          location.reload();
-        }, 1220);
+        this.testService.deleteProblem(this.test_id, problem._id).subscribe({
+          next: () => {
+            this.messageService.add({ severity:'success', summary: 'Exitoso', detail: `Problema #${this.num_s} eliminado 🗑` });
+            setTimeout(() => {
+              location.reload();
+            }, 1220);
+          },
+          error: () => {
+            this.messageService.add({ severity:'success', summary: 'Exitoso', detail: `El problema no fue eliminado 🙁` });
+          }
+        });
       },
       reject: () => {}
     });

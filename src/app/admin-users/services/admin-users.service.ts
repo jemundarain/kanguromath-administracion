@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+
 import { environment } from 'src/environments/environment';
 import { AdminUser } from '../models/adminUser-model';
 
@@ -13,11 +14,11 @@ export class AdminUsersService {
   private baseUrl: string = environment.baseUrl;
   
   getAdminUsers() {
-    return this.http.get<AdminUser[]>(`${ this.baseUrl }/admin_admin_users/list_admin_users`)
+    return this.http.get<AdminUser[]>(`${ this.baseUrl }/admin_admin_users/list_admin_users`);
   }
   
   getAdminUserByUsername(username: string) {
-    return this.http.get<AdminUser>(`${ this.baseUrl }/admin_admin_users/get_admin_user/${username}`)
+    return this.http.get<AdminUser>(`${ this.baseUrl }/admin_admin_users/get_admin_user/${username}`);
   }
 
   addNewAdminUser(adminUser: AdminUser) {
@@ -29,21 +30,11 @@ export class AdminUsersService {
   }
 
   deletedAdminUser(_id: string) {
-    this.http.delete<{message: string}>(`${this.baseUrl}/admin_admin_users/delete_admin_user/${_id}`).subscribe((jsonData) => {
-      console.log(jsonData);
-    })
-  }
-
-  updateAvatar(newFigure: any) {
-    this.http.put<any>(`${this.baseUrl}/admin_uploads/put_avatar`, newFigure).subscribe((data) => {
-        console.log(data);
-    });
+    return this.http.delete<{message: string}>(`${this.baseUrl}/admin_admin_users/delete_admin_user/${_id}`);
   }
 
   deleteAvatar(ik_id: string) {
-    this.http.delete<any>(`${this.baseUrl}/admin_uploads/imagekit-delete/${ik_id}`).subscribe((data) => {
-        console.log(data);
-    });
+    return this.http.delete<any>(`${this.baseUrl}/admin_uploads/imagekit-delete/${ik_id}`);
   }
 
 }

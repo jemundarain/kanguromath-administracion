@@ -49,11 +49,17 @@ export class ListAdminUsersComponent implements OnInit {
       header: "Confirmación",
       message: `¿Está seguro que desea eliminar el usuario ${adminUser.username}?`,
       accept: () => {
-        this.adminUsersService.deletedAdminUser(adminUser._id);
-        this.messageService.add({ severity:'success', summary: 'Exitoso', detail: 'Usuario Eliminado 🗑' });
-        setTimeout(() => {
-          location.reload();
-        }, 1220);
+        this.adminUsersService.deletedAdminUser(adminUser._id).subscribe({
+          next: (res) => {
+            this.messageService.add({ severity:'success', summary: 'Exitoso', detail: 'Usuario Eliminado 🗑' });
+            setTimeout(() => {
+              location.reload();
+            }, 1220);
+          },
+          error: (err) => {
+            this.messageService.add({ severity:'error', summary: 'Exitoso', detail: 'El usuario no fue eliminado 🙁' });
+          }
+        });
       },
       reject: () => {}
     });

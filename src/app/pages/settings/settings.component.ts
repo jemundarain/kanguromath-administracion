@@ -46,7 +46,12 @@ export class SettingsComponent implements OnInit {
 
     this.settingsForm?.form.valueChanges.subscribe((value) => {
       const global = new Global(this.global?._id, value.state);
-      this.pagesService.updateAppState(global);
+      this.pagesService.updateAppState(global).subscribe({
+        next: (res) => {
+        },
+        error: (err) => {
+        }
+      });
     })
   }
 

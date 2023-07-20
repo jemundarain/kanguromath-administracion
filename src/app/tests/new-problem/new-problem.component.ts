@@ -163,7 +163,10 @@ export class NewProblemComponent implements OnInit {
         }
 
         if (thereFigures || thereImagesInOptions) {
-          this.testService.updateProblem('', -1, newProblem);
+          this.testService.updateProblem('', -1, newProblem).subscribe({
+            next: (res) => {},
+            error: (err) => {}
+          });
         }
       },
       error: (err) => {
