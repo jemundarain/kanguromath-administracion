@@ -55,7 +55,7 @@ const userSchema = mongoose.Schema({
         achievement: { type: mongoose.Schema.Types.ObjectId, ref: 'Achievement' },
         percentage: {type: Number, required: true}
     })],
-    submit: [new mongoose.Schema({
+    submits: [new mongoose.Schema({
         test: {type: String, required: true},
         mode: {type: String, required: true, enum: validMode},
         in_progress: {type: Boolean, required: true},

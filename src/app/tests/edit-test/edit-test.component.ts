@@ -68,6 +68,11 @@ export class EditTestComponent implements OnInit {
         if (!GlobalConstants.isRenderizableWithKaTeX(problem.statement).res) {
           return false;
         }
+        for(let i=0; i<5; i++) {
+          if (!GlobalConstants.isRenderizableWithKaTeX(problem.options[i].answer).res) {
+            return false;
+          }
+        }
       } catch (err) {
         return false; 
       }
