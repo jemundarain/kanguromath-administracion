@@ -35,7 +35,9 @@ export class ListTestsComponent implements OnInit {
     private pagesService: PagesService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService
-  ) { }
+  ) {
+    this.editions = [];
+  }
 
   ngOnInit() {
     this.items = [
