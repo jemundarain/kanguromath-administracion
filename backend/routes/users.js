@@ -50,7 +50,7 @@ app.get('/get_minimum_date',(req, res) => {
 })
 
 app.get('/get_ranking', (req, res) => {
-	UserModel.aggregate([{$match:{"type":"estudiante", "level": {"$ne": "universitario"}, "country": "venezuela"}}, {$group : { _id : '$state', count : {$sum : 1}}}])
+	UserModel.aggregate([{$match:{"type":"estudiante", "level": {"$ne": "universitario"}, "country": "VE"}}, {$group : { _id : '$state', count : {$sum : 1}}}])
 	.then((data) => {
 		res.json(data.sort((a, b) => b.count-a.count));
 	})

@@ -12,6 +12,7 @@ export class PieChartForSexComponent implements OnInit {
   
   data: any;
   distributionBySex: Ranking[];
+  chartOptions: any;
   @Output() onLoadComplete: EventEmitter<boolean> = new EventEmitter();
 
   constructor(

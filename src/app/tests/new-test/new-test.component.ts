@@ -88,7 +88,7 @@ export class NewTestComponent implements OnInit {
         return true;
       }
     }
-    return false;
+    return true;
   }
 
   async onTestUpload(event: any) {
