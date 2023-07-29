@@ -3,6 +3,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { GlobalConstants } from 'src/app/common/global-constants';
 import { PageService } from 'src/app/pages/services/page.service';
 import { Ranking } from 'src/app/pages/interfaces/ranking.interfaces';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 
 @Component({
   selector: 'app-pie-chart-for-level',
@@ -14,8 +15,9 @@ export class PieChartForLevelComponent implements OnInit {
 
   data: any;
   distributionByLevel: Ranking[];
+  plugins = [ChartDataLabels];
   @Output() onLoadComplete: EventEmitter<boolean> = new EventEmitter();
-
+  
   ngOnInit() {
     this.pageService.getUsersDistributionByLevel().subscribe(distributionByLevel => {
       this.distributionByLevel = distributionByLevel;

@@ -126,12 +126,12 @@ export class GlobalConstants {
     ]
 
     public static LEVELS_COLORS = [
-        '#e5c975',
-        '#d5ae87',
-        '#d87505',
-        '#9f765a',
-        '#8e3a20',
-        '#2e2925'
+        '#bd93f9',
+        '#e60012',
+        '#e413a4',
+        '#fe7465',
+        '#faac47',
+        '#8be9fd'
     ]
 
     public static FIGURES_MAP1 = {
@@ -147,9 +147,9 @@ export class GlobalConstants {
     }
 
     public static TYPES_COLORS = [
-        '#d93661',
-        '#0777bf',
-        '#5b7671',
+        '#ff5555',
+        '#cdb996',
+        '#00adb8',
         '#467689',
         '#7bb2af'
     ]

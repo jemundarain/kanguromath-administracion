@@ -3,6 +3,7 @@ import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core
 import { GlobalConstants } from 'src/app/common/global-constants';
 import { Ranking } from 'src/app/pages/interfaces/ranking.interfaces';
 import { PageService } from 'src/app/pages/services/page.service';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 
 @Component({
   selector: 'app-pie-chart-algebra',
@@ -18,6 +19,7 @@ export class PieChartAlgebraComponent implements OnChanges {
   @Input() dateEnd: string;
   @Output() onLoadComplete: EventEmitter<boolean> = new EventEmitter();
   data: any;
+  plugins = [ChartDataLabels];
   distributionByPerformance: Ranking[];
 
   ngOnChanges() {

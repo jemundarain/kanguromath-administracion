@@ -3,6 +3,7 @@ import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core
 import { GlobalConstants } from 'src/app/common/global-constants';
 import { Ranking } from 'src/app/pages/interfaces/ranking.interfaces';
 import { PageService } from 'src/app/pages/services/page.service';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 
 @Component({
   selector: 'app-pie-chart-combinatorics',
@@ -11,6 +12,7 @@ import { PageService } from 'src/app/pages/services/page.service';
 export class PieChartCombinatoricsComponent implements OnChanges {
   
   data: any;
+  plugins = [ChartDataLabels];
   distributionByPerformance: Ranking[];
   @Input() dateStart: string;
   @Input() dateEnd: string;

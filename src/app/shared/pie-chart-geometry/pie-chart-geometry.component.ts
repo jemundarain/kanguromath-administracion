@@ -3,6 +3,7 @@ import { GlobalConstants } from 'src/app/common/global-constants';
 import { Ranking } from 'src/app/pages/interfaces/ranking.interfaces';
 import { PageService } from 'src/app/pages/services/page.service';
 
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 @Component({
   selector: 'app-pie-chart-geometry',
   templateUrl: './pie-chart-geometry.component.html'
@@ -11,6 +12,7 @@ export class PieChartGeometryComponent implements OnChanges {
 
   data: any;
   distributionByPerformance: Ranking[];
+  plugins = [ChartDataLabels];
   @Input() dateStart: string;
   @Input() dateEnd: string;
   @Output() onLoadComplete: EventEmitter<boolean> = new EventEmitter();

@@ -3,6 +3,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Ranking } from 'src/app/pages/interfaces/ranking.interfaces';
 import { PageService } from '../../pages/services/page.service';
 import { GlobalConstants } from 'src/app/common/global-constants';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 
 @Component({
   selector: 'app-pie-chart-for-rol',
@@ -11,6 +12,7 @@ import { GlobalConstants } from 'src/app/common/global-constants';
 export class PieChartForRolComponent implements OnInit {
 
   data: any;
+  plugins = [ChartDataLabels];
   distributionByType: Ranking[];
   @Output() onLoadComplete: EventEmitter<boolean> = new EventEmitter();
   
