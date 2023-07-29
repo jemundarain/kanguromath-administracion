@@ -41,6 +41,7 @@ export class LoginComponent {
   }
 
   validatePassword() {
-    return this.loginForm.controls['password']?.invalid && this.loginForm.controls['password']?.touched;
+    const pattern =  /^.{8,}$/;
+    return (this.loginForm.controls['password']?.invalid && this.loginForm.controls['password']?.touched) || !pattern.test(this.loginForm.form.value.password);
   }
 }
