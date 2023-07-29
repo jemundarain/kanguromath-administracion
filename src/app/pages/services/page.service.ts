@@ -12,7 +12,7 @@ import * as dayjs from 'dayjs'
 @Injectable({
   providedIn: 'root'
 })
-export class PagesService {
+export class PageService {
 
   private baseUrl: string = environment.baseUrl;
 

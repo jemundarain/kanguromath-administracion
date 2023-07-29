@@ -2,7 +2,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 
 import { GlobalConstants } from 'src/app/common/global-constants';
 import { Ranking } from 'src/app/pages/interfaces/ranking.interfaces';
-import { PagesService } from 'src/app/pages/services/pages.service';
+import { PageService } from 'src/app/pages/services/page.service';
 
 @Component({
   selector: 'app-pie-chart-for-institution',
@@ -15,11 +15,11 @@ export class PieChartForInstitutionComponent implements OnInit {
   @Output() onLoadComplete: EventEmitter<boolean> = new EventEmitter();
 
   constructor(
-    private pagesService: PagesService
+    private pageService: PageService
   ) { }
 
   ngOnInit() {
-    this.pagesService.getUsersDistributionByInstitution().subscribe(distributionByInstitution => {
+    this.pageService.getUsersDistributionByInstitution().subscribe(distributionByInstitution => {
       this.distributionByInstitution = distributionByInstitution;
       this.data = {
         labels: GlobalConstants.getDistributionLabels(this.distributionByInstitution, GlobalConstants.INSTITUTIONS),

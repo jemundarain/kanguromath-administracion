@@ -5,7 +5,6 @@
             <img class="mx-auto w-80 mt-4 text-center" src="/assets/img/title.png" alt="title">
             <h2 class="mx-auto font-['Pangram'] text-[22px] text-center font-bold text-gray-700 tracking-tight">administración</h2>
         </div>
-
                    
         <form #loginForm="ngForm" (ngSubmit)="login()" [class]="!validateId() || !validatePassword()? '-mt-10':'-mt-16'" class="col-span-3 col-start-4 row-start-3 p-fluid">
             <label for="id" class="block mb-1 text-[21px] font-normal text-[#26201F] tracking-tight">Usuario/Email</label>
@@ -26,7 +25,10 @@
                 </button>
             </div>
         </form>
-        
+        <div class="col-span-3 col-start-4 row-start-4 mt-7">
+            <span class="flex justify-center text-base text-gray-700">¿Olvidaste tu contraseña?</span>
+            <a class="flex justify-center text-orange underline" [routerLink]="['/auth/recuperar-contrasena']">Recupérala</a> 
+        </div>
     </div>
 </div>
 

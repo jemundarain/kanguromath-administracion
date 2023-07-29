@@ -8,7 +8,7 @@ import { GlobalConstants } from 'src/app/common/global-constants';
 import { NgForm } from '@angular/forms';
 import { RadioOption } from 'src/app/common/radio-option.interface';
 import { Chart } from 'chart.js/auto';
-import { PagesService } from '../services/pages.service';
+import { PageService } from '../services/page.service';
 
 @Component({
   selector: 'app-performance-report',
@@ -17,7 +17,7 @@ import { PagesService } from '../services/pages.service';
 })
 export class PerformanceReportComponent implements OnInit {
 
-  constructor(private pagesService: PagesService,
+  constructor(private pageService: PageService,
     private messageService: MessageService) { }
 
   @ViewChild('dateFilterForm', { static: true }) dateFilterForm!: NgForm;
@@ -25,7 +25,7 @@ export class PerformanceReportComponent implements OnInit {
 
   //Opciones de fecha
   dateOption: string;
-  dateOptions: RadioOption[] = this.pagesService.setCurrentDatesInLabels(GlobalConstants.DATE_OPTIONS);
+  dateOptions: RadioOption[] = this.pageService.setCurrentDatesInLabels(GlobalConstants.DATE_OPTIONS);
   
   //Calendario
   dates: Date[]
@@ -87,9 +87,9 @@ export class PerformanceReportComponent implements OnInit {
       }
     
       //Line chart
-      /*this.pagesService.getAlgebraPerformanceByDateRange(this.dateStart, this.dateEnd).subscribe((data) => {
+      /*this.pageService.getAlgebraPerformanceByDateRange(this.dateStart, this.dateEnd).subscribe((data) => {
         this.algebraData = {
-          labels: this.pagesService.getLabelsDateRange(this.dateStart, this.dateEnd),
+          labels: this.pageService.getLabelsDateRange(this.dateStart, this.dateEnd),
           datasets: [
             {
               label: 'Respuestas Correctas',

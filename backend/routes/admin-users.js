@@ -34,10 +34,10 @@ app.post('/post_admin_user', (req, res) => {
 		  name: body.name,
 		  last_name: body.last_name,
 		  username: username,
-		  avatar: { ...body.avatar, _id: new ObjectId() },
-		  email: body.email,
+		  avatar: body.avatar.url? { ...body.avatar, _id: new ObjectId() } : {},
 		  sex: body.sex,
 		  date_birth: body.date_birth,
+		  email: body.email,
 		  password: bcrypt.hashSync(body.password, 10)
 		});
   

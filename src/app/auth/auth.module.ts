@@ -7,11 +7,15 @@ import { HomeComponent } from './pages/home/home.component';
 import { PrimeNgModule } from '../prime-ng/prime-ng.module';
 import { SharedModule } from '../shared/shared.module';
 import { MessageService } from 'primeng/api';
+import { RecoverPasswordComponent } from './pages/recover-password/recover-password.component';
+import { ResetPasswordComponent } from './pages/reset-password/reset-password.component';
 
 @NgModule({
   declarations: [
     LoginComponent,
-    HomeComponent
+    HomeComponent,
+    RecoverPasswordComponent,
+    ResetPasswordComponent
   ],
   imports: [
     CommonModule,

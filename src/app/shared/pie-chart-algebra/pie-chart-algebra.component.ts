@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core
 
 import { GlobalConstants } from 'src/app/common/global-constants';
 import { Ranking } from 'src/app/pages/interfaces/ranking.interfaces';
-import { PagesService } from 'src/app/pages/services/pages.service';
+import { PageService } from 'src/app/pages/services/page.service';
 
 @Component({
   selector: 'app-pie-chart-algebra',
@@ -11,7 +11,7 @@ import { PagesService } from 'src/app/pages/services/pages.service';
 export class PieChartAlgebraComponent implements OnChanges {
 
   constructor(
-    private pagesService: PagesService
+    private pageService: PageService
   ) { }
   
   @Input() dateStart: string;
@@ -22,7 +22,7 @@ export class PieChartAlgebraComponent implements OnChanges {
 
   ngOnChanges() {
     if(this.dateStart && this.dateEnd) {
-      this.pagesService.getAlgebraPerformanceDistribution(this.dateStart, this.dateEnd).subscribe(distributionByPerformance => {
+      this.pageService.getAlgebraPerformanceDistribution(this.dateStart, this.dateEnd).subscribe(distributionByPerformance => {
         this.distributionByPerformance = distributionByPerformance;
         this.data = {
           labels: GlobalConstants.getDistributionLabels(this.distributionByPerformance, GlobalConstants.PERFORMANCE_OPTIONS),

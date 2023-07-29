@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { Problem } from '../models/problem-model';
-import { PagesService } from '../../pages/services/pages.service';
+import { PageService } from '../../pages/services/page.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { TestService } from '../services/test.service';
 import { GlobalConstants } from 'src/app/common/global-constants';
@@ -32,7 +32,7 @@ export class ProblemComponent implements OnChanges, OnInit {
   public app_enabled: boolean;
 
   constructor(
-    private pagesService: PagesService,
+    private pageService: PageService,
     private testService: TestService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService
@@ -52,7 +52,7 @@ export class ProblemComponent implements OnChanges, OnInit {
   }
 
   ngOnChanges(): void {
-    this.pagesService.getAppState().subscribe((global) => {
+    this.pageService.getAppState().subscribe((global) => {
       this.app_enabled = global.app_enabled;
     })
     this.right_img_url = '';

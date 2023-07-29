@@ -2,7 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 
 import { RadioOption } from 'src/app/common/radio-option.interface';
-import { PagesService } from '../services/pages.service';
+import { PageService } from '../services/page.service';
 import { GlobalConstants } from 'src/app/common/global-constants';
 import { Ranking } from '../interfaces/ranking.interfaces';
 
@@ -19,7 +19,7 @@ import { MessageService } from 'primeng/api';
 })
 export class GeneralReportComponent implements OnInit {
 
-  constructor( private pagesService: PagesService,
+  constructor( private pageService: PageService,
                private messageService: MessageService ) { }
   
   @ViewChild('dateFilterForm', { static: true }) dateFilterForm!: NgForm;
@@ -30,7 +30,7 @@ export class GeneralReportComponent implements OnInit {
 
   //Opciones de fecha
   dateOption: string;
-  dateOptions: RadioOption[] = this.pagesService.setCurrentDatesInLabels(GlobalConstants.DATE_OPTIONS);
+  dateOptions: RadioOption[] = this.pageService.setCurrentDatesInLabels(GlobalConstants.DATE_OPTIONS);
 
   //Calendario
   dates: Date[]
@@ -61,12 +61,12 @@ export class GeneralReportComponent implements OnInit {
     Chart.defaults.font.family = GlobalConstants.CHART_FONT_FAMILY;
     
     //Fecha mínima
-    this.pagesService.getMinimumRegistrationDate().subscribe((data) => {
+    this.pageService.getMinimumRegistrationDate().subscribe((data) => {
       this.minDate = new Date(data);
     });
     
     //Ranking
-    this.pagesService.getRanking().subscribe(ranking => {
+    this.pageService.getRanking().subscribe(ranking => {
       this.ranking = ranking;
     });
 
@@ -99,13 +99,13 @@ export class GeneralReportComponent implements OnInit {
       }
 
       //Usuarios Registrados
-      this.pagesService.getNumberUsersByDateRangeTotal(this.dateStart, this.dateEnd)
+      this.pageService.getNumberUsersByDateRangeTotal(this.dateStart, this.dateEnd)
         .subscribe( numberUsers => this.numberUsers = numberUsers );
 
       //Line chart
-      this.pagesService.getNumberUsersByDateRange(this.dateStart, this.dateEnd).subscribe((data) => {
+      this.pageService.getNumberUsersByDateRange(this.dateStart, this.dateEnd).subscribe((data) => {
         this.lineChartData = {
-          labels: this.pagesService.getLabelsDateRange(this.dateStart, this.dateEnd),
+          labels: this.pageService.getLabelsDateRange(this.dateStart, this.dateEnd),
           datasets: [{
             label: 'Usuarios',
             data: data,

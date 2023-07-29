@@ -3,7 +3,7 @@ import { NgForm } from '@angular/forms';
 
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { Message } from 'primeng/api';
-import { PagesService } from '../services/pages.service';
+import { PageService } from '../services/page.service';
 import { Global } from '../global-model'
 
 @Component({
@@ -23,7 +23,7 @@ export class SettingsComponent implements OnInit {
   error = false;
   
   constructor(
-    private pagesService: PagesService,
+    private pageService: PageService,
     private confirmationService: ConfirmationService,
     private messageService: MessageService
   ) { }
@@ -34,7 +34,7 @@ export class SettingsComponent implements OnInit {
       {label:'Ajustes'}
     ];
 
-    this.pagesService.getAppState().subscribe({
+    this.pageService.getAppState().subscribe({
       next: (global) => {
         this.global = global;
         this.state = this.global.app_enabled;
@@ -46,7 +46,7 @@ export class SettingsComponent implements OnInit {
 
     this.settingsForm?.form.valueChanges.subscribe((value) => {
       const global = new Global(this.global?._id, value.state);
-      this.pagesService.updateAppState(global).subscribe({
+      this.pageService.updateAppState(global).subscribe({
         next: (res) => {
         },
         error: (err) => {

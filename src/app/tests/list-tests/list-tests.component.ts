@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 
-import { PagesService } from 'src/app/pages/services/pages.service';
+import { PageService } from 'src/app/pages/services/page.service';
 import { TestService } from '../services/test.service';
 import { Test } from '../models/test-model';
 
@@ -32,7 +32,7 @@ export class ListTestsComponent implements OnInit {
 
   constructor(
     private testService: TestService,
-    private pagesService: PagesService,
+    private pageService: PageService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService
   ) {
@@ -60,7 +60,7 @@ export class ListTestsComponent implements OnInit {
       );
     });
 
-    this.pagesService.getAppState().subscribe(
+    this.pageService.getAppState().subscribe(
       global => this.app_enabled = global.app_enabled
     );
 

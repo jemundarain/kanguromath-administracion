@@ -3,14 +3,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { Location } from '@angular/common'
 
-import { AdminUsersService } from '../services/admin-users.service';
+import { AdminUserService } from '../services/admin-user.service';
 import { AdminUser } from '../models/adminUser-model';
 import { GlobalConstants } from 'src/app/common/global-constants';
 import { Avatar } from '../models/avatar-model';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { Observable, of, switchMap } from 'rxjs';
 import dayjs from 'dayjs';
-import { AuthService } from '../../auth/services/auth-service';
+import { AuthService } from '../../auth/services/auth.service';
 import { Auth } from 'src/app/auth/auth-model';
 import { TestService } from 'src/app/tests/services/test.service';
 
@@ -38,7 +38,7 @@ export class NewAdminUserComponent implements OnInit {
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private adminUsersService: AdminUsersService,
+    private adminUserService: AdminUserService,
     private location: Location,
     private messageService: MessageService,
     private testService: TestService,
@@ -50,7 +50,7 @@ export class NewAdminUserComponent implements OnInit {
     this.maxDate = dayjs().subtract(18, 'year').toDate();
     this.date_birth = dayjs(this.maxDate).toDate();
     if(this.activatedRoute.snapshot.url.join('/') !== 'agregar') {
-      this.activatedRoute.params.pipe(switchMap( ({ username }) => this.adminUsersService.getAdminUserByUsername(username)))
+      this.activatedRoute.params.pipe(switchMap( ({ username }) => this.adminUserService.getAdminUserByUsername(username)))
         .subscribe({
           next: (adminUser) => {
             this.adminUser = adminUser;
@@ -80,7 +80,7 @@ export class NewAdminUserComponent implements OnInit {
   
   addAvatar(newAvatar: any) {
     if(this.adminUser.avatar.ik_id) {
-      this.adminUsersService.deleteAvatar(this.adminUser.avatar.ik_id).subscribe({
+      this.adminUserService.deleteAvatar(this.adminUser.avatar.ik_id).subscribe({
         next: (res) => {
           this.adminUser.avatar = newAvatar;
           this.uploading = false;
@@ -112,7 +112,7 @@ export class NewAdminUserComponent implements OnInit {
   saveAdminUser() {
     this.adminUser.password = this.newPassword;
     if(this.adminUser._id) {
-      this.adminUsersService.updateAdminUser(this.adminUser).subscribe({
+      this.adminUserService.updateAdminUser(this.adminUser).subscribe({
         next: () => {
           localStorage.setItem('user', JSON.stringify(this.adminUser));
           this.messageService.add({severity:'success', summary: 'Exitoso', detail: 'Usuario editado 📝', life: 3250});
@@ -126,7 +126,7 @@ export class NewAdminUserComponent implements OnInit {
       });
     } else {
       this.adminUser.date_birth = this.date_birth;
-      this.adminUsersService.addNewAdminUser(this.adminUser).subscribe({
+      this.adminUserService.addNewAdminUser(this.adminUser).subscribe({
         next: (adminUser) => {
           this.messageService.add({severity:'success', summary: 'Exitoso', detail: 'Usuario creado 🎉', life: 3250});
           setTimeout(() => {
@@ -146,7 +146,7 @@ export class NewAdminUserComponent implements OnInit {
         next: (res) => {
           for(const avatar of res) {
             if((avatar.name.split('-')[0] === this.adminUser.username) && (this.auxAvatar.url !== avatar.url)) {
-              this.adminUsersService.deleteAvatar(this.adminUser.avatar.ik_id).subscribe({
+              this.adminUserService.deleteAvatar(this.adminUser.avatar.ik_id).subscribe({
                 next: (res) => {
                   observer.next(true);
                   observer.complete();

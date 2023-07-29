@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { MenuItem } from 'primeng/api';
-import { AuthService } from '../../auth/services/auth-service';
+import { AuthService } from '../../auth/services/auth.service';
 
 @Component({
   selector: 'app-slide-menu',

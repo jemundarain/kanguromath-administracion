@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { AdminUser } from '../models/adminUser-model';
 import { NgForm } from '@angular/forms';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
-import { AdminUsersService } from '../services/admin-users.service';
+import { AdminUserService } from '../services/admin-user.service';
 
 @Component({
   selector: 'app-list-admin-users',
@@ -13,7 +13,7 @@ import { AdminUsersService } from '../services/admin-users.service';
 export class ListAdminUsersComponent implements OnInit {
 
   constructor(
-    private adminUsersService: AdminUsersService,
+    private adminUserService: AdminUserService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
   ) { }
@@ -29,7 +29,7 @@ export class ListAdminUsersComponent implements OnInit {
       {label:'Todos los usuarios'}
     ];
 
-    this.adminUsersService.getAdminUsers()
+    this.adminUserService.getAdminUsers()
       .subscribe({
         next: (adminUsers) => {
           this.adminUsers = adminUsers;
@@ -49,7 +49,7 @@ export class ListAdminUsersComponent implements OnInit {
       header: "Confirmación",
       message: `¿Está seguro que desea eliminar el usuario ${adminUser.username}?`,
       accept: () => {
-        this.adminUsersService.deletedAdminUser(adminUser._id).subscribe({
+        this.adminUserService.deletedAdminUser(adminUser._id).subscribe({
           next: (res) => {
             this.messageService.add({ severity:'success', summary: 'Exitoso', detail: 'Usuario Eliminado 🗑' });
             setTimeout(() => {

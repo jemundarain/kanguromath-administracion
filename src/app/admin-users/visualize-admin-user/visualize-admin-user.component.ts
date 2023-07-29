@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common'
 
-import { AdminUsersService } from '../services/admin-users.service';
+import { AdminUserService } from '../services/admin-user.service';
 import { AdminUser } from '../models/adminUser-model';
 import { Avatar } from '../models/avatar-model';
 
@@ -18,7 +18,7 @@ export class VisualizeAdminUserComponent implements OnInit {
   
   constructor(
     private activatedRoute: ActivatedRoute,
-    private adminUsersService :AdminUsersService,
+    private adminUserService :AdminUserService,
     private location: Location
   ) { }
 
@@ -31,7 +31,7 @@ export class VisualizeAdminUserComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.params
-      .pipe(switchMap( ({ username }) => this.adminUsersService.getAdminUserByUsername(username)))
+      .pipe(switchMap( ({ username }) => this.adminUserService.getAdminUserByUsername(username)))
       .subscribe({
         next: (adminUser) => {
           this.adminUser = adminUser;

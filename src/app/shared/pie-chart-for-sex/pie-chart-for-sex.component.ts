@@ -2,7 +2,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 
 import { GlobalConstants } from 'src/app/common/global-constants';
 import { Ranking } from 'src/app/pages/interfaces/ranking.interfaces';
-import { PagesService } from 'src/app/pages/services/pages.service';
+import { PageService } from 'src/app/pages/services/page.service';
 
 @Component({
   selector: 'app-pie-chart-for-sex',
@@ -16,11 +16,11 @@ export class PieChartForSexComponent implements OnInit {
   @Output() onLoadComplete: EventEmitter<boolean> = new EventEmitter();
 
   constructor(
-    private pagesService: PagesService
+    private pageService: PageService
   ) {}
   
   ngOnInit() {
-    this.pagesService.getUsersDistributionBySex().subscribe(distributionBySex => {
+    this.pageService.getUsersDistributionBySex().subscribe(distributionBySex => {
       this.distributionBySex = distributionBySex.sort((a,b) => (a._id > b._id) ? 1 : ((b._id > a._id) ? -1 : 0));
       this.data = {
         labels: GlobalConstants.getDistributionLabels(this.distributionBySex, GlobalConstants.SEXS),

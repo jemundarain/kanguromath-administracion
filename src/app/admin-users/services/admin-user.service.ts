@@ -7,7 +7,7 @@ import { AdminUser } from '../models/adminUser-model';
 @Injectable({
   providedIn: 'root'
 })
-export class AdminUsersService {
+export class AdminUserService {
   
   constructor(private http: HttpClient){}
   
@@ -35,6 +35,10 @@ export class AdminUsersService {
 
   deleteAvatar(ik_id: string) {
     return this.http.delete<any>(`${this.baseUrl}/admin_uploads/imagekit-delete/${ik_id}`);
+  }
+
+  sendRecoverEmail(id: string) {
+    return this.http.get<any>(`${this.baseUrl}/auth/send_recover_email/${id}`);
   }
 
 }

@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { GlobalConstants } from 'src/app/common/global-constants';
 import { Ranking } from 'src/app/pages/interfaces/ranking.interfaces';
-import { PagesService } from 'src/app/pages/services/pages.service';
+import { PageService } from 'src/app/pages/services/page.service';
 
 @Component({
   selector: 'app-pie-chart-geometry',
@@ -16,12 +16,12 @@ export class PieChartGeometryComponent implements OnChanges {
   @Output() onLoadComplete: EventEmitter<boolean> = new EventEmitter();
 
   constructor(
-    private pagesService: PagesService
+    private pageService: PageService
   ) {}
 
   ngOnChanges() {
     if(this.dateStart && this.dateEnd) {
-      this.pagesService.getGeometryPerformanceDistribution(this.dateStart, this.dateEnd).subscribe(distributionByPerformance => {
+      this.pageService.getGeometryPerformanceDistribution(this.dateStart, this.dateEnd).subscribe(distributionByPerformance => {
         this.distributionByPerformance = distributionByPerformance;
         this.data = {
           labels: GlobalConstants.getDistributionLabels(this.distributionByPerformance, GlobalConstants.PERFORMANCE_OPTIONS),

@@ -3,7 +3,7 @@ import { GlobalConstants } from 'src/app/common/global-constants';
 import { Figure } from 'src/app/tests/models/figure-model';
 import { Option } from 'src/app/shared/option-model';
 import { TestService } from 'src/app/tests/services/test.service';
-import { PagesService } from '../../pages/services/pages.service';
+import { PageService } from '../../pages/services/page.service';
 import { Avatar } from 'src/app/admin-users/models/avatar-model';
 
 @Component({
@@ -12,7 +12,7 @@ import { Avatar } from 'src/app/admin-users/models/avatar-model';
 })
 export class UploadFileComponent implements OnInit {
 
-  constructor(private pagesService: PagesService, private testService: TestService) { }
+  constructor(private pageService: PageService, private testService: TestService) { }
 
   @Input() fileName: string;
   @Input() folder: string;
@@ -49,6 +49,6 @@ export class UploadFileComponent implements OnInit {
   }
 
   borrar(file_id: string) {
-    this.pagesService.deleteImage(file_id)
+    this.pageService.deleteImage(file_id)
   }
 }

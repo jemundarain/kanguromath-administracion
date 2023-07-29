@@ -1,7 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 
 import { Ranking } from 'src/app/pages/interfaces/ranking.interfaces';
-import { PagesService } from '../../pages/services/pages.service';
+import { PageService } from '../../pages/services/page.service';
 import { GlobalConstants } from 'src/app/common/global-constants';
 
 @Component({
@@ -15,11 +15,11 @@ export class PieChartForRolComponent implements OnInit {
   @Output() onLoadComplete: EventEmitter<boolean> = new EventEmitter();
   
   constructor(
-    private pagesService: PagesService
+    private pageService: PageService
   ) {}
 
   ngOnInit() {
-    this.pagesService.getUsersDistributionByType().subscribe(distributionByType => {
+    this.pageService.getUsersDistributionByType().subscribe(distributionByType => {
       this.distributionByType = distributionByType.sort((a,b) => (a._id > b._id) ? 1 : ((b._id > a._id) ? -1 : 0));
       this.data = {
         labels: GlobalConstants.getDistributionLabels(this.distributionByType, GlobalConstants.USER_ROLS),

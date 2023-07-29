@@ -4,7 +4,7 @@ import { animate, style, transition, trigger } from '@angular/animations';
 import { PrimeNGConfig } from 'primeng/api';
 
 import { GlobalConstants } from './common/global-constants';
-import { AuthService } from './auth/services/auth-service';
+import { AuthService } from './auth/services/auth.service';
 
 @Component({
   selector: 'app-root',
