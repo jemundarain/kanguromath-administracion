@@ -7,12 +7,10 @@ import { AdminUserService } from '../services/admin-user.service';
 import { AdminUser } from '../models/adminUser-model';
 import { GlobalConstants } from 'src/app/common/global-constants';
 import { Avatar } from '../models/avatar-model';
-import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
-import { Observable, of, switchMap } from 'rxjs';
-import dayjs from 'dayjs';
-import { AuthService } from '../../auth/services/auth.service';
-import { Auth } from 'src/app/auth/auth-model';
 import { TestService } from 'src/app/tests/services/test.service';
+import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
+import { Observable, switchMap } from 'rxjs';
+import dayjs from 'dayjs';
 
 @Component({
   selector: 'app-new-admin-user',
@@ -23,7 +21,7 @@ export class NewAdminUserComponent implements OnInit {
 
   @ViewChild('newAdminUserForm', {static: true}) newAdminUserForm !: NgForm;
   uploadUrl: string;
-  adminUser: AdminUser;
+  adminUser: AdminUser = new AdminUser('', '', '', '', new Avatar('', '', ''), '', '', new Date, '');
   username: string;
   maxDate: Date;
   minDate: Date;
@@ -42,9 +40,11 @@ export class NewAdminUserComponent implements OnInit {
     private location: Location,
     private messageService: MessageService,
     private testService: TestService,
-  ) { }
+  ) {
+    this.newPassword = '';
+  }
 
-  ngOnInit(): void {
+  ngOnInit() {
     GlobalConstants.generateRandomSuffix();
     this.minDate = dayjs().subtract(100, 'year').toDate();
     this.maxDate = dayjs().subtract(18, 'year').toDate();
@@ -101,12 +101,21 @@ export class NewAdminUserComponent implements OnInit {
     return this.newAdminUserForm.controls['last_name']?.invalid && this.newAdminUserForm.controls['last_name']?.touched;
   }
 
+  validateSex() {
+    return this.newAdminUserForm.form.value.sex === '';
+  }
+
   validateEmail() {
-    return this.newAdminUserForm.controls['email']?.invalid && this.newAdminUserForm.controls['email']?.touched;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return (this.newAdminUserForm.controls['email']?.invalid && this.newAdminUserForm.controls['email']?.touched) || (this.newAdminUserForm.controls['email']?.touched && !emailRegex.test(this.newAdminUserForm.form.value.email));
   }
 
   validatePassword() {
-    return this.newAdminUserForm.controls['password']?.invalid && this.newAdminUserForm.controls['password']?.touched;
+    return this.newPassword.length<8 && this.newAdminUserForm.controls['password']?.touched;
+  }
+
+  validateNewAdminUserForm() {
+    return this.validateName() || this.validateLastName() || this.validateSex() || this.validateEmail() || this.newPassword.length<8;
   }
 
   saveAdminUser() {
@@ -157,6 +166,8 @@ export class NewAdminUserComponent implements OnInit {
                 } 
               });
             }
+            observer.next(true);
+            observer.complete();
           }
         },
         error: (err) => { }

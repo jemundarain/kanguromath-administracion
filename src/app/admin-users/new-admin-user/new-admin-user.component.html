@@ -25,7 +25,7 @@
             <label class="flex-none mr-3 my-auto text-[21px] font-normal text-[#26201F] tracking-tight">Sexo</label>
             <div class="col-span-2 row-start-4">
                 <p-radioButton *ngFor="let gender of sexs; let i = index"
-                            name="gender"
+                            name="sex"
                             [value]="gender.code"
                             [label]="gender.name"
                             [(ngModel)]="adminUser.sex"
@@ -36,8 +36,8 @@
 
         <div class="flex flex-row mb-6">
             <label class="flex-none mr-3 my-auto text-[21px] font-normal text-[#26201F] tracking-tight">Email</label>
-            <input pInputText id="email" [class]="validateEmail()? '':'ng-invalid ng-dirty'" aria-describedby="username-help" [(ngModel)]="adminUser.email" [required]="true" name="email" />
-            <div *ngIf="validateEmail()" class="text-red-500 text-sm ml-3 mt-2">Por favor, ingresa el email</div>
+            <input pInputText id="email" [class]="validateEmail()? 'ng-invalid ng-dirty':''" aria-describedby="username-help" [(ngModel)]="adminUser.email" [required]="true" name="email" />
+            <div *ngIf="validateEmail()" class="text-red-500 text-sm ml-3 mt-2">Por favor, ingresa un email válido</div>
         </div>
 
         <div class="flex flex-row mb-6">
@@ -55,12 +55,12 @@
         </div>
 
         <div class="flex flex-row mb-6">
-            <label class="flex-none mr-3 my-auto text-[21px] font-normal text-[#26201F] tracking-tight">Cambiar Contraseña</label>
+            <label class="flex-none mr-3 my-auto text-[21px] font-normal text-[#26201F] tracking-tight">Contraseña</label>
             <p-password [(ngModel)]="newPassword" [toggleMask]="true" [feedback]="false" name="password"></p-password>
-            <div *ngIf="validatePassword()" class="text-red-500 text-sm ml-3 mt-2">Por favor, ingresa la contraseña</div>
+            <div *ngIf="validatePassword()" class="text-red-500 text-sm ml-3 mt-2">Tu contraseña debe tener al menos 8 caracteres</div>
         </div>
         <button pButton type="button" class="btn float-left" label="Volver" icon="pi pi-arrow-left" iconPos="left" (click)="back()"></button>
-        <button pButton pRipple label="Guardar" class="btn w-32 p-3 float-right" type="submit" [disabled]="!newAdminUserForm.valid"></button>
+        <button pButton pRipple label="Guardar" class="btn w-32 p-3 float-right" type="submit" [disabled]="validateNewAdminUserForm()"></button>
     </div>
     
     <div class="w-1/3 flex flex-col gap-y-2">

@@ -166,7 +166,6 @@ export class NewTestComponent implements OnInit {
                     if(otherLevels.length > 1){
                       const res: any[] = await firstValueFrom(this.testService.searchProblem(this.test.edition, this.getMiddleFiveWords(statement), this.test.levels));
                       if (res.length == 1 && res[0].solution == solution ) {
-                        console.log('->', this.getMiddleFiveWords(statement));
                         this.messageService.add({ severity: 'warn', summary: 'Problema duplicado', detail: `Problema #${index+1} duplicado`, life: 3250 });
                         duplicateProblem = true;
                         // Añadir un problema existente, no funciona. Si encuentra un problema duplicado lo ignora

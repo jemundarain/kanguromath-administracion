@@ -80,7 +80,6 @@ app.put('/put_admin_user', async (req, res) => {
 	  const savedAdminUser = await adminUser.save();
 	  res.status(200).json(savedAdminUser);
 	} catch (err) {
-		console.log(err);
 	  res.status(500).json(err);
 	}
   });

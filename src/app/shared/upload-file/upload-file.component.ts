@@ -40,10 +40,6 @@ export class UploadFileComponent implements OnInit {
     }
   }
 
-  handleUploadError(err: any) {
-    console.log('There was an error in upload: ', err);
-  }
-
   onUploadStart = (res: Event) => {
     this.startUpload.emit(true);
   }

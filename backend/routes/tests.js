@@ -136,7 +136,6 @@ app.delete('/delete_test/:_id', (req, res) => {
 				res.status(200).json({ successful: true });
 			})
 			.catch((err) => {
-				console.log(err);
 				res.status(500).json(err);
 			});
 		  });

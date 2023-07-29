@@ -107,7 +107,6 @@ app.post('/post_problem/:test_id', async (req, res) => {
   
 
 app.put('/put_problem/', (req, res) => {
-	console.log(req.body);
 	const body = req.body;
 	const updatedProblem = {
 		_id: new ObjectId(body.problem._id),
