@@ -84,11 +84,11 @@ export class NewTestComponent implements OnInit {
       } else if (line.startsWith('%fin')) {
         endCount++;
       }
-      if (startCount== 30 && endCount == 30) {
+      if (startCount == 30 && endCount == 30) {
         return true;
       }
     }
-    return true;
+    return false;
   }
 
   async onTestUpload(event: any) {
