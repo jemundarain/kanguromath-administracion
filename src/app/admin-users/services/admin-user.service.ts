@@ -37,8 +37,4 @@ export class AdminUserService {
     return this.http.delete<any>(`${this.baseUrl}/admin_uploads/imagekit-delete/${ik_id}`);
   }
 
-  sendRecoverEmail(id: string) {
-    return this.http.get<any>(`${this.baseUrl}/auth/send_recover_email/${id}`);
-  }
-
 }

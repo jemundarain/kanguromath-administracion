@@ -40,7 +40,7 @@ app.post('/', (req, res) => {
     });
 });
 
-app.get('/send_recover_email/:id', async (req, res, next) => {
+app.get('/send_recovery_email/:id', async (req, res, next) => {
     const id = req.params.id;
     var query = {};
   
@@ -104,16 +104,15 @@ app.get('/validate_recovery_token/:token', async (req, res) => {
     const token = req.params.token;
   
     try {
-      const _id = jwt.verify(token, SEED);
-      console.log("🚀 ~ file: auth.js:108 ~ app.get ~ _id:", _id)
+      const verify = jwt.verify(token, SEED);
   
-      const user = await AdminUserSchema.findOne({_id});
-      console.log("🚀 ~ file: auth.js:110 ~ app.get ~ user:", user)
-      if (!user) {
+      const adminUser = await AdminUserSchema.findOne({ '_id': verify.userId });
+
+      if (!adminUser) {
         return res.status(404).json({ successful: false, error: 'Token inválido' });
       }
   
-      return res.status(200).json({ successful: true, adminUser: user });
+      return res.status(200).json({ successful: true, adminUser: adminUser });
     } catch (err) {
       if (err.name === 'TokenExpiredError') {
         return res.status(401).json({ successful: false, error: 'Token expirado' });
@@ -125,8 +124,22 @@ app.get('/validate_recovery_token/:token', async (req, res) => {
     }
   });
 
-app.put('/set_new_password', async (req, res) => {
-
-});
+  app.put('/set_new_password', async (req, res) => {
+    const { _id, password } = req.body;
+  
+    try {
+      const user = await AdminUserSchema.findById(_id);
+  
+      if (!user) {
+        return res.status(404).json({ successful: false, error: 'Usuario no encontrado' });
+      }
+    
+      user.password = bcrypt.hashSync(password, 10);
+      await user.save();
+      return res.status(200).json({ successful: true });
+    } catch (err) {
+      return res.status(500).json({ successful: false, error: err });
+    }
+  });
 
 module.exports = app;

@@ -58,12 +58,16 @@ export class AuthService{
     this.router.navigate(['/auth/iniciar-sesion']);
   }
 
-  validateRecoveryToken(token: string) {
-    return this.http.get(`${this.baseUrl}/validate_recovery_token/${token}`);
+  sendRecoverEmail(id: string) {
+    return this.http.get<any>(`${this.baseUrl}/auth/send_recovery_email/${id}`);
   }
 
-  setNewPassword() {
-    return this.http.put(`${this.baseUrl}/set_new_password`, {});
+  validateRecoveryToken(token: string) {
+    return this.http.get(`${this.baseUrl}/auth/validate_recovery_token/${token}`);
+  }
+
+  setNewPassword(_id: string, password: string) {
+    return this.http.put(`${this.baseUrl}/auth/set_new_password`, {_id, password});
   }
 
 }
