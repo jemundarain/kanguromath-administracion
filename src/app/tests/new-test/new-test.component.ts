@@ -237,7 +237,7 @@ export class NewTestComponent implements OnInit {
 
                       if (statement && options) {
                         //Llamar a la API para asignar la categoría
-                        var categorias = ["algebra", "geometria", "probabilidad", "teoria-numeros", "sin-categoria"];
+                        var categorias = ["algebra", "geometria", "combinatoria", "teoria-numeros", "sin-categoria"];
                         var problem = {
                           _id: '',
                           statement: statement,

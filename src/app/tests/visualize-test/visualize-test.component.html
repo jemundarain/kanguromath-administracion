@@ -17,6 +17,7 @@
     </button>
     <div class="flex flex-row gap-5">
         <button pButton
+                *ngIf="!app_enabled"
                 type="button" 
                 class="btn pr-32"
                 label="Editar prueba" 
@@ -25,7 +26,7 @@
                 [routerLink]="['/pruebas/editar', test.test_id ]">
         </button>
         <button pButton
-                *ngIf="problems.length < 30"
+                *ngIf="problems.length < 30 && !app_enabled"
                 type="button" 
                 class="btn pr-32"
                 label="Añadir Problema" 

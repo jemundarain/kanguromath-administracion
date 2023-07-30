@@ -40,7 +40,7 @@ export class EditProblemComponent implements OnInit {
     private confirmationService: ConfirmationService,
     private messageService: MessageService,
     private location: Location
-  ) {}
+  ) { }
   
   @ViewChild('updateProblemForm', { static: true }) updateProblemForm !: NgForm;
   test: Test;
@@ -100,11 +100,12 @@ export class EditProblemComponent implements OnInit {
   }
 
   getUrlOption(letter: string) {
-    for(let i=0; i < this.problem.options.length; i++) {
-      if(this.problem.options[i].letter == letter)
-        return this.problem.options[i].answer;
-    }
-    return letter;
+    const option = this.problem.options.find(opt => opt.letter === letter);
+    return option ? option.answer : letter;
+  }
+
+  validateUpdateProblemForm() {
+    return !this.problem.statement.length || this.problem.options.some(item => item.answer === '') || !this.problem.category.length || !this.problem.solution.length;
   }
 
   updateProblem() {

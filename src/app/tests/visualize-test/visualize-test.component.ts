@@ -6,6 +6,7 @@ import { MenuItem, MessageService } from 'primeng/api';
 import { Test } from '../models/test-model';
 import { TestService } from '../services/test.service';
 import { Problem } from '../models/problem-model';
+import { PageService } from 'src/app/pages/services/page.service';
 
 @Component({
   selector: 'app-visualize-test',
@@ -18,11 +19,13 @@ export class VisualizeTestComponent implements OnInit {
   items: MenuItem[];
   error = false;
   testEmpty = false;
+  app_enabled: boolean;
   
   constructor(
     private testService: TestService,
     private activatedRoute: ActivatedRoute,
     private messageService: MessageService,
+    private pageService: PageService,
     private router: Router
   ) {}
 
@@ -44,6 +47,9 @@ export class VisualizeTestComponent implements OnInit {
           { label: 'Pruebas' },
           { label: `Preliminar ${this.test?.edition} ${this.test.levels}` }
         ];
+        this.pageService.getAppState().subscribe(
+          global => this.app_enabled = global.app_enabled
+        );
       },
       error: () => {
         this.error = true;

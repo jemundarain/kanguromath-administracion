@@ -80,7 +80,7 @@
             </div>
             <div class="grid grid-cols-12">
                 <button pButton type="button" class="btn float-left" label="Volver" icon="pi pi-arrow-left" iconPos="left" (click)="back()"></button>
-                <button pButton pRipple label="Guardar" class="btn w-32 p-3 col-span-2 col-start-10" type="submit"></button>
+                <button pButton pRipple label="Guardar" class="btn w-32 p-3 col-span-2 col-start-10" [disabled]="validateUpdateProblemForm()" type="submit"></button>
             </div>
         </ng-container>
     </form> 
