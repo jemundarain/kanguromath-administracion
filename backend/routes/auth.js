@@ -43,43 +43,90 @@ app.post('/', (req, res) => {
 app.get('/send_recover_email/:id', async (req, res, next) => {
     const id = req.params.id;
     var query = {};
-
+  
     if (emailRegex.test(id)) {
-        query.email = id;
+      query.email = id;
     } else {
-        query.username = id;
+      query.username = id;
     }
-
+  
     try {
-		const user = await AdminUserSchema.findOne(query);
-		if (!user) {
-		  return res.status(404).json({ successful: false, error: 'Usuario no encontrado' });
-		}
-        return mail
-            .post("send", { version: "v3.1" })
-            .request({
-                Messages: [{
-                    From: {
-                        Email: "munsarain22@gmail.com",
-                        Name: "Kanguromath App - Administración",
-                    },
-                    To: [{
-                        Email: user.email,
-                    }],
-                    Subject: "Recuperación de Contraseña",
-                    HTMLPart: '<!DOCTYPE html><html><head><title>Kanguromath App - Administración | Recuperación de Contraseña</title></head><body style="font-family: Arial, sans-serif; line-height: 1.6; margin: 0; padding: 0;"><table width="100%" border="0" cellspacing="0" cellpadding="0"><tr><td><div style="max-width: 600px; margin: 30px auto; padding: 15px; border: 1px solid #cc8952; border-radius: 5px;"><img src="https://ik.imagekit.io/661ijdspv/assets/Kangaroo-eu.png" style="display: block; margin: 0 auto;"/><h2 style="text-align: center; margin-bottom: -10px;">Recuperación de contraseña</h2><p>Estimad' + (user.sex==='M'? 'o ':'a ') + user.name + ' ' + user.last_name + '</p><p>Hemos recibido una solicitud para restablecer tu contraseña. Haz clic en el enlace de abajo para continuar con el proceso de recuperación:</p><p style="text-align: center;"><a href="#" style="display: inline-block; padding: 10px 20px; background: #F59E0B; color: #fff; text-decoration: none; border-radius: 5px;">Recuperar contraseña</a></p><p>Si no has solicitado el restablecimiento de tu contraseña, ignora este correo.</p><p>Gracias, El equipo de <strong>Kanguromath App</strong> 🦘</p></div></td></tr></table></body></html>',
-                },],
-            })
-            .then((result) => {
-                return res.status(200).json({ successful: true });
-            })
-            .catch((err) => {
-                return res.status(400).json({ successful: false, error: err });
-            });
-    } catch(err) {
-        return res.status(400).json({ successful: false, error: err });
+      const user = await AdminUserSchema.findOne(query);
+      if (!user) {
+        return res.status(404).json({ successful: false, error: 'Usuario no encontrado' });
+      }
+  
+      const token = jwt.sign({ userId: user._id }, SEED, { expiresIn: '1h' });
+    //   user.recovery_token = token;
+    //   await user.save();
+  
+      const recoveryLink = `https://main--chic-torrone-c8b8ab.netlify.app/auth/reset-contrasena/${token}`;
+  
+      return mail
+        .post('send', { version: 'v3.1' })
+        .request({
+          Messages: [
+            {
+              From: {
+                Email: 'munsarain22@gmail.com',
+                Name: 'Kanguromath App - Administración',
+              },
+              To: [
+                {
+                  Email: user.email,
+                },
+              ],
+              Subject: 'Recuperación de Contraseña',
+              HTMLPart:
+                '<!DOCTYPE html><html><head><title>Kanguromath App - Administración | Recuperación de Contraseña</title></head><body style="font-family: Arial, sans-serif; line-height: 1.6; margin: 0; padding: 0;"><table width="100%" border="0" cellspacing="0" cellpadding="0"><tr><td><div style="max-width: 600px; margin: 30px auto; padding: 15px; border: 1px solid #cc8952; border-radius: 5px;"><img src="https://ik.imagekit.io/661ijdspv/assets/Kangaroo-eu.png" style="display: block; margin: 0 auto;"/><h2 style="text-align: center; margin-bottom: -10px;">Recuperación de contraseña</h2><p>Estimad' +
+                (user.sex === 'M' ? 'o ' : 'a ') +
+                user.name +
+                ' ' +
+                user.last_name +
+                '</p><p>Hemos recibido una solicitud para restablecer tu contraseña. Haz clic en el enlace de abajo para continuar con el proceso de recuperación:</p><p style="text-align: center;"><a href="' +
+                recoveryLink +
+                '" style="display: inline-block; padding: 10px 20px; background: #F59E0B; color: #fff; text-decoration: none; border-radius: 5px;">Recuperar contraseña</a></p><p>Si no has solicitado el restablecimiento de tu contraseña, ignora este correo.</p><p>Gracias, El equipo de <strong>Kanguromath App</strong> 🦘</p></div></td></tr></table></body></html>',
+            },
+          ],
+        })
+        .then((result) => {
+          return res.status(200).json({ successful: true });
+        })
+        .catch((err) => {
+          return res.status(400).json({ successful: false, error: err });
+        });
+    } catch (err) {
+      return res.status(400).json({ successful: false, error: err });
     }
-})
+});
 
+app.get('/validate_recovery_token/:token', async (req, res) => {
+    const token = req.params.token;
+  
+    try {
+      const _id = jwt.verify(token, SEED);
+      console.log("🚀 ~ file: auth.js:108 ~ app.get ~ _id:", _id)
+  
+      const user = await AdminUserSchema.findOne({_id});
+      console.log("🚀 ~ file: auth.js:110 ~ app.get ~ user:", user)
+      if (!user) {
+        return res.status(404).json({ successful: false, error: 'Token inválido' });
+      }
+  
+      return res.status(200).json({ successful: true, adminUser: user });
+    } catch (err) {
+      if (err.name === 'TokenExpiredError') {
+        return res.status(401).json({ successful: false, error: 'Token expirado' });
+      } else if (err.name === 'JsonWebTokenError') {
+        return res.status(401).json({ successful: false, error: 'Token inválido' });
+      } else {
+        return res.status(400).json({ successful: false, error: 'Error al procesar el token' });
+      }
+    }
+  });
+
+app.put('/set_new_password', async (req, res) => {
+
+});
 
 module.exports = app;

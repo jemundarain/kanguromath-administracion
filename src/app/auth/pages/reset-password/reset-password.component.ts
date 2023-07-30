@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
+import { ActivatedRoute } from '@angular/router';
+import { switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-reset-password',
@@ -10,6 +12,7 @@ export class ResetPasswordComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
+    private activatedRoute: ActivatedRoute
   ) { }
 
   @ViewChild('resetPasswordForm', { static: true }) resetPasswordForm!: NgForm;
@@ -17,6 +20,13 @@ export class ResetPasswordComponent implements OnInit {
   loading: boolean;
 
   ngOnInit(): void {
+    this.activatedRoute.params.pipe(
+      switchMap(({ token }) => {
+        return this.authService.validateRecoveryToken(token);
+      })
+    ).subscribe( res => {
+      console.log("🚀 ~ file: reset-password.component.ts:28 ~ ResetPasswordComponent ~ ngOnInit ~ res:", res)
+    });
   }
 
   validatePassword() {
