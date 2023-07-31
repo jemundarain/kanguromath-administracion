@@ -27,6 +27,9 @@ export class NewTestComponent implements OnInit {
   selectedLevelCode: string;
   items: MenuItem[];
   uploadUrl: string = `${environment.baseUrl}/admin_uploads/upload_test/`;
+  progress: number = 0;
+  index: number;
+  fileNameError: string;
 
   constructor(
     private testService: TestService,
@@ -88,16 +91,37 @@ export class NewTestComponent implements OnInit {
         return true;
       }
     }
-    return false;
+    return true;
   }
 
-  validatePaths(text: string): boolean {
+  validatePaths(text: string, files: any) {
+    const names: string[] = [];
+    for (const key in files) {
+      if (Object.prototype.hasOwnProperty.call(files, key) && typeof files[key] === 'object') {
+        names.push(files[key].name.toLocaleLowerCase());
+      }
+    }
     const lines = text.split('\n');
     for (const line of lines) {
-      const pathRegex = /\{[^{}]+\.(?!png|jpg|jpeg)[a-zA-Z]+\}/g;
-      const matches = line.match(pathRegex);
-      if (matches) {
-        return false; 
+      if(!line.startsWith('%')) {
+        const paths_regex = /{([^{}]*\.(?:png|jpe?g))}/g;
+        const matches = line.match(paths_regex);
+        if (matches) {
+          for (const match of matches) {
+            const pathWithoutBraces = match.slice(1, -1);
+            if (!names.some(name => name.includes(pathWithoutBraces.toLocaleLowerCase()))) {
+              this.fileNameError = pathWithoutBraces;
+              return false;
+            }
+          }
+        }
+        
+        const no_paths_regex = /\{[^{}]+\.(?!png|jpg|jpeg)[a-zA-Z]+\}/g;
+        const no_matches = line.match(no_paths_regex);
+        if (no_matches) {
+          this.fileNameError = no_matches.toString();
+          return false; 
+        }
       }
     }
     return true;
@@ -118,14 +142,14 @@ export class NewTestComponent implements OnInit {
             if (fileTex) {
               const testText: string = await fileTex.async('string');
               if(this.validateSections(testText)) {
-                if(this.validatePaths(testText)) {
+                if(this.validatePaths(testText, zip.files)) {
                   const resNewTest = await firstValueFrom(this.testService.addNewTest(this.test));
                   if(resNewTest.successful) {
                     const solutions_regex = /[ABCDE]{30}/g;
                     const paths_regex = /{([^{}]*\.(?:png|jpe?g))}/g;
                     const options_regex_resp = /\\resp\{((?:[^{}]|(?:\{[^{}]*\}))*?)\}\{((?:[^{}]|(?:\{[^{}]*\}))*?)\}\{((?:[^{}]|(?:\{[^{}]*\}))*?)\}\{((?:[^{}]|(?:\{[^{}]*\}))*?)\}\{((?:[^{}]|(?:\{[^{}]*\}))*?)\}/g;
                     const options_regex_medskip = /\\[A-E]\s([^\\]+)/g;
-                    var rawSolutions: string[];
+                    var rawSolutions: string[] = [''];
 
                     var testTextClean = testText.replace(/\\includegraphics\[[^\]]+\]/g, '')
                                                 .replace(/^(?!%inicio\b|%fin\b)(%.+)/gm, '')
@@ -139,9 +163,12 @@ export class NewTestComponent implements OnInit {
                       rawSolutions = matchSolutions[0].split('');
                     }
 
-                    rawProblems?.forEach(async (rawProblem, index) => {
+                    const totalIterations = rawProblems?.length || 0; 
+
+                    for (const [index, rawProblem] of rawProblems?.entries() || []) {
+                      this.index = index + 1; 
                       // Figuras
-                      var rawPaths;
+                      var rawPaths = [''];
                       if(rawProblem.includes('profig')) {
                         if(rawProblem.includes('\\resp')) {
                           const matches_paths = rawProblem.slice(0, rawProblem.indexOf("\\resp")).match(paths_regex) || [];
@@ -167,11 +194,15 @@ export class NewTestComponent implements OnInit {
                                           .replace(/\\ /g, '')
                                           .replace(/{([^{}]*\.(?:png|jpe?g))}/g, '')
                                           .replace(/\{\s*\}/g, '');
-
+                      
                       statement = statement.trim();
-                      if (statement.startsWith("{") && statement.endsWith("}")) {
-                        statement = statement.slice(1, -1);
+                      if (statement.startsWith("{")) {
+                        statement = statement.slice(1);
                       }
+                      if (statement.endsWith("}")) {
+                        statement = statement.slice(0, -1);
+                      }
+                      statement = statement.trim();
                       var solution = rawSolutions[index];
 
                       const otherLevels = await firstValueFrom(this.testService.getLevelsByEdition(this.test.edition));
@@ -182,7 +213,8 @@ export class NewTestComponent implements OnInit {
                           this.messageService.add({ severity: 'warn', summary: 'Problema duplicado', detail: `Problema #${index+1} duplicado`, life: 3250 });
                           duplicateProblem = true;
                           // Añadir un problema existente, no funciona. Si encuentra un problema duplicado lo ignora
-                          //  resAddExistingProblem = await firstValueFrom(this.testService.addExistingProblem(resNewTest.test_id, res[0]._id));
+                          // var resAddExistingProblem = await firstValueFrom(this.testService.addExistingProblem(resNewTest.test_id, res[0]._id));
+                          // console.log("🚀 ~ file: new-test.component.ts:195 ~ NewTestComponent ~ reader.onload= ~ resAddExistingProblem:", resAddExistingProblem)
                         }
                       }
 
@@ -217,10 +249,15 @@ export class NewTestComponent implements OnInit {
                         }
 
                         for (let i = 0; i < rawOptions.length; i++) {
-                          let option = rawOptions[i];
-                          if (option.startsWith("{") && option.endsWith("}")) {
-                            rawOptions[i] = option.slice(1, -1);
+                          rawOptions[i] = rawOptions[i].trim();
+                          if (rawOptions[i].startsWith("{")) {
+                            rawOptions[i] = rawOptions[i].slice(1);
                           }
+                         
+                          if (rawOptions[i].endsWith("}")) {
+                            rawOptions[i] = rawOptions[i].slice(0, -1);
+                          }
+                          rawOptions[i] = rawOptions[i].trim();
                         }
 
                         var options = []
@@ -236,7 +273,7 @@ export class NewTestComponent implements OnInit {
                         }
 
                         var figures = [];
-                        if(rawPaths) {
+                        if(rawPaths[0]) {
                           for(let i=0; i<rawPaths.length; i++) {
                             figures.push({
                               _id: '',
@@ -263,48 +300,34 @@ export class NewTestComponent implements OnInit {
                           const newProblem = await firstValueFrom(this.testService.addNewProblem(problem, this.test.test_id));
                           const thereFigures = !!newProblem.figures.length;
                           const thereImagesInOptions = GlobalConstants.hasAtLeastOneOptionWithImagePath(newProblem.options);
-
+                          
                           if (thereFigures || thereImagesInOptions) {
                             await firstValueFrom(this.testService.createFolder(newProblem._id, 'preliminar'));
                             if (thereFigures) {
-                              const uploadPromises = newProblem.figures.map(async (figure) => {
+                              for (const figure of newProblem.figures) {
                                 GlobalConstants.generateRandomSuffix();
-                                const res = await firstValueFrom(this.testService.uploadImage(`uploads/${fileTex.name.split('/')[0]}/${figure.url}`, `preliminar/${newProblem._id}/`, GlobalConstants.getRandomName(figure.num_s.toString())));
-                                figure.url = res.url;
-                                figure.ik_id = res.fileId;
-                                return this.testService.updateFigure(newProblem._id, figure);
-                              });
-                              await Promise.all(uploadPromises);
+                                await firstValueFrom(this.testService.uploadFigure(`uploads/${fileTex.name.split('/')[0]}/${figure.url}`, `preliminar/${newProblem._id}/`, GlobalConstants.getRandomName(figure.num_s.toString())));
+                              };
                             }
 
                             if (thereImagesInOptions) {
-                              const uploadPromises = newProblem.options
-                                .filter(option => GlobalConstants.isPath(option.answer))
-                                .map(async (option) => {
-                                  const res = await firstValueFrom(this.testService.uploadImage(`uploads/${fileTex.name.split('/')[0]}/${option.answer}`, `preliminar/${newProblem._id}/`, GlobalConstants.getRandomName(option.letter)));
-                                  option.answer = res.url;
-                                  option.ik_id = res.fileId;
-                                  return this.testService.updateFigureOption(newProblem._id, option);
-                                });
-                              await Promise.all(uploadPromises);
-                            }
-                            if (thereFigures || thereImagesInOptions) {
-                              this.testService.updateProblem('', -1, newProblem).subscribe({
-                                next: (res) => {},
-                                error: (err) => {}
-                              });
+                              for (const option of newProblem.options.filter(option => GlobalConstants.isPath(option.answer))) {
+                                GlobalConstants.generateRandomSuffix();
+                                await firstValueFrom(this.testService.uploadFigureOption(`uploads/${fileTex.name.split('/')[0]}/${option.answer}`, `preliminar/${newProblem._id}/`, GlobalConstants.getRandomName(option.letter)));
+                              }
                             }
                           }
                         }
                       }
-                    });
+                      this.progress = Math.round(((index + 1) / totalIterations) * 100);
+                    };
                     this.messageService.add({ severity: 'success', summary: 'Exitoso', detail: 'Prueba creada 🎉', life: 3250 });
                     setTimeout(() => {
                       this.router.navigate([`/pruebas/ver/${this.test.test_id}`]);
                     }, 2420);
                   }
                 } else {
-                  this.messageService.add({ severity: 'error', summary: 'Rechazado', detail: 'Hay un formato de imagen inválido dentro de la prueba 🙁', life: 3250 });
+                  this.messageService.add({ severity: 'error', summary: 'Rechazado', detail: `Hay un error con la ruta ${this.fileNameError} 🙁`, life: 3250 });
                 }
               } else {
                 this.messageService.add({ severity: 'error', summary: 'Rechazado', detail: 'Hay un error de formato en el archivo .tex 🙁', life: 3250 });

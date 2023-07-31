@@ -50,8 +50,12 @@ export class TestService {
         return this.http.put<{message: string}>(`${this.baseUrl}/admin_tests/put_test/`, test);
     }
 
-    uploadImage(pathFile: string, folderFile: string, nameFile: string) {
-        return this.http.post<any>(`${this.baseUrl}/admin_uploads/upload-image`, {pathFile, folderFile, nameFile});
+    uploadFigure(pathFile: string, folderFile: string, nameFile: string) {
+        return this.http.post<any>(`${this.baseUrl}/admin_uploads/upload_figure`, {pathFile, folderFile, nameFile});
+    }
+
+    uploadFigureOption(pathFile: string, folderFile: string, nameFile: string) {
+        return this.http.post<any>(`${this.baseUrl}/admin_uploads/upload_option_figure`, {pathFile, folderFile, nameFile});
     }
 
     deleteTest(_id: string) {
@@ -82,14 +86,6 @@ export class TestService {
         this.http.get<any>(`${this.baseUrl}/admin_uploads/imagekit-auth`).subscribe((data) => {
             console.log(data);
         });
-    }
-    
-    updateFigure(problem_id: string, figure: Figure) {
-        return this.http.put<any>(`${this.baseUrl}/admin_uploads/put_figure`, {problem_id, figure});
-    }
-
-    updateFigureOption(problem_id: string, option: Option) {
-        return this.http.put<any>(`${this.baseUrl}/admin_uploads/put_option_figure`, {problem_id, option});
     }
 
     deleteFigure(ik_id: string) {
