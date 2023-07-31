@@ -29,9 +29,11 @@ app.get('/imagekit-auth', (req, res) => {
 	res.status(200).json(imagekit.getAuthenticationParameters());
 })
 
-app.post('/upload-image/', (req, res) => {
-  const body = req.body;
-  fs.readFile(body.pathFile, function(err, data) {
+app.post('/upload_figure/', (req, res) => {
+  const { pathFile, folderFile, nameFile } = req.body;
+  const problem_id = folderFile.split('/')[1];
+  const num_s = nameFile.split('-')[0];
+  fs.readFile(pathFile, function(err, data) {
     if (err) {
       if (err.code === 'ENOENT') {
         return res.status(404).json({ error: 'File not found' });
@@ -39,22 +41,69 @@ app.post('/upload-image/', (req, res) => {
         return res.status(500).json({ error: 'Internal server error' });
       }
     }
-
     imagekit.upload({
       file: data,
-      fileName: body.nameFile,
-      folder: body.folderFile,
+      fileName: nameFile,
+      folder: folderFile,
       useUniqueFileName: false
     }, function(err, result) {
       if (err) {
         return res.status(400).json(err);
       } else {
-        return res.status(200).json(result);
+        ProblemModel.updateOne(
+          {'_id': problem_id, 'figures.num_s': num_s},
+          { $set: { 'figures.$.ik_id': result.fileId, 'figures.$.url': result.url }},
+          {new: true}
+        ).then((problemUpdate) => {
+          if (!problemUpdate) {
+            return res.status(404);
+          }
+          res.status(200).json(problemUpdate);
+        }).catch((err) => {
+          res.status(500).json(err);
+        })
       }
     });
   });
 });
 
+app.post('/upload_option_figure/', (req, res) => {
+  const { pathFile, folderFile, nameFile } = req.body;
+  const problem_id = folderFile.split('/')[1];
+  const letter = nameFile.split('-')[0];
+  fs.readFile(pathFile, function(err, data) {
+    if (err) {
+      if (err.code === 'ENOENT') {
+        return res.status(404).json({ error: 'File not found' });
+      } else {
+        return res.status(500).json({ error: 'Internal server error' });
+      }
+    }
+    imagekit.upload({
+      file: data,
+      fileName: nameFile,
+      folder: folderFile,
+      useUniqueFileName: false
+    }, function(err, result) {
+      if (err) {
+        return res.status(400).json(err);
+      } else {
+        ProblemModel.updateOne(
+          { '_id': problem_id, 'options.letter': letter },
+          { $set: { 'options.$.ik_id': result.fileId, 'options.$.answer': result.url }},
+          { new: true }
+        ).then((problemUpdate) => {
+          if (!problemUpdate) {
+            return res.status(404);
+          }
+          res.status(200).json(problemUpdate);
+        }).catch((err) => {
+          res.status(500).json(err);
+        })
+      }
+    });
+  });
+});
 
 app.delete('/imagekit-delete/:ik_id', (req, res) => {
 	imagekit.deleteFile(req.params.ik_id, function(error, result) {
@@ -99,38 +148,6 @@ app.post('/move-file', (req, res) => {
       }
     }
   );
-});
-
-app.put('/put_figure/', (req, res) => {
-  const body = req.body;
-  ProblemModel.updateOne(
-    {'_id': body.problem_id, 'figures.num_s': body.figure.num_s},
-    { $set: { 'figures.$.ik_id': body.figure.ik_id, 'figures.$.url': body.figure.url }},
-    {new: true}
-  ).then((problemUpdate) => {
-    if (!problemUpdate) {
-      return res.status(404);
-    }
-    res.status(200).json(problemUpdate);
-  }).catch((err) => {
-    res.status(500).json(err);
-  })
-});
-
-app.put('/put_option_figure/', (req, res) => {
-  const body = req.body;
-  ProblemModel.updateOne(
-    { '_id': body.problem_id, 'options.letter': body.option.letter },
-    { $set: { 'options.$.ik_id': body.option.ik_id, 'options.$.answer': body.option.answer }},
-    { new: true }
-  ).then((problemUpdate) => {
-    if (!problemUpdate) {
-      return res.status(404);
-    }
-    res.status(200).json(problemUpdate);
-  }).catch((err) => {
-    res.status(500).json(err);
-  })
 });
 
 app.post('/upload_test', multerUpload.single('testFile'), (req, res) => {

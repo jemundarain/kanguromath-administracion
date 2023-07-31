@@ -33,7 +33,12 @@
     <div class="mt-2 text-md text-gray-500"><span class="font-bold">* </span>La prueba debe estar en un archivo <span class="font-bold">.zip </span> junto con las imágenes en formato <span class="font-bold">.png</span>, <span class="font-bold">.jpg</span> o <span class="font-bold">.jpeg</span></div>
     <div class="mt-2 text-md text-gray-500"><span class="font-bold">* </span>Los problemas dentro del archivo <span class="font-bold">.tex </span> de la prueba deben estar delimitados por los comentarios <span class="font-bold">%inicio</span> y <span class="font-bold">%fin</span></div>
     <div class="mt-2 text-md text-gray-500"><span class="font-bold">* </span>La codificación del archivo <span class="font-bold">.tex </span> debe ser <span class="font-bold">utf-8</span></div>
-    <button pButton 
+    <div *ngIf="progress>0" class="my-6">
+        <p-progressBar [value]="progress"></p-progressBar>
+        <h5 class="text-[21px] font-normal text-[#26201F] tracking-tight text-center mx-auto mt-2">Subiendo problema {{index}} de 30<span class="blinking-dots">...</span></h5>
+    </div>
+    <button pButton
+            *ngIf="progress===0" 
             type="button" 
             class="float-right"
             label="Siguiente" 
@@ -43,5 +48,4 @@
             (click)="addTest()">
     </button>
 </form>
-    
 <p-toast position="bottom-center"></p-toast>
