@@ -213,7 +213,7 @@ export class GlobalConstants {
                 err: `
                     <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
                         <strong class="font-bold">Comando inválido: ${match[1]}</strong>
-                        <span class="block sm:inline">Para más información de los comandos soportados, visita la <a style="text-decoration:underline;" href="https://katex.org/docs/supported.html">Documentación de KaTeX<a/></span>
+                        <span class="block sm:inline">Para más información sobre los comandos soportados, visita la <a style="text-decoration:underline;" href="https://katex.org/docs/supported.html">Documentación de KaTeX<a/></span>
                     </div>
                     `,
                 operator: `\\${match[0].split(': ')[1]}`
@@ -224,7 +224,7 @@ export class GlobalConstants {
                 err: `
                     <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
                         <strong class="font-bold">Error desconocido en la rutina de diagramación</strong>
-                        <span class="block sm:inline">Para más información de los comandos soportados, visita la <a style="text-decoration:underline;" href="https://katex.org/docs/supported.html">Documentación de KaTeX<a/></span>
+                        <span class="block sm:inline">Para más información sobre los comandos soportados, visita la <a style="text-decoration:underline;" href="https://katex.org/docs/supported.html">Documentación de KaTeX<a/></span>
                     </div>
                     `,
                 operator: ''
