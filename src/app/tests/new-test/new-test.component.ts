@@ -96,19 +96,11 @@ export class NewTestComponent implements OnInit {
 
   validatePaths(text: string, files: any) {
     const names: string[] = [];
-<<<<<<< HEAD
-=======
-    
->>>>>>> 2633df7f58fc25aa6f7a687d8ebda4b51b9d8ff0
     for (const key in files) {
       if (Object.prototype.hasOwnProperty.call(files, key) && typeof files[key] === 'object') {
         names.push(files[key].name.toLocaleLowerCase());
       }
     }
-<<<<<<< HEAD
-=======
-    
->>>>>>> 2633df7f58fc25aa6f7a687d8ebda4b51b9d8ff0
     const lines = text.split('\n');
 
     for (const line of lines) {
@@ -207,17 +199,10 @@ export class NewTestComponent implements OnInit {
                       statement = statement.trim();
                       if (statement.startsWith("{")) {
                         statement = statement.slice(1);
-<<<<<<< HEAD
                       }
                       if (statement.endsWith("}")) {
                         statement = statement.slice(0, -1);
                       }
-=======
-                      }
-                      if (statement.endsWith("}")) {
-                        statement = statement.slice(0, -1);
-                      }
->>>>>>> 2633df7f58fc25aa6f7a687d8ebda4b51b9d8ff0
                       statement = statement.trim();
                       var solution = rawSolutions[index];
 
@@ -268,19 +253,11 @@ export class NewTestComponent implements OnInit {
                           rawOptions[i] = rawOptions[i].trim();
                           if (rawOptions[i].startsWith("{")) {
                             rawOptions[i] = rawOptions[i].slice(1);
-<<<<<<< HEAD
                           }
                          
                           if (rawOptions[i].endsWith("}")) {
                             rawOptions[i] = rawOptions[i].slice(0, -1);
                           }
-=======
-                          }
-                         
-                          if (rawOptions[i].endsWith("}")) {
-                            rawOptions[i] = rawOptions[i].slice(0, -1);
-                          }
->>>>>>> 2633df7f58fc25aa6f7a687d8ebda4b51b9d8ff0
                           rawOptions[i] = rawOptions[i].trim();
                         }
 
