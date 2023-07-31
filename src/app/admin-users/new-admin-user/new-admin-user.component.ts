@@ -115,6 +115,9 @@ export class NewAdminUserComponent implements OnInit {
   }
 
   validateNewAdminUserForm() {
+    if(this.activatedRoute.snapshot.url.join('/') !== 'agregar') {
+      return this.validateName() || this.validateLastName() || this.validateSex() || this.validateEmail();
+    }
     return this.validateName() || this.validateLastName() || this.validateSex() || this.validateEmail() || this.newPassword.length<8;
   }
 
