@@ -325,6 +325,7 @@ export class NewTestComponent implements OnInit {
                       }
                       this.progress = Math.round(((index + 1) / totalIterations) * 100);
                     };
+                    this.testService.deleteFolder(`uploads/${fileTex.name.split('/')[0]}`).subscribe();
                     this.messageService.add({ severity: 'success', summary: 'Exitoso', detail: 'Prueba creada 🎉', life: 3250 });
                     setTimeout(() => {
                       this.router.navigate([`/pruebas/ver/${this.test.test_id}`]);

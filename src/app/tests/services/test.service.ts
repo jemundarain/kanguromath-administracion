@@ -109,4 +109,8 @@ export class TestService {
     getListFiles(path: string) {
         return this.http.get<any>(`${this.baseUrl}/admin_uploads/list-files?path=${path}`);
     }
+
+    deleteFolder(folderName: string) {
+        return this.http.delete<any>(`${this.baseUrl}/admin_uploads/delete_folder/${encodeURIComponent(folderName)}`);
+    }
 }

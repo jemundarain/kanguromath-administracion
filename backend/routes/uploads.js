@@ -180,5 +180,14 @@ app.post('/upload_test', multerUpload.single('testFile'), (req, res) => {
     });
 });
 
+app.delete('/delete_folder/:folderName', (req, res) => {
+  const folderName = decodeURIComponent(req.params.folderName);
+  if (fs.existsSync(folderName)) {
+    fs.rmSync(folderName, { recursive: true });
+    res.status(200).json({ successful: true });
+  } else {
+    res.status(404).json({ successful: false });
+  }
+});
 
 module.exports = app;
