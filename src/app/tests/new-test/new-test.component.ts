@@ -50,10 +50,8 @@ export class NewTestComponent implements OnInit {
     ];
   }
 
-  getMiddleFiveWords(term: string) {
-    const palabras = term.trim().split(' ');
-    const indiceInicio = Math.max(0, Math.floor((palabras.length - 8) / 2));
-    return palabras.slice(indiceInicio, indiceInicio + 8).join(' ');
+  getFirstFiveWords(term: string) {
+    return term.trim().split(' ').slice(0, 5).join(' ');
   }
 
   extractRawProblems(texto: string): string[] {
@@ -206,61 +204,64 @@ export class NewTestComponent implements OnInit {
                       statement = statement.trim();
                       var solution = rawSolutions[index];
 
-                      const otherLevels = await firstValueFrom(this.testService.getLevelsByEdition(this.test.edition));
-                      var duplicateProblem = false;
-                      if(otherLevels.length > 1){
-                        const res: any[] = await firstValueFrom(this.testService.searchProblem(this.test.edition, this.getMiddleFiveWords(statement), this.test.levels));
-                        if (res.length == 1 && res[0].solution == solution ) {
-                          this.messageService.add({ severity: 'warn', summary: 'Problema duplicado', detail: `Problema #${index+1} duplicado`, life: 3250 });
-                          duplicateProblem = true;
-                          // Añadir un problema existente, no funciona. Si encuentra un problema duplicado lo ignora
-                          // var resAddExistingProblem = await firstValueFrom(this.testService.addExistingProblem(resNewTest.test_id, res[0]._id));
-                          // console.log("🚀 ~ file: new-test.component.ts:195 ~ NewTestComponent ~ reader.onload= ~ resAddExistingProblem:", resAddExistingProblem)
+                      var rawOptions: string[] = [];
+                      if(!rawProblem.includes('\\resp') && rawProblem.includes('\\medskip') && rawProblem.includes('\\A') && rawProblem.includes('\\B') && rawProblem.includes('\\C') && rawProblem.includes('\\D') && rawProblem.includes('\\E')) {
+                        const matches_paths_resp = rawProblem.slice(rawProblem.indexOf("\\medskip")).match(paths_regex) || [];
+                        if(matches_paths_resp.length > 3) {
+                          for(let i = 0; i < matches_paths_resp.length; i++) {
+                            rawOptions[i] = matches_paths_resp[i];
+                          }
+                        } else {
+                          const matches_medskip = rawProblem.match(options_regex_medskip);
+                          if(matches_medskip)
+                            rawOptions = matches_medskip.map(match => match.split("\\")[1].trim());
+                        }
+                      } else if(rawProblem.includes('\\resp')) {
+                        const matches_paths_resp = rawProblem.slice(rawProblem.indexOf("\\resp")).match(paths_regex) || [];
+                        if(matches_paths_resp.length > 3) {
+                          for(let i = 0; i < matches_paths_resp.length; i++) {
+                            rawOptions[i] = matches_paths_resp[i];
+                          }
+                        } else {
+                          const matches_resp = rawProblem.match(options_regex_resp);
+                          if(matches_resp) {
+                            rawOptions = matches_resp[0].replace('\\resp{', '').split("}{");
+                            if (rawOptions[rawOptions.length-1].endsWith('}')) {
+                              rawOptions[rawOptions.length-1] = rawOptions[rawOptions.length-1].slice(0, -1);
+                            }
+                          }
                         }
                       }
 
+                      for (let i = 0; i < rawOptions.length; i++) {
+                        rawOptions[i] = rawOptions[i].trim();
+                        if (rawOptions[i].startsWith("{")) {
+                          rawOptions[i] = rawOptions[i].slice(1);
+                        }
+                        
+                        if (rawOptions[i].endsWith("}")) {
+                          rawOptions[i] = rawOptions[i].slice(0, -1);
+                        }
+                        rawOptions[i] = rawOptions[i].trim();
+                      }
+                        
+                      const otherLevels = await firstValueFrom(this.testService.getLevelsByEdition(this.test.edition));
+                      var duplicateProblem = false;
+                      if(otherLevels.length > 1) {
+                        const problems: any[] = await firstValueFrom(this.testService.searchProblem(this.test.edition, this.getFirstFiveWords(statement), this.test.levels));
+                        if (problems.length) {
+                          for (const problem of problems) {
+                            const optionAnswers = problem.options.map((option: any) => option.answer);
+                            if (optionAnswers.every((answer: any) => rawOptions.includes(answer))) {
+                              duplicateProblem = true;
+                              await firstValueFrom(this.testService.addExistingProblem(resNewTest.test_id, problem._id));
+                              this.messageService.add({ severity: 'warn', summary: 'Problema duplicado', detail: `Problema #${index+1} duplicado`, life: 3250 });
+                            }
+                          }
+                        }
+                      }
+                      
                       if(!duplicateProblem) {
-                        var rawOptions: string[] = [];
-                        if(!rawProblem.includes('\\resp') && rawProblem.includes('\\medskip') && rawProblem.includes('\\A') && rawProblem.includes('\\B') && rawProblem.includes('\\C') && rawProblem.includes('\\D') && rawProblem.includes('\\E')) {
-                          const matches_paths_resp = rawProblem.slice(rawProblem.indexOf("\\medskip")).match(paths_regex) || [];
-                          if(matches_paths_resp.length > 3) {
-                            for(let i = 0; i < matches_paths_resp.length; i++) {
-                              rawOptions[i] = matches_paths_resp[i];
-                            }
-                          } else {
-                            const matches_medskip = rawProblem.match(options_regex_medskip);
-                            if(matches_medskip)
-                              rawOptions = matches_medskip.map(match => match.split("\\")[1].trim());
-                          }
-                        } else if(rawProblem.includes('\\resp')) {
-                          const matches_paths_resp = rawProblem.slice(rawProblem.indexOf("\\resp")).match(paths_regex) || [];
-                          if(matches_paths_resp.length > 3) {
-                            for(let i = 0; i < matches_paths_resp.length; i++) {
-                              rawOptions[i] = matches_paths_resp[i];
-                            }
-                          } else {
-                            const matches_resp = rawProblem.match(options_regex_resp);
-                            if(matches_resp) {
-                              rawOptions = matches_resp[0].replace('\\resp{', '').split("}{");
-                              if (rawOptions[rawOptions.length-1].endsWith('}')) {
-                                rawOptions[rawOptions.length-1] = rawOptions[rawOptions.length-1].slice(0, -1);
-                              }
-                            }
-                          }
-                        }
-
-                        for (let i = 0; i < rawOptions.length; i++) {
-                          rawOptions[i] = rawOptions[i].trim();
-                          if (rawOptions[i].startsWith("{")) {
-                            rawOptions[i] = rawOptions[i].slice(1);
-                          }
-                         
-                          if (rawOptions[i].endsWith("}")) {
-                            rawOptions[i] = rawOptions[i].slice(0, -1);
-                          }
-                          rawOptions[i] = rawOptions[i].trim();
-                        }
-
                         var options = []
                         if(rawOptions) {
                           for(let i=0; i<5; i++) {

@@ -117,7 +117,7 @@ export class NewProblemComponent implements OnInit {
   }
 
   addProblem() {
-    this.testService.addExistingProblem(this.test.test_id, this.problemSelected._id).subscribe({
+    this.testService.addExistingProblem(this.test._id, this.problemSelected._id).subscribe({
       next: (res) => {
         this.messageService.add({severity:'success', summary: 'Exitoso', detail: 'Problema agregado ✅' });
         setTimeout(() => {
