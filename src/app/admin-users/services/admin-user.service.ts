@@ -33,8 +33,4 @@ export class AdminUserService {
     return this.http.delete<{message: string}>(`${this.baseUrl}/admin_admin_users/delete_admin_user/${_id}`);
   }
 
-  deleteAvatar(ik_id: string) {
-    return this.http.delete<any>(`${this.baseUrl}/admin_uploads/imagekit-delete/${ik_id}`);
-  }
-
 }

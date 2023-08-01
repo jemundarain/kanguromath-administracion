@@ -44,7 +44,7 @@ export class OptionsComponent implements OnInit {
     for(let i=0; i < this.options.length; i++) {
       if(this.options[i].letter === newOption.letter) {
         if(this.options[i].ik_id) {
-          this.testService.deleteFigure(this.options[i].ik_id);
+          this.testService.deleteImage(this.options[i].ik_id).subscribe();
         }
         this.options[i] = newOption;
         this.uploadings[i] = false;

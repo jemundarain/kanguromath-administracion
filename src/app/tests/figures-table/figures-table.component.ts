@@ -29,14 +29,14 @@ export class FiguresTableComponent implements OnInit {
   addFigure(newFigure: any) {
     GlobalConstants.generateRandomSuffix();
     if(this.figures[newFigure.num_s-1].ik_id) {
-      this.testService.deleteFigure(this.figures[newFigure.num_s-1].ik_id);
+      this.testService.deleteImage(this.figures[newFigure.num_s-1].ik_id).subscribe();
     }
     this.figures[newFigure.num_s-1] = newFigure;
     this.uploadings[newFigure.num_s-1] = false;
   }
 
   deleteFigure(num_s: number) {
-    this.testService.deleteFigure(this.figures[num_s-1].ik_id);
+    this.testService.deleteImage(this.figures[num_s-1].ik_id).subscribe();
     this.figures.splice(num_s-1, 1);
     for(let i=0; i<this.figures.length; i++) {
       this.figures[i].num_s = i+1;

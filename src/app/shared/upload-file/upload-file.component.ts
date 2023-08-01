@@ -44,7 +44,4 @@ export class UploadFileComponent implements OnInit {
     this.startUpload.emit(true);
   }
 
-  borrar(file_id: string) {
-    this.pageService.deleteImage(file_id)
-  }
 }

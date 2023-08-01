@@ -33,6 +33,7 @@ export class NewProblemComponent implements OnInit {
   num_s: number;
   error: boolean;
   term: string;
+  toSave = false;
   
   constructor(
     private testService: TestService,
@@ -67,32 +68,37 @@ export class NewProblemComponent implements OnInit {
   exitConfirmation(): Observable<boolean> {
     if (this.newProblem.statement === '' || this.newProblem.options.every((option) => option.answer === '') || this.newProblem.solution === '') {
       this.newProblem.figures.forEach((figure) => {
-        this.testService.deleteFigure(figure.ik_id);
+        this.testService.deleteImage(figure.ik_id).subscribe();
       });
       this.newProblem.options.forEach((option) => {
-        this.testService.deleteFigure(option.ik_id);
+        this.testService.deleteImage(option.ik_id).subscribe();
       });
       return of(true);
     } else {
       return new Observable((observer) => {
-        this.confirmationService.confirm({
-          header: "Confirmación",
-          message: '¿Está seguro que desea salir sin guardar los cambios?',
-          accept: () => {
-            this.newProblem.figures.forEach((figure) => {
-              this.testService.deleteFigure(figure.ik_id);
-            });
-            this.newProblem.options.forEach((option) => {
-              this.testService.deleteFigure(option.ik_id);
-            });
-            observer.next(true);
-            observer.complete();
-          },
-          reject: () => {
-            observer.next(false);
-            observer.complete();
-          }
-        });
+        if(!this.toSave) {
+          console.log('NO SE EJECUTA TO SAVE')
+          this.confirmationService.confirm({
+            header: "Confirmación",
+            message: '¿Está seguro que desea salir sin guardar los cambios?',
+            accept: () => {
+              this.newProblem.figures.forEach((figure) => {
+                this.testService.deleteImage(figure.ik_id).subscribe();
+              });
+              this.newProblem.options.forEach((option) => {
+                this.testService.deleteImage(option.ik_id).subscribe();
+              });
+              observer.next(true);
+              observer.complete();
+            },
+            reject: () => {
+              observer.next(false);
+              observer.complete();
+            }
+          });
+        }
+        observer.next(true);
+        observer.complete();
       });
     }
   }  
@@ -131,42 +137,34 @@ export class NewProblemComponent implements OnInit {
   }
 
   saveNewProblem() {
+    this.toSave = true;
     this.testService.addNewProblem(this.newProblem, this.test.test_id).subscribe({
       next: (newProblem) => {
         const thereFigures = !!newProblem.figures.length;
         const thereImagesInOptions = GlobalConstants.hasAtLeastOneOptionWithImageLink(newProblem.options);
 
         if (thereFigures || thereImagesInOptions) {
-          this.testService.createFolder(newProblem._id, "preliminar");
+          this.testService.createFolder(newProblem._id, "preliminar").subscribe();
         }
 
         if (thereFigures) {
           newProblem.figures.forEach((figure) => {
-            this.testService.moveFile(figure.url.split('/').slice(-1)[0], `preliminar/${newProblem._id}`).subscribe({
-              next: () => {},
-              error: (err) => { console.log(err);}
-            });
-            figure.url = GlobalConstants.concatenatePath(figure.url, `/preliminar/${newProblem._id}/`);
+            this.testService.moveFile(`preliminar/${figure.url.split('/').slice(-1)[0]}`, `preliminar/${newProblem._id}`).subscribe();
+            figure.url = GlobalConstants.concatenatePath(figure.url, `/${newProblem._id}/`);
           });
         }
   
         if (thereImagesInOptions) {
           newProblem.options.forEach((option) => {
             if (GlobalConstants.isLink(option.answer)) {
-              this.testService.moveFile(option.answer.split('/').slice(-1)[0], `preliminar/${newProblem._id}`).subscribe({
-                next: () => {},
-                error: (err) => { console.log(err);}
-              });
-              option.answer = GlobalConstants.concatenatePath(option.answer, `/preliminar/${newProblem._id}/`);
+              this.testService.moveFile(`preliminar/${option.answer.split('/').slice(-1)[0]}`, `preliminar/${newProblem._id}`).subscribe();
+              option.answer = GlobalConstants.concatenatePath(option.answer, `/${newProblem._id}/`);
             }
           });
         }
 
         if (thereFigures || thereImagesInOptions) {
-          this.testService.updateProblem('', -1, newProblem).subscribe({
-            next: (res) => {},
-            error: (err) => {}
-          });
+          this.testService.updateProblem('', -1, newProblem).subscribe();
         }
       },
       error: (err) => {

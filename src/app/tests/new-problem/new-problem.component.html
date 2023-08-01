@@ -52,7 +52,7 @@
                 <h5 class="text-2xl font-bold text-[#26201F] tracking-tight">Opciones</h5>
                 <div class="col-span-12 h-min">
                     <div class="grid grid-cols-12 gap-8 mb-6">
-                        <app-options (onChangeOptions)="newProblem.options = $event" [options]="newProblem.options" [folder]="newProblem._id" class="col-span-10"></app-options>
+                        <app-options (onChangeOptions)="newProblem.options = $event" [options]="newProblem.options" [folder]="'preliminar/'+newProblem._id" class="col-span-10"></app-options>
                     </div>
                 </div>
             </div>

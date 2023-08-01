@@ -25,6 +25,7 @@ export class EditTestComponent implements OnInit {
   selectedLevelCode: string;
   items: MenuItem[];
   test!: Test;
+  saving = false;
 
   constructor(
     private testService: TestService,
@@ -91,6 +92,7 @@ export class EditTestComponent implements OnInit {
   }
   
   async updateTest() {
+    this.saving = true;
     this.test.test_id = `preliminar-${this.test.edition}-${this.test.levels}`;
     var isValidKatex = true;
     if(this.test.is_published) {

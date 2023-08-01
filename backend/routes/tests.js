@@ -125,21 +125,18 @@ app.delete('/delete_test/:_id', (req, res) => {
 			  .map((problemId) => ProblemModel.deleteOne({ _id: problemId }));
   
 			Promise.all(deletePromises)
-			.then(() => {
-				const deleteIds = problemsIds.filter((problemId) => !usedProblemIds.includes(problemId))
+			  .then(() => {
+				const deleteIds = problemsIds.filter((problemId) => !usedProblemIds.includes(problemId));
 				deleteIds.forEach((problemId) => {
-					imagekit.deleteFolder(`preliminar/${problemId}`, function(error, result) {
-						if(error) console.log(error);
-						else console.log(result);
-					});
-				});				  
+				  imagekit.deleteFolder(`preliminar/${problemId}`, function (error, result) {});
+				});
 				res.status(200).json({ successful: true });
-			})
-			.catch((err) => {
+			  })
+			  .catch((err) => {
 				res.status(500).json(err);
-			});
+			  });
 		  });
-	  })
+	  });
   });
-    
+  
 module.exports = app;

@@ -130,19 +130,18 @@ app.get('/list-files', (req, res) => {
   }, (err, response) => {
     if (err) {
       return res.status(500).json({ successful: false });
-    } else {
-      return res.status(200).json(response);
-    }  
+    }
+    res.status(200).json(response);
   });
 });
 
 app.post('/move-file', (req, res) => {
   imagekit.moveFile({
-    sourceFilePath: req.body.sourceFilePath || '',
-    destinationPath: req.body.destinationPath || '',
+    sourceFilePath: req.body.sourceFilePath,
+    destinationPath: req.body.destinationPath,
   }, (err, moveRes) => {
       if (err) {
-        return res.status(500).json({ successful: false });
+        return res.status(500).json({ successful: false, errors: err });
       } else {
         return res.status(200).json(moveRes);
       }

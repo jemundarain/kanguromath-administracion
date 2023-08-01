@@ -132,16 +132,16 @@ app.put('/put_problem/', (req, res) => {
 					res.status(201).json(updatedProblem);
 				})
 				.catch(err => {
-					res.status(500).json(err);
+					res.status(500).json({ successful: false, errors: err });
 				});
 			})
 			.catch(err => {
-				res.status(500).json(err);
+				res.status(500).json({ successful: false, errors: err });
 			});
 		}
 	  })
 	  .catch(err => {
-		res.status(500).json(err);
+		res.status(500).json({ successful: false, errors: err });
 	  });
 });
   
@@ -158,21 +158,17 @@ app.delete('/delete_problem', (req, res) => {
 				ProblemModel.deleteOne({ '_id': problem_id })
 				.then(() => {
 					imagekit.deleteFolder(`preliminar/${problem_id}`, function(error, result) {
-						if(error) console.log(error);
-						else console.log(result);
+						res.status(200).json({ successful: true });
 					});
-					res.status(200).json({
-						message: 'Delete successful'
-					}) 
 				})
 				.catch((err) => {
-					res.status(500).json(err);
+					res.status(500).json({ successful: false, errors: err });
 				});
 			}
 		})
 	})
 	.catch((err) => {
-		res.status(500).json(err);
+		res.status(500).json({ successful: false, errors: err });
 	})
 })
 

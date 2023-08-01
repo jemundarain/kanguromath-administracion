@@ -89,10 +89,6 @@ export class PageService {
     return this.http.put<{message: string}>(`${ this.baseUrl }/settings/change-state`, global);
   }
 
-  deleteImage(file_id: string) {
-    this.http.delete(`${ this.baseUrl }/imagekit-delete/${ file_id }`).subscribe()
-  }
-
   setCurrentDatesInLabels(dateOptions: RadioOption[]) {
     for(let i=0; i<dateOptions.length; i++) {
       switch (dateOptions[i].code) {      

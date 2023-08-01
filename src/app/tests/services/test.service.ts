@@ -88,10 +88,8 @@ export class TestService {
         });
     }
 
-    deleteFigure(ik_id: string) {
-        this.http.delete<any>(`${this.baseUrl}/admin_uploads/imagekit-delete/${ik_id}`).subscribe((data) => {
-            console.log(data);
-        });
+    deleteImage(ik_id: string) {
+        return this.http.delete<any>(`${this.baseUrl}/admin_uploads/imagekit-delete/${ik_id}`);
     }
 
     uploadTest(ik_id: string) {

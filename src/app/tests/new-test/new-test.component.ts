@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
+import { Location } from '@angular/common'
 import { MenuItem, MessageService } from 'primeng/api';
 import { FileUpload } from 'primeng/fileupload';
 import { firstValueFrom } from 'rxjs';
@@ -34,6 +35,7 @@ export class NewTestComponent implements OnInit {
   constructor(
     private testService: TestService,
     private messageService: MessageService,
+    private location: Location,
     private router: Router
   ) {}
 
@@ -366,4 +368,9 @@ export class NewTestComponent implements OnInit {
       });
     }
   }
+
+  back() {
+    this.location.back()
+  }
+
 }
