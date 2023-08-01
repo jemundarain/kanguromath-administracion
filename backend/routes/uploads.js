@@ -107,8 +107,10 @@ app.post('/upload_option_figure/', (req, res) => {
 
 app.delete('/imagekit-delete/:ik_id', (req, res) => {
 	imagekit.deleteFile(req.params.ik_id, function(error, result) {
-		if(error) console.log(error);
-		else console.log(result);
+		if(error){
+      res.status(500).json({ successful: false, errors: err });
+    };
+    res.status(200).json({ successful: true });
 	});
 })
 

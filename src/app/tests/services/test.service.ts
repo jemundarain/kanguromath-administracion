@@ -4,8 +4,6 @@ import { HttpClient } from '@angular/common/http';
 import { Test } from '../models/test-model';
 import { Problem } from '../models/problem-model';
 import { environment } from 'src/environments/environment';
-import { Figure } from '../models/figure-model';
-import { Option } from '../../shared/option-model';
 
 @Injectable({providedIn:'root'})
 export class TestService {
@@ -90,12 +88,6 @@ export class TestService {
 
     deleteImage(ik_id: string) {
         return this.http.delete<any>(`${this.baseUrl}/admin_uploads/imagekit-delete/${ik_id}`);
-    }
-
-    uploadTest(ik_id: string) {
-        this.http.delete<any>(`${this.baseUrl}/admin_uploads/upload-test/${ik_id}`).subscribe((data) => {
-            console.log(data);
-        });
     }
 
     createFolder(folderName: string, parentFolderPath: string) {
