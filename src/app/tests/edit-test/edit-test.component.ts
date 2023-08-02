@@ -116,6 +116,9 @@ export class EditTestComponent implements OnInit {
               this.messageService.add({severity:'error', summary: 'Exitoso', detail: 'La prueba no fue editada 🙁'});
             }
           });
+        },
+        reject: () => {
+          this.saving = false;
         }
       });
     }
