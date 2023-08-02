@@ -21,6 +21,7 @@
         </p-dropdown>
         <h5 class="text-xl my-auto font-semibold text-slate-600 tracking-tight ml-5">Publicada </h5>
         <p-inputSwitch [(ngModel)]="test.is_published" class="mt-2 mr-8" name="is_published"></p-inputSwitch>
+        <app-progress-spinner [condition]="saving"></app-progress-spinner>
         <button pButton pRipple
                 *ngIf="!saving"
                 [disabled]="disabledEditTestSubmit()"

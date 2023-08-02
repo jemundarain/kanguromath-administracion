@@ -119,10 +119,7 @@ export class EditProblemComponent implements OnInit {
     if (thereFigures) {
       this.problem.figures.forEach((figure) => {
         if (!figure.url.includes("preliminar")) {
-          this.testService.moveFile(figure.url.split('/').slice(-1)[0], `preliminar/${this.problem._id}`).subscribe({
-            next: () => {},
-            error: (err) => { console.log(err); }
-          });
+          this.testService.moveFile(figure.url.split('/').slice(-1)[0], `preliminar/${this.problem._id}`).subscribe();
           figure.url = GlobalConstants.concatenatePath(figure.url, `/preliminar/${this.problem._id}/`);
         }
       });
@@ -131,10 +128,7 @@ export class EditProblemComponent implements OnInit {
     if (thereImagesInOptions) {
       this.problem.options.forEach((option) => {
         if (GlobalConstants.isLink(option.answer) && !option.answer.includes("preliminar")) {
-          this.testService.moveFile(option.answer.split('/').slice(-1)[0], `preliminar/${this.problem._id}`).subscribe({
-            next: () => {},
-            error: (err) => { console.log(err); }
-          });
+          this.testService.moveFile(option.answer.split('/').slice(-1)[0], `preliminar/${this.problem._id}`).subscribe();
           option.answer = GlobalConstants.concatenatePath(option.answer, `/preliminar/${this.problem._id}/`);
         }
       });

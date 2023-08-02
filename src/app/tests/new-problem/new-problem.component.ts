@@ -77,7 +77,6 @@ export class NewProblemComponent implements OnInit {
     } else {
       return new Observable((observer) => {
         if(!this.toSave) {
-          console.log('NO SE EJECUTA TO SAVE')
           this.confirmationService.confirm({
             header: "Confirmación",
             message: '¿Está seguro que desea salir sin guardar los cambios?',
