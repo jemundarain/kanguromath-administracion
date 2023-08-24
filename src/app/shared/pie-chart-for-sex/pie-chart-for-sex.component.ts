@@ -28,7 +28,7 @@ export class PieChartForSexComponent implements OnInit {
         labels: GlobalConstants.getDistributionLabels(this.distributionBySex, GlobalConstants.SEXS),
         datasets: [{
           data: GlobalConstants.convertDistributionToArray(this.distributionBySex),
-          backgroundColor: ["#D93661", "#0777BF"]
+          backgroundColor: ["#dc2626", "#0777BF"]
         }]
       };
       this.onLoadComplete.emit(true);

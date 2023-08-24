@@ -81,17 +81,17 @@ export class TestService {
     }
     
     authenticationImageKitIO() {
-        this.http.get<any>(`${this.baseUrl}/admin_uploads/imagekit-auth`).subscribe((data) => {
+        this.http.get<any>(`${this.baseUrl}/admin_uploads/imagekit_auth`).subscribe((data) => {
             console.log(data);
         });
     }
 
     deleteImage(ik_id: string) {
-        return this.http.delete<any>(`${this.baseUrl}/admin_uploads/imagekit-delete/${ik_id}`);
+        return this.http.delete<any>(`${this.baseUrl}/admin_uploads/imagekit_delete/${ik_id}`);
     }
 
     createFolder(folderName: string, parentFolderPath: string) {
-        return this.http.get<any>(`${this.baseUrl}/admin_uploads/create-folder?folder-name=${folderName}&parent-folder-path=${parentFolderPath}`);
+        return this.http.get<any>(`${this.baseUrl}/admin_uploads/create_folder?folder-name=${folderName}&parent-folder-path=${parentFolderPath}`);
     }
 
     moveFile(sourceFilePath: string, destinationPath: string) {
@@ -99,7 +99,7 @@ export class TestService {
     }
 
     getListFiles(path: string) {
-        return this.http.get<any>(`${this.baseUrl}/admin_uploads/list-files?path=${path}`);
+        return this.http.get<any>(`${this.baseUrl}/admin_uploads/list_files?path=${path}`);
     }
 
     deleteFolder(folderName: string) {

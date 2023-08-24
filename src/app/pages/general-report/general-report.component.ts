@@ -110,8 +110,8 @@ export class GeneralReportComponent implements OnInit {
             label: 'Usuarios',
             data: data,
             fill: true,
-            backgroundColor: '#f59e0b',
-            borderColor: '#f59e0b',
+            backgroundColor: '#525fe1',
+            borderColor: '#525fe1',
             tension: 0.1
           }]
         }

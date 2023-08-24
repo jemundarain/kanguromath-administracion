@@ -29,7 +29,7 @@ export class PieChartGeometryComponent implements OnChanges {
           labels: GlobalConstants.getDistributionLabels(this.distributionByPerformance, GlobalConstants.PERFORMANCE_OPTIONS),
           datasets: [{
             data: GlobalConstants.convertDistributionToArray(this.distributionByPerformance),
-            backgroundColor: ["#44896A", "#D93661"]
+            backgroundColor: ["#44896A", "#dc2626"]
           }]
         };
         this.onLoadComplete.emit(true);

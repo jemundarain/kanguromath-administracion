@@ -28,9 +28,18 @@
     font-display: swap;
 }
 
+.my-gradient {
+    background: linear-gradient(180deg, #ffedd5, #f86f03);
+}
+
+button {
+    transition: background-color 0.22s !important;
+}
+
 p-slidemenu {
     padding-left: 0px !important;
 }
+
 .p-slidemenu {
     width: 13.5rem !important;
     padding-left: 0px !important;
@@ -51,11 +60,11 @@ p-slidemenu {
 
 .pi {
     font-size: 1.15rem !important;
-    @apply text-slate-600;
+    color: rgb(71 85 105) !important;
 }
 
 .p-slidemenu-content span:before {
-    @apply text-slate-600;
+    color: rgb(71 85 105) !important;
 }
 
 .p-slidemenu .p-menuitem-link .p-menuitem-icon {
@@ -72,18 +81,18 @@ p-slidemenu {
 }
 
 .btn, .p-fileupload-choose.p-button {
-    background-color: #f59e0b !important;
+    background-color: #525fe1 !important;
     border-width: 0px !important;
     font-size: 15px !important;
-    @apply shadow-md;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
 }
 
 .text-orange {
-    color: #f59e0b !important;
+    color: #525fe1 !important;
 }
 
 .text-orange:hover {
-    color: #d97706 !important;
+    color: #ffa41b !important;
 }
 
 .btn {
@@ -107,7 +116,19 @@ input[type="file"] {
 }
 
 ik-uploaddiv:hover, .fakefile span:hover {
-    background-color:#d97706 !important;
+    background-color:#ffa41b !important;
+}
+
+.p-toast-message-icon.pi.pi-times-circle {
+    color: #dc2626 !important;
+}
+
+.p-toast-message-icon.pi.pi-check {
+    color: #16a34a !important;
+}
+
+.pi.pi-chevron-up.p-scrolltop-icon {
+    color: #fff !important;
 }
 
 div.fileinputs {
@@ -134,7 +155,7 @@ input[type=file] {
 }
 
 .p-inputswitch.p-inputswitch-checked .p-inputswitch-slider, .p-inputswitch.p-inputswitch-checked:not(.p-disabled):hover .p-inputswitch-slider, [type="checkbox"]:focus {
-    @apply shadow-md;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
 }
 
 .p-inputnumber input {
@@ -175,11 +196,11 @@ app-figures-table tbody.p-element > tr > td:nth-child(6) {
 }
 
 .p-image-toolbar .pi::before {
-    color: #f59e0b;
+    color: #525fe1;
 }
 
 .p-image-toolbar button:hover .pi::before {
-    color:#d97706 !important;
+    color:#525fe1 !important;
 }
 
 p-inputnumber [name="edition"] {
@@ -207,8 +228,8 @@ p-inputnumber [name="edition"] {
     height: 37px !important;
 }
 
-[name="dateRange"] .btn:hover, .p-dropdown-trigger:hover {
-    background-color: #d97706 !important;
+[name="dateRange"] .btn:hover, p-dropdown:hover .btn.p-dropdown.p-component, p-dropdown:hover .btn.p-dropdown.p-component .p-dropdown-trigger  {
+    background-color: #ffa41b !important;
 }
 
 #tests-table td:not(:nth-child(1)) {
@@ -232,7 +253,7 @@ table a .pi:before  {
 }
 
 table a:hover .pi:before {
-    color: #f59e0b;
+    color: #525fe1;
 }
 
 .pi.disabled {
@@ -249,7 +270,7 @@ a:hover .pi.disabled::before {
 }
 
 a:hover .pi.pi-file-edit:before, a:hover .pi.pi-trash:before {
-    color: #f59e0b !important;
+    color: #525fe1 !important;
 }
 
 .pi.pi-trash {
@@ -269,6 +290,10 @@ a:hover .pi.pi-file-edit:before, a:hover .pi.pi-trash:before {
     margin-right: 5px;
     margin-top: auto;
     margin-bottom: auto;
+}
+
+p-scrolltop button:hover {
+    background-color: #ffa41b !important;
 }
 
 [name="dateOption"] .p-overlay, .p-datepicker.p-component {
@@ -293,7 +318,7 @@ p-toast div {
 }
 
 .p-confirm-dialog-reject .pi::before {
-    color: #f59e0b !important;
+    color: #525fe1 !important;
 }
 
 .p-confirm-dialog-reject {
@@ -306,16 +331,16 @@ p-toast div {
 }
 
 .p-confirm-dialog-reject span {
-    color: #f59e0b !important;
+    color: #525fe1 !important;
 }
 
 .pi-caret-left::before, table .pi {
     color: #26201F !important;
 }
 
-p-calendar .p-button:enabled:hover, .p-button:enabled:hover, .edit-btn:hover, .p-fileupload-choose.p-button:hover, .p-inputnumber-button:hover {
-    background: #d97706 !important;
-    border: #d97706 !important;
+p-calendar .p-button:enabled:hover, .p-button:enabled:hover, .edit-btn:hover, .p-fileupload-choose.p-button:hover, .p-inputnumber-button:hover, .p-dropdown-trigger:hover, .p-calendar:hover #range, .p-calendar:hover .p-datepicker-trigger {
+    background: #ffa41b !important;
+    border: #ffa41b !important;
 }
 
 #range {
@@ -356,7 +381,7 @@ p-calendar .p-button:enabled:hover, .p-button:enabled:hover, .edit-btn:hover, .p
         stroke: #F6A823;
     }
     90% {
-        stroke: #f59e0b;
+        stroke: #525fe1;
     }
 }
 
@@ -376,11 +401,11 @@ p-calendar .p-button:enabled:hover, .p-button:enabled:hover, .edit-btn:hover, .p
 }
 
 .p-dropdown-trigger {
-    background-color: #f59e0b !important;
+    background-color: #525fe1 !important;
 }
 
 .p-accordion-tab-active .pi-chevron-down::before {
-    color: #f59e0b !important;
+    color: #525fe1 !important;
 }
 
 .p-image-preview-container:hover > .p-image-preview-indicator {
@@ -388,7 +413,7 @@ p-calendar .p-button:enabled:hover, .p-button:enabled:hover, .edit-btn:hover, .p
 }
 
 .p-image-preview-icon.pi:before {
-    color: #f59e0b !important;
+    color: #525fe1 !important;
 }
 
 header button {
@@ -427,7 +452,7 @@ header button {
 }
 
 .p-tabview-nav .p-highlight .p-tabview-nav-link {
-    background-color: #f59e0b !important;
+    background-color: #525fe1 !important;
 }
 
 .p-tabview-nav .p-tabview-nav-link {

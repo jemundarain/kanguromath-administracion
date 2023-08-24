@@ -102,7 +102,7 @@ export class PerformanceReportComponent implements OnInit {
               label: 'Respuestas Incorrectas',
               data: data[1],
               fill: false,
-              borderColor: "#D93661",
+              borderColor: "#dc2626",
               tension: 0.1
             }
           ]

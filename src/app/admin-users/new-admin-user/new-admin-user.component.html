@@ -7,13 +7,13 @@
         <div class="flex flex-row mb-6">
             <label class="flex-none mr-3 my-auto text-[21px] font-normal text-[#26201F] tracking-tight w-fit">Nombre</label>
             <input pInputText id="username" [class]="validateName()? '':'ng-invalid ng-dirty'" aria-describedby="username-help" [(ngModel)]="adminUser.name" [required]="true" (input)="generateUsername()" name="name"/>
-            <div *ngIf="validateName()" class="text-red-500 text-sm ml-3 mt-2">Por favor, ingresa el nombre</div>
+            <div *ngIf="validateName()" class="text-red-600 text-sm ml-3 mt-2">Por favor, ingresa el nombre</div>
         </div>
 
         <div class="flex flex-row mb-6">
             <label class="flex-none mr-3 my-auto text-[21px] font-normal text-[#26201F] tracking-tight">Apellido</label>
             <input pInputText id="username" [class]="validateLastName()? '':'ng-invalid ng-dirty'" aria-describedby="username-help" [(ngModel)]="adminUser.last_name" [required]="true" (input)="generateUsername()" name="last_name" />
-            <div *ngIf="validateLastName()" class="text-red-500 text-sm ml-3 mt-2">Por favor, ingresa el apellido</div>
+            <div *ngIf="validateLastName()" class="text-red-600 text-sm ml-3 mt-2">Por favor, ingresa el apellido</div>
         </div>
         
         <div class="flex flex-row mb-6">
@@ -37,7 +37,7 @@
         <div class="flex flex-row mb-6">
             <label class="flex-none mr-3 my-auto text-[21px] font-normal text-[#26201F] tracking-tight">Email</label>
             <input pInputText id="email" [class]="validateEmail()? 'ng-invalid ng-dirty':''" aria-describedby="username-help" [(ngModel)]="adminUser.email" [required]="true" name="email" />
-            <div *ngIf="validateEmail()" class="text-red-500 text-sm ml-3 mt-2">Por favor, ingresa un email válido</div>
+            <div *ngIf="validateEmail()" class="text-red-600 text-sm ml-3 mt-2">Por favor, ingresa un email válido</div>
         </div>
 
         <div class="flex flex-row mb-6">
@@ -57,7 +57,7 @@
         <div class="flex flex-row mb-6">
             <label class="flex-none mr-3 my-auto text-[21px] font-normal text-[#26201F] tracking-tight">Contraseña</label>
             <p-password [(ngModel)]="newPassword" [toggleMask]="true" [feedback]="false" name="password"></p-password>
-            <div *ngIf="validatePassword()" class="text-red-500 text-sm ml-3 mt-2">Tu contraseña debe tener al menos 8 caracteres</div>
+            <div *ngIf="validatePassword()" class="text-red-600 text-sm ml-3 mt-2">Tu contraseña debe tener al menos 8 caracteres</div>
         </div>
         <button pButton type="button" class="btn float-left" label="Volver" icon="pi pi-arrow-left" iconPos="left" (click)="back()"></button>
         <button pButton pRipple label="Guardar" class="btn w-32 p-3 float-right" type="submit" [disabled]="validateNewAdminUserForm()"></button>
@@ -70,7 +70,7 @@
             (startUpload)="uploading = $event"
             (endUpload)="addAvatar($event)"
             [fileName]="getRandomAvatarName(adminUser.username)"
-            folder="usuarios"
+            folder="usuarios_administradores"
             typeNameFile="foto">
         </app-upload-file>         
     </div>

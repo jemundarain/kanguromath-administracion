@@ -11,10 +11,10 @@ import { Test } from '../models/test-model';
   templateUrl: './list-tests.component.html',
   styles: [`
     .pi.pi-check {
-      color: green !important;
+      color: #16a34a !important;
     }
     .pi.pi-times {
-      color: red !important;
+      color: #dc2626 !important;
     }
   `],
   providers: [ConfirmationService, MessageService]

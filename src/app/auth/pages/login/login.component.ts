@@ -30,7 +30,7 @@ export class LoginComponent {
         this.router.navigate(['/acm/informe-general']);
       },
       error: () => {
-        this.messageService.add({severity:'error', summary: 'Rechazado', detail: 'Email/usuario o contraseña incorrectos', life: 3250});
+        this.messageService.add({severity:'error', summary: 'Rechazado', detail: 'Usuario/Email o contraseña incorrectos', life: 3250});
         this.loading = false;
       }
     });

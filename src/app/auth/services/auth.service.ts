@@ -62,12 +62,12 @@ export class AuthService{
     return this.http.get<any>(`${this.baseUrl}/auth/send_recovery_email/${id}`);
   }
 
-  validateRecoveryToken(token: string) {
-    return this.http.get(`${this.baseUrl}/auth/validate_recovery_token/${token}`);
+  validateRecoveryToken(app: boolean, token: string) {
+    return this.http.get(`${this.baseUrl}/auth/validate_recovery_token/${app}/${token}`);
   }
 
-  setNewPassword(_id: string, password: string) {
-    return this.http.put(`${this.baseUrl}/auth/set_new_password`, {_id, password});
+  setNewPassword(app: boolean, _id: string, password: string) {
+    return this.http.put(`${this.baseUrl}/auth/set_new_password`, {app, _id, password});
   }
 
 }

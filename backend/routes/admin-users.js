@@ -53,10 +53,8 @@ app.post('/post_admin_user', (req, res) => {
 	  .catch((err) => {
 		res.status(400).json(err);
 	  });
-  });
+});
   
-  
-
 app.put('/put_admin_user', async (req, res) => {
 	try {
 		const body = req.body;
@@ -82,9 +80,8 @@ app.put('/put_admin_user', async (req, res) => {
 	} catch (err) {
 	  res.status(500).json(err);
 	}
-  });
+});
   
-
 app.delete('/delete_admin_user/:id', (req, res) => {
     AdminUserModel.findByIdAndRemove(req.params.id)
     .then((adminUser) => {

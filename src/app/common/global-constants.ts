@@ -211,7 +211,7 @@ export class GlobalConstants {
             return {
                 res: false,
                 err: `
-                    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                    <div class="bg-red-600 border px-4 py-3 rounded-lg relative" role="alert">
                         <strong class="font-bold">Comando inválido: ${match[1]}</strong>
                         <span class="block sm:inline">Para más información sobre los comandos soportados, visita la <a style="text-decoration:underline;" href="https://katex.org/docs/supported.html">Documentación de KaTeX<a/></span>
                     </div>
@@ -222,7 +222,7 @@ export class GlobalConstants {
             return {
                 res: false,
                 err: `
-                    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                    <div class="bg-red-600 border px-4 py-3 rounded-lg relative" role="alert">
                         <strong class="font-bold">Error desconocido en la rutina de diagramación</strong>
                         <span class="block sm:inline">Para más información sobre los comandos soportados, visita la <a style="text-decoration:underline;" href="https://katex.org/docs/supported.html">Documentación de KaTeX<a/></span>
                     </div>

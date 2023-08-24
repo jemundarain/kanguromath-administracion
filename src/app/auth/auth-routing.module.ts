@@ -19,7 +19,7 @@ const routes: Routes = [
         component: RecoverPasswordComponent
       },
       {
-        path: 'reset-contrasena/:token',
+        path: 'reset-contrasena/:app/:token',
         component: ResetPasswordComponent
       },
       {

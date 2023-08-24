@@ -25,7 +25,7 @@ var imagekit = new ImageKit({
   urlEndpoint : 'https://ik.imagekit.io/661ijdspv/'
 });
 
-app.get('/imagekit-auth', (req, res) => {
+app.get('/imagekit_auth', (req, res) => {
 	res.status(200).json(imagekit.getAuthenticationParameters());
 })
 
@@ -105,7 +105,7 @@ app.post('/upload_option_figure/', (req, res) => {
   });
 });
 
-app.delete('/imagekit-delete/:ik_id', (req, res) => {
+app.delete('/imagekit_delete/:ik_id', (req, res) => {
 	imagekit.deleteFile(req.params.ik_id, function(error, result) {
 		if(error){
       res.status(500).json({ successful: false, errors: err });
@@ -114,7 +114,7 @@ app.delete('/imagekit-delete/:ik_id', (req, res) => {
 	});
 })
 
-app.get('/create-folder', (req, res) => {
+app.get('/create_folder', (req, res) => {
   const folderName = req.query['folder-name'] || '';
   const parentFolderPath = req.query['parent-folder-path'] || '';
   imagekit.createFolder({ folderName, parentFolderPath }, (err, result) => {
@@ -126,7 +126,7 @@ app.get('/create-folder', (req, res) => {
   });
 });
 
-app.get('/list-files', (req, res) => {
+app.get('/list_files', (req, res) => {
   imagekit.listFiles({
     path: req.query['path']
   }, (err, response) => {
@@ -137,7 +137,7 @@ app.get('/list-files', (req, res) => {
   });
 });
 
-app.post('/move-file', (req, res) => {
+app.post('/move_file', (req, res) => {
   imagekit.moveFile({
     sourceFilePath: req.body.sourceFilePath,
     destinationPath: req.body.destinationPath,
