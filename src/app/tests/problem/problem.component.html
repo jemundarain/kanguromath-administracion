@@ -6,7 +6,7 @@
     <div class="flex flex-row items-center" [class]="test_id? 'mb-1':''" *ngFor="let option of problem.options">
         <div class="circleOption">{{option.letter}}</div>
         <ng-katex-html *ngIf="!isLink(option.answer); else imageAnswer" class="text-[20px] font-normal text-[#26201F] tracking-tight" [html]="option.answer"></ng-katex-html>
-        <ng-template #imageAnswer><p-image class="option-img" [src]="option.answer" [preview]="true" [alt]="option.answer" width="auto"></p-image>
+        <ng-template #imageAnswer><p-image class="option-img" [src]="option.answer" [alt]="option.answer" width="auto"></p-image>
         </ng-template>
     </div>
     <div *ngIf="test_id" class="flex flex-row justify-between flex-wrap mt-3 mb-6">

@@ -128,6 +128,11 @@ export class NewTestComponent implements OnInit {
     return true;
   }
 
+  getRawSolutions(lineSolutions: string) {
+    const upperLetters = lineSolutions.match(/[ABCDE]+/g);
+    return upperLetters ? upperLetters.join('') : '';
+  }
+
   async onTestUpload(event: any) {
     try {
       const fileList: FileList = event.files;
@@ -146,7 +151,7 @@ export class NewTestComponent implements OnInit {
                 if(this.validatePaths(testText, zip.files)) {
                   const resNewTest = await firstValueFrom(this.testService.addNewTest(this.test));
                   if(resNewTest.successful) {
-                    const solutions_regex = /[ABCDE]{30}/g;
+                    const solutions_regex = /%\s*c\..*/g;
                     const paths_regex = /{([^{}]*\.(?:png|jpe?g))}/g;
                     const options_regex_resp = /\\resp\{((?:[^{}]|(?:\{[^{}]*\}))*?)\}\{((?:[^{}]|(?:\{[^{}]*\}))*?)\}\{((?:[^{}]|(?:\{[^{}]*\}))*?)\}\{((?:[^{}]|(?:\{[^{}]*\}))*?)\}\{((?:[^{}]|(?:\{[^{}]*\}))*?)\}/g;
                     const options_regex_medskip = /\\[A-E]\s([^\\]+)/g;
@@ -160,8 +165,9 @@ export class NewTestComponent implements OnInit {
 
                     const rawProblems = this.extractRawProblems(testTextClean);
                     const matchSolutions = solutions_regex.exec(testText);
+
                     if(matchSolutions) {
-                      rawSolutions = matchSolutions[0].split('');
+                      rawSolutions = this.getRawSolutions(matchSolutions[0]).split('');
                     }
 
                     const totalIterations = rawProblems?.length || 0; 
@@ -291,13 +297,13 @@ export class NewTestComponent implements OnInit {
 
                         if (statement && options) {
                           //Llamar a la API para asignar la categoría
-                          var categorias = ["algebra", "geometria", "combinatoria", "teoria-numeros", "sin-categoria"];
+                          // var categorias = ["algebra", "geometria", "combinatoria", "teoria-numeros", "sin-categoria"];
                           var problem = {
                             _id: '',
                             statement: statement,
                             solution: solution,
-                            // category: 'algebra',
-                            category: categorias[Math.floor(Math.random() * categorias.length)],
+                            category: 'sin-categoria',
+                            // category: categorias[Math.floor(Math.random() * categorias.length)],
                             options: options,
                             figures: figures
                           }

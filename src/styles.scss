@@ -292,6 +292,11 @@ a:hover .pi.pi-file-edit:before, a:hover .pi.pi-trash:before {
     margin-bottom: auto;
 }
 
+span img.intermediate-img {
+    display: inline !important;
+    max-width: 420px !important;
+}
+
 p-scrolltop button:hover {
     background-color: #ffa41b !important;
 }
