@@ -16,7 +16,6 @@ import { GlobalConstants } from 'src/app/common/global-constants';
     .option-img {
       max-width: 100px !important;
     }
-
   `],
   providers: [ConfirmationService, MessageService]
 })
@@ -59,8 +58,8 @@ export class ProblemComponent implements OnChanges, OnInit {
     this.decode_statement = this.problem.statement;
     let n=0;
     for(let i=0; i<this.problem.statement.length; i++) {
-      if(this.problem.statement[i] == '{' && this.problem.statement[i+1] == '*' && (this.problem.statement[i+4] == '}' || this.problem.statement[i+5] == '}')) {
-        this.decode_statement = this.decode_statement.replace(`{*${n+1}*}`, `<img src="${this.problem.figures[n].url}" style="display: inline;">`)
+      if(this.problem.statement[i] === '{' && this.problem.statement[i+1] === '*' && this.problem.statement[i+3] === '*' && this.problem.statement[i+4] == '}') {
+        this.decode_statement = this.decode_statement.replace(`{*${this.problem.statement[i+2]}*}`, `<img src="${this.problem.figures[parseInt(this.problem.statement[i+2])-1].url}" class="intermediate-img">`)
         n++;
       }
     }

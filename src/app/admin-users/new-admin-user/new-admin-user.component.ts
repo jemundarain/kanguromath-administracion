@@ -158,20 +158,11 @@ export class NewAdminUserComponent implements OnInit {
         next: (res) => {
           for(const avatar of res) {
             if((avatar.name.split('-')[0] === this.adminUser.username) && (this.auxAvatar.url !== avatar.url)) {
-              this.testService.deleteImage(this.adminUser.avatar.ik_id).subscribe({
-                next: (res) => {
-                  observer.next(true);
-                  observer.complete();
-                },
-                error: (err) => {
-                  observer.next(false);
-                  observer.complete();
-                } 
-              });
+              this.testService.deleteImage(this.adminUser.avatar.ik_id).subscribe();
             }
-            observer.next(true);
-            observer.complete();
           }
+          observer.next(true);
+          observer.complete();
         },
         error: (err) => { }
       });

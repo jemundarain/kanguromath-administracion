@@ -26,6 +26,7 @@ export class EditTestComponent implements OnInit {
   items: MenuItem[];
   test!: Test;
   saving = false;
+  oldPublish!: boolean;
 
   constructor(
     private testService: TestService,
@@ -41,24 +42,17 @@ export class EditTestComponent implements OnInit {
       .pipe( switchMap( ({ id }) => this.testService.getTestById(id)))
       .subscribe( test => {
         this.test = test;
+        this.oldPublish = test.is_published;
         this.items = [
           {label: 'Pruebas'},
           {label: 'Editar Prueba'},
           {label: `Preliminar ${this.test.edition} ${this.test.levels}`}
         ];
+        this.testService.getLevelsByEdition(this.test?.edition)
+          .subscribe(levels => {
+            this.levels = GlobalConstants.filterLevels(levels.filter(level => level !== this.test.levels));
+          });
       });
-
-    this.editTestForm.form.valueChanges.subscribe((data) => {
-      this.testService.getLevelsByEdition(data.edition)
-        .subscribe(levels => {
-          this.levels = GlobalConstants.filterLevels(levels);
-          GlobalConstants.LEVELS.filter(level => {
-            if(this.test.levels.includes(level.code)) {
-              this.levels.push(level);
-            }
-          })
-        });
-    });
   }
 
   async testIsValidKatex() {
@@ -95,7 +89,7 @@ export class EditTestComponent implements OnInit {
     this.saving = true;
     this.test.test_id = `preliminar-${this.test.edition}-${this.test.levels}`;
     var isValidKatex = true;
-    if(this.test.is_published) {
+    if(!this.oldPublish && this.test.is_published) {
       isValidKatex = await this.testIsValidKatex();
     }
     if(this.test.is_published && ((this.test.problems.length < 30) || !isValidKatex)) {

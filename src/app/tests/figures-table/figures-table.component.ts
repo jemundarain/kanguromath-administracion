@@ -27,11 +27,14 @@ export class FiguresTableComponent implements OnInit {
   }
 
   addFigure(newFigure: any) {
+    console.log("🚀 ~ file: figures-table.component.ts:30 ~ FiguresTableComponent ~ addFigure ~ newFigure:", newFigure)
     GlobalConstants.generateRandomSuffix();
     if(this.figures[newFigure.num_s-1].ik_id) {
       this.testService.deleteImage(this.figures[newFigure.num_s-1].ik_id).subscribe();
     }
+    let oldPosition = this.figures[newFigure.num_s-1].position;
     this.figures[newFigure.num_s-1] = newFigure;
+    this.figures[newFigure.num_s-1].position = oldPosition;
     this.uploadings[newFigure.num_s-1] = false;
   }
 

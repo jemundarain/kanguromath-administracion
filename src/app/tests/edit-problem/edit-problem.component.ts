@@ -96,7 +96,11 @@ export class EditProblemComponent implements OnInit {
   }
 
   addFigure() {
-    this.problem.figures.push(new Figure('', '' , this.problem.figures.length + 1, '', 'intermedia'));
+    if(this.problem.figures.length === 0){
+      this.problem.figures.push(new Figure('', '' , this.problem.figures.length + 1, '', 'derecha'));
+    } else {
+      this.problem.figures.push(new Figure('', '' , this.problem.figures.length + 1, '', 'intermedia'));
+    }
   }
 
   getUrlOption(letter: string) {
