@@ -101,7 +101,6 @@ app.get('/send_recovery_email/:id', async (req, res, next) => {
         return res.status(400).json({ successful: false, error: err });
       });
   } catch (err) {
-    console.log("🚀 ~ file: auth.js:109 ~ app.get ~ err:", err)
     return res.status(400).json({ successful: false, error: err });
   }
 });
@@ -144,7 +143,6 @@ app.get('/validate_recovery_token/:app/:token', async (req, res) => {
 
 app.put('/set_new_password', async (req, res) => {
   const { app, _id, password } = req.body;
-  console.log("🚀 ~ file: auth.js:152 ~ app.put ~ req.body:", req.body)
 
   try {
     if(app) {
@@ -169,7 +167,6 @@ app.put('/set_new_password', async (req, res) => {
     }
     return res.status(200).json({ successful: true });
   } catch (err) {
-    console.log("🚀 ~ file: auth.js:175 ~ app.put ~ err:", err)
     return res.status(500).json({ successful: false, error: err });
   }
 });

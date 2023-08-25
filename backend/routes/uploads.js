@@ -106,13 +106,15 @@ app.post('/upload_option_figure/', (req, res) => {
 });
 
 app.delete('/imagekit_delete/:ik_id', (req, res) => {
-	imagekit.deleteFile(req.params.ik_id, function(error, result) {
-		if(error){
+  imagekit.deleteFile(req.params.ik_id, function(err, result) {
+    if (err) {
       res.status(500).json({ successful: false, errors: err });
-    };
-    res.status(200).json({ successful: true });
-	});
+    } else {
+      res.status(200).json({ successful: true });
+    }
+  });
 })
+
 
 app.get('/create_folder', (req, res) => {
   const folderName = req.query['folder-name'] || '';
@@ -132,8 +134,9 @@ app.get('/list_files', (req, res) => {
   }, (err, response) => {
     if (err) {
       return res.status(500).json({ successful: false });
+    } else {
+      res.status(200).json(response);
     }
-    res.status(200).json(response);
   });
 });
 
