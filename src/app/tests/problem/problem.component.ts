@@ -16,6 +16,9 @@ import { GlobalConstants } from 'src/app/common/global-constants';
     .option-img {
       max-width: 100px !important;
     }
+    .pi-file-edit, .pi-trash {
+      color: #525fE1 !important;
+    }
   `],
   providers: [ConfirmationService, MessageService]
 })

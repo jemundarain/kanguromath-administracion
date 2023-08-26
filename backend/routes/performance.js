@@ -141,7 +141,7 @@ app.get('/combinatoria', async (req, res, next) => {
 	}
 });
 
-app.get('/teoria-numeros', async (req, res, next) => {
+app.get('/teoria_numeros', async (req, res, next) => {
 	try {
 	  if (req.query.start && req.query.end) {
 		const start = new Date(req.query.start);

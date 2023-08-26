@@ -1,32 +1,31 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-
-import { environment } from 'src/environments/environment';
 import { AdminUser } from '../models/adminUser-model';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AdminUserService {
+
+  private baseUrl: string = environment.baseUrl;
   
   constructor(private http: HttpClient){}
   
-  private baseUrl: string = environment.baseUrl;
-  
   getAdminUsers() {
-    return this.http.get<AdminUser[]>(`${ this.baseUrl }/admin_admin_users/list_admin_users`);
+    return this.http.get<AdminUser[]>(`${this.baseUrl}/admin_admin_users/list_admin_users`);
   }
   
   getAdminUserByUsername(username: string) {
-    return this.http.get<AdminUser>(`${ this.baseUrl }/admin_admin_users/get_admin_user/${username}`);
+    return this.http.get<AdminUser>(`${this.baseUrl}/admin_admin_users/get_admin_user/${username}`);
   }
 
   addNewAdminUser(adminUser: AdminUser) {
-    return this.http.post<AdminUser>(`${ this.baseUrl }/admin_admin_users/post_admin_user/`, adminUser);
+    return this.http.post<AdminUser>(`${this.baseUrl}/admin_admin_users/post_admin_user/`, adminUser);
   }
 
   updateAdminUser(adminUser: AdminUser) {
-    return this.http.put<AdminUser>(`${ this.baseUrl }/admin_admin_users/put_admin_user/`, adminUser);
+    return this.http.put<AdminUser>(`${this.baseUrl}/admin_admin_users/put_admin_user/`, adminUser);
   }
 
   deletedAdminUser(_id: string) {

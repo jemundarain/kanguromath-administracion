@@ -1,8 +1,8 @@
 var express = require('express');
 const mongoose = require('mongoose');
 const { ObjectId } = mongoose.Types;
-const bcrypt = require('bcryptjs');
 const AdminUserModel = require('../schemas/adminUser-schema');
+const bcrypt = require('bcryptjs');
 
 var app = express();
 

@@ -49,7 +49,7 @@ app.use('/admin_uploads', uploadsRoutes);
 app.use(cors())
 
 /*Settings*/
-app.get('/settings/app-state', (req, res) => {
+app.get('/settings/app_state', (req, res) => {
 	GlobalModel.findOne({})
 	.then((global) => {
 		res.status(200).json(global);
@@ -59,7 +59,7 @@ app.get('/settings/app-state', (req, res) => {
 	})
 })
 
-app.put('/settings/change-state/', (req, res) => {
+app.put('/settings/change_state/', (req, res) => {
 	var UpdateGlobal = new GlobalModel({_id: req.body._id, app_enabled: req.body.app_enabled});
 	GlobalModel.updateOne({_id: req.body._id}, UpdateGlobal)
 	.then(() => {

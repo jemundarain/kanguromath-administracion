@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-
 import { Test } from '../models/test-model';
 import { Problem } from '../models/problem-model';
 import { environment } from 'src/environments/environment';
@@ -10,38 +9,38 @@ export class TestService {
 
     private baseUrl: string = environment.baseUrl;
     
-    constructor(private http: HttpClient){}
+    constructor(private http: HttpClient) { }
     
-    getTestById(test_id: string) {
-        return this.http.get<Test>(`${ this.baseUrl }/admin_tests/get_test/${test_id}`);
+    getTestById(testId: string) {
+        return this.http.get<Test>(`${this.baseUrl}/admin_tests/get_test/${testId}`);
     }
     
     getTestsByEdition(edition: string) {
-        return this.http.get<Test[]>(`${ this.baseUrl }/admin_tests/get_tests_by_edition/${edition}`);
+        return this.http.get<Test[]>(`${this.baseUrl}/admin_tests/get_tests_by_edition/${edition}`);
     }
     
     getEditions() {
-        return this.http.get<string[]>(`${ this.baseUrl }/admin_tests/get_editions`);
+        return this.http.get<string[]>(`${this.baseUrl}/admin_tests/get_editions`);
     }
 
     getLevelsByEdition(edition: string) {
-        return this.http.get<string[]>(`${ this.baseUrl }/admin_tests/${edition}/levels`);
+        return this.http.get<string[]>(`${this.baseUrl}/admin_tests/${edition}/levels`);
     }
     
-    getProblemById(_id: string) {
-        return this.http.get<Problem>(`${ this.baseUrl }/admin_problems/get_problem/${_id}`);
+    getProblemById(problemId: string) {
+        return this.http.get<Problem>(`${this.baseUrl}/admin_problems/get_problem/${problemId}`);
     }
 
-    getProblemsByTestId(test_id: string) {
-        return this.http.get<Problem[]>(`${ this.baseUrl }/admin_problems/get_all_problems_from_test/${test_id}`);
+    getProblemsByTestId(testId: string) {
+        return this.http.get<Problem[]>(`${this.baseUrl}/admin_problems/get_all_problems_from_test/${testId}`);
     }
 
-    getTestByProblemId(problem_id: string) {
-        return this.http.get<Test[]>(`${ this.baseUrl }/admin_tests/get_test_by_problem/${problem_id}`);
+    getTestByProblemId(problemId: string) {
+        return this.http.get<Test[]>(`${this.baseUrl}/admin_tests/get_test_by_problem/${problemId}`);
     }
 
     addNewTest(test: Test) {
-        return this.http.post<{successful: boolean, test_id: string}>(`${ this.baseUrl }/admin_tests/post_test/`, test);
+        return this.http.post<{successful: boolean, test_id: string}>(`${this.baseUrl}/admin_tests/post_test/`, test);
     }
 
     updateTest(test: Test) {
@@ -60,20 +59,20 @@ export class TestService {
         return this.http.delete<{successful: boolean}>(`${this.baseUrl}/admin_tests/delete_test/${_id}`);
     }
     
-    addNewProblem(problem: Problem, test_id: string) {
-        return this.http.post<Problem>(`${this.baseUrl}/admin_problems/post_problem/${test_id}`, problem);
+    addNewProblem(problem: Problem, testId: string) {
+        return this.http.post<Problem>(`${this.baseUrl}/admin_problems/post_problem/${testId}`, problem);
     }
 
-    addExistingProblem(test_id: string, _id: string) {
-        return this.http.put<any>(`${this.baseUrl}/admin_problems/put_existing_problem`, {test_id, _id});
+    addExistingProblem(testId: string, _id: string) {
+        return this.http.put<any>(`${this.baseUrl}/admin_problems/put_existing_problem`, {testId, _id});
     }
     
-    updateProblem(test_id: string, num_s: number, problem: Problem) {
-        return this.http.put<{message: string}>(`${this.baseUrl}/admin_problems/put_problem`, {test_id, num_s, problem});
+    updateProblem(testId: string, num_s: number, problem: Problem) {
+        return this.http.put<{message: string}>(`${this.baseUrl}/admin_problems/put_problem`, {testId, num_s, problem});
     }
 
-    deleteProblem(test_id: string, _id: string) {
-        return this.http.delete<{message: string}>(`${this.baseUrl}/admin_problems/delete_problem?test_id=${test_id}&_id=${_id}`);  
+    deleteProblem(testId: string, _id: string) {
+        return this.http.delete<{message: string}>(`${this.baseUrl}/admin_problems/delete_problem?test_id=${testId}&_id=${_id}`);  
     }
     
     searchProblem(edition: string, term: string, levels: string) {
@@ -86,16 +85,16 @@ export class TestService {
         });
     }
 
-    deleteImage(ik_id: string) {
-        return this.http.delete<any>(`${this.baseUrl}/admin_uploads/imagekit_delete/${ik_id}`);
+    deleteImage(ikId: string) {
+        return this.http.delete<any>(`${this.baseUrl}/admin_uploads/imagekit_delete/${ikId}`);
     }
 
     createFolder(folderName: string, parentFolderPath: string) {
-        return this.http.get<any>(`${this.baseUrl}/admin_uploads/create_folder?folder-name=${folderName}&parent-folder-path=${parentFolderPath}`);
+        return this.http.get<any>(`${this.baseUrl}/admin_uploads/create_folder?folder_name=${folderName}&parent_folder_path=${parentFolderPath}`);
     }
 
     moveFile(sourceFilePath: string, destinationPath: string) {
-        return this.http.post<any>(`${this.baseUrl}/admin_uploads/move-file`, {sourceFilePath, destinationPath});
+        return this.http.post<any>(`${this.baseUrl}/admin_uploads/move_file`, {sourceFilePath, destinationPath});
     }
 
     getListFiles(path: string) {
@@ -105,4 +104,5 @@ export class TestService {
     deleteFolder(folderName: string) {
         return this.http.delete<any>(`${this.baseUrl}/admin_uploads/delete_folder/${encodeURIComponent(folderName)}`);
     }
+
 }

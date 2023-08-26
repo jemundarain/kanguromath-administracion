@@ -1,11 +1,11 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Auth } from '../auth-model';
-import { environment } from '../../../environments/environment';
-import { map } from 'rxjs/operators';
-import jwt_decode from 'jwt-decode';
 import { Router } from "@angular/router";
-import { BehaviorSubject, Observable } from "rxjs";
+import { Auth } from "../auth-model";
+import { environment } from "src/environments/environment";
+import { map } from 'rxjs/operators';
+import { BehaviorSubject } from "rxjs";
+import jwt_decode from 'jwt-decode';
 
 @Injectable({providedIn:"root"})
 export class AuthService{
@@ -13,7 +13,7 @@ export class AuthService{
   private baseUrl: string = environment.baseUrl;
   private loggedIn = new BehaviorSubject<boolean>(false);
 
-  constructor(private http: HttpClient, private router: Router){}
+  constructor(private http: HttpClient, private router: Router) { }
   
   setLoggedIn(value: boolean) {
     this.loggedIn.next(value);

@@ -117,8 +117,8 @@ app.delete('/imagekit_delete/:ik_id', (req, res) => {
 
 
 app.get('/create_folder', (req, res) => {
-  const folderName = req.query['folder-name'] || '';
-  const parentFolderPath = req.query['parent-folder-path'] || '';
+  const folderName = req.query['folder_name'] || '';
+  const parentFolderPath = req.query['parent_folder_path'] || '';
   imagekit.createFolder({ folderName, parentFolderPath }, (err, result) => {
     if (err) {
       res.status(500).json({ successful: false });

@@ -1,10 +1,10 @@
 var express = require('express');
 const AdminUserSchema = require('../schemas/adminUser-schema');
 const UserSchema = require('../schemas/user-schema');
+var SEED = require('../config').SEED;
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const mailjet = require("node-mailjet");
-var SEED = require('../config').SEED;
 
 var app = express();
 

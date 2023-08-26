@@ -10,8 +10,8 @@
         </ng-template>
     </div>
     <div *ngIf="test_id" class="flex flex-row justify-between flex-wrap mt-3 mb-6">
-        <a *ngIf="!app_enabled" class="mr-4 mt-2" [routerLink]="['/pruebas/editar-problema', problem._id]"><i class="pi pi-file-edit" style="font-size: 1.8rem !important"></i></a>
-        <a *ngIf="!app_enabled" class="mr-4 mt-2" (click)="deleteProblem(problem)"><i class="pi pi-trash" style="font-size: 1.8rem !important"></i></a>
+        <a *ngIf="!app_enabled" class="mr-4 mt-2" [routerLink]="['/pruebas/editar-problema', problem._id]"><i class="pi pi-file-edit" style="font-size: 1.8rem !important;"></i></a>
+        <a *ngIf="!app_enabled" class="mr-4 mt-2" (click)="deleteProblem(problem)"><i class="pi pi-trash" style="font-size: 1.8rem !important;"></i></a>
     </div>
 </div>
 
