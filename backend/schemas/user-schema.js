@@ -53,11 +53,12 @@ const userSchema = mongoose.Schema({
     type_institution: { type: String, enum: validTypeInstitutions },
     achieves: [new mongoose.Schema({
         achievement: { type: mongoose.Schema.Types.ObjectId, ref: 'Achievement' },
-        percentage: { type: Number, required: true }
+        counter: { type: Number, required: true }
     })],
     submits: [new mongoose.Schema({
         test: { type: mongoose.Schema.Types.ObjectId, ref: 'Test' },
         mode: { type: String, required: true, enum: validMode },
+        difficulty: { type: Number, required: true },
         in_progress: { type: Boolean, required: true },
         t_remain_s: { type: Number },
         score: { type: Number }

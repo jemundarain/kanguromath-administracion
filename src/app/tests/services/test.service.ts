@@ -67,8 +67,8 @@ export class TestService {
         return this.http.put<any>(`${this.baseUrl}/admin_problems/put_existing_problem`, {testId, _id});
     }
     
-    updateProblem(testId: string, num_s: number, problem: Problem) {
-        return this.http.put<{message: string}>(`${this.baseUrl}/admin_problems/put_problem`, {testId, num_s, problem});
+    updateProblem(testId: string, numS: number, problem: Problem) {
+        return this.http.put<{message: string}>(`${this.baseUrl}/admin_problems/put_problem`, {testId, numS, problem});
     }
 
     deleteProblem(testId: string, _id: string) {

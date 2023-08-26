@@ -1,8 +1,7 @@
 var express = require('express');
 const AnswerModel = require('../schemas/answer-schema')
 const ProblemModel = require('../schemas/problem-schema')
-const mongoose = require('mongoose');
-const { ObjectId } = mongoose.Types;
+
 var app = express();
 
 app.get('/algebra', async (req, res, next) => {
@@ -43,7 +42,7 @@ app.get('/algebra', async (req, res, next) => {
   
 		res.json(result);
 	  } else {
-		res.status(400).json({ error: 'start and end query parameters are required' });
+		res.status(400).json({ succesful: false });
 	  }
 	} catch (error) {
 	  next(error);
@@ -89,7 +88,7 @@ app.get('/geometria', async (req, res, next) => {
   
 		res.json(result);
 	  } else {
-		res.status(400).json({ error: 'start and end query parameters are required' });
+		res.status(400).json({ succesful: false });
 	  }
 	} catch (error) {
 	  next(error);
@@ -134,7 +133,7 @@ app.get('/combinatoria', async (req, res, next) => {
   
 		res.json(result);
 	  } else {
-		res.status(400).json({ error: 'start and end query parameters are required' });
+		res.status(400).json({ succesful: false });
 	  }
 	} catch (error) {
 	  next(error);
@@ -179,7 +178,7 @@ app.get('/teoria_numeros', async (req, res, next) => {
   
 		res.json(result);
 	  } else {
-		res.status(400).json({ error: 'start and end query parameters are required' });
+		res.status(400).json({ succesful: false });
 	  }
 	} catch (error) {
 	  next(error);
@@ -187,25 +186,35 @@ app.get('/teoria_numeros', async (req, res, next) => {
 });
 
 app.get('/global', async (req, res, next) => {
-	var answers, problem, good=0, bad=0, arr = [];
-	if(req.query.start && req.query.end) {
-		answers = await AnswerModel.find({ 'answer_time': {$gte: req.query?.start, $lte: req.query?.end }});
-		for(let i=0; i<answers.length; i++) {
-			problem = await ProblemModel.find({'_id': answers[i].problem});
-			if(problem[0]) {
-				answers[i].option === problem[0].solution ? good++ : bad++;
-			}
+	try {
+	  let answers, problem, good = 0, bad = 0, arr = [];
+  
+	  if (req.query.start && req.query.end) {
+		answers = await AnswerModel.find({ answer_time: { $gte: req.query?.start, $lte: req.query?.end } });
+  
+		for (let i = 0; i < answers.length; i++) {
+		  problem = await ProblemModel.find({ _id: answers[i].problem });
+  
+		  if (problem[0]) {
+			answers[i].option === problem[0].solution ? good++ : bad++;
+		  }
 		}
+  
 		arr.push({
-			'_id': 'correctas',
-			'count': good
+		  '_id': 'correctas',
+		  'count': good
 		});
+  
 		arr.push({
-			'_id': 'incorrectas',
-			'count': bad
+		  '_id': 'incorrectas',
+		  'count': bad
 		});
+  
 		res.json(arr);
+	  }
+	} catch (err) {
+	  next(err);
 	}
-})
+});
 
 module.exports = app;

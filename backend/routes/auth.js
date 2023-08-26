@@ -12,33 +12,34 @@ const mail = mailjet.apiConnect(
     "036fb04fa1e8d04af086a7391abd6da6",
     "68e6831f4da20f0a76b505b6c5e76848"
 );
-
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-app.post('/', (req, res) => {
-    var body = req.body;
-    var query = {};
+
+app.post('/', async (req, res) => {
+  try {
+    const body = req.body;
+    const query = {};
 
     if (emailRegex.test(body.id)) {
-        query.email = body.id;
+      query.email = body.id;
     } else {
-        query.username = body.id;
+      query.username = body.id;
     }
 
-    AdminUserSchema.findOne(query)
-    .then((user) => {
-        if (!user || !bcrypt.compareSync(body.password, user.password)) {
-            return res.status(400).json({successful: false});
-        }
-        var token = jwt.sign({ user }, SEED, { expiresIn: 28800 });
-        res.status(200).json({
-            user,
-            token
-        });
-    })
-    .catch((err) => {
-        res.status(500).json(err);
-    });
+    const user = await AdminUserSchema.findOne(query);
+
+    if (!user || !bcrypt.compareSync(body.password, user.password)) {
+      res.status(400).json({ successful: false });
+    } else {
+      const token = jwt.sign({ user }, SEED, { expiresIn: 28800 });
+      res.status(200).json({
+        user,
+        token
+      });
+    }
+  } catch (err) {
+    res.status(500).json(err);
+  }
 });
 
 app.get('/send_recovery_email/:id', async (req, res, next) => {

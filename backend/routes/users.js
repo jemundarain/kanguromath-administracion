@@ -13,7 +13,7 @@ app.get('/get_distribution', async (req, res) => {
 
         while (startD.format('YYYY-MM-DD') !== endD.add(1, 'day').format('YYYY-MM-DD')) {
             const endD_aux = startD.add(1, 'day');
-            const promise = UserModel.find({ 'registration_date': { $gte: startD.format('YYYY-MM-DD'), $lte: endD_aux.format('YYYY-MM-DD') } }).count();
+            const promise = UserModel.find({ registration_date: { $gte: startD.format('M/D/YYYY, h:mm:ss A'), $lte: endD_aux.format('M/D/YYYY, h:mm:ss A') } }).count();
             promises.push(promise);
 
             startD = startD.add(1, 'day');
@@ -29,74 +29,96 @@ app.get('/get_distribution', async (req, res) => {
 });
 
 
-app.get('/get_total',(req, res) => {
-	UserModel.find({ 'registration_date': {$gte: new Date(req.query.start), $lt: new Date(req.query.end)}}).count()
-	.then((data) => {
-	    res.status(200).json(data);
-	})
-	.catch((err) => {
-		res.status(500).json(err);
-	})
-})
+app.get('/get_total', async (req, res) => {
+    try {
+        const startDateStr = req.query.start;
+        const endDateStr = req.query.end;
 
-app.get('/get_minimum_date',(req, res) => {
-	UserModel.find({}, {'_id': 0, 'registration_date': 1}).sort({'registration_date': 1}).limit(1)
-	.then((data) => {
-		res.json(data[0].registration_date);
-	})
-	.catch((err) => {
-		res.status(500).json(err);
-	})
-})
+        // Convierte las fechas de inicio y fin al formato "MM/DD/YYYY, h:mm:ss A"
+        const startDateTime = dayjs(startDateStr, 'YYYY-MM-DD').format('MM/DD/YYYY');
+        const endDateTime = dayjs(endDateStr, 'YYYY-MM-DD').format('MM/DD/YYYY');
 
-app.get('/get_ranking', (req, res) => {
-	UserModel.aggregate([{$match:{"type":"estudiante", "level": {"$ne": "universitario"}, "country": "VE"}}, {$group : { _id : '$state', count : {$sum : 1}}}])
-	.then((data) => {
-		res.json(data.sort((a, b) => b.count-a.count));
-	})
-	.catch((err) => {
-		res.status(500).json(err);
-	})
-})
+        // Realiza la consulta para contar los usuarios registrados en el rango de fechas
+        const count = await UserModel.countDocuments({
+            'registration_date': {
+                $gte: startDateTime,
+                $lte: endDateTime,
+            },
+        }).exec();
 
-app.get('/get_distribution_by_type', (req, res, next) => {
-	UserModel.aggregate([ {$group : { _id : '$type', count : {$sum : 1}}} ])
-	.then((data) => {
-	    res.status(200).json(data);
-	})
-	.catch((err) => {
-		res.status(500).json(err);
-	})
-})
+        res.status(200).json(count);
+    } catch (err) {
+        res.status(500).json({ successful: false, error: err.message });
+    }
+});
 
-app.get('/get_distribution_by_level', (req, res, next) => {
-	UserModel.aggregate([ {$group : { _id : '$level', count : {$sum : 1}}} ])
-	.then((data) => {
-		res.status(200).json(data.sort((a,b) => (a._id > b._id) ? 1 : ((b._id > a._id) ? -1 : 0)));
-	})
-	.catch((err) => {
-		res.status(500).json(err);
-	})
-})
 
-app.get('/get_distribution_by_sex', (req, res, next) => {
-	UserModel.aggregate([{$match:{"type":"estudiante"}}, {$group : { _id : '$sex', count : {$sum : 1}}}])
-	.then((data) => {
-		res.json(data.sort((a,b) => (a._id > b._id) ? 1 : ((b._id > a._id) ? -1 : 0)));
-	})
-	.catch((err) => {
-		res.status(500).json(err);
-	})
-})
 
-app.get('/get_distribution_by_type_institution', (req, res) => {
-	UserModel.aggregate([ {$group : { _id : '$type_institution', count : {$sum : 1}}} ])
-	.then((data) => {
-		res.json(data.sort((a,b) => (a._id > b._id) ? 1 : ((b._id > a._id) ? -1 : 0)));
-	})
-	.catch((err) => {
-		res.status(500).json(err);
-	})
-})
+
+app.get('/get_minimum_date', async (req, res) => {
+    try {
+        const data = await UserModel.find({}, { '_id': 0, registration_date: 1 }).sort({ registration_date: 1 }).limit(1);
+        res.json(data[0].registration_date);
+    } catch (err) {
+        res.status(500).json({ successful: false, error: err });
+    }
+});
+
+app.get('/get_ranking', async (req, res) => {
+    try {
+        const data = await UserModel.aggregate([
+            { $match: { "type": "estudiante", "level": { "$ne": "universitario" }, "country": "VE" } },
+            { $group: { _id: '$state', count: { $sum: 1 } } }
+        ]);
+        res.json(data.sort((a, b) => b.count - a.count));
+    } catch (err) {
+        res.status(500).json({ successful: false, error: err });
+    }
+});
+
+app.get('/get_distribution_by_type', async (req, res) => {
+    try {
+        const data = await UserModel.aggregate([
+            { $group: { _id: '$type', count: { $sum: 1 } } }
+        ]);
+        res.status(200).json(data);
+    } catch (err) {
+        res.status(500).json({ successful: false, error: err });
+    }
+});
+
+app.get('/get_distribution_by_level', async (req, res) => {
+    try {
+        const data = await UserModel.aggregate([
+            { $group: { _id: '$level', count: { $sum: 1 } } }
+        ]);
+        res.status(200).json(data.sort((a, b) => (a._id > b._id) ? 1 : ((b._id > a._id) ? -1 : 0)));
+    } catch (err) {
+        res.status(500).json({ successful: false, error: err });
+    }
+});
+
+app.get('/get_distribution_by_sex', async (req, res) => {
+    try {
+        const data = await UserModel.aggregate([
+            { $match: { "type": "estudiante" } },
+            { $group: { _id: '$sex', count: { $sum: 1 } } }
+        ]);
+        res.json(data.sort((a, b) => (a._id > b._id) ? 1 : ((b._id > a._id) ? -1 : 0)));
+    } catch (err) {
+        res.status(500).json({ successful: false, error: err });
+    }
+});
+
+app.get('/get_distribution_by_type_institution', async (req, res) => {
+    try {
+        const data = await UserModel.aggregate([
+            { $group: { _id: '$type_institution', count: { $sum: 1 } } }
+        ]);
+        res.json(data.sort((a, b) => (a._id > b._id) ? 1 : ((b._id > a._id) ? -1 : 0)));
+    } catch (err) {
+        res.status(500).json({ successful: false, error: err });
+    }
+});
 
 module.exports = app;
