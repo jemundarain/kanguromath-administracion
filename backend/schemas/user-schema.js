@@ -33,23 +33,20 @@ const validMode = {
 }
 
 const userSchema = mongoose.Schema({
-    registration_date: { type: Date, required: true },
+    registration_date: { type: String, required: true },
     name: { type: String, required: true },
     last_name: { type: String, required: true },
     username: { type: String, required: true, unique: true },
     email: { type: String, required: true, unique: true },
+    password: { type: String, required: true },
+    avatar_url: { type: String, required: true, default: ''},
     sex: { type: String, required: true, enum: validSexs },
-    avatar: new mongoose.Schema({
-        ik_id: { type: String},
-        url: { type: String}
-    }),
     date_birth: { type: Date, required: true },
     country: { type: String},
     state: { type: String, enum: validStates },
     streak_days: { type: Number, required: true },
     type: { type: String, required: true, enum: validTypes },
     level: { type: String, enum: validLevels },
-    password: { type: String, required: true },
     type_institution: { type: String, enum: validTypeInstitutions },
     achieves: [new mongoose.Schema({
         achievement: { type: mongoose.Schema.Types.ObjectId, ref: 'Achievement' },
@@ -63,7 +60,9 @@ const userSchema = mongoose.Schema({
         t_remain_s: { type: Number },
         score: { type: Number }
     })],
-    reminder_hour: { type: Date },
+    goal: { type: Number },
+    last_goal: { type: String },
+    reminder_hour: { type: String },
 });
 
 userSchema.plugin(uniqueValidator, { message: '{PATH} debe ser único' });
