@@ -2,16 +2,15 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { Location } from '@angular/common'
-import { MenuItem, MessageService } from 'primeng/api';
-import { FileUpload } from 'primeng/fileupload';
-import { firstValueFrom } from 'rxjs';
-import JSZip from 'jszip';
-
 import { GlobalConstants } from 'src/app/common/global-constants';
 import { RadioOption } from '../../common/radio-option.interface';
 import { Test } from '../models/test-model';
 import { TestService } from '../services/test.service';
 import { environment } from 'src/environments/environment';
+import { MenuItem, MessageService } from 'primeng/api';
+import { FileUpload } from 'primeng/fileupload';
+import { firstValueFrom } from 'rxjs';
+import JSZip from 'jszip';
 @Component({
   selector: 'app-new-test',
   templateUrl: './new-test.component.html',
@@ -289,7 +288,7 @@ export class NewTestComponent implements OnInit {
                               _id: '',
                               ik_id: '',
                               num_s: i+1,
-                              url: rawPaths[i],
+                              url: rawPaths[i], 
                               position: i+1==1? 'derecha':'intermedia'
                             })
                           }
