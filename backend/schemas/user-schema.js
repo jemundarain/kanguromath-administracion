@@ -39,7 +39,7 @@ const userSchema = mongoose.Schema({
     username: { type: String, required: true, unique: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    avatar_url: { type: String, required: true, default: ''},
+    avatar_url: { type: String },
     sex: { type: String, required: true, enum: validSexs },
     date_birth: { type: Date, required: true },
     country: { type: String},

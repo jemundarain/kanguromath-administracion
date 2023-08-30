@@ -42,7 +42,7 @@ app.get('/algebra', async (req, res, next) => {
   
 		res.json(result);
 	  } else {
-		res.status(400).json({ succesful: false });
+		res.status(400).json({ successful: false });
 	  }
 	} catch (error) {
 	  next(error);
@@ -88,7 +88,7 @@ app.get('/geometria', async (req, res, next) => {
   
 		res.json(result);
 	  } else {
-		res.status(400).json({ succesful: false });
+		res.status(400).json({ successful: false });
 	  }
 	} catch (error) {
 	  next(error);
@@ -133,7 +133,7 @@ app.get('/combinatoria', async (req, res, next) => {
   
 		res.json(result);
 	  } else {
-		res.status(400).json({ succesful: false });
+		res.status(400).json({ successful: false });
 	  }
 	} catch (error) {
 	  next(error);
@@ -178,7 +178,7 @@ app.get('/teoria_numeros', async (req, res, next) => {
   
 		res.json(result);
 	  } else {
-		res.status(400).json({ succesful: false });
+		res.status(400).json({ successful: false });
 	  }
 	} catch (error) {
 	  next(error);

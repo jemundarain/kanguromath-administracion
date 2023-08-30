@@ -48,7 +48,7 @@ app.get('/search_problems', async (req, res) => {
 	try {
 		const data = await TestModel.aggregate([
 			{ $match: { edition: req.query.edition, levels: { $ne: req.query.levels } } },
-			{ $group: { _id: null, problems: { $push: $problems } } }
+			{ $group: { _id: null, problems: { $push: '$problems' } } }
 		]);
 	
 		const escapeRegex = (text) => {
@@ -115,10 +115,10 @@ app.put('/put_problem/', async (req, res) => {
 		await ProblemModel.findByIdAndUpdate(body.problem._id, updatedProblem);
 	
 		if (body.numS !== -1) {
-			const testModel = await TestModel.findOne({ _id: body.test_id });
+			const testModel = await TestModel.findOne({ _id: body.testId });
 	
 			if (!testModel) {
-			return res.sendStatus(404);
+				return res.sendStatus(404);
 			}
 	
 			const problems = testModel.problems;
@@ -130,9 +130,9 @@ app.put('/put_problem/', async (req, res) => {
 			}
 	
 			problems.splice(problemIndex, 1);
-			problems.splice(body.num_s, 0, body.problem._id);
+			problems.splice(body.numS, 0, body.problem._id);
 	
-			await TestModel.updateOne({ test_id: body.test_id }, { problems: problems });
+			await TestModel.updateOne({ test_id: body.testId }, { problems: problems });
 		}
 	
 		res.status(201).json(updatedProblem);

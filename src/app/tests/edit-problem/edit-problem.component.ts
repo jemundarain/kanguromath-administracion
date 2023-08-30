@@ -145,7 +145,7 @@ export class EditProblemComponent implements OnInit {
         }, 1220);
       },
       error: (err) => {
-        this.messageService.add({severity:'success', summary: 'Exitoso', detail: 'El problema no fue editado 🙁'});
+        this.messageService.add({severity:'error', summary: 'Exitoso', detail: 'El problema no fue editado 🙁'});
       }
     });
     
@@ -153,52 +153,54 @@ export class EditProblemComponent implements OnInit {
 
   exitConfirmation(): Observable<boolean> {
     return new Observable((observer) => {
-      this.testService.getListFiles('preliminar/'+this.problem._id).subscribe({
-        next: (res) => {
-          for(const image of res) {
-            if(!isNaN(Number(image.name.split('-')[0]))) {
-              if(this.auxFigure[Number(image.name.split('-')[0])-1] !== image.url) {
-                this.testService.deleteImage(this.problem.figures[Number(image.name.split('-')[0])-1].ik_id).subscribe();
-              }
-            } else {
-              switch (image.name.split('-')[0]) {
-                case 'A':
-                  if(this.auxOptions[0].answer !== image.url) {
-                    this.testService.deleteImage(this.problem.options[0].ik_id).subscribe();
-                  }
-                break;
-                case 'B':
-                  if(this.auxOptions[1].answer !== image.url) {
-                    this.testService.deleteImage(this.problem.options[1].ik_id).subscribe();
-                  }
-                break;
-                case 'C':
-                  if(this.auxOptions[2].answer !== image.url) {
-                    this.testService.deleteImage(this.problem.options[2].ik_id).subscribe();
-                  }
-                break;
-                case 'D':
-                  if(this.auxOptions[3].answer !== image.url) {
-                    this.testService.deleteImage(this.problem.options[3].ik_id).subscribe();
-                  }
-                break;
-                case 'E':
-                  if(this.auxOptions[4].answer !== image.url) {
-                    this.testService.deleteImage(this.problem.options[4].ik_id).subscribe();
-                  }
-                break;
+      // this.testService.getListFiles('preliminar/'+this.problem._id).subscribe({
+      //   next: (res) => {
+      //     for(const image of res) {
+      //       if(!isNaN(Number(image.name.split('-')[0]))) {
+      //         if(this.auxFigure[Number(image.name.split('-')[0])-1] !== image.url) {
+      //           this.testService.deleteImage(this.auxFigure[Number(image.name.split('-')[0])-1].ik_id).subscribe();
+      //         }
+      //       } else {
+      //         switch (image.name.split('-')[0]) {
+      //           case 'A':
+      //             if(this.auxOptions[0].answer !== image.url) {
+      //               this.testService.deleteImage(this.problem.options[0].ik_id).subscribe();
+      //             }
+      //           break;
+      //           case 'B':
+      //             if(this.auxOptions[1].answer !== image.url) {
+      //               this.testService.deleteImage(this.problem.options[1].ik_id).subscribe();
+      //             }
+      //           break;
+      //           case 'C':
+      //             if(this.auxOptions[2].answer !== image.url) {
+      //               this.testService.deleteImage(this.problem.options[2].ik_id).subscribe();
+      //             }
+      //           break;
+      //           case 'D':
+      //             if(this.auxOptions[3].answer !== image.url) {
+      //               this.testService.deleteImage(this.problem.options[3].ik_id).subscribe();
+      //             }
+      //           break;
+      //           case 'E':
+      //             if(this.auxOptions[4].answer !== image.url) {
+      //               this.testService.deleteImage(this.problem.options[4].ik_id).subscribe();
+      //             }
+      //           break;
               
-                default:
-                  break;
-              }
-            }
-          }
-          observer.next(true);
-          observer.complete();
-        },
-        error: (err) => {
-        }
-      });
+      //           default:
+      //             break;
+      //         }
+      //       }
+      //     }
+      //     observer.next(true);
+      //     observer.complete();
+      //   },
+      //   error: (err) => {
+      //   }
+      // });
+      observer.next(true);
+      observer.complete();
     });
   }  
 

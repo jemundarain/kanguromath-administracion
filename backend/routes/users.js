@@ -28,32 +28,23 @@ app.get('/get_distribution', async (req, res) => {
     }
 });
 
-
 app.get('/get_total', async (req, res) => {
     try {
-        const startDateStr = req.query.start;
-        const endDateStr = req.query.end;
+        const startDateStr = dayjs(req.query.start);
+        const endDateStr = dayjs(req.query.end);
 
-        // Convierte las fechas de inicio y fin al formato "MM/DD/YYYY, h:mm:ss A"
-        const startDateTime = dayjs(startDateStr, 'YYYY-MM-DD').format('MM/DD/YYYY');
-        const endDateTime = dayjs(endDateStr, 'YYYY-MM-DD').format('MM/DD/YYYY');
-
-        // Realiza la consulta para contar los usuarios registrados en el rango de fechas
         const count = await UserModel.countDocuments({
-            'registration_date': {
-                $gte: startDateTime,
-                $lte: endDateTime,
+            registration_date: {
+                $gte: startDateStr.format('M/D/YYYY, h:mm:ss A'),
+                $lte: endDateStr.format('M/D/YYYY, h:mm:ss A'),
             },
-        }).exec();
+        });
 
         res.status(200).json(count);
     } catch (err) {
         res.status(500).json({ successful: false, error: err.message });
     }
 });
-
-
-
 
 app.get('/get_minimum_date', async (req, res) => {
     try {

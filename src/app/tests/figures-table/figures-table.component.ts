@@ -27,7 +27,6 @@ export class FiguresTableComponent implements OnInit {
   }
 
   addFigure(newFigure: any) {
-    console.log("🚀 ~ file: figures-table.component.ts:30 ~ FiguresTableComponent ~ addFigure ~ newFigure:", newFigure)
     GlobalConstants.generateRandomSuffix();
     if(this.figures[newFigure.num_s-1].ik_id) {
       this.testService.deleteImage(this.figures[newFigure.num_s-1].ik_id).subscribe();
