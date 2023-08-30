@@ -45,7 +45,7 @@ export class SlideMenuComponent implements OnInit {
           routerLink: 'pruebas/lista'
         },
         {
-          label: 'Prueba Nueva', 
+          label: 'Agregar Prueba', 
           icon: 'pi pi-plus',
           routerLink: 'pruebas/agregar'
         }]
@@ -59,7 +59,7 @@ export class SlideMenuComponent implements OnInit {
           routerLink: 'usuarios/lista'
         },
         {
-          label: 'Usuario nuevo', 
+          label: 'Agregar Usuario', 
           icon: 'pi pi-plus',
           routerLink: 'usuarios/agregar'
         }]
