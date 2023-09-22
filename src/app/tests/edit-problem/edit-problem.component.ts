@@ -112,6 +112,17 @@ export class EditProblemComponent implements OnInit {
     return !this.problem.statement.length || this.problem.options.some(item => item.answer === '') || !this.problem.category.length || !this.problem.solution.length;
   }
 
+  async mapWithArtificialIntelligence() {
+    this.testService.classifyProblem(this.problem.statement).subscribe({
+      next: (categoryPredicted: any) => {
+        this.problem.category = GlobalConstants.CATEGORIES[Number(categoryPredicted.categoria)-1].code;
+      },
+      error: (err) => {
+        this.problem.category = 'sin-categoria';
+      }
+    })
+  }
+
   updateProblem() {
     const thereFigures = !!this.problem.figures.length;
     const thereImagesInOptions = GlobalConstants.hasAtLeastOneOptionWithImageLink(this.problem.options);

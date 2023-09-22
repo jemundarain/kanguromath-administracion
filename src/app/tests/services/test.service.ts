@@ -105,4 +105,8 @@ export class TestService {
         return this.http.delete<any>(`${this.baseUrl}/admin_uploads/delete_folder/${encodeURIComponent(folderName)}`);
     }
 
+    classifyProblem(statement: string) {
+        return this.http.post('https://api-math-problems-clasificator.onrender.com/clasificar', { enunciado: statement });
+    }
+
 }

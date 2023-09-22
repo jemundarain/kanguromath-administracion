@@ -295,14 +295,12 @@ export class NewTestComponent implements OnInit {
                         }
 
                         if (statement && options) {
-                          //Llamar a la API para asignar la categoría
-                          // var categorias = ["algebra", "geometria", "combinatoria", "teoria-numeros", "sin-categoria"];
+                          const numberCategory = await firstValueFrom(this.testService.classifyProblem(statement));
                           var problem = {
                             _id: '',
                             statement: statement,
                             solution: solution,
-                            category: 'sin-categoria',
-                            // category: categorias[Math.floor(Math.random() * categorias.length)],
+                            category: numberCategory ? GlobalConstants.CATEGORIES[Number(numberCategory)-1].code:'sin-categoria',
                             options: options,
                             figures: figures
                           }

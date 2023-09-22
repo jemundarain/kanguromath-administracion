@@ -60,6 +60,7 @@
             <!-- Categoría y Solución -->
             <div class="grid grid-cols-12 gap-6 mb-3">
                 <p-card class="col-span-3" header="Categoría">
+                    <button pButton type="button" class="btn float-right w-max ia-btn" [disabled]="newProblem.statement.length < 6 " (click)="mapWithArtificialIntelligence()">🧠🤖</button>
                     <div class="flex flex-col gap-3">
                         <app-category (onChangeCategory)="newProblem.category = $event" [category]="newProblem.category"></app-category>
                     </div>
