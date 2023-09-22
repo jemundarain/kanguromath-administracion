@@ -1,17 +1,18 @@
 var express = require('express');
 const AnswerModel = require('../schemas/answer-schema')
 const ProblemModel = require('../schemas/problem-schema')
+const dayjs = require('dayjs')
 
 var app = express();
 
 app.get('/algebra', async (req, res, next) => {
 	try {
 	  if (req.query.start && req.query.end) {
-		const start = new Date(req.query.start);
-		const end = new Date(req.query.end);
+		const start = dayjs(req.query.start);
+		const end = dayjs(req.query.end);
   
 		const answers = await AnswerModel.find(
-		  { answer_time: { $gte: start, $lte: end } },
+		  { answer_time: { $gte: start.format('M/D/YYYY, h:mm:ss A'), $lte: end.format('M/D/YYYY, h:mm:ss A') } },
 		  { problem: 1, option: 1 }
 		);
   
@@ -53,11 +54,11 @@ app.get('/algebra', async (req, res, next) => {
 app.get('/geometria', async (req, res, next) => {
 	try {
 	  if (req.query.start && req.query.end) {
-		const start = new Date(req.query.start);
-		const end = new Date(req.query.end);
-  
+		const start = dayjs(req.query.start);
+		const end = dayjs(req.query.end);
+    
 		const answers = await AnswerModel.find(
-		  { answer_time: { $gte: start, $lte: end } },
+		  { answer_time: { $gte: start.format('M/D/YYYY, h:mm:ss A'), $lte: end.format('M/D/YYYY, h:mm:ss A') } },
 		  { problem: 1, option: 1 }
 		);
   
@@ -98,11 +99,11 @@ app.get('/geometria', async (req, res, next) => {
 app.get('/combinatoria', async (req, res, next) => {
 	try {
 	  if (req.query.start && req.query.end) {
-		const start = new Date(req.query.start);
-		const end = new Date(req.query.end);
-  
+		const start = dayjs(req.query.start);
+		const end = dayjs(req.query.end);
+    
 		const answers = await AnswerModel.find(
-		  { answer_time: { $gte: start, $lte: end } },
+		  { answer_time: { $gte: start.format('M/D/YYYY, h:mm:ss A'), $lte: end.format('M/D/YYYY, h:mm:ss A') } },
 		  { problem: 1, option: 1 }
 		);
   
@@ -143,11 +144,11 @@ app.get('/combinatoria', async (req, res, next) => {
 app.get('/teoria_numeros', async (req, res, next) => {
 	try {
 	  if (req.query.start && req.query.end) {
-		const start = new Date(req.query.start);
-		const end = new Date(req.query.end);
-  
+		const start = dayjs(req.query.start);
+		const end = dayjs(req.query.end);
+    
 		const answers = await AnswerModel.find(
-		  { answer_time: { $gte: start, $lte: end } },
+		  { answer_time: { $gte: start.format('M/D/YYYY, h:mm:ss A'), $lte: end.format('M/D/YYYY, h:mm:ss A') } },
 		  { problem: 1, option: 1 }
 		);
   
@@ -188,9 +189,11 @@ app.get('/teoria_numeros', async (req, res, next) => {
 app.get('/global', async (req, res, next) => {
 	try {
 	  let answers, problem, good = 0, bad = 0, arr = [];
-  
+	  const start = dayjs(req.query.start);
+	  const end = dayjs(req.query.end);
+
 	  if (req.query.start && req.query.end) {
-		answers = await AnswerModel.find({ answer_time: { $gte: req.query?.start, $lte: req.query?.end } });
+		answers = await AnswerModel.find({ answer_time: { $gte: start.format('M/D/YYYY, h:mm:ss A'), $lte: end.format('M/D/YYYY, h:mm:ss A') } });
   
 		for (let i = 0; i < answers.length; i++) {
 		  problem = await ProblemModel.find({ _id: answers[i].problem });

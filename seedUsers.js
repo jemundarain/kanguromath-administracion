@@ -25,7 +25,7 @@ async function seedDB() {
         collection.drop();
 
         for (let i = 0; i < 175; i++) { //17561
-            const registration_date = faker.date.between('2023-02-22T00:00:00.000Z', new Date());
+            const registration_date = faker.date.between('2023-02-22T00:00:00.000Z', new Date()).toLocaleDateString();
             const sex = faker.helpers.arrayElement(['F', 'M']);
             var name, last_name, country, state, type, level, type_institution, in_progress, t_remain_s;
             sex=='F'? name = faker.name.firstName('female') : name = faker.name.firstName('male');

@@ -106,7 +106,7 @@ export class TestService {
     }
 
     classifyProblem(statement: string) {
-        return this.http.post('https://api-math-problems-clasificator.onrender.com/clasificar', { enunciado: statement });
+        return this.http.post<{categoria: string}>('https://api-math-problems-clasificator.onrender.com/clasificar', { enunciado: statement });
     }
 
 }

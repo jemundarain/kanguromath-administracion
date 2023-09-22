@@ -3,7 +3,7 @@ import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { ActivatedRoute } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { Location } from '@angular/common'
-import { Observable, firstValueFrom, of, switchMap } from 'rxjs';
+import { Observable, of, switchMap } from 'rxjs';
 
 import { GlobalConstants } from 'src/app/common/global-constants';
 import { Problem } from '../models/problem-model';
@@ -35,6 +35,7 @@ export class NewProblemComponent implements OnInit {
   term: string;
   toSave = false;
   selectedCategory: string;
+  loadingCategoryIA = false;
   
   constructor(
     private testService: TestService,
@@ -172,19 +173,24 @@ export class NewProblemComponent implements OnInit {
       }
     });
 
-    this.messageService.add({ severity: 'success', summary: 'Exitoso', detail: 'Problema agregado ✅' });
+    this.messageService.add({ severity: 'success', summary: 'Exitoso', detail: 'Problema agregado 🧠🤖' });
     setTimeout(() => {
       this.location.back();
     }, 1220);
   }
 
   async mapWithArtificialIntelligence() {
+    this.loadingCategoryIA = true;
     this.testService.classifyProblem(this.newProblem.statement).subscribe({
       next: (categoryPredicted: any) => {
         this.newProblem.category = GlobalConstants.CATEGORIES[Number(categoryPredicted.categoria)-1].code;
+        this.loadingCategoryIA = false;
+        this.messageService.add({ severity: 'success', summary: 'Exitoso', detail: 'Categoría asignada usando inteligencia artificial 🧠🤖' });
       },
       error: (err) => {
         this.newProblem.category = 'sin-categoria';
+        this.loadingCategoryIA = false;
+        this.messageService.add({ severity: 'error', summary: 'Rechazado', detail: 'No se pudo asignar la categoría con inteligencia artificial ✅' });
       }
     })
   }

@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { TestService } from '../services/test.service';
 import { Location } from '@angular/common'
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
-import { Observable, of, switchMap } from 'rxjs';
+import { Observable, switchMap } from 'rxjs';
 
 import { Test } from '../models/test-model';
 import { Problem } from '../models/problem-model';
@@ -37,7 +37,6 @@ export class EditProblemComponent implements OnInit {
   constructor(
     private testService: TestService, 
     private activatedRoute: ActivatedRoute,
-    private confirmationService: ConfirmationService,
     private messageService: MessageService,
     private location: Location
   ) { }
@@ -53,6 +52,7 @@ export class EditProblemComponent implements OnInit {
   figuresMap2 = GlobalConstants.FIGURES_MAP2;
   auxFigure: Figure[];
   auxOptions: Option[];
+  loadingCategoryIA = false;
 
   ngOnInit(): void {
     GlobalConstants.generateRandomSuffix();
@@ -116,9 +116,13 @@ export class EditProblemComponent implements OnInit {
     this.testService.classifyProblem(this.problem.statement).subscribe({
       next: (categoryPredicted: any) => {
         this.problem.category = GlobalConstants.CATEGORIES[Number(categoryPredicted.categoria)-1].code;
+        this.loadingCategoryIA = false;
+        this.messageService.add({ severity: 'success', summary: 'Exitoso', detail: 'Categoría asignada usando inteligencia artificial 🧠🤖' });
       },
       error: (err) => {
         this.problem.category = 'sin-categoria';
+        this.loadingCategoryIA = false;
+        this.messageService.add({ severity: 'error', summary: 'Rechazado', detail: 'No se pudo asignar la categoría con inteligencia artificial 🧠🤖' });
       }
     })
   }

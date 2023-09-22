@@ -295,12 +295,12 @@ export class NewTestComponent implements OnInit {
                         }
 
                         if (statement && options) {
-                          const numberCategory = await firstValueFrom(this.testService.classifyProblem(statement));
+                          // const category = await firstValueFrom(this.testService.classifyProblem(statement));
                           var problem = {
                             _id: '',
                             statement: statement,
                             solution: solution,
-                            category: numberCategory ? GlobalConstants.CATEGORIES[Number(numberCategory)-1].code:'sin-categoria',
+                            category: 'sin-categoria',
                             options: options,
                             figures: figures
                           }
